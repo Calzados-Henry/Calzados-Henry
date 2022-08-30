@@ -11,7 +11,7 @@ module.exports = (sequelize) =>{
             }
         },
         id_product:{
-            type:DataTypes.STRING,
+            type:DataTypes.INTEGER,
             allowNull: false,
         },
         name:{
@@ -23,7 +23,7 @@ module.exports = (sequelize) =>{
             allowNull: false,
         },
         gender:{
-            type:DataTypes.STRING,
+            type:DataTypes.ENUM('Male', 'Female', 'Unisex'),
             allowNull: false,
         },
         size:{
@@ -35,11 +35,11 @@ module.exports = (sequelize) =>{
             allowNull: false,
         },
         quantity:{
-            type:DataTypes.STRING,
+            type:DataTypes.INTEGER,
             allowNull: false,
         },
         season:{
-            type:DataTypes.STRING,
+            type:DataTypes.ENUM('Winter', 'Summer', 'Fall', 'Spring'),
             allowNull: false,
         },
         price:{

@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
                 key: 'id',
             }
         },
-        purchase_date: {
+            purchase_date: {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
