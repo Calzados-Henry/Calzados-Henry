@@ -17,8 +17,9 @@ module.exports = (sequelize) => {
             references: {
                 model: 'users',
                 key: 'id',
-            },
-            purchase_date: {
+            }
+        },
+        purchase_date: {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
@@ -39,7 +40,6 @@ module.exports = (sequelize) => {
                 allowNull,
                 defaultValue: true
             },
-        }
-    },
+        },
         { timestamps: false, freezeTableName: true });
 };
