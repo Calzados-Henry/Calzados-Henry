@@ -3,6 +3,7 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const { userInfo } = require('os');
+const products = require('./models/products');
 const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME,
 } = process.env;
@@ -11,9 +12,14 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
   timestamps: false, 
-  freezeTableName: true
+  freezeTableName: true,
+  dialectOptions: {
+    ssl: {
+      require: true, // This will help you. But you will see nwe error
+      rejectUnauthorized: false // This line will fix new error
+    }
+  }
 });
-
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -36,12 +42,14 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 // !CAMBIAR AQUI SI LLEGA A SER NECESARIO!
-const { Recipe, Diets } = sequelize.models; 
+const { Products, Category, Color } = sequelize.models; 
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 // !CAMBIAR AQUI SI LLEGA A SER NECESARIO!
-Recipe.belongsToMany(Diets, { foreignKey: 'id_recipe' , through: 'recipe_diets'})
+// Category.hasMany(Products, { foreignKey: 'id_category'}) //! Es necesario ponerlo? 
+// Products.belongsTo(Category) //! Es necesario ponerlo? 
+//Recipe.belongsToMany(Diets, { foreignKey: 'id_recipe' , through: 'recipe_diets'})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
