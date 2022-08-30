@@ -11,8 +11,9 @@
     "lint": "eslint --fix . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.3",
     "@reduxjs/toolkit": "^1.8.5",
     "react": "^18.2.0",
