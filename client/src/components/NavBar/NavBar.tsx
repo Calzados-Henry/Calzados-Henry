@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -66,12 +66,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [search, setSearch] = useState({});
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearch({...search, [e.target.name]: e.target.value})
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -187,7 +192,7 @@ export default function PrimarySearchAppBar() {
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder='Search...' inputProps={{ 'aria-label': 'search' }} />
+          <StyledInputBase placeholder='Search...' name='search' onChange={onChange} inputProps={{ 'aria-label': 'search' }} />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
 
