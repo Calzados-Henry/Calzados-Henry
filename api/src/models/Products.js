@@ -27,8 +27,8 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
     },
     image: {
-      allowNull: false,
       type: DataTypes.STRING,
+      allowNull: false,
     },
     gender: {
       allowNull: false,
