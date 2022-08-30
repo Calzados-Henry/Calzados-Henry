@@ -1,4 +1,7 @@
-/* eslint-disable no-use-before-define */
+export interface Rating {
+  rate: number;
+  count: number;
+}
 export interface ProductI {
   id: number;
   title: string;
@@ -6,9 +9,5 @@ export interface ProductI {
   description: string;
   category: string;
   image: string;
-  rating: RatingI;
-}
-export interface RatingI {
-  rate: number;
-  count: number;
+  rating: Rating;
 }
