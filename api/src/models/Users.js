@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     identification: {
@@ -44,7 +44,6 @@ module.exports = (sequelize) => {
     type_user: {
       type: DataTypes.ENUM('Administrator','Employee','User'),
       allowNull: false,
-      unique: true
     },
     isActive: {
       allowNull: false,

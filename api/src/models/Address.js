@@ -23,6 +23,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique:true,
     },
+    zip_code:{
+      type: DataTypes.INTEGER(4),
+      allowNull: false,
+    },
     isActive: {
       allowNull: false,
       type: DataTypes.BOOLEAN,
