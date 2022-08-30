@@ -3,7 +3,7 @@
 
 ### Linux ###
 *~
-
+package-lock.json
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 
@@ -239,6 +239,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,node,visualstudiocode
 # Logs
 logs
@@ -266,3 +267,6 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+=======
+# End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,node
+
