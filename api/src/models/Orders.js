@@ -19,27 +19,27 @@ module.exports = (sequelize) => {
                 key: 'id',
             }
         },
-            purchase_date: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            address_user: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            total_ammount: {
-                type: DataTypes.DECIMAL(10, 2),
-                allowNull: false,
-            },
-            order_state: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            isActive: {
-                type: DataTypes.BOOLEAN,
-                allowNull,
-                defaultValue: true
-            },
+        purchase_date: {
+            type: DataTypes.DATE,
+            allowNull: false,
         },
+        address_user: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        total_ammount: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
+        },
+        order_state: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull,
+            defaultValue: true
+        },
+    },
         { timestamps: false, freezeTableName: true });
 };
