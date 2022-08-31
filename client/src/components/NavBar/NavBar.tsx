@@ -6,7 +6,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
 import StoreIcon from '@mui/icons-material/Store';
 
-
 import {
   AppBar,
   Avatar,
@@ -85,7 +84,7 @@ export default function PrimarySearchAppBar() {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    handleCloseBackdrop()
+    handleCloseBackdrop();
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -200,7 +199,7 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-            <Backdrop open={openDial}/>
+          <Backdrop open={openDial} />
           <Tooltip title='Account settings'>
             <IconButton
               onClick={handleClick}
