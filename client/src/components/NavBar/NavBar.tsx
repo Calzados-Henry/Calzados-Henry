@@ -6,10 +6,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
 import StoreIcon from '@mui/icons-material/Store';
 
+
 import {
   AppBar,
   Avatar,
   Box,
+  Backdrop,
   Badge,
   Divider,
   IconButton,
@@ -73,11 +75,17 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const [openDial, setOpenDial] = React.useState(false);
+  const handleOpenBackdrop = () => setOpenDial(true);
+  const handleCloseBackdrop = () => setOpenDial(false);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    handleOpenBackdrop();
   };
   const handleClose = () => {
     setAnchorEl(null);
+    handleCloseBackdrop()
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -192,6 +200,7 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+            <Backdrop open={openDial}/>
           <Tooltip title='Account settings'>
             <IconButton
               onClick={handleClick}
