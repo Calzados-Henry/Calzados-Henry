@@ -10,24 +10,24 @@ import ShareIcon from '@mui/icons-material/Share';
 
 
 
-export default function Zapato() {
+export default function Zapato (props: object) {
   return (
     <>
-    <Card sx={{  maxWidth: 345 }} style={{backgroundColor: '#ceb5a7', borderStyle: 'solid', borderColor: 'white'}} >
+    <Card sx={{  maxWidth: 345 }} style={{backgroundColor: '#ceb5a7', borderStyle: 'solid', borderColor: 'white', marginLeft: '20px', marginTop: '20px'}} >
       <CardHeader color='inherit'
-        title="Zapato copado"
+        title= {props.title}
         subheader="Que Copado es este producto!"
       />
       <CardMedia color='inherit'
         component="img"
         height="180"
-        image="https://d1fufvy4xao6k9.cloudfront.net/images/landings/338/derby-shoes-men-2.png"
-        width='120'
+        image= {props.image}
+
         alt="Que zapato!"
       />
       <CardContent color='inherit'>
         <Typography variant="body2" color="text.secondary">
-          Este es un zapato copado.
+          {`$ ${props.price}`}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
