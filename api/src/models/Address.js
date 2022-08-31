@@ -20,11 +20,10 @@ module.exports = (sequelize) => {
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique:true,
+      allowNull: false
     },
-    zip_code:{
-      type: DataTypes.INTEGER(4),
+    zip_code: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     isActive: {

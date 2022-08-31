@@ -10,12 +10,12 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true
     },
-    userName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    passWord: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -42,7 +42,7 @@ module.exports = (sequelize) => {
       unique: true,
     },
     type_user: {
-      type: DataTypes.ENUM('Administrator','Employee','User'),
+      type: DataTypes.ENUM('Administrator', 'Employee', 'User'),
       allowNull: false,
     },
     isActive: {

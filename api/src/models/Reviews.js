@@ -4,22 +4,22 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     // defino el modelo
     sequelize.define('reviews', {
-       /*  id_product: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'products',
-                key: 'id'
-            }
-        },
-        id_user: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'user',
-                key: 'id'
-            }
-        }, */
+        /*  id_product: {
+             type: DataTypes.INTEGER,
+             allowNull: false,
+             references: {
+                 model: 'products',
+                 key: 'id'
+             }
+         },
+         id_user: {
+             type: DataTypes.INTEGER,
+             allowNull: false,
+             references: {
+                 model: 'user',
+                 key: 'id'
+             }
+         }, */
         review: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -27,10 +27,15 @@ module.exports = (sequelize) => {
         rate: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate:{
-                min:0,
-                max:5,
+            validate: {
+                min: 0,
+                max: 5,
             }
+        },
+        date: {
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         isActive: {
             allowNull: false,

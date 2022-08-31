@@ -5,13 +5,13 @@ const path = require('path');
 const { userInfo } = require('os');
 const products = require('./models/products');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME,
+  DATABASE_URL
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+const sequelize = new Sequelize(DATABASE_URL, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  timestamps: false, 
+  timestamps: false,
   freezeTableName: true,
   dialectOptions: {
     ssl: {
@@ -42,7 +42,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 // !CAMBIAR AQUI SI LLEGA A SER NECESARIO!
-const { Products, Category, Color, Users, Reviews } = sequelize.models; 
+const { Products, Category, Color, Users, Reviews, Product_details, Image } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -51,11 +51,15 @@ const { Products, Category, Color, Users, Reviews } = sequelize.models;
 // Products.belongsTo(Category) //! Es necesario ponerlo? 
 //Recipe.belongsToMany(Diets, { foreignKey: 'id_recipe' , through: 'recipe_diets'})
 
-Products.belongsToMany(Users, { foreignKey: 'id_product'  , through: Reviews})
-Users.belongsToMany(Products, { foreignKey: 'id_user' , through: Reviews})
+Product_details.belongsToMany(Image, { foreignKey: 'id_product_details', through: "product_details_image" })
+Image.belongsToMany(Product_details, { foreignKey: 'id_image', through: "product_details_image" })
 
-Products.belongsToMany(Users, { foreignKey: 'id_product'  , through: 'favourite'})
-Users.belongsToMany(Products, { foreignKey: 'id_user' , through: 'favourite'})
+Products.belongsToMany(Users, { foreignKey: 'id_product', through: Reviews })
+Users.belongsToMany(Products, { foreignKey: 'id_user', through: Reviews })
+
+Products.belongsToMany(Users, { foreignKey: 'id_product', through: 'favourite' })
+Users.belongsToMany(Products, { foreignKey: 'id_user', through: 'favourite' })
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
