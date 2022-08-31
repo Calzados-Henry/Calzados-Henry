@@ -5,16 +5,14 @@ import Footer from '../components/Footer/Footer';
 import './App.css';
 
 function App() {
-
   return (
-      <div className='App'>
-        <NavBar/>
-        <Routes>
-          <Route path='/' element={<Carrousel/>}></Route>
-        </Routes>
-        <Footer/>
-      </div>
-
+    <div className='App'>
+      <NavBar />
+      <Routes>
+        <Route path='/' element={<Carrousel />}></Route>
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
