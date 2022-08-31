@@ -57,8 +57,8 @@ Image.belongsToMany(Product_details, { foreignKey: 'id_image', through: "product
 Products.belongsToMany(Users, { foreignKey: 'id_product', through: Reviews })
 Users.belongsToMany(Products, { foreignKey: 'id_user', through: Reviews })
 
-Products.belongsToMany(Users, { foreignKey: 'id_product', through: 'favourite' })
-Users.belongsToMany(Products, { foreignKey: 'id_user', through: 'favourite' })
+Product_details.belongsToMany(Users, { foreignKey: 'id_product_detail', through: 'favourite' })
+Users.belongsToMany(Product_details, { foreignKey: 'id_user', through: 'favourite' })
 
 
 module.exports = {
