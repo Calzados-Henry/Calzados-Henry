@@ -1,12 +1,5 @@
-
 function Carrousel() {
-
-    return (
-        <div>
-            Este es el Carrusel
-        </div>
-    )
-    
+  return <div>Este es el Carrusel</div>;
 }
 
-export default Carrousel
+export default Carrousel;

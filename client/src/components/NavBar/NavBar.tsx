@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -75,15 +75,14 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-
   const [openDial, setOpenDial] = React.useState(false);
   const handleOpenBackdrop = () => setOpenDial(true);
   const handleCloseBackdrop = () => setOpenDial(false);
-  
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearch({...search, [e.target.name]: e.target.value})
-  }
-  
+    setSearch({ ...search, [e.target.name]: e.target.value });
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     handleOpenBackdrop();
@@ -178,7 +177,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <AppBar position='absolute' color='transparent'>
+    <AppBar position='absolute' color='primary'>
       <Toolbar>
         <IconButton
           size='large'
@@ -200,7 +199,12 @@ export default function PrimarySearchAppBar() {
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder='Search...' name='search' onChange={onChange} inputProps={{ 'aria-label': 'search' }} />
+          <StyledInputBase
+            placeholder='Search...'
+            name='search'
+            onChange={onChange}
+            inputProps={{ 'aria-label': 'search' }}
+          />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
 

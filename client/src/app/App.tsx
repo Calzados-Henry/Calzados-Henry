@@ -6,9 +6,9 @@ import About from '../components/Footer/About';
 import './App.css';
 
 function App() {
-
   return (
-      <div className='App'>
+  
+   <div className='App'>
         <NavBar/>
         <Routes>
           <Route path='/' element={<Carrousel/>}></Route>
@@ -16,7 +16,6 @@ function App() {
         </Routes>
         <Footer/>
       </div>
-
   );
 }
 
