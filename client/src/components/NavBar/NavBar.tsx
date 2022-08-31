@@ -10,6 +10,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Backdrop,
   Badge,
   Divider,
   IconButton,
@@ -74,15 +75,22 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+
+  const [openDial, setOpenDial] = React.useState(false);
+  const handleOpenBackdrop = () => setOpenDial(true);
+  const handleCloseBackdrop = () => setOpenDial(false);
+  
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearch({...search, [e.target.name]: e.target.value})
   }
-
+  
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    handleOpenBackdrop();
   };
   const handleClose = () => {
     setAnchorEl(null);
+    handleCloseBackdrop();
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -197,6 +205,7 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+          <Backdrop open={openDial} />
           <Tooltip title='Account settings'>
             <IconButton
               onClick={handleClick}
