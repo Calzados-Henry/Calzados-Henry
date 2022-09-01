@@ -1,0 +1,22 @@
+.productDetail {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 25%;
+}
+
+.in_productDetail {
+    width: 90%;
+    height: 95%;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+}
+
+.right {}
+
+.left {
+    display: grid;
+    justify-content: center;
+}
