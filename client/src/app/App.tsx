@@ -1,21 +1,24 @@
 import { Routes, Route } from 'react-router-dom';
 import Carrousel from '../components/Carrousel/Carrousel';
+import Container from '@mui/material/Container';
 import NavBar from '../components/NavBar/NavBar';
 import Footer from '../components/Footer/Footer';
 import About from '../components/Footer/About';
-import './App.css';
+
 
 function App() {
   return (
-  
-   <div className='App'>
-        <NavBar/>
+    <>
+      <NavBar />
+      <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem' }}>
+        <Carrousel />
         <Routes>
-          <Route path='/' element={<Carrousel/>}></Route>
+          <Route path='/' element={<></>}></Route>
           <Route path='/about' element={<About/>}></Route>
         </Routes>
-        <Footer/>
-      </div>
+      </Container>
+      <Footer />
+    </>
   );
 }
 
