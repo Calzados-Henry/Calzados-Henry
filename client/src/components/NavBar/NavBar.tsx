@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 
 import { AccountCircle, Logout, PersonAdd, Settings } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -66,6 +67,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
   const [search, setSearch] = useState({});
 
@@ -191,7 +194,10 @@ export default function PrimarySearchAppBar() {
           variant='h6'
           noWrap
           component='div'
-          sx={{ display: { xs: 'none', sm: 'block' }, mr: 1 }}>
+          onClick={()=> navigate('/')}
+          sx={{ display: { xs: 'none', sm: 'block' }, mr: 1, '&:hover': {
+            cursor: 'pointer',
+          } }}>
           SEHOS
         </Typography>
         <StoreIcon />
