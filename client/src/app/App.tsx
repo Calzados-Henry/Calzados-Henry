@@ -2,21 +2,22 @@ import { Routes, Route } from 'react-router-dom';
 import Carrousel from '../components/Carrousel/Carrousel';
 import NavBar from '../components/NavBar/NavBar';
 import Footer from '../components/Footer/Footer';
-import Zapato from '../components/Card/Card';
+
+import Cards from '../components/Cards/Cards';
+import About from '../components/Footer/About';
 import './App.css';
 
 function App() {
-
   return (
-      <div className='App'>
-        <Zapato/>
+ <div className='App'>
         <NavBar/>
+        <Cards/>
         <Routes>
           <Route path='/' element={<Carrousel/>}></Route>
+          <Route path='/about' element={<About/>}></Route>
         </Routes>
         <Footer/>
       </div>
-
   );
 }
 
