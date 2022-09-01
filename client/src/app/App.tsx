@@ -3,6 +3,8 @@ import Carrousel from '../components/Carrousel/Carrousel';
 import Container from '@mui/material/Container';
 import NavBar from '../components/NavBar/NavBar';
 import Footer from '../components/Footer/Footer';
+import About from '../components/Footer/About';
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
         <Carrousel />
         <Routes>
           <Route path='/' element={<></>}></Route>
+          <Route path='/about' element={<About/>}></Route>
         </Routes>
       </Container>
       <Footer />

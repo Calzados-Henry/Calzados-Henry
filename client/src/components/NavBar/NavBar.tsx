@@ -177,7 +177,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <AppBar position='absolute' color='transparent'>
+    <AppBar position='absolute' color='primary'>
       <Toolbar>
         <IconButton
           size='large'
