@@ -15,7 +15,7 @@ export default function PrimarySearchAppBar() {
 
         <Box sx={{ flexGrow: 1.5 }} />
 
-        <SearchComponent />
+        <SearchComponent name={'search'} />
 
         <Box sx={{ flexGrow: 1 }} />
 
