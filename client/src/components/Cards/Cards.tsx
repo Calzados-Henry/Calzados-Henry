@@ -1,5 +1,5 @@
 import React from 'react'
-import Zapato from '../Card/Card';
+import Shoe from '../Card/Card';
 import { useGetProductsQuery } from '../../features/product/productApiSlice';
 
 
@@ -14,7 +14,7 @@ const Cards = () => {
   content = (
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
         {data?.map(shoe => 
-            ( <Zapato style={{marginLeft: '10px'}} key={shoe.id} title={shoe.title} image={shoe.image} price={shoe.price} />) 
+            ( <Shoe key={shoe.id} title={shoe.title} image={shoe.image} price={shoe.price} />) 
             
         )}
       </div>
