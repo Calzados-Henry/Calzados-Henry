@@ -44,12 +44,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchComponent() {
+type Name = {
+  name: string;
+}
+
+const SearchComponent = (name:Name) => {
   const [search, setSearch] = useState({});
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
+
+  const Name: string = name.name;
 
   return (
     <Search>
@@ -58,10 +64,12 @@ export default function SearchComponent() {
       </SearchIconWrapper>
       <StyledInputBase
         placeholder='Search...'
-        name='search'
+        name={Name}
         onChange={onChange}
-        inputProps={{ 'aria-label': 'search' }}
+        inputProps={{ 'aria-label': Name }}
       />
     </Search>
   );
 }
+
+export default SearchComponent;
