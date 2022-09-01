@@ -11,9 +11,9 @@ function App() {
     <>
       <NavBar />
       <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem' }}>
-        <Carrousel />
+       
         <Routes>
-          <Route path='/' element={<></>}></Route>
+          <Route path='/' element={ <Carrousel />}></Route>
           <Route path='/about' element={<About/>}></Route>
         </Routes>
       </Container>
