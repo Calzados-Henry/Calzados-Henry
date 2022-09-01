@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
+import { DataTypes } from 'sequelize';
 
-module.exports = (sequelize) => {
+module.exports = (sequelize: any) => {
     sequelize.define('orders_details', {
         id_order: {
             type: DataTypes.INTEGER,

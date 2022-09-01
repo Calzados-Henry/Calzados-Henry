@@ -21,12 +21,12 @@ var configSequelize = {
 const sequelize = new Sequelize(DATABASE_URL, configSequelize);
 const basename = path.basename(__filename);
 
-const modelDefiners:Array<Function> = [];
+const modelDefiners: Array<Function> = [];
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, '/models'))
-  .filter((file:string) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
-  .forEach((file:string) => {
+  .filter((file: string) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.ts'))
+  .forEach((file: string) => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
