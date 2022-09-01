@@ -4,30 +4,29 @@ const fs = require('fs');
 const path = require('path');
 const { userInfo } = require('os');
 const products = require('./models/products');
-const {
-  DATABASE_URL
-} = process.env;
+const { DATABASE_URL } = process.env;
 
-const sequelize = new Sequelize(DATABASE_URL, {
+var configSequelize = {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
   timestamps: false,
   freezeTableName: true,
-  dialectOptions: {
-    ssl: {
-      require: true, // This will help you. But you will see nwe error
-      rejectUnauthorized: false // This line will fix new error
-    }
-  }
-});
+  // dialectOptions: {
+  //   ssl: {
+  //     require: true, // This will help you. But you will see nwe error
+  //     rejectUnauthorized: false // This line will fix new error
+  //   }
+  // }
+}
+const sequelize = new Sequelize(DATABASE_URL, configSequelize);
 const basename = path.basename(__filename);
 
-const modelDefiners = [];
+const modelDefiners:Array<Function> = [];
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, '/models'))
-  .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
-  .forEach((file) => {
+  .filter((file:string) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
+  .forEach((file:string) => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
@@ -42,7 +41,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 // !CAMBIAR AQUI SI LLEGA A SER NECESARIO!
-const { Products, Category, Color, Users, Reviews, Product_details, Image } = sequelize.models;
+const { Products, Category, Color, Users, Reviews, Product_details, Images } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -51,8 +50,8 @@ const { Products, Category, Color, Users, Reviews, Product_details, Image } = se
 // Products.belongsTo(Category) //! Es necesario ponerlo? 
 //Recipe.belongsToMany(Diets, { foreignKey: 'id_recipe' , through: 'recipe_diets'})
 
-Product_details.belongsToMany(Image, { foreignKey: 'id_product_details', through: "product_details_image" })
-Image.belongsToMany(Product_details, { foreignKey: 'id_image', through: "product_details_image" })
+Product_details.belongsToMany(Images, { foreignKey: 'id_product_details', through: "product_details_image" })
+Images.belongsToMany(Product_details, { foreignKey: 'id_image', through: "product_details_image" })
 
 Products.belongsToMany(Users, { foreignKey: 'id_product', through: Reviews })
 Users.belongsToMany(Products, { foreignKey: 'id_user', through: Reviews })
