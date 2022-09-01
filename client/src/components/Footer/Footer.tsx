@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Footer() {
   const navigate = useNavigate()
   return (
-    <Box sx={{ bgcolor: 'primary.main' }}>
+    <Box sx={{ bgcolor: 'primary.main', textAlign: 'center' }}>
       <Paper 
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'inherit' }} 
         elevation={3}>
