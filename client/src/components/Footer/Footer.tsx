@@ -7,7 +7,6 @@ function Footer() {
   const navigate = useNavigate()
   const theme = useTheme()
 
-  console.log(theme)
   return (
     <>
     <div style={ {height: theme.mixins.toolbar.minHeight, marginTop: 30 } }></div>
