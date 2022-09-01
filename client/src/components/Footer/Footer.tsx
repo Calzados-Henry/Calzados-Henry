@@ -1,11 +1,17 @@
 import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
 import { Facebook, Instagram, WhatsApp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import {useTheme} from '@mui/material/styles'
 
 function Footer() {
   const navigate = useNavigate()
+  const theme = useTheme()
+
   return (
-    <Box sx={{ bgcolor: 'primary.main' }}>
+    <>
+    <div style={ {height: theme.mixins.toolbar.minHeight, marginTop: 30 } }></div>
+    <Box sx={{ bgcolor: 'primary.main', textAlign: 'center' }}>
+      
       <Paper 
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'inherit' }} 
         elevation={3}>
@@ -36,6 +42,7 @@ function Footer() {
         <label>Sehos &reg; {new Date().getFullYear()}</label>
       </Paper>
     </Box>
+    </>
   );
 }
 
