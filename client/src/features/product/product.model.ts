@@ -11,3 +11,5 @@ export interface ProductI {
   image: string;
   rating: Rating;
 }
+export interface RatingPartial extends Partial<Rating> {}
+export interface ProductPartial extends Partial<ProductI> {}
