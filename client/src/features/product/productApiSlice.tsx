@@ -7,7 +7,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: () => '/products',
       providesTags: ['Product'],
     }),
-    getProduct: builder.query<ProductI[], void>({
+    getProduct: builder.query<ProductI, string | void>({
       query: id => `/products/${id}`,
     }),
     addNewProduct: builder.mutation({

@@ -1,0 +1,39 @@
+.productDetail {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    box-sizing: border-box;
+}
+
+.productMain {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: 1fr 35%;
+    width: 100%;
+    height: 800px;
+}
+
+.in_productDetail {
+    width: 90%;
+    height: fit-content;
+}
+
+
+
+.box {
+    width: 100%;
+    height: 100%;
+}
+
+.right {
+    height: auto;
+
+}
+
+.left {
+    display: grid;
+    height: auto;
+
+    justify-content: center;
+}

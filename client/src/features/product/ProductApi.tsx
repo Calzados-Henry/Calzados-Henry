@@ -2,6 +2,7 @@
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { useGetProductsQuery, productsApiSlice } from './productApiSlice';
+import { Link } from 'react-router-dom';
 
 function ProductApi() {
   // tambien pueden sacar isLoading, isSuccess, isError
@@ -21,7 +22,9 @@ function ProductApi() {
     content = (
       <div>
         {shoes?.map(item => (
-          <h3 key={item.id}>{item.title}</h3>
+          <Link key={item.id} to={`products/${item.id}`}>
+            <h3>{item.title}</h3>
+          </Link>
         ))}
       </div>
     );
