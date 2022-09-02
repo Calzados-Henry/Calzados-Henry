@@ -3,13 +3,13 @@
 const Models = require('../../db');
 
 module.exports = {
-  getUsers: async (): Promise<string | object> => {
+  getUsers: async (): Promise<object> => {
     // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
     var users = await Models.Users.findAll()
     return users.length > 0 ? users : { message: "No hay usuarios" };
   },
 
-  createUsers: async (value: any): Promise<string | object> => {
+  createUsers: async (value: any): Promise<object> => {
     // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar nuevo usuario.
     var username = await Models.Users.findAll({ where: { username: value.username } })
     var email = await Models.Users.findAll({ where: { email: value.email } })
@@ -38,7 +38,7 @@ module.exports = {
     return await Models.Users.create(value)
   },
 
-  updateUser: async (value: any): Promise<string | object> => {
+  updateUser: async (value: any): Promise<object> => {
     // Se busca el usuario por id
     var userByID = await Models.Users.findByPk(value.id)
     if (userByID !== null) {
