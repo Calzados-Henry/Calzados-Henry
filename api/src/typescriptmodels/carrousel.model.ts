@@ -1,21 +1,21 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
 
 
-export interface ColorI {
+export interface CarrouselI {
     id?: number | null
-    color: string
+    image: string
     isActive: boolean
 }
 
 @Table(
     {   
-        tableName: "color",
+        tableName: "carrousel",
         timestamps: false,
         freezeTableName: true
     }
 )
 
-export default class Color extends Model implements ColorI {
+export default class Carrousel extends Model implements CarrouselI {
 
     @Column({
         type: DataType.INTEGER,
@@ -31,7 +31,7 @@ export default class Color extends Model implements ColorI {
         allowNull: false,
         unique: true
     })
-    color!: string;
+    image!: string;
 
     @Column({
         allowNull: false,

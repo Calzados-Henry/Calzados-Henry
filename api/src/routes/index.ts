@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
-const Users = require('./routes/Users')
+/* const Users = require('./routes/Users') */
+import usersRouter from './Users'
 
 const router = Router();
 
@@ -8,6 +9,9 @@ router.get('/', (_req: Request, res: Response) => {
 })
 
 
-router.use('/Users', Users)
+router.use('/Users', usersRouter)
 
-module.exports = router;
+export default router
+
+/* module.exports = router;
+ */

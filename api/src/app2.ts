@@ -1,7 +1,14 @@
 import express from 'express'
-import { sequelize } from './src/database'
+import { sequelize } from './database'
+import usersRoute from './routes/Users'
 
 const app = express()
+app.use(express.json())
+
+
+
+app.use('/api/users',usersRoute)
+
 
 
 

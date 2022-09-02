@@ -16,12 +16,17 @@
 //*  |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //*  ````````````````````````````'''''''''''''''''''''''''''''
 //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.ts');
-const { conn } = require('./src/db.ts');
+/* const server = require('./src/app.ts');*/
+/* const { conn } = require('./src/db.ts');  */
+
+import server from './src/app'
+import { sequelize } from './src/database';
+
+
 
 // Syncing all the models at once.
 const PORT =  process.env.PORT || 3001;
-conn.sync({ force: true }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
     console.log(`Listening on port => ${PORT}`); // eslint-disable-line no-console
   });

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev2": "ts-node-dev app2.ts",
+    "dev2": "ts-node-dev ./src/app2.ts",
     "start": "node index.js",
     "dev": "ts-node-dev index.ts",
     "tsc": "tsc",

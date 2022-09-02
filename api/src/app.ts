@@ -2,9 +2,9 @@ import express, { Request, Response, NextFunction } from 'express';
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const routes = require('./routes/index.ts');
+import routes from './routes/index';
 
-require('./db.ts');
+require('./database.ts');
 
 const server = express();
 
@@ -33,4 +33,5 @@ server.use((err: any, _req: Request, res: Response, _next: NextFunction) => { //
   res.status(status).send(message);
 });
 
-module.exports = server;
+export default server;
+/* module.exports = server; */
