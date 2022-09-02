@@ -8,7 +8,7 @@ const Cards = () => {
     const { data, error, isLoading, isSuccess } = useGetProductsQuery()
     let content;
 
-    if(isLoading) content = <h1>loading....</h1>;
+    if(isLoading) content =  <img src="https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif" alt="loading" />;
     if (error) content = <h2>Ups hay un error</h2>;
   if (isSuccess) {
   content = (

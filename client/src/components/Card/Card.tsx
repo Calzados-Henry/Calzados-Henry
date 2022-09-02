@@ -8,12 +8,12 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import s from './Card.module.css'
-import { ProductI } from './product.model';
+import { ProductPartial } from './product.model';
 import  React  from 'react';
 
-const Shoe: React.FC<ProductI> =(props) => {
+const Shoe: React.FC<ProductPartial> =(props) => {
   let titulo;
-  (props.title.length > 40 )? titulo = (props.title.slice(0,(30-props.title.length)) + '...' ): titulo = props.title
+  props.title !== undefined && ((props.title.length > 40 )? titulo = (props.title.slice(0,(30-props.title.length)) + '...' ): titulo = props.title)
   return (
     <>
     <Card sx={{  maxWidth: 345 }} style={{height: "60vh",width: '50vw' ,backgroundColor: 'white',display: 'flex',flexDirection: "column", borderStyle: 'solid', borderColor: 'transparent', marginLeft: '20px', marginTop: '20px'}} >
