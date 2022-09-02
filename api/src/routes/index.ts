@@ -1,10 +1,10 @@
-import { Router, Request, Response  } from 'express';
+import { Router, Request, Response } from 'express';
 
 import Category from './routes/Category';
 const Users = require('./routes/Users');
 const Size = require('./routes/Size');
 const Carrousel = require('./routes/Carrousel');
-
+const Products = require('./routes/Products');
 
 const router = Router();
 
@@ -15,9 +15,9 @@ router.get('/', (_req: Request, res: Response) => {
   res.send("todo ok");
 })
 
-router.use('/users', Users)
-router.use('/size', Size)
-router.use('/carrousel', Carrousel)
-router.use('/', Category);
-
+router.use('/users', Users) // jesner
+router.use('/size', Size) // jesner
+router.use('/carrousel', Carrousel) // jesner
+router.use('/products', Products) // jesner
+router.use('/', Category); // facundo
 module.exports = router;
