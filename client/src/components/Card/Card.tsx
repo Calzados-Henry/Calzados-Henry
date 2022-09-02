@@ -11,12 +11,22 @@ import s from './Card.module.css'
 import { ProductPartial } from './product.model';
 import  React  from 'react';
 
+/* const styles = {
+  tr: {
+    backgroundColor: 'white',
+    '&:hover': {
+     boxShadow: 'rgba(0, 0, 0, 0.50) 0px 54px 55px' 
+}
+    }
+  } */
+
+
 const Shoe: React.FC<ProductPartial> =(props) => {
   let titulo;
   props.title !== undefined && ((props.title.length > 40 )? titulo = (props.title.slice(0,(30-props.title.length)) + '...' ): titulo = props.title)
   return (
     <>
-    <Card sx={{  maxWidth: 345 }} style={{height: "60vh",width: '50vw' ,backgroundColor: 'white',display: 'flex',flexDirection: "column", borderStyle: 'solid', borderColor: 'transparent', marginLeft: '20px', marginTop: '20px'}} >
+    <Card sx={{  maxWidth: 345}}  style={{height: "60vh",width: '50vw',display: 'flex',flexDirection: "column", borderStyle: 'solid', borderColor: 'transparent', marginLeft: '20px', marginTop: '20px'}} >
       <CardHeader 
        color='inherit'
       titleTypographyProps={{fontSize: 18 }}
