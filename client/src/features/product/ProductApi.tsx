@@ -3,11 +3,14 @@ import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { useGetProductsQuery, productsApiSlice } from './productApiSlice';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+let products = [];
 function ProductApi() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  products = [1];
+  console.log(products);
   // tambien pueden sacar isLoading, isSuccess, isError
   const { data: shoes, error, isLoading, isSuccess } = useGetProductsQuery();
   //   const {
@@ -24,7 +27,7 @@ function ProductApi() {
   if (isSuccess) {
     content = (
       <div>
-        {shoes?.map(item => (
+        {shoes?.slice(0, 1).map(item => (
           <Link key={item.id} to={`products/${item.id}`}>
             <h3>{item.title}</h3>
           </Link>
