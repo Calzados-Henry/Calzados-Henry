@@ -8,7 +8,7 @@ enum Type_user {
 }
 
 export interface UsersI {
-  id?: number
+  id: number
   username: string
   password: string
   email: string
@@ -35,7 +35,7 @@ export default class Users extends Model implements UsersI {
     allowNull: false,
     primaryKey: true
   })
-  id?: number;
+  id!: number;
 
   @Column({
     type: DataType.STRING,

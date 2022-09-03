@@ -5,7 +5,7 @@ import Size from './Size';
 import Carrousel from './Carrousel';
 import Products from './Products';
 import Orders from './Orders';
-
+import Address from './Address';
 const router = Router();
 
 
@@ -16,6 +16,7 @@ router.get('/', (_req: Request, res: Response) => {
 })
 
 router.use('/users', Users) // jesner
+router.use('/users/address', Address) // facundo
 router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner
 router.use('/products', Products) // jesner

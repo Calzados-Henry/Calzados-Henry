@@ -26,7 +26,7 @@ server.listen(PORT, () => {
   sequelize.authenticate().then(async () => {
     console.log("Database conected")
     try {
-      await sequelize.sync({ force: true })
+      await sequelize.sync({ alter: true }) //alter or force
     } catch (error: any) {
       console.log(error.message)
     }
