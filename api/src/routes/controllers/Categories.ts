@@ -17,11 +17,7 @@ module.exports = {
                 category:category,
             }
         })
-        if(categories.isActive===true){
-            return categories
-        }else{
-            return categories
-        }
+            return categories[0]
     },
     patchCategory: async(value:any):Promise<object>=>{
         const findedCategory = await DbModels.Category.findByPk(value.id)

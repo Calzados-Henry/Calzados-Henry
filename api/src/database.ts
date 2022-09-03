@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+// import { Sequelize } from "sequelize-typescript";
 /* const { DB_PASSWORD, DB_HOST } = process.env; */
 /* var configSequelize = {
     logging: false, // set to console.log to see the raw SQL queries

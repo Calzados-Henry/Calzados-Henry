@@ -17,6 +17,12 @@ import { Router, Request, Response } from "express"
 //     id:"1",
 //     update:"zapatos"
 // }
+//Ruta DELETE/category --> se envia por body un objeto con id de la categoria a eliminar ("logicamente")
+//y la categoria, Ejemplo: 
+// {
+//     id:1,
+//     category:'zapatos'
+// }
 
 
 const Category = Router()
