@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { ProductRead } from '../../../features/product/product.model';
+import { ProductPartial } from '../../../sehostypes/Product';
 
-export default function Description({ title, description, price }: ProductRead) {
+export default function Description({ title, description, price }: ProductPartial) {
   return (
     <Box>
       <Typography id='keep-mounted-modal-title' variant='h5' component='h2'>

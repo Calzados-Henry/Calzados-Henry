@@ -1,15 +1,22 @@
 import { apiSlice } from '../api/apiSlice';
 import { ProductI } from './product.model';
-import { createSelector, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSelector, createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-const productAdapter = createEntityAdapter<ProductI | ProductI[]>();
+const productAdapter = createEntityAdapter<ProductI>({
+  selectId: product => product.id,
+});
 const initialState = productAdapter.getInitialState();
+export const pokemonSelector = productAdapter.getSelectors();
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<ProductI[], void>({
       query: () => '/products',
+      transformResponse: (response: ProductI[]) => {
+        productAdapter.setAll(initialState, response);
+        return response;
+      },
       providesTags: ['Product'],
     }),
     getProduct: builder.query<ProductI, string | void>({
@@ -39,10 +46,8 @@ const selectProductsData = createSelector(
 );
 // normalized state object with ids & entities
 
-// getSelectors creates these selectors and we rename them with aliases using destructuring
-export const {
-  selectAll: selectAllUsers,
-  selectById: selectUserById,
-  selectIds: selectUserIds,
-  // Pass in a selector that returns the posts slice of state
-} = productAdapter.getSelectors(state => selectProductsData(state) ?? initialState);
+// // getSelectors creates these selectors and we rename them with aliases using destructuring
+// export const {
+//   selectAll: selectAllProducts,
+//   // Pass in a selector that returns the posts slice of state
+// } = productAdapter.getSelectors(state => selectProductsData(state));

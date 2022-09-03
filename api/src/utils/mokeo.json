@@ -1,0 +1,2146 @@
+[
+   {
+      "id": 1,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 2,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 3,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 4,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 5,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 6,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 7,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 8,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 9,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 10,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 11,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 12,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 13,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 14,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 15,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 16,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 17,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 18,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 19,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 20,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   },{
+      "id": 1,
+      "name": "Zapatos Casuales Suede Cafe",
+      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "price": 599,
+      "sold": 50,
+      "images": [
+         {
+            "id": 1,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
+         }, {
+            "id": 2,
+            "image": "htps://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
+         }, {
+            "id": 3,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
+         }, {
+            "id": 4,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
+         }, {
+            "id": 5,
+            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669693-MLM31904760314_082019-F.webp"
+         }
+      ],
+      "category": {
+         "id": 1,
+         "category": "Mocasines",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Muy bueno :D",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Maso",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+      "product_details": [
+         {
+            "id_product": 1,
+            "id_size": 1,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 2,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 2,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 3,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 3,
+            "id_color": 4,
+            "stock": 10,
+            "isActive": true
+         }, {
+            "id_product": 1,
+            "id_size": 4,
+            "id_color": 1,
+            "stock": 10,
+            "isActive": true
+         }
+      ]
+   }
+]
+

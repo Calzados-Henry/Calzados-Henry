@@ -7,6 +7,7 @@ import Products from './Products';
 import Orders from './Orders';
 import Address from './Address';
 import Images from './Images';
+import Prueba from './Prueba';
 
 
 const router = Router();
@@ -15,6 +16,7 @@ router.get('/', (_req: Request, res: Response) => {
   res.send("todo ok");
 })
 
+router.use('/prueba', Prueba)
 router.use('/users', Users) // jesner
 router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner

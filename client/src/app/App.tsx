@@ -7,6 +7,7 @@ import About from '../components/Footer/About';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
 import Error404 from '../components/Error404/Error404';
 import LandingPage from '../pages/LandingPage';
+import ContactForm from '../pages/ContactForm/ContactForm';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Route path='/about' element={<About />}></Route>
           <Route path='/products' element={<Cards />}></Route>
           <Route path='/products/:id' element={<ProductDetail />}></Route>
+          <Route path='/user' element={<></>}></Route>
+          <Route path='/contact' element={<ContactForm />}></Route>
           <Route path='*' element={<Error404></Error404>}></Route>
         </Routes>
       </Container>

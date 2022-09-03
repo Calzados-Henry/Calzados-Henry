@@ -27,7 +27,7 @@ export default function PromotionalList() {
         gutterBottom
         textAlign={'center'}
         sx={{ borderBottom: '2px dotted gray' }}>
-        Surprise Shoes
+        Popular now
       </Typography>
       <Grid container spacing={2} mb={2}>
         {data?.slice(0, 3).map(shoe => {
