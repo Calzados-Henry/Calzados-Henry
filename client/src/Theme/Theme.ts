@@ -21,6 +21,9 @@ const theme = createTheme({
     variant: {
       main: 'yellow',
     },
+    secondary: {
+      main: '#5d3a00',
+    },
   },
 });
 
