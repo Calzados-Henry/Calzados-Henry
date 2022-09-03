@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    var orders: string = await getOrders();
+    var orders = await getOrders();
     res.json(orders)
   } catch (e: any) {
     res.json({ error: e.message })
@@ -15,7 +15,7 @@ router.get('/', async (_req: Request, res: Response) => {
 })
 router.post('/', async (req: Request, res: Response) => {
   try {
-    var nOrders: string = await createOrders(req.body)
+    var nOrders = await createOrders(req.body)
     res.json(nOrders)
   } catch (e: any) {
     res.json({ error: e.message })
@@ -23,7 +23,7 @@ router.post('/', async (req: Request, res: Response) => {
 })
 router.put('/', async (req: Request, res: Response) => {
   try {
-    var putOrders: string = await updateOrders(req.body)
+    var putOrders = await updateOrders(req.body)
     res.json(putOrders)
   } catch (e: any) {
     res.json({ error: e.message })
@@ -31,7 +31,7 @@ router.put('/', async (req: Request, res: Response) => {
 })
 router.delete('/', async (req: Request, res: Response) => {
   try {
-    var delOrders: string = await deleteOrders(req.body.id)
+    var delOrders = await deleteOrders(req.body.id)
     res.json(delOrders)
   } catch (e: any) {
     res.json({ error: e.message })
