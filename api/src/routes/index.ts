@@ -8,7 +8,7 @@ import Orders from './Orders';
 import Address from './Address';
 import Images from './Images';
 import Prueba from './Prueba';
-
+import Color from './Color';
 
 const router = Router();
 
@@ -22,6 +22,7 @@ router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner
 router.use('/products', Products) // jesner
 router.use('/products/details/images', Images) // jesner
+router.use('/products/details/color', Color) // jesner
 router.use('/orders', Orders) // jesner
 
 router.use('/users/address', Address) // facundo

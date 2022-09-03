@@ -19,7 +19,7 @@ var configSequelize = {
 
 export const sequelize = new Sequelize(DATABASE, configSequelize)
 
-export const { Carrousel, Size, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category } = sequelize.models
+export const { Color, Carrousel, Size, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category } = sequelize.models
 
 Users.hasMany(Address, { foreignKey: 'id_user' })
 Address.belongsTo(Users, { foreignKey: 'id_user' })//!
