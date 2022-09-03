@@ -4,6 +4,7 @@ import SideBarComponent from '../SideBarComponent/SideBarComponent';
 import User from '../User/User';
 
 import { AppBar, Box, Toolbar } from '@mui/material';
+import MenuNav from './menuNav/MenuNav';
 
 export default function PrimarySearchAppBar() {
   return (
@@ -15,7 +16,9 @@ export default function PrimarySearchAppBar() {
 
         <Box sx={{ flexGrow: 1.5 }} />
 
-        <SearchComponent name={'search'} />
+        {/* <SearchComponent name={'search'} /> */}
+
+        <MenuNav></MenuNav>
 
         <Box sx={{ flexGrow: 1 }} />
 

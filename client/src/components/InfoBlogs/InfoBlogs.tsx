@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { dataBlog } from './data';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 export interface LandingBlog {
   title: string;
@@ -27,6 +27,14 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function BasicGrid() {
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Typography
+        mb={3}
+        variant='h4'
+        gutterBottom
+        textAlign={'center'}
+        sx={{ borderBottom: '2px dotted gray' }}>
+        Visit Blog
+      </Typography>
       <Grid container spacing={2}>
         {dataBlog.map((elem: LandingBlog, index: number) => {
           return (
