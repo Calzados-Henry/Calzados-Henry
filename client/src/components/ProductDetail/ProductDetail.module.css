@@ -28,12 +28,9 @@
 
 .right {
     height: auto;
-
 }
 
 .left {
     display: grid;
-    height: auto;
-
     justify-content: center;
 }

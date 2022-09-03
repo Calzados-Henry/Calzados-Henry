@@ -2,9 +2,12 @@
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
 import { useGetProductsQuery, productsApiSlice } from './productApiSlice';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 function ProductApi() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   // tambien pueden sacar isLoading, isSuccess, isError
   const { data: shoes, error, isLoading, isSuccess } = useGetProductsQuery();
   //   const {
