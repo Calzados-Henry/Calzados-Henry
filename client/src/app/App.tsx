@@ -7,13 +7,12 @@ import About from '../components/Footer/About';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
 import Error404 from '../components/Error404/Error404';
 import LandingPage from '../pages/LandingPage';
-import ProductApi from '../features/product/ProductApi';
+import ContactForm from '../pages/ContactForm/ContactForm';
 
 function App() {
   return (
     <>
       <NavBar />
-      <ProductApi></ProductApi>
       <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem' }}>
         <Routes>
           <Route path='/' element={<LandingPage />}></Route>
@@ -22,6 +21,7 @@ function App() {
           <Route path='/products' element={<Cards />}></Route>
           <Route path='/products/:id' element={<ProductDetail />}></Route>
           <Route path='/user' element={<></>}></Route>
+          <Route path='/contact' element={<ContactForm />}></Route>
           <Route path='*' element={<Error404></Error404>}></Route>
         </Routes>
       </Container>
