@@ -5,6 +5,7 @@ const Users = require('./routes/Users');
 const Size = require('./routes/Size');
 const Carrousel = require('./routes/Carrousel');
 const Products = require('./routes/Products');
+const Orders = require('./routes/Orders');
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use('/users', Users) // jesner
 router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner
 router.use('/products', Products) // jesner
+router.use('/orders', Orders) // jesner
 router.use('/', Category); // facundo
 module.exports = router;

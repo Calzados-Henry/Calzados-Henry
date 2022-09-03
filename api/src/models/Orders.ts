@@ -20,8 +20,9 @@ module.exports = (sequelize: any) => {
             }
         },
         purchase_date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         address_user: {
             type: DataTypes.STRING,
