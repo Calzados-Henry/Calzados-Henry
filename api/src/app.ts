@@ -1,11 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
+import routes from './routes/index';
+import bodyParser from 'body-parser';
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const routes = require('./routes/index.ts');
 
 require('./db.ts');
-
 const server = express();
 
 // server.name = 'API';
@@ -14,7 +13,7 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
-server.use((_req, res, next) => {
+server.use((_req: Request, res: Response, next: NextFunction) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -33,4 +32,4 @@ server.use((err: any, _req: Request, res: Response, _next: NextFunction) => { //
   res.status(status).send(message);
 });
 
-module.exports = server;
+export default server;
