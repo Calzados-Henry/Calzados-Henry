@@ -7,11 +7,13 @@ import About from '../components/Footer/About';
 import ProductDetail from '../components/ProductDetail/ProductDetail';
 import Error404 from '../components/Error404/Error404';
 import LandingPage from '../pages/LandingPage';
+import ProductApi from '../features/product/ProductApi';
 
 function App() {
   return (
     <>
       <NavBar />
+      <ProductApi></ProductApi>
       <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem' }}>
         <Routes>
           <Route path='/' element={<LandingPage />}></Route>
