@@ -1,7 +1,8 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
 // import { Season, Gender } from "./ENUMS"
+import { Gender, Season } from "../enums"
 
-enum Gender {
+/* enum Gender {
   Male = 'Male',
   Female = 'Female',
   Unisex = 'Unisex'
@@ -12,7 +13,7 @@ enum Season {
   Summer = 'Summer',
   Fall = 'Fall',
   Spring = 'Spring'
-}
+} */
 
 export interface Orders_detailsI {
   id_order: number
@@ -63,6 +64,12 @@ export default class Orders_details extends Model implements Orders_detailsI {
     allowNull: false
   })
   image!: string
+
+  /* @Column({
+    type: DataType.ENUM('Male', 'Female', 'Unisex'),
+    allowNull: false
+  })
+  gender!: Gender */
 
   @Column({
     type: DataType.ENUM('Male', 'Female', 'Unisex'),

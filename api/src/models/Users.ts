@@ -1,11 +1,11 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
-// import { Type_user } from "./ENUMS"
+import { Type_user } from "../enums"
 
-enum Type_user {
+/* enum Type_user {
   Administrator = 'Administrator',
   Employee = 'Employee',
   User = "User"
-}
+} */
 
 export interface UsersI {
   id: number

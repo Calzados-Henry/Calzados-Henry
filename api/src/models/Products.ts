@@ -1,7 +1,7 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
-// import { Season, Gender } from "./ENUMS"
+import { Gender, Season } from "../enums"
 
-enum Gender {
+/* enum Gender {
   Male = 'Male',
   Female = 'Female',
   Unisex = 'Unisex'
@@ -12,7 +12,7 @@ enum Season {
   Summer = 'Summer',
   Fall = 'Fall',
   Spring = 'Spring'
-}
+} */
 
 export interface ProductsI {
   id: number
