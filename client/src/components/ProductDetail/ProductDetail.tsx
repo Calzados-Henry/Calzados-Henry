@@ -8,12 +8,17 @@ import Photos from './photos/Photos';
 import Description from './description/Description';
 import ProductModal from './ProductModal';
 import { useGetProductQuery } from '../../features/product/productApiSlice';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Reviews from '../Reviews/Reviews';
+import { useEffect } from 'react';
 
 export default function ProductDetail() {
   const params = useParams();
   const { data: shoe, error, isLoading, isSuccess } = useGetProductQuery(params.id);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   let content;
   if (isLoading) content = <p>Loading...</p>;

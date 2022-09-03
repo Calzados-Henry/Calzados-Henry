@@ -15,7 +15,7 @@ export default function Photos() {
           }></img>
       </Box>
       <Box>
-        <ImageList sx={{ width: 500, height: 450 }} cols={4} rowHeight={100}>
+        <ImageList sx={{ width: 500, height: 220 }} cols={4} rowHeight={100}>
           {itemData.map(item => (
             <ImageListItem key={item.img}>
               <img src={`${item.img}`} srcSet={`${item.img}`} alt={item.title} loading='lazy' />

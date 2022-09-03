@@ -7,9 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import s from './Card.module.css'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import s from './Card.module.css';
 import { ProductPartial } from './product.model';
-import  React  from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 /* const styles = {
   tr: {
@@ -20,49 +22,67 @@ import  React  from 'react';
     }
   } */
 
-
-const Shoe: React.FC<ProductPartial> =(props) => {
+const Shoe: React.FC<ProductPartial> = props => {
   let titulo;
-  props.title !== undefined && ((props.title.length > 40 )? titulo = (props.title.slice(0,(30-props.title.length)) + '...' ): titulo = props.title)
+
+  props.title !== undefined &&
+    (props.title.length > 40
+      ? (titulo = props.title.slice(0, 30 - props.title.length) + '...')
+      : (titulo = props.title));
   return (
     <>
-    <Card sx={{  maxWidth: 345}}  style={{height: "60vh",width: '50vw',display: 'flex',flexDirection: "column", borderStyle: 'solid', borderColor: 'transparent', marginLeft: '20px', marginTop: '20px'}} >
-      <CardHeader 
-       color='inherit'
-      titleTypographyProps={{fontSize: 18 }}
-       title = {titulo} 
-       onMouseOver = {props.title}
-      
-        subheader="Que Copado es este producto!"
-      />
-      
-      {/* <Typography variant="body1" color="text.primary">
+      <Card
+        sx={{ maxWidth: 345 }}
+        style={{
+          height: '60vh',
+          width: '50vw',
+          display: 'flex',
+          flexDirection: 'column',
+          borderStyle: 'solid',
+          borderColor: 'transparent',
+          marginLeft: '20px',
+          marginTop: '20px',
+        }}>
+        <Link to={`/products/${props.id}`}>
+          <CardHeader
+            color='inherit'
+            titleTypographyProps={{ fontSize: 18 }}
+            title={titulo}
+            subheader='Que Copado es este producto!'
+            sx={{ cursor: 'pointer' }}
+          />
+        </Link>
+
+        {/* <Typography variant="body1" color="text.primary">
           {titulo}
         </Typography> */}
-      <img src={props.image} className={s.image}/>
-      {/* <CardMedia color='inherit'
+        <img src={props.image} className={s.image} />
+        {/* <CardMedia color='inherit'
         component="img"
         height="180"
         image= {props.image}
 
         alt="Que zapato!"
       /> */}
-      <CardContent color='inherit'>
-        <Typography variant="body2" color="text.secondary">
-          {`$ ${props.price}`}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton  color='inherit' aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton color='inherit' aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+        <CardContent color='inherit'>
+          <Typography variant='body2' color='text.secondary'>
+            {`$ ${props.price}`}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
+          <IconButton color='inherit' aria-label='add to favorites'>
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton color='inherit' aria-label='share'>
+            <ShareIcon />
+          </IconButton>
+          <IconButton color='inherit' aria-label='add to cart'>
+            <AddShoppingCartIcon></AddShoppingCartIcon>
+          </IconButton>
+        </CardActions>
+      </Card>
     </>
   );
-}
+};
 
-export default Shoe
+export default Shoe;
