@@ -12,7 +12,7 @@ const date = new Date(2022, 1, 17);
 export default function Reviews() {
   return (
     <>
-      <Typography variant='h3' width={'100%'} className={styles.title}>
+      <Typography variant='h4' width={'100%'} className={styles.title}>
         Reviews
       </Typography>
       <Box className={styles.container}>
