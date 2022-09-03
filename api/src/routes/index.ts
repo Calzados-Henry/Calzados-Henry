@@ -6,23 +6,23 @@ import Carrousel from './Carrousel';
 import Products from './Products';
 import Orders from './Orders';
 import Address from './Address';
+import Images from './Images';
+
+
 const router = Router();
-
-
-
 
 router.get('/', (_req: Request, res: Response) => {
   res.send("todo ok");
 })
 
 router.use('/users', Users) // jesner
-router.use('/users/address', Address) // facundo
 router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner
 router.use('/products', Products) // jesner
+router.use('/products/details/images', Images) // jesner
 router.use('/orders', Orders) // jesner
+
+router.use('/users/address', Address) // facundo
 router.use('/category', Category); // facundo
-
-
 
 export default router;

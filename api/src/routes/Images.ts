@@ -1,37 +1,37 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
-import { getCarrousel, createCarrousel, updateCarrousel, deleteCarrousel } from '../controllers/Carrousel';
+import { getImages, createImages, updateImages, deleteImages } from '../controllers/Images';
 const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    var carrousel = await getCarrousel();
-    res.json(carrousel)
+    var images: string = await getImages();
+    res.json(images)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.post('/', async (req: Request, res: Response) => {
   try {
-    var ncarrousel = await createCarrousel(req.body)
-    res.json(ncarrousel)
+    var nImages: string = await createImages(req.body)
+    res.json(nImages)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.put('/', async (req: Request, res: Response) => {
   try {
-    var putcarrousel = await updateCarrousel(req.body)
-    res.json(putcarrousel)
+    var putImages: string = await updateImages(req.body)
+    res.json(putImages)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.delete('/', async (req: Request, res: Response) => {
   try {
-    var delcarrousel = await deleteCarrousel(req.body.id)
-    res.json(delcarrousel)
+    var delImages: string = await deleteImages(req.body.id)
+    res.json(delImages)
   } catch (e: any) {
     res.json({ error: e.message })
   }

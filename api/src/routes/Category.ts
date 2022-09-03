@@ -1,6 +1,6 @@
 'use strict'
 //require
-const { getCategories, postCategory, patchCategory, deleteCategory } = require('../controllers/Categories')
+import { getCategories, postCategory, patchCategory, deleteCategory } from '../controllers/Categories'
 import { Router, Request, Response } from "express"
 // const { getCategories } = Categories
 
@@ -23,7 +23,7 @@ const Category = Router()
 
 Category.get('/', async (_req: Request, res: Response) => {
   try {
-    let categories: string = await getCategories()
+    let categories = await getCategories()
     if (categories) {
       res.json(categories)
     }
