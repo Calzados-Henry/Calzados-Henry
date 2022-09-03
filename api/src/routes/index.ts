@@ -1,11 +1,10 @@
 import { Router, Request, Response } from 'express';
-
-import Category from './routes/Category';
-const Users = require('./routes/Users');
-const Size = require('./routes/Size');
-const Carrousel = require('./routes/Carrousel');
-const Products = require('./routes/Products');
-const Orders = require('./routes/Orders');
+import Category from './Category';
+import Users from './Users';
+import Size from './Size';
+import Carrousel from './Carrousel';
+import Products from './Products';
+import Orders from './Orders';
 
 const router = Router();
 
@@ -21,5 +20,8 @@ router.use('/size', Size) // jesner
 router.use('/carrousel', Carrousel) // jesner
 router.use('/products', Products) // jesner
 router.use('/orders', Orders) // jesner
-router.use('/', Category); // facundo
-module.exports = router;
+router.use('/category', Category); // facundo
+
+
+
+export default router;

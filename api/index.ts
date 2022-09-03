@@ -10,19 +10,27 @@
 //*        .:::::::.      ..###/ #>               '         '
 //*       //////))))----~~ ## #}                '            '
 //*     ///////))))))                          '             '
-//*    ///////)))))))\   Calzados Henry       '              '
+//*    ///////)))))))\      SEHOS STORE       '              '
 //*   //////)))))))))))                      '               '
 //*   |////)))))))))))))____________________________________).
 //*  |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //*  ````````````````````````````'''''''''''''''''''''''''''''
 //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.ts');
-const { conn } = require('./src/db.ts');
+import server from './src/app';
+import { sequelize } from './src/db'
 
-// Syncing all the models at once.
-const PORT =  process.env.PORT || 3001;
-conn.sync({ listen: true }).then(() => {
-  server.listen(PORT, () => {
-    console.log(`Listening on port => ${PORT}`); // eslint-disable-line no-console
-  });
-});
+const PORT = process.env.PORT || 3001;
+
+server.listen(PORT, () => {
+  console.log(`App runing at http://localhost:${PORT}`)
+  sequelize.authenticate().then(async () => {
+    console.log("Database conected")
+    try {
+      await sequelize.sync({ force: true })
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }).catch((e: any) => {
+    console.log(e.message)
+  })
+})

@@ -36,4 +36,4 @@ router.delete('/', async (req: Request, res: Response) => {
     res.json({ error: e.message })
   }
 })
-module.exports = router;
+export default router;

@@ -1,39 +1,40 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
-const { getCarrousel, createCarrousel, updateCarrousel, deleteCarrousel } = require('../controllers/Carrousel');
+import { getOrders, createOrders, updateOrders, deleteOrders } from '../controllers/Orders'
+
 const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    var carrousel: string = await getCarrousel();
-    res.json(carrousel)
+    var orders: string = await getOrders();
+    res.json(orders)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.post('/', async (req: Request, res: Response) => {
   try {
-    var ncarrousel: string = await createCarrousel(req.body)
-    res.json(ncarrousel)
+    var nOrders: string = await createOrders(req.body)
+    res.json(nOrders)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.put('/', async (req: Request, res: Response) => {
   try {
-    var putcarrousel: string = await updateCarrousel(req.body)
-    res.json(putcarrousel)
+    var putOrders: string = await updateOrders(req.body)
+    res.json(putOrders)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
 router.delete('/', async (req: Request, res: Response) => {
   try {
-    var delcarrousel: string = await deleteCarrousel(req.body.id)
-    res.json(delcarrousel)
+    var delOrders: string = await deleteOrders(req.body.id)
+    res.json(delOrders)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
-module.exports = router;
+export default router;
