@@ -1,4 +1,5 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
+import { Orders_detailsI } from "../types";
 // import { Season, Gender } from "./ENUMS"
 
 enum Gender {
@@ -13,7 +14,7 @@ enum Season {
   Fall = 'Fall',
   Spring = 'Spring'
 }
-
+/* 
 export interface Orders_detailsI {
   id_order: number
   id_product: number
@@ -25,7 +26,7 @@ export interface Orders_detailsI {
   quantity: number
   season: Season
   price: number
-}
+} */
 
 @Table(
   {
