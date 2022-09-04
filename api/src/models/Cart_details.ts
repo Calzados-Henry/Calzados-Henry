@@ -1,8 +1,8 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
 
 export interface Cart_detailsI {
-  id_user?: number
-  id_product_details?: number
+  id_user: number
+  id_product_details: number
   quantity: number
 }
 
@@ -23,7 +23,7 @@ export default class Cart_details extends Model implements Cart_detailsI {
       key: 'id'
     }
   })
-  id_user?: number;
+  id_user!: number;
 
   @Column({
     type: DataType.INTEGER,
@@ -33,7 +33,7 @@ export default class Cart_details extends Model implements Cart_detailsI {
       key: 'id'
     }
   })
-  id_product_details?: number;
+  id_product_details!: number;
 
   @Column({
     type: DataType.INTEGER,
