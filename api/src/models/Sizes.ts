@@ -8,13 +8,13 @@ export interface SizeI {
 
 @Table(
   {
-    tableName: "size",
+    tableName: "sizes",
     timestamps: false,
     freezeTableName: true
   }
 )
 
-export default class Size extends Model implements SizeI {
+export default class Sizes extends Model implements SizeI {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,

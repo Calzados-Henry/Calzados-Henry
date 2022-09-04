@@ -1,11 +1,11 @@
 'use strict'
 // se requiere el models
-import { Products, Category } from '../db';
+import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
 
 
 export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
-  var products = await Products.findAll({ include: Category })
+  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, include: [Color, Images, Sizes] }] })
   return products.length > 0 ? products : { message: "No hay productos para mostrar" };
 }
 
