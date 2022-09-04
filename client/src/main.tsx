@@ -7,12 +7,15 @@ import theme from './Theme/Theme';
 import App from './app/App';
 import './index.css';
 import { store } from './store';
+import { productsApiSlice } from './features/product/productApiSlice';
+
+store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-       <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <App />
         </ThemeProvider>
       </Provider>

@@ -7,12 +7,13 @@ export interface Rating {
 }
 export interface ProductI {
   id: number;
-  title: string;
+  name: string;
   price: number;
   description: string;
   category: string;
   image: string;
   rating: Rating;
+  sold: number;
 }
 
 // DTO Data Transfer Object : interfaces creadas a partir de una intefaz para manejo de datos

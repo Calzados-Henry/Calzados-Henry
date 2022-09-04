@@ -3,16 +3,14 @@ import { ProductI } from './product.model';
 import { createSelector, createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-const productAdapter = createEntityAdapter<ProductI>({
-  selectId: product => product.id,
-});
+const productAdapter = createEntityAdapter<ProductI>({});
 const initialState = productAdapter.getInitialState();
 export const pokemonSelector = productAdapter.getSelectors();
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<ProductI[], void>({
-      query: () => '/products',
+      query: () => '/prueba',
       transformResponse: (response: ProductI[]) => {
         productAdapter.setAll(initialState, response);
         return response;
