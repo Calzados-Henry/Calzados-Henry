@@ -1,7 +1,10 @@
 'use strict'
 //require
-import { postAddress, getAddress, patchAddress, deleteAddress } from '../controllers/Address';
-import { Router, Request, Response } from "express";
+import express from 'express'
+import * as addressServices from '../controllers/Address';
+import e, { Router, Request, Response } from "express";
+
+import { AddressI } from '../types';
 // const { getCategories } = Categories
 
 //Breve Documentacion:
@@ -24,8 +27,38 @@ import { Router, Request, Response } from "express";
 //     category:'zapatos'
 // }
 
+const router = express.Router()
 
-const Address = Router()
+router.get('/:id', async (req, res) => {
+  try {
+    const id = +req.params.id
+    const address = await addressServices.findById(id)
+    /* const address: AddressI = await addressServices.getAddress(req.params.id) as AddressI */
+    if (address) {
+      res.json(address)
+    }
+  } catch (error: unknown) {
+    if (error instanceof SyntaxError) {
+      res.status(400).json({ error: error.message })
+    }
+
+  }
+})
+
+router.post('/', async (req, res) => {
+  try {
+    const newAddress = addressServices.toNewAddress(req.body)
+    const postedAddress = await addressServices.postAddress(newAddress)
+    if (postedAddress)
+      res.json(postedAddress)
+    
+  } catch (error: unknown) {
+    if (error instanceof SyntaxError) {
+      res.status(400).json({ error: error.message })
+    }
+  }
+})
+/* const Address = Router()
 
 Address.get('/:id', async (req: Request, res: Response) => {
   try {
@@ -68,6 +101,6 @@ Address.delete('/', async (req: Request, res: Response) => {
   } catch (e: any) {
     res.status(400).json({ error: e.message })
   }
-})
+}) */
 
 export default Address

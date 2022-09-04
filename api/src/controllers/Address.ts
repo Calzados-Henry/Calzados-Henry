@@ -1,5 +1,6 @@
 
 import { Address, Users } from '../db'
+import { NewAddresEntry } from '../types'
 
 //PATCH/address: enviar un objeto que contenga todos los datos de la direccion a editar
 //junto con una propiedad llamada update: "la direccion". Ej: //! consultar si es conveniente pedir solo la direccion o un objeto con la direccion y el zip_code 
@@ -18,6 +19,15 @@ export const getAddress = async (id: string): Promise<object> => {
         return (userAddresses.addresses)
     }
 }
+
+export const toNewAddress = (object:any): NewAddresEntry => {
+    const newEntry: NewAddresEntry = {
+        address: parseAddress(object.address),
+        zip_code: parseZip_Code(object.zip_code),
+    }
+}
+
+
 
 export const postAddress = async (id: string, body: any): Promise<object> => {
     const { address, zip_code }: any = body

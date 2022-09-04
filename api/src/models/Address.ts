@@ -1,12 +1,12 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript";
-
-export interface AddressI {
+import { AddressI } from '../types';
+/* export interface AddressI {
   id?: number
   id_user?: number
   address: string
   zip_code: number
   isActive: boolean
-}
+} */
 
 @Table(
   {
