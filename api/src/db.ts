@@ -30,6 +30,9 @@ Product_details.belongsTo(Color, { foreignKey: 'id_color' })
 Products.hasMany(Product_details, { foreignKey: 'id_product' })
 Product_details.belongsTo(Products, { foreignKey: 'id_product' })
 
+Orders.hasMany(Orders_details,{foreignKey:'id_order'})
+Orders_details.belongsTo(Orders,{foreignKey:'id_order'})
+
 // Sizes.hasMany(Product_details, { foreignKey: 'id_sizes' })
 // Product_details.belongsTo(Sizes, { foreignKey: 'id_sizes' })
 
@@ -55,10 +58,10 @@ Product_details.belongsToMany(Users, { foreignKey: 'id_product_details', through
 Users.belongsToMany(Product_details, { foreignKey: 'id_user', through: Cart_details })
 
 
-
 // const model: any = Users
 // for (let assoc of Object.keys(model.associations)) {
 //   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
 //     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
 //   }
 // }
+
