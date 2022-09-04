@@ -51,18 +51,17 @@ Images.belongsToMany(Product_details, { foreignKey: 'id_image', through: "produc
 Product_details.belongsToMany(Sizes, { foreignKey: 'id_product_details', through: Product_details_size })
 Sizes.belongsToMany(Product_details, { foreignKey: 'id_sizes', through: Product_details_size })
 
-Product_details.belongsToMany(Users, { foreignKey: 'id_product_details', through: 'favourite' })
-Users.belongsToMany(Product_details, { foreignKey: 'id_user', through: 'favourite' })
+Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_details', through: 'favourite' })
+Users.belongsToMany(Product_details, { as: 'favs', foreignKey: 'id_user', through: 'favourite' })
 
 Product_details.belongsToMany(Users, { foreignKey: 'id_product_details', through: Cart_details })
 Users.belongsToMany(Product_details, { foreignKey: 'id_user', through: Cart_details })
 
 
-/* const model:any = Orders
-    for (let assoc of Object.keys(model.associations)) {
-      for (let accessor of Object.keys(model.associations[assoc].accessors)) {
-        console.log(model.name + '.' + model.associations[assoc].accessors[accessor]+'()');
-      }
-    } */
+// const model: any = Users
+// for (let assoc of Object.keys(model.associations)) {
+//   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
+//     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
+//   }
+// }
 
-    
