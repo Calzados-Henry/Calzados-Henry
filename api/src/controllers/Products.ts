@@ -12,7 +12,9 @@ export const getProducts = async (): Promise<any> => {
 export const createProducts = async (value: any): Promise<any> => {
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value)
-  await createP_Details({ ...value.details, id_product: nProduct.id })
+  if (value.details) {
+    await createP_Details({ ...value.details, id_product: nProduct.id })
+  }
   // si todo esta correcto crea una nueva talla.
   return nProduct
 }
