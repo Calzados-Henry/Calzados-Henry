@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
-import { getUsers, createUsers, updateUser, deleteUser } from '../controllers/Users';
+import { getUsers, createUsers, updateUser, deleteUser, addFavs, getFavs } from '../controllers/Users';
 const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
@@ -32,6 +32,30 @@ router.delete('/', async (req: Request, res: Response) => {
   try {
     var delUser = await deleteUser(req.body.id)
     res.json(delUser)
+  } catch (e: any) {
+    res.json({ error: e.message })
+  }
+})
+
+
+
+//!=========================================================================
+//* FAVORITES
+
+
+
+router.get('/favs/:id', async (req: Request, res: Response) => {
+  try {
+    var nUser = await getFavs(req.params.id)
+    res.json(nUser)
+  } catch (e: any) {
+    res.json({ error: e.message })
+  }
+})
+router.post('/favs', async (req: Request, res: Response) => {
+  try {
+    var nUser = await addFavs(req.body)
+    res.json(nUser)
   } catch (e: any) {
     res.json({ error: e.message })
   }
