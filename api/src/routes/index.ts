@@ -10,6 +10,7 @@ import Images from './Images';
 import Prueba from './Prueba';
 import Color from './Color';
 import Product_details from './Product_details';
+import Orders_Details from './Orders_details'
 
 
 const router = Router();
@@ -30,5 +31,7 @@ router.use('/orders', Orders) // jesner
 
 router.use('/users/address', Address) // facundo
 router.use('/category', Category); // facundo
+
+router.use('/orders/details', Orders_Details)
 
 export default router;
