@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
-
+import { createP_Details } from './Product_details';
 
 export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
@@ -11,9 +11,10 @@ export const getProducts = async (): Promise<any> => {
 
 export const createProducts = async (value: any): Promise<any> => {
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-
+  const nProduct: any = await Products.create(value)
+  await createP_Details({ ...value.details, id_product: nProduct.id })
   // si todo esta correcto crea una nueva talla.
-  return await Products.create(value)
+  return nProduct
 }
 
 export const updateProducts = async (value: any): Promise<any> => {
