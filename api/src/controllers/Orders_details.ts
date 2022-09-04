@@ -47,7 +47,7 @@ export const updateOrder_Detail = async (object: any): Promise<Orders_detailsI> 
   }
   throw new Error(`No se encontro el order_detail con el ID:${object.id}.`)
 }
-// El order_Detail nunca se eliminar de la base de datos.
+// El order_Detail nunca se eliminar de la base de datos
 
 /* export const deleteOrder_Detail =  async (id: number): Promise<Orders_detailsI> => {
   const order_Detail: any = await Orders_details.findByPk(id)
