@@ -30,10 +30,10 @@ export default function PromotionalList() {
         Popular now
       </Typography>
       <Grid container spacing={2} mb={2}>
-        {data?.slice(0, 3).map(shoe => {
+        {data?.filter(shoe => shoe.price >= 2120).map(shoe => {
           return (
             <Grid key={shoe.id} item xs={4}>
-              <Card id={shoe.id} title={shoe.title} image={shoe.image} price={shoe.price}></Card>
+              <Card id={shoe.id} name={shoe.name} images={shoe.images} price={shoe.price}></Card>
             </Grid>
           );
         })}

@@ -19,7 +19,7 @@ var configSequelize = {
 
 export const sequelize = new Sequelize(DATABASE, configSequelize)
 
-export const { Product_details_size, Color, Carrousel, Sizes, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category } = sequelize.models
+export const { Product_details_size, Color, Carrousel, Sizes, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category, Orders_details } = sequelize.models
 
 Users.hasMany(Address, { foreignKey: 'id_user' })
 Address.belongsTo(Users, { foreignKey: 'id_user' })//!
@@ -29,6 +29,9 @@ Product_details.belongsTo(Color, { foreignKey: 'id_color' })
 
 Products.hasMany(Product_details, { foreignKey: 'id_product' })
 Product_details.belongsTo(Products, { foreignKey: 'id_product' })
+
+Orders.hasMany(Orders_details,{foreignKey:'id_order'})
+Orders_details.belongsTo(Orders,{foreignKey:'id_order'})
 
 // Sizes.hasMany(Product_details, { foreignKey: 'id_sizes' })
 // Product_details.belongsTo(Sizes, { foreignKey: 'id_sizes' })
@@ -48,8 +51,17 @@ Images.belongsToMany(Product_details, { foreignKey: 'id_image', through: "produc
 Product_details.belongsToMany(Sizes, { foreignKey: 'id_product_details', through: Product_details_size })
 Sizes.belongsToMany(Product_details, { foreignKey: 'id_sizes', through: Product_details_size })
 
-Users.belongsToMany(Product_details, { as: 'Favourite', foreignKey: 'id_user', through: 'favourite' })
-Product_details.belongsToMany(Users, { as: 'Favourite', foreignKey: 'id_product_details', through: 'favourite' })
+Users.belongsToMany(Product_details, { as: 'favs', foreignKey: 'id_user', through: 'favourite' })
+Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_details', through: 'favourite' })
 
 Users.belongsToMany(Product_details, { as: 'Cart', foreignKey: 'id_user', through: Cart_details, })
 Product_details.belongsToMany(Users, { as: 'Cart', foreignKey: 'id_product_details', through: Cart_details })
+
+// const model: any = Users
+// for (let assoc of Object.keys(model.associations)) {
+//   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
+//     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
+//   }
+// }
+
+

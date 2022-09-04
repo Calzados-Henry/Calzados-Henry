@@ -1,7 +1,9 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
-import { getUsers, createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getOneUsers } from '../controllers/Users';
+
+import { getUsers, createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getOneUsers, addFavs, getFavs } from '../controllers/Users';
+
 const router = Router();
 
 //* README *
@@ -73,6 +75,7 @@ router.delete('/', async (req: Request, res: Response) => {
   }
 })
 
+
 //!====================================================
 //!===================CART_DETAILS=====================
 //!====================================================
@@ -110,6 +113,25 @@ router.delete('/cart', async (req: Request, res: Response) => {
   }
 })
 
+//!=========================================================================
+//* FAVORITES
 
+router.get('/favs/:id', async (req: Request, res: Response) => {
+  try {
+    var nUser = await getFavs(req.params.id)
+    res.json(nUser)
+  } catch (e: any) {
+    res.json({ error: e.message })
+  }
+})
+
+router.post('/favs', async (req: Request, res: Response) => {
+  try {
+    var nUser = await addFavs(req.body)
+    res.json(nUser)
+  } catch (e: any) {
+    res.json({ error: e.message })
+  }
+})
 
 export default router;

@@ -1,17 +1,45 @@
 'use strict'
 // se requiere el models
-import { Orders, Users } from '../db';
+import { Orders, Orders_details, Users } from '../db';
 
 
 export const getOrders = async (): Promise<any> => {
   // Se trae todas las ordenes registradas incluyendo el usuario
-  var orders = await Orders.findAll({ include: Users })
+  /* var orders = await Orders.findAll(
+    {
+      include: Users
+    })
+ */
+
+  var orders = await Orders.findAll(
+    {
+      include: [
+        {
+          model: Users
+        },
+        {
+          model: Orders_details
+        }
+      ]
+    })
+
   return orders.length > 0 ? orders : { message: "No hay ordenes para mostrar" };
 }
 
 export const createOrders = async (value: any): Promise<any> => {
   // si todo esta correcto crea una orden de compra
-  return await Orders.create(value)
+
+  const { orders_details, ...restOfOrder } = value
+  const createdOrder: any = await Orders.create(restOfOrder)
+  for (const order_detail of orders_details) {
+    await createdOrder.createOrders_detail(order_detail)
+  }
+
+  return await Orders.findByPk(createdOrder.id, {
+    include: {
+      model: Orders_details
+    }
+  })
 }
 
 export const updateOrders = async (value: any): Promise<any> => {
