@@ -19,10 +19,19 @@ var configSequelize = {
 
 export const sequelize = new Sequelize(DATABASE, configSequelize)
 
-export const { Color, Carrousel, Size, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category } = sequelize.models
+export const { Product_details_size, Color, Carrousel, Sizes, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category } = sequelize.models
 
 Users.hasMany(Address, { foreignKey: 'id_user' })
 Address.belongsTo(Users, { foreignKey: 'id_user' })//!
+
+Color.hasMany(Product_details, { foreignKey: 'id_color' })
+Product_details.belongsTo(Color, { foreignKey: 'id_color' })
+
+Products.hasMany(Product_details, { foreignKey: 'id_product' })
+Product_details.belongsTo(Products, { foreignKey: 'id_product' })
+
+// Sizes.hasMany(Product_details, { foreignKey: 'id_sizes' })
+// Product_details.belongsTo(Sizes, { foreignKey: 'id_sizes' })
 
 Orders.belongsTo(Users, { foreignKey: 'id_user' })
 Users.hasMany(Orders, { foreignKey: 'id_user' })
@@ -35,6 +44,9 @@ Users.belongsToMany(Products, { foreignKey: 'id_user', through: Reviews })
 
 Product_details.belongsToMany(Images, { foreignKey: 'id_product_details', through: "product_details_image" })
 Images.belongsToMany(Product_details, { foreignKey: 'id_image', through: "product_details_image" })
+
+Product_details.belongsToMany(Sizes, { foreignKey: 'id_product_details', through: Product_details_size })
+Sizes.belongsToMany(Product_details, { foreignKey: 'id_sizes', through: Product_details_size })
 
 Product_details.belongsToMany(Users, { foreignKey: 'id_product_details', through: 'favourite' })
 Users.belongsToMany(Product_details, { foreignKey: 'id_user', through: 'favourite' })

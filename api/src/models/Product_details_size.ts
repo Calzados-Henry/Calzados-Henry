@@ -1,73 +1,45 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
 
-export interface Product_detailsI {
-  id: number
-  id_product: number
-  // id_sizes?: number
-  id_color: number
-  // stock: number
-  isActive: boolean
+export interface Product_details_sizeI {
+  id_product_details: number
+  id_sizes: number
+  stock: number
 }
 
 @Table(
   {
-    tableName: "product_details",
+    tableName: "product_details_size",
     timestamps: false,
     freezeTableName: true
   }
 )
 
-export default class Product_details extends Model implements Product_detailsI {
+export default class Product_details_size extends Model implements Product_details_sizeI {
   @Column({
     type: DataType.INTEGER,
-    autoIncrement: true,
     allowNull: false,
-    primaryKey: true
+    references: {
+      model: 'product_details',
+      key: 'id'
+    }
   })
-  id!: number;
+  id_product_details!: number
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
     references: {
-      model: 'products',
+      model: 'sizes',
       key: 'id'
     }
   })
-  id_product!: number;
-
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   allowNull: false,
-  //   references: {
-  //     model: 'sizes',
-  //     key: 'id'
-  //   }
-  // })
-  // id_sizes!: number;
+  id_sizes!: number;
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'color',
-      key: 'id'
-    }
+    allowNull: true
   })
-  id_color!: number
-
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   allowNull: false
-  // })
-  // stock!: number
-
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-    defaultValue: true
-  })
-  isActive!: boolean
+  stock!: number;
 }
 // import { DataTypes } from 'sequelize';
 // // Exportamos una funcion que define el modelo
