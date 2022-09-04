@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import s from './Card.module.css';
-import { ProductPartial } from './product.model';
+import { ProductPartial } from '../../sehostypes/Product';
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
@@ -47,7 +47,7 @@ const Shoe: React.FC<ProductPartial> = props => {
         <Link to={`/products/${props.id}`}>
           {props.name !== undefined && (
             <Tooltip
-              title={props.name}
+              title={props?.name}
               TransitionComponent={Zoom}
               placement='top'
               sx={{ x: 1 }}
