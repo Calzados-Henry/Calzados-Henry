@@ -2,7 +2,7 @@
 // se requiere el models
 import { Router, Request, Response } from 'express';
 
-import { getUsers, createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getOneUsers, addFavs, getFavs } from '../controllers/Users';
+import { getUsers, createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesOneUsers, addFavs, getFavs } from '../controllers/Users';
 
 const router = Router();
 
@@ -44,7 +44,7 @@ router.get('/', async (_req: Request, res: Response) => {
 })
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    var users = await getOneUsers(req.params.id);
+    var users = await getAllValuesOneUsers(req.params.id);
     res.json(users)
   } catch (e: any) {
     res.json({ error: e.message })
