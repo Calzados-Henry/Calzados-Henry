@@ -83,7 +83,7 @@ export default function SideBarComponent() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      dispatch(filtProductsByPrice(amount));
+      dispatch(filtProductsByPrice(values));
     },
   });
 
@@ -403,29 +403,29 @@ export default function SideBarComponent() {
                 aria-labelledby='composition-button'
                 onKeyDown={handleListKeyDown}>
                 <MenuItem
-                  onClick={e => {
-                    dispatch(filtProductsByCategory(e, 'Botas'));
+                  onClick={() => {
+                    dispatch(filtProductsByCategory('Botas'));
                   }}>
                   Botas
                 </MenuItem>
 
                 <MenuItem
-                  onClick={e => {
-                    dispatch(filtProductsByCategory(e, 'Mocasines'));
+                  onClick={() => {
+                    dispatch(filtProductsByCategory('Mocasines'));
                   }}>
                   Mocasines
                 </MenuItem>
 
                 <MenuItem
-                  onClick={e => {
-                    dispatch(filtProductsByCategory(e, 'Tenis'));
+                  onClick={() => {
+                    dispatch(filtProductsByCategory('Tenis'));
                   }}>
                   Tenis
                 </MenuItem>
 
                 <MenuItem
-                  onClick={e => {
-                    dispatch(filtProductsByCategory(e, 'Sandalias'));
+                  onClick={() => {
+                    dispatch(filtProductsByCategory('Sandalias'));
                   }}>
                   Sandalias
                 </MenuItem>

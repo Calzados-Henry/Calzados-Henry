@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ProductPartial, ProductI, Pricing } from '../../sehostypes/Product';
 
-
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
   allProducts: [],
@@ -18,16 +17,24 @@ export const productsSlice = createSlice({
     },
     filtProductsByPrice: (state, action: PayloadAction<Pricing>) => {
       let filtro = [];
-      filtro = state.allProducts.filter((item:ProductPartial) => ((item.price !==  undefined) && ((item.price >= action.payload.base) && (item.price <= action.payload.top)))) 
-      state.allProducts = filtro
-
+      filtro = state.allProducts.filter(
+        (item: ProductPartial) =>
+          item.price !== undefined &&
+          item.price >= action.payload.base &&
+          item.price <= action.payload.top,
+      );
+      state.allProducts = filtro;
     },
-    filtProductsByCategory:(state, action: PayloadAction<string>) => {
+    filtProductsByCategory: (state, action: PayloadAction<string>) => {
       let filtCategory = [];
-      
-      filtCategory = state.allProducts.filter((item: ProductPartial) => (item.category !== undefined) &&( item.category.id !== undefined && ( item.category.category === action.payload)))
-      state.allProducts = filtCategory
-      
+
+      filtCategory = state.allProducts.filter(
+        (item: ProductPartial) =>
+          item.category !== undefined &&
+          item.category.id !== undefined &&
+          item.category.category === action.payload,
+      );
+      state.allProducts = filtCategory;
     },
     sortProducts: (state, action: PayloadAction<string>) => {
       const orderProducts = state.allProducts;
@@ -76,7 +83,8 @@ export const productsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setProducts, sortProducts } = productsSlice.actions;
+export const { setProducts, sortProducts, filtProductsByPrice, filtProductsByCategory } =
+  productsSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default productsSlice.reducer;
