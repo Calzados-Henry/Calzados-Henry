@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -19,9 +22,28 @@ import FormGroup from '@mui/material/FormGroup';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
+import ListIcon from '@mui/icons-material/List';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Stack from '@mui/material/Stack';
+import { useDispatch } from 'react-redux';
+import {
+  sortProducts,
+  filtProductsByCategory,
+  filtProductsByPrice,
+} from '../../features/product/productSlice';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Drawer, Button, useTheme, Box, TextField } from '@mui/material';
+
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const talles: number[] = [32, 34, 36, 44, 48, 50];
 
@@ -30,9 +52,20 @@ interface State {
   finalValue: number;
 }
 
+const validations = yup.object({
+  base: yup
+    .number()
+    .min(0, 'No se pueden ingresar valores negativos')
+    .required('El valor debe ser mayor a 0'),
+  top: yup.number().required('Debe tener un valor máximo de busqueda'),
+});
+
 export default function SideBarComponent() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [openMenuPrices, setOpenMenuPrices] = useState(false);
   const [openMenuFilter, setOpenMenuFilter] = useState(false);
@@ -41,6 +74,17 @@ export default function SideBarComponent() {
   const [amount, setAmount] = useState<State>({
     initialValue: 0,
     finalValue: 0,
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      base: 0,
+      top: 0,
+    },
+    validationSchema: validations,
+    onSubmit: values => {
+      dispatch(filtProductsByPrice(amount));
+    },
   });
 
   const [talla, setTalla] = useState<number>();
@@ -73,7 +117,7 @@ export default function SideBarComponent() {
     setOpenMenuFilter(false);
     setOpenMenuRating(false);
 
-    setTimeout(() => setOpen(false) , 1100)
+    setTimeout(() => setOpen(false), 1100);
   };
 
   const handleChangeAmount =
@@ -92,6 +136,38 @@ export default function SideBarComponent() {
     setOpenMenuRating(!openMenuRating);
   };
 
+  //PRUEBA DE FUNCIONALIDAD
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
+
+  // const handleToggle = () => {
+  //   setOpen(prevOpen => !prevOpen);
+  // };
+
+  const handleClose = (event: Event | React.SyntheticEvent) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+      return;
+    }
+    // setOpen(false);
+  };
+
+  const sort = (event: Event | React.SyntheticEvent, sortType: string) => {
+    dispatch(sortProducts(sortType));
+    handleClose(event);
+
+    setTimeout(() => {
+      setOpen(false);
+      navigate('/products');
+    }, 500);
+  };
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  }
   return (
     <IconButton size='large' edge='start' color='inherit' aria-label='open drawer' sx={{ mr: 2 }}>
       <MenuIcon onClick={() => setOpen(true)} />
@@ -102,7 +178,7 @@ export default function SideBarComponent() {
         onClose={() => setOpen(false)}
         sx={{ minWidth: 300 }}>
         <Box textAlign='center' width='300px'>
-          <List
+          {/* <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
             component='nav'
             aria-labelledby='nested-list-subheader'
@@ -221,11 +297,141 @@ export default function SideBarComponent() {
                 </Box>
               </ListItemButton>
             </List>
+          </Collapse> */}
+
+          <Paper>
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
+                autoFocusItem={open}
+                id='composition-menu'
+                aria-labelledby='composition-button'
+                onKeyDown={handleListKeyDown}>
+                <MenuItem
+                  onClick={e => {
+                    sort(e, 'lowerPrice');
+                  }}>
+                  Lower Price
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    sort(e, 'higherPrice');
+                  }}>
+                  Higher Price
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    sort(e, 'nameAZ');
+                  }}>
+                  By name AZ
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    sort(e, 'nameZA');
+                  }}>
+                  By name ZA
+                </MenuItem>
+                <MenuItem
+                  onClick={e => {
+                    sort(e, 'bestSellers');
+                  }}>
+                  Best sellers
+                </MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+
+          {/* <Button variant='contained' onClick={applyFilters} sx={{ mt: 2 }}>
+            Aplicar Filtros
+          </Button> */}
+          <ListItemButton onClick={handleClickPrices} autoFocus={false}>
+            <ListItemIcon>
+              <PriceChangeIcon />
+            </ListItemIcon>
+            <ListItemText primary='Filtrar por precio' />
+            {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+
+          <Collapse in={openMenuPrices} timeout='auto' unmountOnExit>
+            <List component='div' disablePadding>
+              <Box
+                component='form'
+                noValidate
+                onSubmit={formik.handleSubmit}
+                sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 3, mr: 1, ml: 1 }}>
+                <TextField
+                  autoComplete='given-name'
+                  name='base'
+                  required
+                  fullWidth
+                  id='base'
+                  label='Initial Value'
+                  autoFocus
+                  value={formik.values.base}
+                  onChange={formik.handleChange}
+                  error={formik.touched.base && Boolean(formik.errors.base)}
+                  helperText={formik.touched.base && formik.errors.base}
+                />
+
+                <TextField
+                  required
+                  fullWidth
+                  id='top'
+                  label='Final Value'
+                  name='top'
+                  autoComplete='family-name'
+                  value={formik.values.top}
+                  onChange={formik.handleChange}
+                  error={formik.touched.top && Boolean(formik.errors.top)}
+                  helperText={formik.touched.top && formik.errors.top}
+                />
+
+                <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+                  Submit
+                </Button>
+              </Box>
+            </List>
           </Collapse>
 
-          <Button variant='contained' onClick={applyFilters} sx={{ mt: 2 }}>
-            Aplicar Filtros
-          </Button>
+          <Paper>
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
+                autoFocusItem={open}
+                id='composition-menu'
+                aria-labelledby='composition-button'
+                onKeyDown={handleListKeyDown}>
+                <MenuItem
+                  onClick={e => {
+                    dispatch(filtProductsByCategory(e, 'Botas'));
+                  }}>
+                  Botas
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    dispatch(filtProductsByCategory(e, 'Mocasines'));
+                  }}>
+                  Mocasines
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    dispatch(filtProductsByCategory(e, 'Tenis'));
+                  }}>
+                  Tenis
+                </MenuItem>
+
+                <MenuItem
+                  onClick={e => {
+                    dispatch(filtProductsByCategory(e, 'Sandalias'));
+                  }}>
+                  Sandalias
+                </MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
         </Box>
       </Drawer>
     </IconButton>
