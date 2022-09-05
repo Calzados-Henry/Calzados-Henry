@@ -1,25 +1,35 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '../Card/Card';
 import { useGetProductsQuery } from '../../features/product/productApiSlice';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  padding: theme.spacing(1),
-  height: 300,
-  // ...theme.typography.body2,
-  // padding: theme.spacing(1),
-  // textAlign: 'center',
-  // color: theme.palette.text.secondary,
-}));
-
 export default function PromotionalList() {
   const { data, error, isLoading, isSuccess } = useGetProductsQuery();
 
+  let content;
+  if (isLoading) content = <h1>Loading...</h1>;
+  if (data)
+    content = (
+      <Grid container spacing={2} mb={2}>
+        {data
+          ?.filter(shoe => shoe.price >= 2120)
+          .map(shoe => {
+            return (
+              <Grid key={shoe.id} item xs={4}>
+                {shoe.name !== undefined && (
+                  <Card
+                    id={shoe.id}
+                    name={shoe.name}
+                    images={shoe.images}
+                    price={shoe.price}></Card>
+                )}
+              </Grid>
+            );
+          })}
+      </Grid>
+    );
   return (
     <Box mt={3} sx={{ flexGrow: 1 }}>
       <Typography
@@ -29,15 +39,7 @@ export default function PromotionalList() {
         sx={{ borderBottom: '2px dotted gray' }}>
         Popular now
       </Typography>
-      <Grid container spacing={2} mb={2}>
-        {data?.filter(shoe => shoe.price >= 2120).map(shoe => {
-          return (
-            <Grid key={shoe.id} item xs={4}>
-              <Card id={shoe.id} name={shoe.name} images={shoe.images} price={shoe.price}></Card>
-            </Grid>
-          );
-        })}
-      </Grid>
+      {content}
     </Box>
   );
 }

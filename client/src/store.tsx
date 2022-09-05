@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counter from './features/counter/counterSlice';
+import products from './features/product/productSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { apiSlice } from './features/api/apiSlice';
 // importamos el export default que viene del slice
@@ -7,7 +7,7 @@ import { apiSlice } from './features/api/apiSlice';
 // Usamos la funcion configureStore y le pasamos un objeto que contiene el reducer/slice.reducer
 export const store = configureStore({
   reducer: {
-    counter,
+    products,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),

@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import s from './Card.module.css'
+import s from './Card.module.css';
 import { ProductPartial } from './product.model';
-import  React  from 'react';
+import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
@@ -23,42 +23,63 @@ import Zoom from '@mui/material/Zoom';
     }
   } */
 
-
-const Shoe: React.FC<ProductPartial> =(props) => {
+const Shoe: React.FC<ProductPartial> = props => {
   let titulo;
-  props.name !== undefined && ((props.name.length >= 35 )? titulo = (props.name.slice(0,(30-props.name.length)) + '...' ): titulo = props.name)
+  props.name !== undefined &&
+    (props.name.length >= 35
+      ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
+      : (titulo = props.name));
   return (
     <>
-    <Card sx={{  maxWidth: 345}} className={s.card} style={{height: "55vh",width: '40vw',display: 'flex',flexDirection: "column", borderStyle: 'solid', borderColor: 'transparent', marginLeft: '20px', marginTop: '20px'}} >
+      <Card
+        sx={{ maxWidth: 345 }}
+        className={s.card}
+        style={{
+          height: '55vh',
+          width: '40vw',
+          display: 'flex',
+          flexDirection: 'column',
+          borderStyle: 'solid',
+          borderColor: 'transparent',
+          marginLeft: '20px',
+          marginTop: '20px',
+        }}>
         <Link to={`/products/${props.id}`}>
-         { props.name !== undefined && (<Tooltip title={props.name} TransitionComponent={Zoom} placement="top" sx={{x:1}} arrow>
-          <CardHeader
-            color='inherit'
-            titleTypographyProps={{ fontSize: 18 }}
-            title={titulo}
-            subheader='Que Copado es este producto!'
-            sx={{ cursor: 'pointer' }}
-          />
-          </Tooltip>)}
+          {props.name !== undefined && (
+            <Tooltip
+              title={props.name}
+              TransitionComponent={Zoom}
+              placement='top'
+              sx={{ x: 1 }}
+              arrow>
+              <CardHeader
+                color='inherit'
+                titleTypographyProps={{ fontSize: 18 }}
+                title={titulo}
+                subheader='Que Copado es este producto!'
+                sx={{ cursor: 'pointer' }}
+              />
+            </Tooltip>
+          )}
         </Link>
-      
-      {/* <Typography variant="body1" color="text.primary">
+
+        {/* <Typography variant="body1" color="text.primary">
           {titulo}
         </Typography> */}
-      {props.images !== undefined && (<img src={props.images[0].image} className={s.image}/>)}
-      {/* <CardMedia color='inherit'
+        {props.images !== undefined && <img src={props.images[0].image} className={s.image} />}
+        {/* <CardMedia color='inherit'
         component="img"
         height="180"
         image= {props.image}
 
         alt="Que zapato!"
       /> */}
-      <CardContent color='inherit'>
-        <Typography variant="body2" color="text.secondary">
-          {`$ ${props.price}`}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
+        <CardContent color='inherit'>
+          <Typography variant='body2' color='text.secondary'>
+            {`$ ${props.price}`}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
           <IconButton color='inherit' aria-label='add to favorites'>
             <FavoriteIcon />
           </IconButton>
@@ -68,13 +89,13 @@ const Shoe: React.FC<ProductPartial> =(props) => {
           <IconButton color='inherit' aria-label='add to cart'>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
     </>
   );
-}
+};
 
-export default Shoe
+export default Shoe;
 
 /* 
 import * as React from 'react';
