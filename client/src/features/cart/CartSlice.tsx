@@ -22,7 +22,9 @@ export const cartSlice = createSlice({
   // estado inmutable basado en esos cambios
   reducers: {
     addToCart: (state, action) => {
-      state.products.push(action.payload);
+      if(!state.products.some(product => product.id === action.payload.id)) {
+        state.products.push(action.payload);
+      }
     },
   },
 });
