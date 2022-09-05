@@ -85,6 +85,8 @@ export default function SideBarComponent() {
     validationSchema: validations,
     onSubmit: values => {
       dispatch(filtProductsByPrice(values));
+      navigate('/products');
+      setOpen(false);
     },
   });
 
@@ -406,6 +408,8 @@ export default function SideBarComponent() {
                 <MenuItem
                   onClick={() => {
                     dispatch(filtProductsByCategory('Botas'));
+                    navigate('/products');
+                    setOpen(false);
                   }}>
                   Botas
                 </MenuItem>
@@ -413,6 +417,8 @@ export default function SideBarComponent() {
                 <MenuItem
                   onClick={() => {
                     dispatch(filtProductsByCategory('Mocasines'));
+                    navigate('/products');
+                    setOpen(false);
                   }}>
                   Mocasines
                 </MenuItem>
@@ -420,6 +426,8 @@ export default function SideBarComponent() {
                 <MenuItem
                   onClick={() => {
                     dispatch(filtProductsByCategory('Tenis'));
+                    navigate('/products');
+                    setOpen(false);
                   }}>
                   Tenis
                 </MenuItem>
@@ -427,6 +435,8 @@ export default function SideBarComponent() {
                 <MenuItem
                   onClick={() => {
                     dispatch(filtProductsByCategory('Sandalias'));
+                    navigate('/products');
+                    setOpen(false);
                   }}>
                   Sandalias
                 </MenuItem>

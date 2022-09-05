@@ -9,6 +9,7 @@ import Error404 from '../components/Error404/Error404';
 import LandingPage from '../pages/LandingPage';
 import ContactForm from '../pages/ContactForm/ContactForm';
 import CartStore from '../features/cart/CartStore';
+import Login from '../components/Login/Login';
 
 function App() {
   const test = <CartStore></CartStore>;
@@ -25,6 +26,7 @@ function App() {
           <Route path='/user' element={<></>}></Route>
           <Route path='/contact' element={<ContactForm />}></Route>
           <Route path='/test' element={test}></Route>
+          <Route path='/login' element={<Login />}></Route>
           <Route path='*' element={<Error404></Error404>}></Route>
         </Routes>
       </Container>
