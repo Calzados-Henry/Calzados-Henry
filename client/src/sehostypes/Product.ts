@@ -5,13 +5,17 @@ export interface Rating {
   rate: number;
   count: number;
 }
+export interface Images {
+  id: string | number;
+  image: string;
+}
 export interface ProductI {
   id: number;
   name: string;
   price: number;
   description: string;
   category: string;
-  image: string;
+  images: Images[];
   rating: Rating;
   sold: number;
 }

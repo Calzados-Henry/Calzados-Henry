@@ -2,6 +2,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 // import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import { Box } from '@mui/system';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -9,11 +10,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import s from './Card.module.css';
-import { ProductPartial } from './product.model';
+import { ProductPartial } from '../../sehostypes/Product';
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../features/cart/CartSlice';
+
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -25,6 +29,11 @@ import Zoom from '@mui/material/Zoom';
 
 const Shoe: React.FC<ProductPartial> = props => {
   let titulo;
+  const dispatch = useDispatch();
+
+  const products = useSelector(state => state.products.allProducts);
+  const shoe = products.find(item => parseInt(item.id) === parseInt(props.id));
+
   props.name !== undefined &&
     (props.name.length >= 35
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
@@ -47,18 +56,19 @@ const Shoe: React.FC<ProductPartial> = props => {
         <Link to={`/products/${props.id}`}>
           {props.name !== undefined && (
             <Tooltip
-              title={props.name}
+              title={props?.name ? props.name : 'none'}
               TransitionComponent={Zoom}
-              placement='top'
               sx={{ x: 1 }}
               arrow>
-              <CardHeader
-                color='inherit'
-                titleTypographyProps={{ fontSize: 18 }}
-                title={titulo}
-                subheader='Que Copado es este producto!'
-                sx={{ cursor: 'pointer' }}
-              />
+              <Box>
+                <CardHeader
+                  color='inherit'
+                  titleTypographyProps={{ fontSize: 18 }}
+                  title={titulo}
+                  subheader='Que Copado es este producto!'
+                  sx={{ cursor: 'pointer' }}
+                />
+              </Box>
             </Tooltip>
           )}
         </Link>
@@ -86,7 +96,11 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton color='inherit' aria-label='share'>
             <ShareIcon />
           </IconButton>
-          <IconButton color='inherit' aria-label='add to cart'>
+
+          <IconButton
+            color='inherit'
+            aria-label='add to cart'
+            onClick={() => dispatch(addToCart(shoe))}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>

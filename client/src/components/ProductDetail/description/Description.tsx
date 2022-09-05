@@ -2,11 +2,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ProductPartial } from '../../../sehostypes/Product';
 
-export default function Description({ title, description, price }: ProductPartial) {
+export default function Description({ name, description, price }: ProductPartial) {
   return (
     <Box>
       <Typography id='keep-mounted-modal-title' variant='h5' component='h2'>
-        {title ?? <p>{title}</p>}
+        {name ?? <p>{name}</p>}
       </Typography>
       <Typography id='keep-mounted-modal-description' sx={{ mt: 2, fontWeight: 100 }}>
         {description}
