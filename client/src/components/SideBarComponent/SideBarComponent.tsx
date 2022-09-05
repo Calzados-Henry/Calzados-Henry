@@ -37,6 +37,7 @@ import {
   sortProducts,
   filtProductsByCategory,
   filtProductsByPrice,
+  reset,
 } from '../../features/product/productSlice';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -432,6 +433,10 @@ export default function SideBarComponent() {
               </MenuList>
             </ClickAwayListener>
           </Paper>
+
+          <Button variant='contained' sx={{ mt: 3 }} onClick={() => dispatch(reset())}>
+            Reset
+          </Button>
         </Box>
       </Drawer>
     </IconButton>

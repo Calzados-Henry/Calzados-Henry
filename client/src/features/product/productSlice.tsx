@@ -15,6 +15,9 @@ export const productsSlice = createSlice({
     setProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       if (state.allProducts.length === 0) state.allProducts = action.payload;
     },
+    reset: state => {
+      state.allProducts = [];
+    },
     filtProductsByPrice: (state, action: PayloadAction<Pricing>) => {
       let filtro = [];
       filtro = state.allProducts.filter(
@@ -83,7 +86,7 @@ export const productsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setProducts, sortProducts, filtProductsByPrice, filtProductsByCategory } =
+export const { setProducts, sortProducts, filtProductsByPrice, filtProductsByCategory, reset } =
   productsSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
