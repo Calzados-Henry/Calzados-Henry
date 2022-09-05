@@ -444,7 +444,14 @@ export default function SideBarComponent() {
             </ClickAwayListener>
           </Paper>
 
-          <Button variant='contained' sx={{ mt: 3 }} onClick={() => dispatch(reset())}>
+          <Button
+            variant='contained'
+            sx={{ mt: 3 }}
+            onClick={() => {
+              dispatch(reset());
+              navigate('/products');
+              setOpen(false);
+            }}>
             Reset
           </Button>
         </Box>
