@@ -5,6 +5,7 @@ import User from '../User/User';
 
 import { AppBar, Box, Toolbar } from '@mui/material';
 import MenuNav from './menuNav/MenuNav';
+import CartIcon from '../../features/cart/CartIcon';
 
 export default function PrimarySearchAppBar() {
   return (
@@ -22,7 +23,8 @@ export default function PrimarySearchAppBar() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <User />
+        {/* <User /> */}
+        <CartIcon />
       </Toolbar>
     </AppBar>
   );

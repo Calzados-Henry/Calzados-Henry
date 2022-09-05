@@ -11,7 +11,7 @@ import Card from '../../components/Card/Card';
 import Sorting from '../../components/SideBarComponent/Sorting/Sorting';
 
 let products: any = [];
-function ProductApi() {
+export default function ProductList() {
   const selector = useSelector(state => state.products.allProducts);
   const { data, isError, isLoading, isSuccess } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -49,5 +49,3 @@ function ProductApi() {
     </Container>
   );
 }
-
-export default ProductApi;
