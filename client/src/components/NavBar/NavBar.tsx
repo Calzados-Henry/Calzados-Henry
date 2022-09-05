@@ -9,7 +9,7 @@ import CartIcon from '../../features/cart/CartIcon';
 
 export default function PrimarySearchAppBar() {
   return (
-    <AppBar position='absolute' color='primary' >
+    <AppBar position='fixed' color='primary' >
       <Toolbar>
         <SideBarComponent />
 

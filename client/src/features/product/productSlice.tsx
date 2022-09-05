@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ProductPartial, ProductI } from '../../sehostypes/Product';
+import { ProductPartial, ProductI, Pricing } from '../../sehostypes/Product';
+
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
@@ -14,6 +15,19 @@ export const productsSlice = createSlice({
   reducers: {
     setProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       if (state.allProducts.length === 0) state.allProducts = action.payload;
+    },
+    filtProductsByPrice: (state, action: PayloadAction<Pricing>) => {
+      let filtro = [];
+      filtro = state.allProducts.filter((item:ProductPartial) => ((item.price !==  undefined) && ((item.price >= action.payload.base) && (item.price <= action.payload.top)))) 
+      state.allProducts = filtro
+
+    },
+    filtProductsByCategory:(state, action: PayloadAction<string>) => {
+      let filtCategory = [];
+      
+      filtCategory = state.allProducts.filter((item: ProductPartial) => (item.category !== undefined) &&( item.category.id !== undefined && ( item.category.category === action.payload)))
+      state.allProducts = filtCategory
+      
     },
     sortProducts: (state, action: PayloadAction<string>) => {
       const orderProducts = state.allProducts;
