@@ -1,10 +1,5 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
-
-export interface ImagesI {
-  id?: number
-  image: string
-  isActive: boolean
-}
+import { ImagesI } from "../types";
 
 @Table(
   {
@@ -21,7 +16,7 @@ export default class Images extends Model implements ImagesI {
     allowNull: false,
     primaryKey: true
   })
-  id?: number;
+  id!: number;
 
   @Column({
     type: DataType.STRING,
@@ -37,28 +32,3 @@ export default class Images extends Model implements ImagesI {
   })
   isActive!: boolean;
 }
-
-// import { DataTypes } from 'sequelize';
-// // Exportamos una funcion que define el modelo
-// // Luego le injectamos la conexion a sequelize.
-// module.exports = (sequelize: any) => {
-//   // defino el modelo
-//   sequelize.define('images', {
-//     id: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       allowNull: false,
-//       primaryKey: true
-//     },
-//     image: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//       unique: true
-//     },
-//     isActive: {
-//       allowNull: false,
-//       type: DataTypes.BOOLEAN,
-//       defaultValue: true
-//     }
-//   }, { timestamps: false, freezeTableName: true });
-// };

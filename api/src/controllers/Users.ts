@@ -1,5 +1,6 @@
 'use strict'
 import { Color, Products, Product_details, Sizes, Users } from '../db';
+import { carrito, favoritos } from '../types';
 
 export const getUsers = async (): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
@@ -7,43 +8,76 @@ export const getUsers = async (): Promise<object> => {
   return users.length > 0 ? users : { message: "No hay usuarios" };
 }
 
-export const getOneUsers = async (id: any): Promise<object> => {
+export const getAllValuesOneUsers = async (id: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  var users: any = await Users.findByPk(id, { include: ['Cart', 'Favourite'] })
+
+  var users: any = await Users.findByPk(id, { include: ['cart', 'favs'] })
   var nObjUser: any = JSON.parse(JSON.stringify(users, null, 2))
 
-  var Carrito: Array<object> = nObjUser.Cart;
-  nObjUser.Cart = []
-  Carrito.forEach(async (value: any) => {
-    var id_product: any = value.id_product
-    var id_detail: any = value.id_product_details;
-    var quantity: any = value.Cart_details.quantity;
+  var Carrito: Array<object> = nObjUser.cart;
+  var Favs: Array<object> = nObjUser.favs;
+  nObjUser.cart = []
+  nObjUser.favs = []
+  for (var vFavs of Favs) {
+    //FAVORITOS
+    var fValue: any = vFavs
+
+    var id_productF: any = fValue.id_product
+    var id_detailF: any = fValue.favourite.id_product_details;
+
+    var productoF: any = await Products.findByPk(id_productF, { attributes: ['name', 'sell_price'] })
+    var detailsF: any = await Product_details.findByPk(id_detailF, { include: [Sizes, Color] })
+
+    var productoPF = JSON.parse(JSON.stringify(productoF, null, 2))
+    var detailsPF = JSON.parse(JSON.stringify(detailsF, null, 2))
+
+    var favs: Array<object> = detailsPF.Sizes;
+    detailsPF.Sizes = []
+    favs.forEach((s: any) => detailsPF.Sizes.push({ size: s.size, stock: s.Product_details_size.stock }))
+
+
+    var nFavs: favoritos = {
+      id_details: id_detailF,
+      name: productoPF.name,
+      color: detailsPF.Color.color,
+      size: detailsPF.Sizes,
+      price: productoPF.sell_price
+    }
+    nObjUser.favs.push(nFavs)
+    //FAVORITOS
+  }
+
+  for (var vCarrito of Carrito) {
+    //CARRITO y Favoritos
+    var cValue: any = vCarrito
+
+    var id_product: any = cValue.id_product
+    var id_detail: any = cValue.Cart_details.id_product_details;
+    var quantity: any = cValue.Cart_details.quantity;
 
     var producto: any = await Products.findByPk(id_product, { attributes: ['name', 'sell_price'] })
     var details: any = await Product_details.findByPk(id_detail, { include: [Sizes, Color] })
 
-    var productoParse = JSON.parse(JSON.stringify(producto, null, 2))
-    var detailsParse = JSON.parse(JSON.stringify(details, null, 2))
-    detailsParse = { id_details: id_detail, color: detailsParse.Color.color, Sizes: detailsParse.Sizes, quantity: quantity }
+    var productoP = JSON.parse(JSON.stringify(producto, null, 2))
+    var detailsP = JSON.parse(JSON.stringify(details, null, 2))
 
-    var sizes: Array<object> = detailsParse.Sizes;
-    detailsParse.Sizes = []
+    var sizes: Array<object> = detailsP.Sizes;
+    detailsP.Sizes = []
+    sizes.forEach((s: any) => detailsP.Sizes.push({ size: s.size, stock: s.Product_details_size.stock }))
 
-    sizes.forEach((s: any) => detailsParse.Sizes.push({ size: s.size, stock: s.Product_details_size.stock }))
+    var carritoN: carrito = {
+      id_details: id_detail,
+      name: productoP.name,
+      color: detailsP.Color.color,
+      size: detailsP.Sizes,
+      price: productoP.sell_price,
+      quantity: quantity
+    }
+    nObjUser.cart.push(carritoN)
+    //CARRITO
+  }
 
-    producto = { ...productoParse, ...detailsParse }
-
-
-    nObjUser.Cart = [producto]
-  })
-  console.log(Carrito)
-
-
-
-
-
-
-  return users ? nObjUser : { message: "No hay usuario con ID: " + id };
+  return users ? await nObjUser : { message: "No hay usuario con ID: " + id };
 }
 
 export const createUsers = async (value: any): Promise<object> => {
@@ -98,7 +132,6 @@ export const deleteUser = async (id: number): Promise<object> => {
   return { message: `No se encontro el usuario con ID ${id}` };
 }
 
-
 //!====================================================
 //!===================CART_DETAILS=====================
 //!====================================================
@@ -111,7 +144,6 @@ export const addCart = async (value: any): Promise<object> => {
 
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var findUser: any = await Users.findByPk(value.id_user)
-  console.log(findUser)
   await findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })
   return findUser
 }
@@ -127,9 +159,9 @@ export const deleteCart = async (_value: any): Promise<object> => {
 }
 
 
-//!=========================================================================
-//* FAVORITES
-
+//!====================================================
+//!===================FAVORITOS========================
+//!====================================================
 
 
 export const getFavs = async (id: any): Promise<object> => {

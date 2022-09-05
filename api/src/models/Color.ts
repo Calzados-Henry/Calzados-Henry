@@ -1,10 +1,5 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
-
-export interface ColorI {
-  id?: number
-  color: string
-  isActive: boolean
-}
+import { ColorI } from "../types";
 
 @Table(
   {
@@ -21,7 +16,7 @@ export default class Color extends Model implements ColorI {
     allowNull: false,
     primaryKey: true
   })
-  id?: number;
+  id!: number;
 
   @Column({
     type: DataType.STRING,
@@ -37,27 +32,3 @@ export default class Color extends Model implements ColorI {
   })
   isActive!: boolean;
 }
-// const { DataTypes } = require('sequelize');
-// // Exportamos una funcion que define el modelo
-// // Luego le injectamos la conexion a sequelize.
-// module.exports = (sequelize: any) => {
-//   // defino el modelo
-//   sequelize.define('color', {
-//     id: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       allowNull: false,
-//       primaryKey: true
-//     },
-//     color: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//       unique: true
-//     },
-//     isActive: {
-//       allowNull: false,
-//       type: DataTypes.BOOLEAN,
-//       defaultValue: true
-//     }
-//   }, { timestamps: false, freezeTableName: true });
-// };
