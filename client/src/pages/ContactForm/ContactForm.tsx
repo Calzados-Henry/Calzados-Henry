@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import Copyright from '../../components/Copyright/Copyright';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -140,18 +141,5 @@ export default function ContactForm() {
       </Box>
       <Copyright sx={{ mt: 5 }} />
     </Container>
-  );
-}
-
-function Copyright(props: any) {
-  return (
-    <Typography variant='body2' color='text.secondary' align='center' {...props}>
-      {'Copyright © '}
-      <Link color='inherit' to='/'>
-        Sehos
-      </Link>
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
   );
 }
