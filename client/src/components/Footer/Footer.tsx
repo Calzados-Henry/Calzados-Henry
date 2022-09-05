@@ -16,7 +16,6 @@ function Footer() {
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'inherit' }} 
         elevation={3}>
       <BottomNavigation showLabels sx={{ bgcolor: 'inherit' }}>
-          <BottomNavigationAction label='About Us' onClick={() => navigate('/about')} />
           <BottomNavigationAction
             icon={<Facebook />}
             onClick={() => {

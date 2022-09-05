@@ -4,8 +4,9 @@ import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../store';
 
-const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   '& .MuiBadge-badge': {
     right: -3,
     top: 13,
@@ -15,10 +16,10 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 export default function CartIcon() {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state: RootState) => state.cart);
   return (
     <IconButton aria-label='cart'>
-      <StyledBadge badgeContent={cart.products.length} color='secondary'>
+      <StyledBadge badgeContent={cart.products.length < 10 ? cart.products.length : '9+'} color='secondary'>
         <Link to='/test'>
           <ShoppingCartIcon />
         </Link>
