@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../features/cart/CartSlice';
+import { RootState } from '../../store';
 
 /* const styles = {
   tr: {
@@ -31,7 +32,7 @@ const Shoe: React.FC<ProductPartial> = props => {
   let titulo;
   const dispatch = useDispatch();
 
-  const products = useSelector(state => state.products.allProducts);
+  const products = useSelector((state: RootState) => state.products.allProducts);
   const shoe = products.find(item => parseInt(item.id) === parseInt(props.id));
 
   props.name !== undefined &&

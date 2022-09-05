@@ -2,18 +2,30 @@ import React, { useState, useEffect } from 'react';
 import Shoe from '../Card/Card';
 import { useGetProductsQuery } from '../../features/product/productApiSlice';
 import Pagination from '@mui/material/Pagination';
-import { ProductPartial } from '../Card/product.model';
+import { ProductPartial } from '../../sehostypes/Product';
 import Box from '@mui/material/Box';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import { setProducts } from '../../features/product/productSlice';
+import Sorting from '../SideBarComponent/Sorting/Sorting'
+
 const Cards = () => {
   const productsPerPage = 9;
+  const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.products.allProducts);
   const [current, setCurrent] = useState({
     first: 0,
     last: productsPerPage,
   });
+
+   const updateList = () => {
+data !== undefined  &&  dispatch(setProducts(data));
+  }
   useEffect(() => {
     // console.log(current)
   }, [current.first, current.last]);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, page: number) => {
+   
     const first = (page - 1) * productsPerPage;
     const last = (page - 1) * productsPerPage + productsPerPage;
     setCurrent({ first, last });
@@ -23,8 +35,9 @@ const Cards = () => {
   if (isLoading)
     content = <img src='https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif' alt='loading' />;
   if (error) content = <h2>Ups hay un error</h2>;
-  if (isSuccess) {
-    const currentsProducts = data?.slice(current.first, current.last);
+  if (data) updateList()
+
+    const currentsProducts = products.slice(current.first, current.last);
 
     content = (
       <>
@@ -40,12 +53,20 @@ const Cards = () => {
           ))}
         </div>
         <Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
-          <Pagination count={Math.ceil(data.length / productsPerPage)} onChange={handleOnChange} />
+          <Pagination count={Math.ceil(products.length / productsPerPage)} onChange={handleOnChange} />
         </Box>
       </>
     );
-  }
-  return <React.Fragment>{content}</React.Fragment>;
+  
+  return (
+    <>
+      <Box>
+        <Sorting></Sorting>
+      </Box>
+      {content}
+    </>
+  );
+
 };
 
 export default Cards;
