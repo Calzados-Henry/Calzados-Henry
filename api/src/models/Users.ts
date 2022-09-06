@@ -52,6 +52,12 @@ export default class Users extends Model implements UsersI {
   last_name!: string;
 
   @Column({
+    type: DataType.DATEONLY,
+    allowNull: false,
+  })
+  birth_date!: Date;
+
+  @Column({
     type: DataType.STRING,
     allowNull: false,
   })
