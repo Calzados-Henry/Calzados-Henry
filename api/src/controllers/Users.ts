@@ -2,18 +2,7 @@
 import { Color, Products, Product_details, Sizes, Users } from '../db';
 import { carrito, favoritos } from '../types';
 
-export const getUsers = async (): Promise<object> => {
-  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  var users: any = await Users.findAll()
-  return users.length > 0 ? users : { message: "No hay usuarios" };
-}
-
-export const getAllValuesOneUsers = async (id: any): Promise<object> => {
-  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-
-  var users: any = await Users.findByPk(id, { include: ['cart', 'favs'] })
-  var nObjUser: any = JSON.parse(JSON.stringify(users, null, 2))
-
+async function formatValueUsers(nObjUser: any) {
   var Carrito: Array<object> = nObjUser.cart;
   var Favs: Array<object> = nObjUser.favs;
   nObjUser.cart = []
@@ -35,7 +24,6 @@ export const getAllValuesOneUsers = async (id: any): Promise<object> => {
     detailsPF.Sizes = []
     favs.forEach((s: any) => detailsPF.Sizes.push({ size: s.size, stock: s.Product_details_size.stock }))
 
-
     var nFavs: favoritos = {
       id_details: id_detailF,
       name: productoPF.name,
@@ -48,7 +36,7 @@ export const getAllValuesOneUsers = async (id: any): Promise<object> => {
   }
 
   for (var vCarrito of Carrito) {
-    //CARRITO y Favoritos
+    //CARRITO
     var cValue: any = vCarrito
 
     var id_product: any = cValue.id_product
@@ -76,8 +64,41 @@ export const getAllValuesOneUsers = async (id: any): Promise<object> => {
     nObjUser.cart.push(carritoN)
     //CARRITO
   }
+  return nObjUser
+}
 
-  return users ? await nObjUser : { message: "No hay usuario con ID: " + id };
+export const getAllValuesUsers = async (value: any): Promise<object> => {
+  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
+  var { id, username, email } = value;
+
+  if (id) {
+    let users = await Users.findByPk(id, { include: ['cart', 'favs'] })
+    var nObjUser: any = JSON.parse(JSON.stringify(users, null, 2))
+    if (nObjUser) {
+      return await formatValueUsers(nObjUser)
+    } else {
+      return { message: "No se encontro usuario con ID: " + id };
+    }
+  } else if (username) {
+    let userName = await Users.findOne({ where: { username: username }, include: ['cart', 'favs'] })
+    var nObjUser: any = JSON.parse(JSON.stringify(userName, null, 2))
+    if (nObjUser) {
+      return await formatValueUsers(nObjUser)
+    } else {
+      return { message: "No se encontro usuario con Username: " + username };
+    }
+  } else if (email) {
+    let userEmail = await Users.findOne({ where: { email: email }, include: ['cart', 'favs'] })
+    var nObjUser: any = JSON.parse(JSON.stringify(userEmail, null, 2))
+    if (nObjUser) {
+      return await formatValueUsers(nObjUser)
+    } else {
+      return { message: "No se encontro usuario con Email: " + email };
+    }
+  } else {
+    let users = await Users.findAll()
+    return users.length > 0 ? users : { message: "No hay usuarios" };
+  }
 }
 
 export const createUsers = async (value: any): Promise<object> => {

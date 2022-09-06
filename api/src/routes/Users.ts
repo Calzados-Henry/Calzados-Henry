@@ -2,14 +2,16 @@
 // se requiere el models
 import { Router, Request, Response } from 'express';
 
-import { getUsers, createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesOneUsers, addFavs, getFavs } from '../controllers/Users';
+import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs } from '../controllers/Users';
 
 const router = Router();
 
 //* README *
 
 //* GET http://localhost:3001/users = trae todos los usuarios (solo informacion)
-//* GET http://localhost:3001/users/1 = pide Usuario ID: 1 (informacion + carrito + favoritos)
+//* GET http://localhost:3001/users?id=1 = pide Usuario ID: 1 (informacion + carrito + favoritos)
+//* GET http://localhost:3001/users?username=jesner = pide Usuario username: jesner (informacion + carrito + favoritos)
+//* GET http://localhost:3001/users?email=jesner631@gmail.com = pide Usuario email: correo@corre.com (informacion + carrito + favoritos)
 //* POST http://localhost:3001/users = mandar datos es por body, ejemplo ↓
 //* {
 //*   "username": "Usuario",        (No se repite) [string]
@@ -34,17 +36,11 @@ const router = Router();
 //*   "id": 3,                      (ID del usuario)
 //* }
 
-router.get('/', async (_req: Request, res: Response) => {
+// TODO => Pide un usuarios por id || username, email.
+//* Si no se manda nada trae todos los usuarios.
+router.get('/', async (req: Request, res: Response) => {
   try {
-    var users = await getUsers();
-    res.json(users)
-  } catch (e: any) {
-    res.json({ error: e.message })
-  }
-})
-router.get('/:id', async (req: Request, res: Response) => {
-  try {
-    var users = await getAllValuesOneUsers(req.params.id);
+    var users = await getAllValuesUsers(req.query);
     res.json(users)
   } catch (e: any) {
     res.json({ error: e.message })
