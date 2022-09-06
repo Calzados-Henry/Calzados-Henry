@@ -33,7 +33,8 @@ const Shoe: React.FC<ProductPartial> = props => {
   const dispatch = useDispatch();
 
   const products = useSelector((state: RootState) => state.products.allProducts);
-  const shoe = products.find(item => parseInt(item.id) === parseInt(props.id));
+  const added = useSelector((state: RootState) => state.cart.products);
+  const shoe = products.find((item: any) => parseInt(item.id) === parseInt(props.id));
 
   props.name !== undefined &&
     (props.name.length >= 35
@@ -105,7 +106,12 @@ const Shoe: React.FC<ProductPartial> = props => {
             aria-label='add to cart'
             onClick={() => {
               dispatch(addToCart(shoe));
-              toast.success(<b>Producto agregado!!</b>);
+
+              if (added.find(el => el.id === props.id)) {
+                toast.error(<b>El producto ya se encuentra en el carrito</b>);
+              } else {
+                toast.success(<b>Producto agregado!!</b>);
+              }
             }}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
