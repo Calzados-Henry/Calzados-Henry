@@ -18,7 +18,7 @@ import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
-
+import toast, { Toaster } from 'react-hot-toast';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -41,6 +41,8 @@ const Shoe: React.FC<ProductPartial> = props => {
       : (titulo = props.name));
   return (
     <>
+      <Toaster position='bottom-left' reverseOrder={false} />
+
       <Card
         sx={{ maxWidth: 345 }}
         className={s.card}
@@ -101,7 +103,10 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={() => dispatch(addToCart(shoe))}>
+            onClick={() => {
+              dispatch(addToCart(shoe));
+              toast.success(<b>Producto agregado!!</b>);
+            }}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>
