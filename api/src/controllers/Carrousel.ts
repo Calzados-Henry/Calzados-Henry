@@ -3,21 +3,33 @@
 import { Carrousel } from '../db';
 
 export const getCarrousel = async (): Promise<any> => {
-  // Se trae todas las imagenes para el Slider
-  var imagesCarrousel = await Carrousel.findAll()
+  // TODO => Lista de todas las imagenes para el carrousel [Slider] (isActive=true)
+  var imagesCarrousel: Array<object> = await Carrousel.findAll({ where: { isActive: true } })
+  imagesCarrousel = JSON.parse(JSON.stringify(imagesCarrousel, null, 2))
+  console.log(imagesCarrousel)
   return imagesCarrousel.length > 0 ? imagesCarrousel : { message: "No hay imagenes para el carrousel" };
 }
-
+export const getCarrouselAll = async (): Promise<any> => {
+  // TODO => Lista de todas las imagenes activas y desactivadas [Slider] (isActive=true y isActive=false)
+  var imagesCarrouselAll = await Carrousel.findAll()
+  imagesCarrouselAll = JSON.parse(JSON.stringify(imagesCarrouselAll, null, 2))
+  return imagesCarrouselAll.length > 0 ? imagesCarrouselAll : { message: "No hay imagenes para el carrousel" };
+}
 export const createCarrousel = async (value: any): Promise<any> => {
-  // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  var imagesCarrousel: any = await Carrousel.findAll({ where: { image: String(value.image) } })
-  if (imagesCarrousel.length > 0) {
-    if (imagesCarrousel[0].dataValues.image.toLowerCase() === String(value.image).toLowerCase()) {
-      return { message: "La imagen del carrousel ya se encuentra registrada." }
+
+  if (Object.prototype.toString.call(value) === '[object Array]') {
+    if (value[0].hasOwnProperty('image')) {
+      return await Carrousel.bulkCreate(value)
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'image':'url_image'}] || {'image':'url_image'}" }
+    }
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (value.hasOwnProperty('image')) {
+      return await Carrousel.create(value)
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'image':'url_image'}] || {'image':'url_image'}" }
     }
   }
-  // si todo esta correcto crea una nueva talla.
-  return await Carrousel.create(value)
 }
 
 export const updateCarrousel = async (value: any): Promise<any> => {
