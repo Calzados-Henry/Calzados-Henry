@@ -172,8 +172,16 @@ export default function SideBarComponent() {
     }
   }
   return (
-    <IconButton size='large' edge='start' color='inherit' aria-label='open drawer' sx={{ mr: 2 }}>
-      <MenuIcon onClick={() => setOpen(true)} />
+    <>
+      <IconButton
+        onClick={() => setOpen(true)}
+        size='large'
+        edge='start'
+        color='inherit'
+        aria-label='open drawer'
+        sx={{ mr: 2 }}>
+        <MenuIcon />
+      </IconButton>
       <Drawer
         variant='temporary'
         anchor='left'
@@ -407,8 +415,8 @@ export default function SideBarComponent() {
                 onKeyDown={handleListKeyDown}>
                 <MenuItem
                   onClick={() => {
-                    dispatch(filtProductsByCategory('Botas'));
                     navigate('/products');
+                    dispatch(filtProductsByCategory('Botas'));
                     setOpen(false);
                   }}>
                   Botas
@@ -416,8 +424,8 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    dispatch(filtProductsByCategory('Mocasines'));
                     navigate('/products');
+                    dispatch(filtProductsByCategory('Mocasines'));
                     setOpen(false);
                   }}>
                   Mocasines
@@ -425,8 +433,8 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    dispatch(filtProductsByCategory('Tenis'));
                     navigate('/products');
+                    dispatch(filtProductsByCategory('Tenis'));
                     setOpen(false);
                   }}>
                   Tenis
@@ -434,8 +442,8 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    dispatch(filtProductsByCategory('Sandalias'));
                     navigate('/products');
+                    dispatch(filtProductsByCategory('Sandalias'));
                     setOpen(false);
                   }}>
                   Sandalias
@@ -456,6 +464,6 @@ export default function SideBarComponent() {
           </Button>
         </Box>
       </Drawer>
-    </IconButton>
+    </>
   );
 }
