@@ -19,6 +19,7 @@ const router = Router();
 //*   "email": "Correo",            (No se repite) [string]
 //*   "name": "Nombres",                           [string]
 //*   "last_name": "Apellidos",                    [string]
+//*   "birth_date":"1994/05/13"                    [string] respetar formato, [año/mes/dia]
 //*   "phone": "Cel o Telf",                       [string]
 //*   "identification": DNI,        (No se repite) [integer]
 //*   "type_user": "Administrator",                [string: enum] ('Administrator', 'Employee', 'User')

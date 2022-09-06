@@ -114,6 +114,7 @@ export interface UsersI {
   email: string
   name: string
   last_name: string
+  birth_date: Date,
   phone: string
   identification: number
   type_user: TypeUser
