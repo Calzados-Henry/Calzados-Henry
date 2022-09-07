@@ -1,7 +1,9 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
+const jwt = require('jsonwebtoken')
 import { getCarrousel, createCarrousel, updateCarrousel, deleteCarrousel, getCarrouselAll } from '../controllers/Carrousel';
+import { TypeUser } from '../enum';
 const router = Router();
 
 //* README *
@@ -74,11 +76,26 @@ router.get('/all', async (_req: Request, res: Response) => {
 
 // TODO => Envio de datos, ver ejemplo arriba ↑
 router.post('/', async (req: Request, res: Response) => {
+  var { Administrator } = TypeUser
   try {
-    var ncarrousel = await createCarrousel(req.body)
-    res.json(ncarrousel)
-  } catch (e: any) {
-    res.json({ error: e.message })
+    const authorization = req.get('authorization')
+    let token = null;
+    if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+      token = authorization.substring(7)
+    }
+    const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN)
+    if (token && decodedToken.type_user === Administrator) {
+      try {
+        var ncarrousel = await createCarrousel(req.body)
+        res.json(ncarrousel)
+      } catch (e: any) {
+        res.json({ error: e.name })
+      }
+    } else {
+      res.status(404).json({ error: "Error: No tienes permisos avanzados." })
+    }
+  } catch (error: any) {
+    res.status(404).json({ error: "Token no valido o faltante." })
   }
 })
 
