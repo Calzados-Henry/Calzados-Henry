@@ -1,7 +1,7 @@
 import { Router } from "express";
 const Mockup = require('../utils/mokeo.json')
 // ruta: GET/prueba, enviará todo el array de objetos mockeados
-//
+
 
 const prueba = Router()
 
