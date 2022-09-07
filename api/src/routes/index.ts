@@ -10,15 +10,17 @@ import Images from './Images';
 import Prueba from './Prueba';
 import Color from './Color';
 import Product_details from './Product_details';
-import Orders_Details from './Orders_details'
+import Orders_Details from './Orders_details';
+import Search from './SearchBar';
 import Login from './Login'
+
 
 const router = Router();
 
 router.get('/', (_req: Request, res: Response) => {
   res.send("todo ok");
 })
-
+router.use('/products/search', Search)
 router.use('/prueba', Prueba)
 router.use('/login', Login)
 router.use('/users', Users) // jesner -> aqui mismo esta el Cart_Detail y Favoritos
