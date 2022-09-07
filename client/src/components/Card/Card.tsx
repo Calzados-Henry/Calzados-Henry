@@ -18,7 +18,7 @@ import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
-
+import toast, { Toaster } from 'react-hot-toast';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -33,7 +33,8 @@ const Shoe: React.FC<ProductPartial> = props => {
   const dispatch = useDispatch();
 
   const products = useSelector((state: RootState) => state.products.allProducts);
-  const shoe = products.find(item => parseInt(item.id) === parseInt(props.id));
+  const added = useSelector((state: RootState) => state.cart.products);
+  const shoe = products.find((item: any) => parseInt(item.id) === parseInt(props.id));
 
   props.name !== undefined &&
     (props.name.length >= 35
@@ -41,6 +42,8 @@ const Shoe: React.FC<ProductPartial> = props => {
       : (titulo = props.name));
   return (
     <>
+      <Toaster position='bottom-left' reverseOrder={false} />
+
       <Card
         sx={{ maxWidth: 345 }}
         className={s.card}
@@ -101,7 +104,15 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={() => dispatch(addToCart(shoe))}>
+            onClick={() => {
+              dispatch(addToCart(shoe));
+
+              if (added.find(el => el.id === props.id)) {
+                toast.error(<b>El producto ya se encuentra en el carrito</b>);
+              } else {
+                toast.success(<b>Producto agregado!!</b>);
+              }
+            }}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>

@@ -1,5 +1,6 @@
 'use strict'
 import { Color, Products, Product_details, Sizes, Users } from '../db';
+const bcrypt = require('bcrypt');
 import { carrito, favoritos } from '../types';
 
 async function formatValueUsers(nObjUser: any) {
@@ -102,6 +103,8 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
 }
 
 export const createUsers = async (value: any): Promise<object> => {
+  const hashPassword = bcrypt.hashSync(value.password, 10)
+  value = { ...value, password: hashPassword }
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar nuevo usuario.
   var username = await Users.findAll({ where: { username: value.username } })
   var email = await Users.findAll({ where: { email: value.email } })

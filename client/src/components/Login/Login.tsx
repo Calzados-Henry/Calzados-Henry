@@ -1,32 +1,51 @@
-import { Grid, Paper, Avatar, TextField, Button, Box, Typography } from "@mui/material"
+import { Grid, Paper, Avatar, TextField, Button, Box, Typography, FormControlLabel, Checkbox } from "@mui/material"
 import { LockOutlined } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { LoginRequest, useLoginMutation } from "../../features/auth/authApiSlice";
+import { setCredentials } from "../../features/auth/authSlice";
+import { useAuth } from "../../hooks/useAuth";
 
-const validations = yup.object({
-  userName: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup.string().required('Last Name is required'),
+const validations = yup.object().shape({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
 });
 
 
 export default function Login() {
     const paperstyle = {padding:20, height: '70vh', width:400, margin:"100px auto"}
     const navigate = useNavigate();
-    const formik = useFormik({
+    const dispatch = useDispatch();
+    const auth = useAuth();
+    const [login, {isLoading, isSuccess}] = useLoginMutation();
+    const [errorSubmit, setErrorSubmit] = useState({
+        errorEmail: '',
+        errorPassword: ''
+    })
+    
+    const formik = useFormik<LoginRequest>({
         initialValues: {
-        userName: '',
+        email: '',
         password: '',
         },
         validationSchema: validations,
-        onSubmit: () => {
-        fetch('http://localhost:3001/users/')
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error))
-            .finally(() => {
-            navigate('/home');
-            });
+        onSubmit: async () => {
+            const dataLogin = {
+                email: formik.values.email,
+                password: formik.values.password
+            }
+            const data = await login(dataLogin).unwrap();
+            if(data) {
+                const userLogged = {
+                    user: data.email,
+                    rol: data.type_user,
+                    token: data.token
+                }
+                dispatch(setCredentials(userLogged));
+            }
         },
     });
 
@@ -37,18 +56,20 @@ export default function Login() {
                     <Grid>
                         <Avatar sx={{bgcolor:'primary.main'}}><LockOutlined/></Avatar>
                         <h2>Sign In</h2>
+                        {auth.user ? <h1>user: {auth.user} is On!</h1> : <></>}
                     </Grid>
                     <TextField
                         sx={{marginTop: 5, marginBottom:5}} 
-                        label='Username' 
-                        placeholder="Enter username..." 
+                        label='Email' 
+                        placeholder="Enter your email..." 
                         fullWidth
-                        id='userName'
-                        name='userName'
-                        value={formik.values.userName}
+                        id='email'
+                        name='email'
+                        value={formik.values.email}
                         onChange={formik.handleChange}
-                        error={formik.touched.userName && Boolean(formik.errors.userName)}
-                        helperText={formik.touched.userName && formik.errors.userName}>
+                        error={formik.touched.email && Boolean(formik.errors.email) || errorSubmit.errorEmail !== '' ? true : false}
+                        helperText={formik.touched.email && (formik.errors.email || errorSubmit.errorEmail)}
+                        autoComplete='email'>
                     </TextField>
                     <TextField 
                         sx={{marginBottom:5}}
@@ -60,11 +81,23 @@ export default function Login() {
                         name='password'
                         value={formik.values.password}
                         onChange={formik.handleChange}
-                        error={formik.touched.password && Boolean(formik.errors.password)}
-                        helperText={formik.touched.password && formik.errors.password}>
+                        error={formik.touched.password && Boolean(formik.errors.password) || errorSubmit.errorPassword !== '' ? true : false}
+                        helperText={formik.touched.password && (formik.errors.password || errorSubmit.errorPassword)}
+                        autoComplete='password'>
                     </TextField>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            name= "checked"
+                            color= "primary"
+                            />
+                        }
+                        label="Remember me"
+                    />
                     <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>Submit</Button>
+  
                     <Link to='/recoverPass' style={{textDecoration: 'underline', color:'blue'}}>Forgot Password?</Link>
+                    <Typography>Don't have account? <Link to='/register' style={{textDecoration: 'underline', color:'blue'}}>Register now!</Link></Typography>
                 </Paper>
             </Box>
         </Grid>

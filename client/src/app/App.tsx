@@ -13,6 +13,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import AddProduct from '../pages/Dashboard/Products/AddProduct/AddProduct';
 import AddCategory from '../pages/Dashboard/Products/AddCategory/AddCategory';
 import AddAtributes from '../pages/Dashboard/Products/AddAtributes/AddAtributes';
+import Register from '../components/Register/Register';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path='addatribute' element={<AddAtributes />}></Route>
           </Route>
           <Route path='/login' element={<Login />}></Route>
+          <Route path='/register' element={<Register />}></Route>
           <Route path='*' element={<Error404></Error404>}></Route>
         </Routes>
       </Container>

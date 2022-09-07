@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store';
 
 const StyledBadge = styled(Badge)<BadgeProps>(() => ({
@@ -16,13 +16,15 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
 }));
 
 export default function CartIcon() {
+  const navigate = useNavigate();
+
   const cart = useSelector((state: RootState) => state.cart);
   return (
-    <IconButton aria-label='cart'>
-      <StyledBadge badgeContent={cart.products.length < 10 ? cart.products.length : '9+'} color='secondary'>
-        <Link to='/test'>
-          <ShoppingCartIcon />
-        </Link>
+    <IconButton onClick={() => navigate('/test')} aria-label='cart'>
+      <StyledBadge
+        badgeContent={cart.products.length < 10 ? cart.products.length : '9+'}
+        color='secondary'>
+        <ShoppingCartIcon />
       </StyledBadge>
     </IconButton>
   );
