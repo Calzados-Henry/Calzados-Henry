@@ -1,4 +1,4 @@
-import { Products } from "../db";
+import { Products, Users, Category, Product_details, Color, Images, Sizes } from "../db";
 import { Op } from "sequelize"
 
 export const getProducts = async (product: string): Promise<any> => {
@@ -7,7 +7,8 @@ export const getProducts = async (product: string): Promise<any> => {
             where: {
                 name:{
                         [Op.iLike]: '%'+product+'%'}
-            }
+            },
+            include: [Users, Category, { model: Product_details, include: [Color, Images, Sizes] }] 
         })
         if (productos.length > 0)
             return productos
