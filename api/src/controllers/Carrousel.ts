@@ -16,16 +16,23 @@ export const getCarrouselAll = async (): Promise<any> => {
   return imagesCarrouselAll.length > 0 ? imagesCarrouselAll : { message: "No hay imagenes para el carrousel" };
 }
 export const createCarrousel = async (value: any): Promise<any> => {
-
   if (Object.prototype.toString.call(value) === '[object Array]') {
     if (value[0].hasOwnProperty('image')) {
-      return await Carrousel.bulkCreate(value)
+      try {
+        return await Carrousel.bulkCreate(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
     } else {
       return { message: "Verifique si la key del objeto, ejemplo: [{'image':'url_image'}] || {'image':'url_image'}" }
     }
   } else if (Object.prototype.toString.call(value) === '[object Object]') {
     if (value.hasOwnProperty('image')) {
-      return await Carrousel.create(value)
+      try {
+        return await Carrousel.create(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
     } else {
       return { message: "Verifique si la key del objeto, ejemplo: [{'image':'url_image'}] || {'image':'url_image'}" }
     }
