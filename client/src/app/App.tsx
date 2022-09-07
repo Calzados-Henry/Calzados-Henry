@@ -16,6 +16,7 @@ import AddAtributes from '../pages/Dashboard/Products/AddAtributes/AddAtributes'
 import CartStore from '../features/cart/CartStore';
 import { PublicRoutes, PrivatesRoutes } from '../routes/routes';
 import AuthGuard from '../guards/auth.guard';
+import Register from '../components/Register/Register';
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
 
           <Route path={PublicRoutes.login} element={<Login />} />
           <Route path={PublicRoutes.error} element={<Error404 />} />
+
+         
+          <Route path='/register' element={<Register />}></Route>
+         
+
         </Routes>
       </Container>
       <Footer />
