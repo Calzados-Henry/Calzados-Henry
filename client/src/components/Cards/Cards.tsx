@@ -24,7 +24,8 @@ const Cards = () => {
   useEffect(() => {
     // console.log(current)
   }, [current.first, current.last]);
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, page: number) => {
+  const handleOnChange = (e, page: number) => {
+    e.preventDefault();
     const first = (page - 1) * productsPerPage;
     const last = (page - 1) * productsPerPage + productsPerPage;
     setCurrent({ first, last });
