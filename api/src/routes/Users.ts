@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response } from 'express';
-
+const bcrypt = require('bcrypt');
 import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs } from '../controllers/Users';
 
 const router = Router();
@@ -54,6 +54,10 @@ router.post('/', async (req: Request, res: Response) => {
   } catch (e: any) {
     res.json({ error: e.message })
   }
+})
+router.post('/prueba', async (req: Request, res: Response) => {
+  const salt = bcrypt.hashSync(req.body.prueba, 15)
+  res.json(bcrypt.compareSync(req.body.prueba, salt))
 })
 router.put('/', async (req: Request, res: Response) => {
   try {
