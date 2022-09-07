@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import products from './features/product/productSlice';
 import cart from './features/cart/CartSlice';
+import auth from './features/auth/authSlice'
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { apiSlice } from './features/api/apiSlice';
 // importamos el export default que viene del slice
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     products,
     cart,
+    auth,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
