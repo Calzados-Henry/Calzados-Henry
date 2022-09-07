@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +10,8 @@ import Button from '@mui/material/Button';
 import Copyright from '../../components/Copyright/Copyright';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import toast, { Toaster } from 'react-hot-toast';
+import { PublicRoutes } from '../../routes/routes';
 
 const validations = yup.object({
   firstName: yup.string().required('First Name is required'),
@@ -22,6 +25,8 @@ const validations = yup.object({
 });
 
 export default function ContactForm() {
+  const [disabledButton, setDisabledButton] = useState(false);
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -32,7 +37,9 @@ export default function ContactForm() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      fetch('https://formsubmit.co/ajax/andeveling@gmail.com', {
+      setDisabledButton(true);
+
+      const promise = fetch('https://formsubmit.co/ajax/andeveling@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,13 +51,21 @@ export default function ContactForm() {
         .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(() => {
-          navigate('/home');
+          setTimeout(() => navigate(PublicRoutes.home), 1000);
+          setDisabledButton(false);
         });
+
+      toast.promise(promise, {
+        loading: <b>Enviando datos</b>,
+        success: <b>La información fue enviada satisfactoriamente</b>,
+        error: <b>Error ocurrido durante la ejecución</b>,
+      });
     },
   });
 
   return (
     <Container component='main' maxWidth='xs'>
+      <Toaster position='bottom-left' reverseOrder={false} />
       <CssBaseline />
       <Box
         sx={{
@@ -131,7 +146,12 @@ export default function ContactForm() {
               /> */}
             </Grid>
           </Grid>
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+          <Button
+            disabled={disabledButton}
+            type='submit'
+            fullWidth
+            variant='contained'
+            sx={{ mt: 3, mb: 2 }}>
             Submit
           </Button>
           <Grid container justifyContent='flex-end'>

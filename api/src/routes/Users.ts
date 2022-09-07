@@ -57,7 +57,7 @@ router.post('/', async (req: Request, res: Response) => {
 })
 router.post('/prueba', async (req: Request, res: Response) => {
   const salt = bcrypt.hashSync(req.body.prueba, 15)
-  res.json(bcrypt.compareSync(req.body.prueba, salt))
+  res.json(salt)
 })
 router.put('/', async (req: Request, res: Response) => {
   try {

@@ -45,6 +45,7 @@ import { IconButton, Drawer, Button, useTheme, Box, TextField } from '@mui/mater
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { PublicRoutes } from '../../routes/routes';
 
 const talles: number[] = [32, 34, 36, 44, 48, 50];
 
@@ -415,7 +416,7 @@ export default function SideBarComponent() {
                 onKeyDown={handleListKeyDown}>
                 <MenuItem
                   onClick={() => {
-                    navigate('/products');
+                    navigate(PublicRoutes.products);
                     dispatch(filtProductsByCategory('Botas'));
                     setOpen(false);
                   }}>
@@ -424,7 +425,7 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    navigate('/products');
+                    navigate(PublicRoutes.products);
                     dispatch(filtProductsByCategory('Mocasines'));
                     setOpen(false);
                   }}>
@@ -433,7 +434,7 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    navigate('/products');
+                    navigate(PublicRoutes.products);
                     dispatch(filtProductsByCategory('Tenis'));
                     setOpen(false);
                   }}>
@@ -442,7 +443,7 @@ export default function SideBarComponent() {
 
                 <MenuItem
                   onClick={() => {
-                    navigate('/products');
+                    navigate(PublicRoutes.products);
                     dispatch(filtProductsByCategory('Sandalias'));
                     setOpen(false);
                   }}>
