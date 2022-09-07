@@ -4,20 +4,39 @@ import { Images } from '../db';
 
 export const getImages = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
+  var images = await Images.findAll({ where: { isActive: true } })
+  return images.length > 0 ? images : { message: "No hay imagenes para el producto." };
+}
+
+export const getImagesAll = async (): Promise<any> => {
+  // Se trae todas las imagenes para los productos
   var images = await Images.findAll()
   return images.length > 0 ? images : { message: "No hay imagenes para el producto." };
 }
 
 export const createImages = async (value: any): Promise<any> => {
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  var images: any = await Images.findAll({ where: { image: String(value.image) } })
-  if (images.length > 0) {
-    if (images[0].dataValues.image.toLowerCase() === String(value.image).toLowerCase()) {
-      return { message: "La imagen del producto ya se encuentra registrada." }
+  if (Object.prototype.toString.call(value) === '[object Array]') {
+    if (value[0].hasOwnProperty('image')) {
+      try {
+        return await Images.bulkCreate(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'image':'link_image'}] || {'image':'link_image'}" }
+    }
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (value.hasOwnProperty('image')) {
+      try {
+        return await Images.create(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'image':'link_image'}] || {'image':'link_image'}" }
     }
   }
-  // si todo esta correcto crea una nueva talla.
-  return await Images.create(value)
 }
 
 export const updateImages = async (value: any): Promise<any> => {

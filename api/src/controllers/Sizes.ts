@@ -3,20 +3,39 @@ import { Sizes } from '../db';
 
 export const getSize = async (): Promise<any> => {
   // Se trae todas las tallas
+  var size = await Sizes.findAll({ where: { isActive: true } })
+  return size.length > 0 ? size : { message: "Sizes not found." };
+}
+
+export const getSizeAll = async (): Promise<any> => {
+  // Se trae todas las tallas
   var size = await Sizes.findAll()
   return size.length > 0 ? size : { message: "Sizes not found." };
 }
 
 export const createSize = async (value: any): Promise<any> => {
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  var size: any = await Sizes.findAll({ where: { size: String(value.size) } })
-  if (size.length > 0) {
-    if (size[0].dataValues.size.toLowerCase() === String(value.size).toLowerCase()) {
-      return { message: "La talla ya se encuentra registrada." }
+  if (Object.prototype.toString.call(value) === '[object Array]') {
+    if (value[0].hasOwnProperty('size')) {
+      try {
+        return await Sizes.bulkCreate(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'size':'talla'}] || {'size':'talla'}" }
+    }
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (value.hasOwnProperty('size')) {
+      try {
+        return await Sizes.create(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'size':'talla'}] || {'size':'talla'}" }
     }
   }
-  // si todo esta correcto crea una nueva talla.
-  return await Sizes.create(value)
 }
 
 export const updateSize = async (value: any): Promise<any> => {

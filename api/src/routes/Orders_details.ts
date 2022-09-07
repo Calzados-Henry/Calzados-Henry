@@ -3,18 +3,12 @@ import * as orders_details from '../controllers/Orders_details'
 
 const router = express.Router()
 
-
 router.get('/', async (_req, res) => {
   try {
     const details = await orders_details.getOrders_details()
     if (details) res.send(details)
-
   } catch (error: any) {
     res.status(400).json({ error: error.message })
-    /* if (error instanceof SyntaxError) {
-        console.log("Entre al if")
-
-    } */
   }
 })
 
@@ -28,9 +22,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-
 router.put('/', async (req, res) => {
-
   try {
     /* const updateOrders_details: any = orders_details.toUpdateOrder_Detail(req.body) */
     const updateOrders_details: any = await orders_details.updateOrder_Detail(req.body)
