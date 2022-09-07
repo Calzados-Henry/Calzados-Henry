@@ -5,11 +5,11 @@ const Mockup = require('../utils/mokeo.json')
 
 const prueba = Router()
 
-prueba.get('/', (_req, res)=>{
+prueba.get('/', (_req, res) => {
     res.json(Mockup)
 })
 
-prueba.post('/', (_req, res)=>{
+prueba.post('/', (_req, res) => {
     res.send('ok')
 })
 

@@ -2,6 +2,7 @@
 //require
 import { postAddress, getAddress, patchAddress, deleteAddress } from '../controllers/Address';
 import { Router, Request, Response } from "express";
+import { userExtractorUser } from '../middleware/userExtractor';
 // const { getCategories } = Categories
 
 //Breve Documentacion:
@@ -27,7 +28,7 @@ import { Router, Request, Response } from "express";
 
 const Address = Router()
 
-Address.get('/:id', async (req: Request, res: Response) => {
+Address.get('/', userExtractorUser, async (req: Request, res: Response) => {
   try {
     let addresses = await getAddress(req.params.id)
     if (addresses) {
@@ -38,7 +39,7 @@ Address.get('/:id', async (req: Request, res: Response) => {
   }
 })
 
-Address.post('/:id', async (req: Request, res: Response) => {
+Address.post('/:id', userExtractorUser, async (req: Request, res: Response) => {
   try {
     const postedAddress = await postAddress(req.params.id, req.body)
     if (postedAddress) {

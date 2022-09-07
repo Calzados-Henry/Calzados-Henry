@@ -12,7 +12,7 @@ export const login = async (value: any): Promise<object> => {
     if (!passwordCorrect) {
       return { message: "Usuario ó contraseña invalido" };
     }
-    user = { ...user, token: jwt.sign(user, process.env.SECRET_TOKEN) }
+    user = { ...user, token: jwt.sign(user, process.env.SECRET_TOKEN, { expiresIn: 60 * 60 * 24 }) } // token valido x 24 horas
     return user;
   } else {
     return { message: "Falta ingresar Usuario ó Contraseña" }

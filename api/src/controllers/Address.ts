@@ -10,8 +10,8 @@ import { Address, Users } from '../db'
 
 export const getAddress = async (id: string): Promise<object> => {
     const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-    if (!userAddresses.addresses.length && userAddresses) {
-        throw new Error('No existen Direcciones guardadas para el usuario ' + id)
+    if (!userAddresses.addresses && userAddresses) {
+        throw new Error('No existen Direcciones guardadas para el usuario: ' + id)
     } else if (!userAddresses) {
         throw new Error('No existe usuario con id:' + id)
     } else {
