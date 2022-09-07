@@ -1,10 +1,12 @@
 import { Products } from "../db";
+import { Op } from "sequelize"
 
 export const getProducts = async (product: string): Promise<any> => {
     if (product) {
         const productos = await Products.findAll({
             where: {
-                name: product
+                name:{
+                        [Op.iLike]: '%'+product+'%'}
             }
         })
         if (productos.length > 0)
