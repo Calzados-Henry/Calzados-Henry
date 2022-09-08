@@ -12,7 +12,8 @@ import Product_details from './Product_details';
 import Orders_Details from './Orders_details';
 import Search from './SearchBar';
 import Login from './Login'
-import send from './../controllers/NotificationMail';
+import { send } from './../controllers/NotificationMail';
+import Prueba from './Prueba';
 
 
 const router = Router();
@@ -22,13 +23,13 @@ router.get('/', (_req: Request, res: Response) => {
 })
 
 router.post('/email', (req: Request, res: Response) => {
-  const { msg } = req.body
-  send(msg)
+  const { email, msg } = req.body
+  send(email, msg)
   res.send('mensaje enviado')
-
 })
 
 router.use('/products/search', Search)
+router.use('/prueba', Prueba)
 router.use('/login', Login)
 router.use('/users', Users) // jesner -> aqui mismo esta el Cart_Detail y Favoritos
 router.use('/users/address', Address) // facundo
