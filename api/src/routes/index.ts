@@ -20,11 +20,17 @@ router.get('/', (_req: Request, res: Response) => {
   res.send("todo ok");
 })
 router.post('/email', async (req: Request, res: Response) => {
- const {msg} = req.body 
- await send(msg)
+ try {
+   const {email, subject, content} = req.body 
+ await send(email, subject, content)
  res.send('mensaje enviado')
 
+ } catch (error) {
+  
+ }
+ 
 })
+
 router.use('/prueba', Prueba)
 router.use('/login', Login)
 router.use('/users', Users) // jesner -> aqui mismo esta el Cart_Detail y Favoritos
