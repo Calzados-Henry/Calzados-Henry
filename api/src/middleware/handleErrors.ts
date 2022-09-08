@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Response } from "express";
 
-export const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (err: any, res: Response) => {
   console.log("Error en api, revisarlo, middleware HANDLE_ERRORS: " + err.name)
   if (err.name === "JsonWebTokenError") {
     return res.status(401).json({ error: "token invalido o faltante." })
