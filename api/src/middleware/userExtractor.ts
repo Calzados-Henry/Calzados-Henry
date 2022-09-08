@@ -8,6 +8,9 @@ export const userExtractorAdmin = (req: Request, res: Response, next: NextFuncti
   var { Administrator } = TypeUser
   // se extrae el token desde header
   const authorization = req.get('authorization')
+  if (!authorization) {
+    return res.status(404).json({ error: "Token no encontrado" })
+  }
   // si hay token se guarda en token
   let token = null;
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
@@ -25,7 +28,7 @@ export const userExtractorAdmin = (req: Request, res: Response, next: NextFuncti
 
 export const userExtractorUser = (req: Request, res: Response, next: NextFunction) => {
   // se extrae el token desde header
-  const authorization = req.get('authorization')
+  const authorization = req.get('Authorization')
   // si hay token se guarda en token
   let token = null;
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
