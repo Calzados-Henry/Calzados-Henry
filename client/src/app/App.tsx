@@ -14,12 +14,13 @@ import AddProduct from '../pages/Dashboard/Products/AddProduct/AddProduct';
 import AddCategory from '../pages/Dashboard/Products/AddCategory/AddCategory';
 import AddAtributes from '../pages/Dashboard/Products/AddAtributes/AddAtributes';
 import Register from '../components/Register/Register';
+import StripePay from '../components/StripePay/StripePay';
 
 function App() {
   return (
     <>
       <NavBar />
-      <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem' }}>
+      <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '100vh' }}>
         <Routes>
           <Route path='/' element={<LandingPage />}></Route>
           <Route path='/home' element={<LandingPage />}></Route>
@@ -36,6 +37,7 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />}></Route>
           <Route path='*' element={<Error404></Error404>}></Route>
+          <Route path='/test' element={<StripePay></StripePay>}></Route>
         </Routes>
       </Container>
       <Footer />
