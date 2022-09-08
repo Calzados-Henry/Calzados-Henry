@@ -1,10 +1,8 @@
 import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
 import { Facebook, Instagram, WhatsApp } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 
 function Footer() {
-  const navigate = useNavigate();
   const theme = useTheme();
 
   return (

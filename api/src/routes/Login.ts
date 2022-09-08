@@ -1,16 +1,16 @@
 'use strict'
 // se requiere el models
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { login } from '../controllers/Login';
 
 const router = Router();
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var response: any = await login(req.body);
     res.json(response)
-  } catch (e: any) {
-    res.json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 

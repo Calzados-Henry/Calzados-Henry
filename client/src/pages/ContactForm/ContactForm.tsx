@@ -11,6 +11,7 @@ import Copyright from '../../components/Copyright/Copyright';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import toast, { Toaster } from 'react-hot-toast';
+import { PublicRoutes } from '../../routes/routes';
 
 const validations = yup.object({
   firstName: yup.string().required('First Name is required'),
@@ -50,7 +51,7 @@ export default function ContactForm() {
         .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(() => {
-          setTimeout(() => navigate('/home'), 1000);
+          setTimeout(() => navigate(PublicRoutes.home), 1000);
           setDisabledButton(false);
         });
 
