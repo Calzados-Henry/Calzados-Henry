@@ -24,10 +24,9 @@ const CheckoutForm = () => {
       type: 'card',
       card: elements?.getElement(CardElement),
     });
-    if (!data?.error) {
-      console.log(dataStripe?.paymentMethod);
+    if (!dataStripe?.error) {
       const id = dataStripe?.paymentMethod?.id;
-      const dataPay = await pay({ id, amout: 100000 }).unwrap();
+      dispatch(await pay({ id, amount: 100000 }).unwrap());
     }
     data ? console.log(data) : console.log(error);
   };
