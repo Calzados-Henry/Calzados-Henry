@@ -17,7 +17,7 @@ import CartStore from '../features/cart/CartStore';
 import { PublicRoutes, PrivatesRoutes } from '../routes/routes';
 import AuthGuard from '../guards/auth.guard';
 import Register from '../components/Register/Register';
-import StripePay from '../components/StripePay/StripePay';
+import Test from '../pages/Test/Test';
 
 function App() {
   return (
@@ -25,7 +25,6 @@ function App() {
       <NavBar />
       <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '100vh' }}>
         <Routes>
-          <Route path='/test' element={<StripePay></StripePay>}></Route>
           <Route path={PublicRoutes.start} element={<LandingPage />} />
           <Route path={PublicRoutes.home} element={<LandingPage />} />
           <Route path={PublicRoutes.about} element={<About />} />
@@ -33,7 +32,7 @@ function App() {
           <Route path={PublicRoutes.productsIdParams} element={<ProductDetail />} />
           <Route path={PublicRoutes.contact} element={<ContactForm />} />
           <Route path={PublicRoutes.cart} element={<CartStore />} />
-          <Route path='/test' element={<StripePay></StripePay>}></Route>
+          <Route path='/test' element={<Test></Test>}></Route>
 
           {/* Private Routes  */}
           <Route element={<AuthGuard />}>
