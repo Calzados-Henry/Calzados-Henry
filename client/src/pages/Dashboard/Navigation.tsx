@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { PrivatesRoutes } from '../../routes/routes';
 
 export default function Navigation() {
   return (
@@ -8,15 +9,15 @@ export default function Navigation() {
         <ul>
           <h4>Catalog</h4>
           <ul>
-            <Link to='addproduct'>
+            <Link to={PrivatesRoutes.addProduct}>
               <li>Create Product</li>
             </Link>
 
-            <Link to='addcategory'>
+            <Link to={PrivatesRoutes.addCategory}>
               <li>Create Category</li>
             </Link>
 
-            <Link to='addatribute'>
+            <Link to={PrivatesRoutes.addAtribute}>
               <li>Create atribute</li>
             </Link>
           </ul>

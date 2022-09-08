@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { PublicRoutes } from '../../routes/routes';
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -59,7 +60,7 @@ export default function CartStore() {
       />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
         <Button
-          onClick={() => navigate('/login')}
+          onClick={() => navigate(PublicRoutes.login)}
           variant='contained'
           sx={{ mt: 1, mb: 2, width: '20%' }}>
           Buy Now!

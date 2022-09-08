@@ -13,12 +13,13 @@ import s from './Card.module.css';
 import { ProductPartial } from '../../sehostypes/Product';
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
-
+import toast, { Toaster } from 'react-hot-toast';
+import { PublicRoutes } from '../../routes/routes';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -29,11 +30,15 @@ import { RootState } from '../../store';
   } */
 
 const Shoe: React.FC<ProductPartial> = props => {
+  const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
 
   const products = useSelector((state: RootState) => state.products.allProducts);
-  const shoe = products.find(item => parseInt(item.id) === parseInt(props.id));
+  const added = useSelector((state: RootState) => state.cart.products);
+  const shoe = products.find(
+    (item: ProductPartial) => item.id !== undefined && parseInt(item.id) === parseInt(props.id),
+  );
 
   props.name !== undefined &&
     (props.name.length >= 35
@@ -41,6 +46,8 @@ const Shoe: React.FC<ProductPartial> = props => {
       : (titulo = props.name));
   return (
     <>
+      <Toaster position='bottom-left' reverseOrder={false} />
+
       <Card
         sx={{ maxWidth: 345 }}
         className={s.card}
@@ -54,25 +61,24 @@ const Shoe: React.FC<ProductPartial> = props => {
           marginLeft: '20px',
           marginTop: '20px',
         }}>
-        <Link to={`/products/${props.id}`}>
-          {props.name !== undefined && (
-            <Tooltip
-              title={props?.name ? props.name : 'none'}
-              TransitionComponent={Zoom}
-              sx={{ x: 1 }}
-              arrow>
-              <Box>
-                <CardHeader
-                  color='inherit'
-                  titleTypographyProps={{ fontSize: 18 }}
-                  title={titulo}
-                  subheader='Que Copado es este producto!'
-                  sx={{ cursor: 'pointer' }}
-                />
-              </Box>
-            </Tooltip>
-          )}
-        </Link>
+        {props.name !== undefined && (
+          <Tooltip
+            title={props?.name ? props.name : 'none'}
+            TransitionComponent={Zoom}
+            sx={{ x: 1 }}
+            arrow>
+            <Box>
+              <CardHeader
+                color='inherit'
+                titleTypographyProps={{ fontSize: 18 }}
+                title={titulo}
+                onClick={() => navigate(`${PublicRoutes.products}/${props.id}`)}
+                subheader='Que Copado es este producto!'
+                sx={{ cursor: 'pointer' }}
+              />
+            </Box>
+          </Tooltip>
+        )}
 
         {/* <Typography variant="body1" color="text.primary">
           {titulo}
@@ -101,7 +107,14 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={() => dispatch(addToCart(shoe))}>
+            onClick={() => {
+              if (added.find(el => el.id === props.id)) {
+                toast.error(<b>El producto ya se encuentra en el carrito</b>);
+              } else {
+                dispatch(addToCart(shoe));
+                toast.success(<b>Producto agregado!!</b>);
+              }
+            }}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>
