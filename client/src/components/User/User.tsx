@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Avatar,
@@ -13,14 +13,44 @@ import {
 } from '@mui/material';
 
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import { removeCredentials, setCredentials } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export default function User() {
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
+  const initial = {
+    id: null,
+    username: null,
+    name: null,
+    last_name: null,
+    birth_date: null,
+    phone: null,
+    identification: null,
+  }
+
+  const [login, setLogin] = useState(false)
+  const [user, setUser] = useState(initial)
   const [openDial, setOpenDial] = React.useState(false);
   const handleOpenBackdrop = () => setOpenDial(true);
   const handleCloseBackdrop = () => setOpenDial(false);
+
+  useEffect(() => {
+    const local = window.localStorage.getItem('userInfo')
+    if(local) {
+      setUser(JSON.parse(local))
+      setLogin(true)
+    } else {
+      setUser(initial)
+    }
+    console.log('cambio')
+  }, [openDial])
+
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -65,7 +95,7 @@ export default function User() {
               width: 32,
               height: 32,
               ml: -0.5,
-              mr: 1,
+              mr: 3,
             },
             '&:before': {
               content: '""',
@@ -83,12 +113,12 @@ export default function User() {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem>
-          <Avatar /> Profile
+        <MenuItem onClick={() => login ? navigate('/profile') : navigate('/Login')}>
+          <Avatar /> {login ? `${user.name} ${user.last_name}` : 'Sign In'}
         </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
+        {!login && <><MenuItem><Avatar />Register</MenuItem></>}
+        {login && 
+        <>
         <Divider />
         <MenuItem>
           <ListItemIcon>
@@ -102,12 +132,15 @@ export default function User() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Logout fontSize='small' />
+        <MenuItem onClick={() => {
+          setLogin(false)
+          dispatch(removeCredentials())}
+          }>
+          <ListItemIcon >
+            <Logout fontSize='small'/>
           </ListItemIcon>
           Logout
-        </MenuItem>
+        </MenuItem></>}
       </Menu>
     </>
   );

@@ -1,21 +1,20 @@
 import { apiSlice } from "../api/apiSlice";
 
 export interface User {
-  id: number
-  username: string
-  password: string
-  email: string
-  name: string
-  last_name: string
-  birth_date: Date
-  phone: number
-  identification: number
-  type_user: string
+  id: number | null
+  username: string | null
+  email: string | null
+  name: string | null
+  last_name: string | null
+  birth_date: Date | null
+  phone: string | null
+  identification: number | null
+  type_user: string | null
 }
 
 export interface UserResponse extends User {
   user: User
-  token: string
+  token: string | null
 }
 
 export interface LoginRequest {
