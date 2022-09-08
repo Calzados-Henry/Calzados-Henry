@@ -1,7 +1,6 @@
 'use strict'
 // se requiere el models
-import { Router, Request, Response } from 'express';
-const bcrypt = require('bcrypt');
+import { Router, Request, Response, NextFunction } from 'express';
 import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs } from '../controllers/Users';
 
 const router = Router();
@@ -39,25 +38,21 @@ const router = Router();
 
 // TODO => Pide un usuarios por id || username, email.
 //* Si no se manda nada trae todos los usuarios.
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var users = await getAllValuesUsers(req.query);
     res.json(users)
-  } catch (e: any) {
-    res.json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nUser = await createUsers(req.body)
     res.json(nUser)
-  } catch (e: any) {
-    res.json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
-})
-router.post('/prueba', async (req: Request, res: Response) => {
-  const salt = bcrypt.hashSync(req.body.prueba, 15)
-  res.json(salt)
 })
 router.put('/', async (req: Request, res: Response) => {
   try {

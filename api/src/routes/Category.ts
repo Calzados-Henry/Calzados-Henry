@@ -1,7 +1,8 @@
 'use strict'
 //require
 import { getCategories, postCategory, patchCategory, deleteCategory } from '../controllers/Categories'
-import { Router, Request, Response } from "express"
+import { Router, Request, Response, NextFunction } from "express"
+import { userExtractorAdmin } from '../middleware/userExtractor'
 // const { getCategories } = Categories
 
 //Breve Documentacion:
@@ -21,45 +22,45 @@ import { Router, Request, Response } from "express"
 
 const Category = Router()
 
-Category.get('/', async (_req: Request, res: Response) => {
+Category.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     let categories = await getCategories()
     if (categories) {
       res.json(categories)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 
-Category.post('/', async (req: Request, res: Response) => {
+Category.post('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const createdCategory = await postCategory(req.body.category)
+    const createdCategory = await postCategory(req.body)
     if (createdCategory) {
       res.json(createdCategory)
     }
   } catch (e) {
-    res.status(400).json({ error: 'Hubo algun error' })
+    next(e)
   }
 })
-Category.patch('/', async (req: Request, res: Response) => {
+Category.patch('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const patchedCategory = await patchCategory(req.body)
     if (patchedCategory) {
       res.json(patchedCategory)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
-Category.delete('/', async (req: Request, res: Response) => {
+Category.delete('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const patchedCategory = await deleteCategory(req.body)
     if (patchedCategory) {
       res.json(patchedCategory)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 

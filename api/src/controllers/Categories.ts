@@ -3,24 +3,37 @@ import { Category } from '../db';
 
 export const getCategories = async () => {
   const categories: any = await Category.findAll({ where: { isActive: true } })
-  if (categories) {
+  if (categories.length > 0) {
     return categories
   } else {
     throw new Error('No existen categorías')
   }
 }
 
-export const postCategory = async (category: any): Promise<object> => {
-  const categories: any = await Category.findOrCreate({
-    where: {
-      category: category,
+export const postCategory = async (value: any): Promise<object> => {
+  // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
+  if (Object.prototype.toString.call(value) === '[object Array]') {
+    if (value[0].hasOwnProperty('category')) {
+      try {
+        return await Category.bulkCreate(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'category':'category'}] || {'category':'category'}" }
     }
-  })
-  if (categories.isActive === true) {
-    return categories
-  } else {
-    return categories
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (value.hasOwnProperty('category')) {
+      try {
+        return await Category.create(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'category':'category'}] || {'category':'category'}" }
+    }
   }
+  return { message: "Verifique sus datos!." }
 }
 
 export const patchCategory = async (value: any): Promise<object> => {

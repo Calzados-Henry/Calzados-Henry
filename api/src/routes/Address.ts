@@ -1,7 +1,7 @@
 'use strict'
-//require
 import { postAddress, getAddress, patchAddress, deleteAddress } from '../controllers/Address';
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
+import { userExtractorUser } from '../middleware/userExtractor';
 // const { getCategories } = Categories
 
 //Breve Documentacion:
@@ -24,49 +24,50 @@ import { Router, Request, Response } from "express";
 //     category:'zapatos'
 // }
 
-
 const Address = Router()
 
-Address.get('/:id', async (req: Request, res: Response) => {
+Address.get('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses = await getAddress(req.params.id)
     if (addresses) {
       res.json(addresses)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 
-Address.post('/:id', async (req: Request, res: Response) => {
+Address.post('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const postedAddress = await postAddress(req.params.id, req.body)
+    console.log(postedAddress)
     if (postedAddress) {
       res.json(postedAddress)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 
-Address.patch('/', async (req: Request, res: Response) => {
+Address.patch('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const patchedAddress = await patchAddress(req.body)
     if (patchedAddress) {
       res.json(patchedAddress)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
-Address.delete('/', async (req: Request, res: Response) => {
+
+Address.delete('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const deletedAddress = await deleteAddress(req.body)
     if (deletedAddress) {
       res.json(deletedAddress)
     }
-  } catch (e: any) {
-    res.status(400).json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
 
