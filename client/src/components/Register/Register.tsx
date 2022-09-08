@@ -22,6 +22,10 @@ export default function Register() {
 
     useEffect(() => {
         document.getElementById('formSubmit')?.click()
+        const user = window.localStorage.getItem('user')
+        if(user) {
+            window.history.back()
+        }
     }, [])
 
     const formik = useFormik({
@@ -32,7 +36,7 @@ export default function Register() {
         name: '',
         last_name: '',
         phone: '',
-        identification: 0,
+        identification: '',
         birth_date: '',
         type_user: 'User'
         },
