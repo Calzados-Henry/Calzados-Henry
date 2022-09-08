@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useDispatch } from 'react-redux';
 import { usePayMutation } from '../../features/stripe/stripeApiSlice';
+import { ContentPasteGoOutlined } from '@mui/icons-material';
 
 const stripePromise = loadStripe(
   'pk_test_51LfWiPB2d7giWWONJCFwX9HwqQchBoOQ5hYeVl88SUOZPxiLRUbs767EYlkywbQsEBPVRGu1URKmMn93JWltTjzQ005JqlzeEy',
@@ -15,7 +16,7 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
-  const [pay, { data, isSuccess, isError }] = usePayMutation();
+  const [pay, { data, isSuccess, isError, error }] = usePayMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -25,9 +26,10 @@ const CheckoutForm = () => {
     });
     if (!data?.error) {
       console.log(dataStripe?.paymentMethod);
-      /* const id = dataStripe?.paymentMethod?.id; */
-      /* const dataPay = await pay({ id, amout: 100000 }).unwrap(); */
+      const id = dataStripe?.paymentMethod?.id;
+      const dataPay = await pay({ id, amout: 100000 }).unwrap();
     }
+    data ? console.log(data) : console.log(error);
   };
 
   return (
