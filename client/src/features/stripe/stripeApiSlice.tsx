@@ -4,7 +4,7 @@ export const stripeApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     pay: builder.mutation({
       query: body => ({
-        url: 'checkout',
+        url: 'api/checkout',
         method: 'POST',
         body,
       }),

@@ -25,6 +25,7 @@ function App() {
       <NavBar />
       <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '100vh' }}>
         <Routes>
+          <Route path='/test' element={<StripePay></StripePay>}></Route>
           <Route path={PublicRoutes.start} element={<LandingPage />} />
           <Route path={PublicRoutes.home} element={<LandingPage />} />
           <Route path={PublicRoutes.about} element={<About />} />
@@ -32,7 +33,7 @@ function App() {
           <Route path={PublicRoutes.productsIdParams} element={<ProductDetail />} />
           <Route path={PublicRoutes.contact} element={<ContactForm />} />
           <Route path={PublicRoutes.cart} element={<CartStore />} />
-           <Route path='/test' element={<StripePay></StripePay>}></Route>
+          <Route path='/test' element={<StripePay></StripePay>}></Route>
 
           {/* Private Routes  */}
           <Route element={<AuthGuard />}>
@@ -46,10 +47,7 @@ function App() {
 
           <Route path={PublicRoutes.login} element={<Login />} />
           <Route path={PublicRoutes.error} element={<Error404 />} />
-
           <Route path='/register' element={<Register />}></Route>
-             
-
         </Routes>
       </Container>
       <Footer />
