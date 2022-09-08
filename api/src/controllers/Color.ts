@@ -4,20 +4,37 @@ import { Color } from '../db';
 
 export const getColor = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
+  var color = await Color.findAll({ where: { isActive: true } })
+  return color.length > 0 ? color : { message: "No hay colores registrados." };
+}
+export const getColorAll = async (): Promise<any> => {
+  // Se trae todas las imagenes para los productos
   var color = await Color.findAll()
   return color.length > 0 ? color : { message: "No hay colores registrados." };
 }
-
 export const createColor = async (value: any): Promise<any> => {
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  var color: any = await Color.findAll({ where: { color: String(value.color) } })
-  if (color.length > 0) {
-    if (color[0].dataValues.color.toLowerCase() === String(value.color).toLowerCase()) {
-      return { message: "El color ya se encuentra registrado." }
+  if (Object.prototype.toString.call(value) === '[object Array]') {
+    if (value[0].hasOwnProperty('color')) {
+      try {
+        return await Color.bulkCreate(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'color':'color'}] || {'color':'color'}" }
+    }
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    if (value.hasOwnProperty('color')) {
+      try {
+        return await Color.create(value)
+      } catch (error) {
+        return { message: "No intente ingresar datos existente, verifique porfavor." }
+      }
+    } else {
+      return { message: "Verifique si la key del objeto, ejemplo: [{'color':'color'}] || {'color':'color'}" }
     }
   }
-  // si todo esta correcto crea una nueva talla.
-  return await Color.create(value)
 }
 
 export const updateColor = async (value: any): Promise<any> => {

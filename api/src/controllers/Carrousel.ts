@@ -4,15 +4,12 @@ import { Carrousel } from '../db';
 
 export const getCarrousel = async (): Promise<any> => {
   // TODO => Lista de todas las imagenes para el carrousel [Slider] (isActive=true)
-  var imagesCarrousel: Array<object> = await Carrousel.findAll({ where: { isActive: true } })
-  imagesCarrousel = JSON.parse(JSON.stringify(imagesCarrousel, null, 2))
-  console.log(imagesCarrousel)
+  var imagesCarrousel = await Carrousel.findAll({ where: { isActive: true } })
   return imagesCarrousel.length > 0 ? imagesCarrousel : { message: "No hay imagenes para el carrousel" };
 }
 export const getCarrouselAll = async (): Promise<any> => {
   // TODO => Lista de todas las imagenes activas y desactivadas [Slider] (isActive=true y isActive=false)
   var imagesCarrouselAll = await Carrousel.findAll()
-  imagesCarrouselAll = JSON.parse(JSON.stringify(imagesCarrouselAll, null, 2))
   return imagesCarrouselAll.length > 0 ? imagesCarrouselAll : { message: "No hay imagenes para el carrousel" };
 }
 export const createCarrousel = async (value: any): Promise<any> => {

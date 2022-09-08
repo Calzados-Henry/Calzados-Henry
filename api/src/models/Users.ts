@@ -73,6 +73,7 @@ export default class Users extends Model implements UsersI {
   @Column({
     type: DataType.ENUM('Administrator', 'Employee', 'User'),
     allowNull: false,
+    defaultValue: 'User'
   })
   type_user!: TypeUser;
 

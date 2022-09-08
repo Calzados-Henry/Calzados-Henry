@@ -3,7 +3,7 @@ import { Category } from '../db';
 
 export const getCategories = async () => {
   const categories: any = await Category.findAll({ where: { isActive: true } })
-  if (categories) {
+  if (categories.length > 0) {
     return categories
   } else {
     throw new Error('No existen categorías')

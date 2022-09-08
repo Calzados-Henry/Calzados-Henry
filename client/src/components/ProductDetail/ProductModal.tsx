@@ -11,6 +11,7 @@ import Ratings from './ratings/Ratings';
 import Photos from './photos/Photos';
 import { useNavigate } from 'react-router-dom';
 import Description from './description/Description';
+import { PublicRoutes } from '../../routes/routes';
 
 export default function ProductModal() {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +19,7 @@ export default function ProductModal() {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const navigateHandled = () => {
-    navigate('/product/12');
+    navigate(`${PublicRoutes.products}/12`);
     handleClose();
   };
 

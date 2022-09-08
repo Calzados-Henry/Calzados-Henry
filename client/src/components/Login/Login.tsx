@@ -1,3 +1,4 @@
+
 import { Grid, Paper, Avatar, TextField, Button, Box, Typography, FormControlLabel, Checkbox } from "@mui/material"
 import { LockOutlined } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom";
@@ -13,7 +14,6 @@ const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
-
 
 export default function Login() {
     const paperstyle = {padding:20, height: '70vh', width:400, margin:"100px auto"}
