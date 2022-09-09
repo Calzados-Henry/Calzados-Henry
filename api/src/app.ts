@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import routes from './routes/index';
 import bodyParser from 'body-parser';
 import { errorHandler } from './middleware/handleErrors';
+const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 require('dotenv').config();
@@ -17,7 +18,7 @@ const stripe = new Stripe(STRIPE_TOKEN)
 /* stripe(STRIPE_TOKEN) */
 require('./db');
 const server = express();
-
+server.use(cors())
 // server.name = 'API';
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
