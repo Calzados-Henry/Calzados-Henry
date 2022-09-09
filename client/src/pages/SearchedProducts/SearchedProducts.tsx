@@ -17,12 +17,14 @@ const SearchedProducts = () => {
   }, [products]);
 
   return (
-    <Box textAlign='center'>
-      {products?.map((e: any) => (
-        <div key={e.id}>
-          <Card id={e.id} name={e.name} images={e.images} price={e.price}></Card>
-        </div>
-      ))}
+     <Box textAlign='center'>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {products?.map((e: any) => (
+          <div key={e.id}>
+            <Card id={e.id} name={e.name} images={e.images} price={e.price}></Card>
+          </div>
+        ))}
+      </div>
     </Box>
   );
 };
