@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import Category from './Category';
 import Users from './Users';
 import Sizes from './Sizes';
@@ -22,10 +22,16 @@ router.get('/', (_req: Request, res: Response) => {
   res.json({ messagee: "✅ API_ON! ✅" });
 })
 
-router.post('/email', (req: Request, res: Response) => {
-  const { email, msg } = req.body
-  send(email, msg)
-  res.send('mensaje enviado')
+
+router.post('/email', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const {email, subject, content} = req.body 
+      await send(email, subject, content)
+      res.send('mensaje enviado')    
+    } 
+    catch (error) {
+      next(error)
+    }
 })
 
 router.use('/products/search', Search)

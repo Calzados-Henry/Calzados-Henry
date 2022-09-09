@@ -32,26 +32,28 @@ server.use((_req: Request, res: Response, next: NextFunction) => {
 });
 
 server.use(express.json())
-
+/* server.options */
 server.post('/api/checkout', async (req, res) => {
 
   try {
     const { id, amount } = req.body
-
+    /* const monto=200; */
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
+     
       currency: "USD",
-      description: "Game Keyboard",
+      description: "console",
       payment_method: id,
-      confirm: true
+      confirm: true,
+      amount
     })
 
     console.log(req.body)
     console.log(paymentIntent)
     res.send(paymentIntent)
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
-    res.json({msg:error})
+    console.log(error.raw.message)
+    res.status(404).json({msg:error.raw.message})
   }
 
 })

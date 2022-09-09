@@ -4,11 +4,12 @@ import { LockOutlined } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { LoginRequest, useLoginMutation } from "../../features/auth/authApiSlice";
 import { setCredentials } from "../../features/auth/authSlice";
 import { useAuth } from "../../hooks/useAuth";
+import { setUser } from "../../features/user/userSlice";
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -25,6 +26,13 @@ export default function Login() {
         errorEmail: '',
         errorPassword: ''
     })
+
+    useEffect(() => {
+        const user = window.localStorage.getItem('user')
+        if(user) {
+            navigate('/home')
+        }
+    }, [])
     
     const formik = useFormik<LoginRequest>({
         initialValues: {
@@ -39,12 +47,23 @@ export default function Login() {
             }
             const data = await login(dataLogin).unwrap();
             if(data) {
-                const userLogged = {
+                const userAuth = {
                     user: data.email,
                     rol: data.type_user,
                     token: data.token
                 }
-                dispatch(setCredentials(userLogged));
+                const userInfo = {
+                    id: data.id,
+                    username: data.username,
+                    name: data.name,
+                    last_name: data.last_name,
+                    birth_date: data.birth_date,
+                    phone: data.phone,
+                    identification: data.identification,
+                }
+                window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
+                dispatch(setCredentials(userAuth));
+                navigate('/home')
             }
         },
     });
