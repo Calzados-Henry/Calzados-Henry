@@ -68,7 +68,7 @@ import { createP_Details } from './Product_details';
 //* }
 
 
-async function formatValueProduct(products: any) {
+function formatValueProduct(products: any) {
   products = JSON.parse(JSON.stringify(products, null, 2))
   for (var vProduct of products) {
     var details = vProduct.details[0]
@@ -91,7 +91,7 @@ async function formatValueProduct(products: any) {
 export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
   var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
-  var productValuesFormat = await formatValueProduct(products)
+  var productValuesFormat = formatValueProduct(products)
   return products.length > 0 ? productValuesFormat : { message: "No hay productos para mostrar" };
 }
 

@@ -5,6 +5,7 @@ apiKey.apiKey = process.env.API_KEY
 const transporter = new Sib.TransactionalEmailsApi()
 
 const sender = {
+  name: "SOHES PF",
   email: "sohes2022@hotmail.com"
 }
 export const send = (email: string, subject: string, content: string) => {
@@ -13,6 +14,7 @@ export const send = (email: string, subject: string, content: string) => {
     sender,
     to: receiver,
     subject,
-    textContent: content
+    htmlContent: `<!DOCTYPE html><html><body><h1>${content}</h1><p>My first paragraph.</p></body></html>`
+    // textContent: content
   })
 }
