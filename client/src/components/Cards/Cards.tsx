@@ -6,13 +6,16 @@ import { ProductPartial } from '../../sehostypes/Product';
 import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { setProducts } from '../../features/product/productSlice';
+import { resetSearch, setProducts } from '../../features/product/productSlice';
 import Sorting from '../SideBarComponent/Sorting/Sorting';
+import { useNavigate } from 'react-router-dom';
+import { PublicRoutes } from '../../routes/routes';
 
 const Cards = () => {
   const productsPerPage = 9;
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.allProducts);
+
   const [current, setCurrent] = useState({
     first: 0,
     last: productsPerPage,
@@ -21,9 +24,11 @@ const Cards = () => {
   const updateList = () => {
     data !== undefined && dispatch(setProducts(data));
   };
+
   useEffect(() => {
     // console.log(current)
   }, [current.first, current.last]);
+
   const handleOnChange = (e, page: number) => {
     e.preventDefault();
     const first = (page - 1) * productsPerPage;
