@@ -40,11 +40,6 @@ export const CheckoutForm = props => {
     },
   };
 
-  /*  */
-  const dispatch = useDispatch();
-  const [pay, { data, isSuccess, isError, error }] = usePayMutation();
-  /*  */
-
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const dataStripe = await stripe?.createPaymentMethod({
@@ -57,14 +52,14 @@ export const CheckoutForm = props => {
       try {
         const { data } = await axios.post('http://localhost:3001/api/checkout', {
           id,
-          amount: 12300, //cents
+          amount: 22300, // cents
         });
+        data ? console.log(data) : console.log('error');
       } catch (error) {
         console.log(error);
       }
       setLoading(false);
     }
-    data ? console.log(data) : console.log(error);
   };
 
   const appearance = {
