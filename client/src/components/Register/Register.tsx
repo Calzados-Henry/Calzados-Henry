@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useEffect } from "react";
+import Swal from 'sweetalert2'
 
 const validations = yup.object().shape({
   name: yup.string().required('Username is required'),
@@ -19,6 +20,17 @@ const validations = yup.object().shape({
 export default function Register() {
     const paperstyle = {padding:20, height: '100%', width:450, margin:"100px auto"}
     const navigate = useNavigate();
+    const initial = {
+        username: '',
+        password: '',
+        email: '',
+        name: '',
+        last_name: '',
+        phone: '',
+        identification: '',
+        birth_date: '',
+        type_user: 'User'
+    }
 
     useEffect(() => {
         document.getElementById('formSubmit')?.click()
@@ -29,17 +41,7 @@ export default function Register() {
     }, [])
 
     const formik = useFormik({
-        initialValues: {
-        username: '',
-        password: '',
-        email: '',
-        name: '',
-        last_name: '',
-        phone: '',
-        identification: '',
-        birth_date: '',
-        type_user: 'User'
-        },
+        initialValues: initial,
         validationSchema: validations,
         onSubmit: () => {
         fetch('http://localhost:3001/users/', {
@@ -51,8 +53,34 @@ export default function Register() {
             body: JSON.stringify(formik.values)
         })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error))
+            .then(data => {
+                console.log(data)
+                if(data.username?.includes('existe') || data.email?.includes('existe') || (isNaN(data.identification) && data.identification?.includes('existe'))) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.username || data.email || data.identification,
+                        icon: 'error',
+                        confirmButtonText: 'Try again!'
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Success!',
+                        icon: 'success',
+                        text: `You're Registered!, you will be redirect to Login`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    setTimeout(() => {
+                        navigate('/login')
+                    }, 1200);
+                }
+            })
+            .catch(error => Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Try again!'
+            }))
         },
     });
 
@@ -148,7 +176,7 @@ export default function Register() {
                             <TextField
                                 label='Phone' 
                                 placeholder="Enter phone..." 
-                                type={"number"  }
+                                type="number"
                                 sx={{marginBottom:5}}
                                 fullWidth
                                 id='phone'
