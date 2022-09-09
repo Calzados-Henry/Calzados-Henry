@@ -7,9 +7,9 @@ import * as yup from 'yup';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { LoginRequest, useLoginMutation } from "../../features/auth/authApiSlice";
-import { setCredentials } from "../../features/auth/authSlice";
+import { removeCredentials, setCredentials } from "../../features/auth/authSlice";
 import { useAuth } from "../../hooks/useAuth";
-import { setUser } from "../../features/user/userSlice";
+import Swal from 'sweetalert2'
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -21,16 +21,14 @@ export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const auth = useAuth();
-    const [login, {isLoading, isSuccess}] = useLoginMutation();
-    const [errorSubmit, setErrorSubmit] = useState({
-        errorEmail: '',
-        errorPassword: ''
-    })
+    const [login, {isLoading, isError, isSuccess}] = useLoginMutation();
+    const [checked, setChecked] = useState(false)
+
 
     useEffect(() => {
         const user = window.localStorage.getItem('user')
         if(user) {
-            navigate('/home')
+            window.history.back()
         }
     }, [])
     
@@ -46,7 +44,8 @@ export default function Login() {
                 password: formik.values.password
             }
             const data = await login(dataLogin).unwrap();
-            if(data) {
+
+            if(!data.message) {
                 const userAuth = {
                     user: data.email,
                     rol: data.type_user,
@@ -61,11 +60,33 @@ export default function Login() {
                     phone: data.phone,
                     identification: data.identification,
                 }
-                window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
+                window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 dispatch(setCredentials(userAuth));
-                navigate('/home')
+                Swal.fire({
+                    title: 'Success!',
+                    icon: 'success',
+                    text: `Welcome! ${data.name} ${data.last_name}, you will be redirect`,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                setTimeout(() => {
+                    window.history.back()
+                }, 1200);
+                if(!checked) {
+                    setTimeout(() => {
+                        dispatch(removeCredentials())
+                        window.location.reload()
+                    }, 600000);
+                }
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Try again!'
+                  })
             }
-        },
+        }
     });
 
     return (
@@ -75,7 +96,6 @@ export default function Login() {
                     <Grid>
                         <Avatar sx={{bgcolor:'primary.main'}}><LockOutlined/></Avatar>
                         <h2>Sign In</h2>
-                        {auth.user ? <h1>user: {auth.user} is On!</h1> : <></>}
                     </Grid>
                     <TextField
                         sx={{marginTop: 5, marginBottom:5}} 
@@ -86,8 +106,8 @@ export default function Login() {
                         name='email'
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        error={formik.touched.email && Boolean(formik.errors.email) || errorSubmit.errorEmail !== '' ? true : false}
-                        helperText={formik.touched.email && (formik.errors.email || errorSubmit.errorEmail)}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
                         autoComplete='email'>
                     </TextField>
                     <TextField 
@@ -100,8 +120,8 @@ export default function Login() {
                         name='password'
                         value={formik.values.password}
                         onChange={formik.handleChange}
-                        error={formik.touched.password && Boolean(formik.errors.password) || errorSubmit.errorPassword !== '' ? true : false}
-                        helperText={formik.touched.password && (formik.errors.password || errorSubmit.errorPassword)}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
                         autoComplete='password'>
                     </TextField>
                     <FormControlLabel
@@ -109,6 +129,7 @@ export default function Login() {
                             <Checkbox
                             name= "checked"
                             color= "primary"
+                            onChange={() => setChecked(!checked)}
                             />
                         }
                         label="Remember me"

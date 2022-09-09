@@ -14,6 +14,7 @@ export interface User {
 
 export interface UserResponse extends User {
   user: User
+  message: string | null
   token: string | null
 }
 
