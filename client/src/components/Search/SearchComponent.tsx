@@ -97,9 +97,6 @@ const SearchComponent = (name: Name) => {
       <Button onClick={onClick} size='small' variant='contained'>
         Buscar
       </Button>
-      <Button size='small' variant='contained' onClick={() => navigate(PublicRoutes.searchResult)}>
-        ver resultados
-      </Button>
     </>
   );
 };
