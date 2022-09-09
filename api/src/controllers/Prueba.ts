@@ -13,9 +13,9 @@ import { Address, Users } from '../db'
 export const getAddress = async (id: string): Promise<object> => {
     const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
     if (!userAddresses.addresses.length && userAddresses) {
-        throw new Error('No existen Direcciones guardadas para el usuario ' + id)
+        throw new Error("there's no any saved address for the user id:" + id)
     } else if (!userAddresses) {
-        throw new Error('No existe usuario con id:' + id)
+        throw new Error('the user with id:' + id + "doesn't exists")
     } else {
         return (userAddresses.addresses)
     }
@@ -37,17 +37,17 @@ export const postAddress = async (id: string, body: any): Promise<object> => {
             return userAddresses
         }
     } else if (!created) {
-        throw new Error('ya existe la dirección ' + newAddress.address);
+        throw new Error('the address' + newAddress.address + "already exists");
     } else if (!user) {
-        throw new Error('No se encontró al usuario: ' + id)
+        throw new Error(`we couldn't find the user with id: ` + id)
     }
-    throw new Error('Ocurrió algún error')
+    throw new Error('An error has ocurred')
 }
 
 export const patchAddress = async (value: any): Promise<object> => {
     const address: any = await Address.findByPk(value.id)
     if (address.address == value.update) {
-        throw new Error(`Por favor seleccione una dirección distinta`)
+        throw new Error(`please type another address`)
     } else {
         address.address = value.update
         await address.save()

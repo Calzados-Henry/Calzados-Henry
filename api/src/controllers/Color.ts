@@ -5,7 +5,7 @@ import { Color } from '../db';
 export const getColor = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
   var color = await Color.findAll({ where: { isActive: true } })
-  return color.length > 0 ? color : { message: "No hay colores registrados." };
+  return color.length > 0 ? color : { message: "there aren't any colors registered" };
 }
 export const getColorAll = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
@@ -19,20 +19,20 @@ export const createColor = async (value: any): Promise<any> => {
       try {
         return await Color.bulkCreate(value)
       } catch (error) {
-        return { message: "No intente ingresar datos existente, verifique porfavor." }
+        return { message: "Please check if there's no repeated color" }
       }
     } else {
-      return { message: "Verifique si la key del objeto, ejemplo: [{'color':'color'}] || {'color':'color'}" }
+      return { message: "Please, verify the object key, e. g: [{'color':'color'}] || {'color':'color'}" }
     }
   } else if (Object.prototype.toString.call(value) === '[object Object]') {
     if (value.hasOwnProperty('color')) {
       try {
         return await Color.create(value)
       } catch (error) {
-        return { message: "No intente ingresar datos existente, verifique porfavor." }
+        return { message: "Please verify if that color is not already created" }
       }
     } else {
-      return { message: "Verifique si la key del objeto, ejemplo: [{'color':'color'}] || {'color':'color'}" }
+      return { message: "Please, verify the object key, e. g: [{'color':'color'}] || {'color':'color'}" }
     }
   }
 }
@@ -43,13 +43,13 @@ export const updateColor = async (value: any): Promise<any> => {
   var colorDuplicate = await Color.findAll({ where: { color: String(value.color) } })
   if (colorByID !== null) {
     if (colorDuplicate.length > 0) {
-      return { message: `El color ya existe.` }
+      return { message: `The color already exists.` }
     }
     colorByID.set(value);
     await colorByID.save();
     return colorByID
   }
-  return { message: `No se encontro el color con el ID: ${value.id}.` };
+  return { message: `We couldn't find the color with ID: ${value.id}.` };
 }
 export const deleteColor = async (id: number): Promise<any> => {
   // Se busca el usuario por id para luego darle una baja logica, solo se actualiza el isActive de true a false.
@@ -60,7 +60,7 @@ export const deleteColor = async (id: number): Promise<any> => {
       await colorByID.save();
       return colorByID
     }
-    return { message: `El color con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `The color with id ${id} is already deleted` };
   }
-  return { message: `No se encontro el color con el ID: ${id}` };
+  return { message: `We couldn't find the color with ID: ${id}` };
 }

@@ -11,9 +11,9 @@ import { Address, Users } from '../db'
 export const getAddress = async (id: string): Promise<object> => {
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
   if (!userAddresses.Addresses && userAddresses) {
-    throw new Error('No existen Direcciones guardadas para el usuario: ' + id)
+    throw new Error(`There's not any addresses for the user id: ${id}`)
   } else if (!userAddresses) {
-    throw new Error('No existe usuario con id:' + id)
+    throw new Error(`There's not any user for the id: ${id}`)
   } else {
     return (userAddresses.Addresses)
   }
@@ -36,30 +36,30 @@ export const postAddress = async (id: string, body: any): Promise<object> => {
       return userAddresses
     }
   } else if (!created) {
-    throw new Error('ya existe la dirección ' + newAddress.address);
+    throw new Error(`The address ${newAddress.address} already exists`);
   } else if (!user) {
-    throw new Error('No se encontró al usuario: ' + id)
+    throw new Error(`We couldn't find user with id: ${id}`)
   }
-  throw new Error('Ocurrió algún error')
+  throw new Error('An error has ocurred')
 }
 
 export const patchAddress = async (value: any): Promise<object> => {
   var address: any = await Address.findByPk(value.id)
   if (address !== null) {
     if (address.address === value.address && address.zip_code === value.zip_code) {
-      throw new Error(`Por favor seleccione una dirección distinta`)
+      throw new Error(`Please type another address`)
     }
     address.set(value);
     await address.save();
     return address
   }
-  throw new Error(`No existe el Address con el ID: ${value.id}`)
+  throw new Error(`There's not any address with the id: ${value.id}`)
 }
 
 export const deleteAddress = async (value: any): Promise<object> => {
   const deletedAddress: any = await Address.findByPk(value.id)
   if (deletedAddress.isActive == false) {
-    throw new Error(`${value.address} ya está 'eliminada'`)
+    throw new Error(`${value.address} is already deleted`)
   } else {
     deletedAddress.isActive = false
     await deletedAddress.save()

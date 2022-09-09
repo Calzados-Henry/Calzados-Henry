@@ -45,7 +45,7 @@ export const updateOrder_Detail = async (object: any): Promise<Orders_detailsI> 
     await order_Detail.save()
     return order_Detail
   }
-  throw new Error(`No se encontro el order_detail con el ID:${object.id}.`)
+  throw new Error(`We couldn't find the order detail with the id:${object.id}.`)
 }
 // El order_Detail nunca se eliminar de la base de datos
 

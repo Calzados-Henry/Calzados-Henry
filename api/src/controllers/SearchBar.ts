@@ -21,10 +21,10 @@ export const getProducts = async (product: string): Promise<any> => {
     } else if (filtrados) {
       return filtrados
     } else {
-      throw new Error('No se encontraron productos para ' + product)
+      throw new Error(`there's no any product for` + product)
 
     }
   } else {
-    throw new Error('Por favor ingrese el nombre del producto a buscar')
+    throw new Error('please type something to search for products')
   }
 }

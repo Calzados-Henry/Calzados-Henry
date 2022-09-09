@@ -23,7 +23,7 @@ export const getOrders = async (): Promise<any> => {
       ]
     })
 
-  return orders.length > 0 ? orders : { message: "No hay ordenes para mostrar" };
+  return orders.length > 0 ? orders : { message: "There's no any order to show" };
 }
 
 export const createOrders = async (value: any): Promise<any> => {
@@ -48,13 +48,13 @@ export const updateOrders = async (value: any): Promise<any> => {
   var carrouselDuplicate = await Orders.findAll({ where: { image: String(value.image) } })
   if (carrouselByID !== null) {
     if (carrouselDuplicate.length > 0) {
-      return { message: `La imagen del carrousel ya existente.` }
+      return { message: `The carrousel image already exists` }
     }
     carrouselByID.set(value);
     await carrouselByID.save();
     return carrouselByID
   }
-  return { message: `No se encontro la imagen del carrousel con el ID: ${value.id}.` };
+  return { message: `We couldn't find the carrousel image for the id: ${value.id}.` };
 }
 
 export const deleteOrders = async (id: number): Promise<any> => {
@@ -66,9 +66,9 @@ export const deleteOrders = async (id: number): Promise<any> => {
       await carrouselByID.save();
       return carrouselByID
     }
-    return { message: `La imagen del carrousel con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `the carrousel image with id: ${id} is already deleted` };
   }
-  return { message: `No se encontro la imagen del carrousel con ID ${id}` };
+  return { message: `We couldn't find the carrousel image for the id: ${id}` };
 }
 
 // module.exports = {
