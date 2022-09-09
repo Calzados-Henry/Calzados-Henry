@@ -24,14 +24,14 @@ router.get('/', (_req: Request, res: Response) => {
 
 
 router.post('/email', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const {email, subject, content} = req.body 
-      await send(email, subject, content)
-      res.send('mensaje enviado')    
-    } 
-    catch (error) {
-      next(error)
-    }
+  try {
+    const { email, subject, content } = req.body
+    await send(email, subject, content)
+    res.send('mensaje enviado')
+  }
+  catch (error) {
+    next(error)
+  }
 })
 
 router.use('/products/search', Search)

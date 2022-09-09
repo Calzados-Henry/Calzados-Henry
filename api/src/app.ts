@@ -15,7 +15,7 @@ const STRIPE_TOKEN: string = (process.env.STRIPE_TOKEN as string);
 const stripe = new Stripe(STRIPE_TOKEN)
 
 /* stripe(STRIPE_TOKEN) */
-require('./db.ts');
+require('./db');
 const server = express();
 
 // server.name = 'API';
@@ -39,7 +39,7 @@ server.post('/api/checkout', async (req, res) => {
     const { id, amount } = req.body
     /* const monto=200; */
     const paymentIntent = await stripe.paymentIntents.create({
-     
+
       currency: "USD",
       description: "console",
       payment_method: id,
@@ -53,7 +53,7 @@ server.post('/api/checkout', async (req, res) => {
   } catch (error: any) {
     console.log(error)
     console.log(error.raw.message)
-    res.status(404).json({msg:error.raw.message})
+    res.status(404).json({ msg: error.raw.message })
   }
 
 })
