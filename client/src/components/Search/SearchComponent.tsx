@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { InputBase } from '@mui/material';
+import { Button, InputBase } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setSearchProducts } from '../../features/product/productSlice';
+import { useNavigate } from 'react-router-dom';
+import { PublicRoutes } from '../../routes/routes';
+import { searchProduct } from '../../features/product/searchReducer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import toast from 'react-hot-toast';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -44,32 +52,56 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-type Name = {
-  name: string;
-}
+type Name = string;
 
-const SearchComponent = (name:Name) => {
+const SearchComponent = (name: Name) => {
   const [search, setSearch] = useState({});
+  const products = useSelector((state: RootState) => state.products.searchResult);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearch({ ...search, [e.target.name]: e.target.value });
   };
 
-  const Name: string = name.name;
+  const dispatchSearch = (val: any) => {
+    dispatch(searchProduct(val));
+  };
+
+  const onClick = () => {
+    if (!search[name]?.length || !search.hasOwnProperty(name)) {
+      toast.error(<b>Debe ingresar un valor primero</b>);
+    } else {
+      dispatchSearch(search[name]);
+    }
+  };
+
+  useEffect(() => {
+    if (products?.length) navigate(PublicRoutes.searchResult);
+  }, [products]);
 
   return (
-    <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder='Search...'
-        name={Name}
-        onChange={onChange}
-        inputProps={{ 'aria-label': Name }}
-      />
-    </Search>
+    <>
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder='Search...'
+          name={name}
+          onChange={onChange}
+          inputProps={{ 'aria-label': name }}
+        />
+      </Search>
+      <Button onClick={onClick} size='small' variant='contained'>
+        Buscar
+      </Button>
+      <Button size='small' variant='contained' onClick={() => navigate(PublicRoutes.searchResult)}>
+        ver resultados
+      </Button>
+    </>
   );
-}
+};
 
 export default SearchComponent;

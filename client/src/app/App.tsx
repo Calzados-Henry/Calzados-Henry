@@ -18,6 +18,7 @@ import { PublicRoutes, PrivatesRoutes } from '../routes/routes';
 import AuthGuard from '../guards/auth.guard';
 import Register from '../components/Register/Register';
 import StripePay from '../components/StripePay/StripePay';
+import SearchedProducts from '../pages/SearchedProducts/SearchedProducts';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path={PublicRoutes.productsIdParams} element={<ProductDetail />} />
           <Route path={PublicRoutes.contact} element={<ContactForm />} />
           <Route path={PublicRoutes.cart} element={<CartStore />} />
+          <Route path={PublicRoutes.searchResult} element={<SearchedProducts />} />
           <Route path='/test' element={<StripePay></StripePay>}></Route>
 
           {/* Private Routes  */}
