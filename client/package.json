@@ -17,6 +17,7 @@
     "@mui/material": "^5.10.3",
     "@mui/x-data-grid": "^5.17.0",
     "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
     "dayjs": "^1.11.5",
