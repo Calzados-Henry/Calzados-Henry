@@ -20,6 +20,7 @@ const validations = yup.object().shape({
 export default function Register() {
     const paperstyle = {padding:20, height: '100%', width:450, margin:"100px auto"}
     const navigate = useNavigate();
+    
     const initial = {
         username: '',
         password: '',

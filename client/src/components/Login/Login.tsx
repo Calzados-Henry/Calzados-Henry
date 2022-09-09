@@ -24,6 +24,7 @@ export default function Login() {
     const [login, {isLoading, isError, isSuccess}] = useLoginMutation();
     const [checked, setChecked] = useState(false)
 
+
     useEffect(() => {
         const user = window.localStorage.getItem('user')
         if(user) {
@@ -43,6 +44,7 @@ export default function Login() {
                 password: formik.values.password
             }
             const data = await login(dataLogin).unwrap();
+
             if(!data.message) {
                 const userAuth = {
                     user: data.email,
