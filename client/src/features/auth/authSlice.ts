@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { User } from './authApiSlice';
 
 
 // Esto es typescript
@@ -29,13 +28,16 @@ export const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, rol, token } }: PayloadAction<{ user:string; rol:string; token: string }>
+      { payload: { user, rol, token } }: PayloadAction<{ user:string | null; rol:string | null; token: string | null}>
     ) => {
       state.user = user
       state.rol = rol
       state.token = token
+      window.localStorage.setItem('user', JSON.stringify({user, rol, token}))
     },
     removeCredentials: () => {
+      window.localStorage.removeItem('user')
+      window.localStorage.removeItem('userInfo')
       return initialState
     },
   },

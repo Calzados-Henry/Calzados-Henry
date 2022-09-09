@@ -165,7 +165,6 @@ export const getCart = async (_value: any): Promise<object> => {
   return cart.length > 0 ? cart : { message: "No hay usuarios" };
 }
 export const addCart = async (value: any): Promise<object> => {
-
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var findUser: any = await Users.findByPk(value.id_user)
   await findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })

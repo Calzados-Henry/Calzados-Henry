@@ -13,7 +13,7 @@ export const getProducts = async (product: string): Promise<any> => {
           [Op.iLike]: '%' + product + '%'
         }
       },
-      include: [Users, Category, { model: Product_details, include: [Color, Images, Sizes] }]
+      include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }]
     })
     if (productos.length > 0 && filtrados) {
       const datos = productos.concat(filtrados)
