@@ -1,6 +1,23 @@
 'use strict'
 // se requiere el models
 import { Images } from '../db';
+import { uploadImage/* , deleteImage */ } from '../utils/cloudinary'
+import fs from 'fs-extra'
+
+
+export async function subirImagen(params: any) {
+  const result = await uploadImage(params)
+  await fs.unlink(params)
+  if (result) {
+    const value = {
+      id: result.public_id,
+      image: result.url
+    }
+    return value
+  } else {
+    return {}
+  }
+}
 
 export const getImages = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
@@ -14,27 +31,29 @@ export const getImagesAll = async (): Promise<any> => {
   return images.length > 0 ? images : { message: "There's not any images for the product." };
 }
 
-export const createImages = async (value: any): Promise<any> => {
-  // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  if (Object.prototype.toString.call(value) === '[object Array]') {
-    if (value[0].hasOwnProperty('image')) {
+export const createImages = async (value: any, details?: any): Promise<any> => {
+  if (Object.prototype.toString.call(value.files?.image) === '[object Array]') {
+    if (value.files?.image[0].hasOwnProperty('tempFilePath')) {
       try {
-        return await Images.bulkCreate(value)
-      } catch (error) {
-        return { message: "Please, verify if there's no repeated image" }
+        for (var vImage of value.files?.image) {
+          console.log(details)
+          await details.createImage(await subirImagen(vImage.tempFilePath))
+        }
+      } catch (e: any) {
+        throw new Error(e);
       }
     } else {
-      return { message: "Verifique si la key del objeto, ejemplo: [{'image':'link_image'}] || {'image':'link_image'}" }
+      return { message: "Verifique si la key de los objetos sea [image]" }
     }
-  } else if (Object.prototype.toString.call(value) === '[object Object]') {
-    if (value.hasOwnProperty('image')) {
+  } else if (Object.prototype.toString.call(value.files) === '[object Object]') {
+    if (value.files.image.hasOwnProperty('tempFilePath')) {
       try {
-        return await Images.create(value)
-      } catch (error) {
-        return { message: "No intente ingresar datos existente, verifique porfavor." }
+        await details.createImage(await subirImagen(value.files.image.tempFilePath))
+      } catch (e: any) {
+        throw new Error(e);
       }
     } else {
-      return { message: "Please, verify the object key, e. g: [{'image':'link_image'}] || {'image':'link_image'}" }
+      return { message: "Verifique si la key de los objetos sea [image]" }
     }
   }
 }

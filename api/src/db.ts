@@ -6,13 +6,13 @@ var configSequelize = {
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
   timestamps: false,
   freezeTableName: true,
-  models: [__dirname + '/models'],
-  dialectOptions: {
-    ssl: {
-      require: true, // This will help you. But you will see nwe error
-      rejectUnauthorized: false // This line will fix new error
-    }
-  }
+  models: [__dirname + '/models']
+  // dialectOptions: {
+  //   ssl: {
+  //     require: true, // This will help you. But you will see nwe error
+  //     rejectUnauthorized: false // This line will fix new error
+  //   }
+  // }
 }
 
 export const sequelize = new Sequelize(String(process.env.DATABASE_URL), configSequelize)
@@ -52,7 +52,7 @@ Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_detai
 Users.belongsToMany(Product_details, { as: 'cart', foreignKey: 'id_user', through: Cart_details, })
 Product_details.belongsToMany(Users, { as: 'cart', foreignKey: 'id_product_details', through: Cart_details })
 
-// const model: any = Users
+// const model: any = Product_details
 // for (let assoc of Object.keys(model.associations)) {
 //   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
 //     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');

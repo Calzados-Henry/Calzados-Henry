@@ -11,12 +11,11 @@ import { ImagesI } from "../types";
 
 export default class Images extends Model implements ImagesI {
   @Column({
-    type: DataType.INTEGER,
-    autoIncrement: true,
+    type: DataType.STRING,
     allowNull: false,
     primaryKey: true
   })
-  id!: number;
+  id!: string;
 
   @Column({
     type: DataType.STRING,
