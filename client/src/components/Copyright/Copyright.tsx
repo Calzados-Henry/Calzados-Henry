@@ -6,7 +6,7 @@ export default function Copyright(props: any) {
   return (
     <Typography variant='body2' color='text.secondary' align='center' {...props}>
       {'Copyright © '}
-      <Link to={PublicRoutes.home}>Go to home</Link> {new Date().getFullYear()}
+      <Link to={PublicRoutes.home}>Sehos</Link> {new Date().getFullYear()}
       {'.'}
     </Typography>
   );

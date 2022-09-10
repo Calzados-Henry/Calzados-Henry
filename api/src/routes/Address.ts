@@ -1,24 +1,23 @@
-'use strict'
-import { postAddress, getAddress, patchAddress, deleteAddress } from '../controllers/Address';
-import { Router, Request, Response, NextFunction } from "express";
-import { userExtractorUser } from '../middleware/userExtractor';
+"use strict"
+import { postAddress, getAddress, patchAddress, deleteAddress } from "../controllers/Address"
+import { Router, Request, Response, NextFunction } from "express"
+import { userExtractorUser } from "../middleware/userExtractor"
 // const { getCategories } = Categories
 
 //Breve Documentacion:
 // Ruta GET/addresses:id --> trae todos los direcciones
-
 // Ruta POST/address/:id--> se envia por body la nueva categoría como un "string".
 
-// Ruta PATCH/ --> se envia por body un objeto cuya primera key 
-// debe llamarse ser el 'id' 
+// Ruta PATCH/ --> se envia por body un objeto cuya primera key
+// debe llamarse ser el 'id'
 // y la segunda key debe llamarse 'update' y el value tiene que ser el valor actualizado.
-// ej: 
+// ej:
 // {
 //     id:"1",
 //     update:"zapatos"
 // }
 //Ruta DELETE/category --> se envia por body un objeto con id de la categoria a eliminar ("logicamente")
-//y la categoria, Ejemplo: 
+//y la categoria, Ejemplo:
 // {
 //     id:1,
 //     category:'zapatos'
@@ -26,7 +25,7 @@ import { userExtractorUser } from '../middleware/userExtractor';
 
 const Address = Router()
 
-Address.get('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.get("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses = await getAddress(req.params.id)
     if (addresses) {
@@ -37,7 +36,7 @@ Address.get('/', userExtractorUser, async (req: Request, res: Response, next: Ne
   }
 })
 
-Address.post('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.post("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const postedAddress = await postAddress(req.params.id, req.body)
     console.log(postedAddress)
@@ -49,7 +48,7 @@ Address.post('/', userExtractorUser, async (req: Request, res: Response, next: N
   }
 })
 
-Address.patch('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.patch("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const patchedAddress = await patchAddress(req.body)
     if (patchedAddress) {
@@ -60,7 +59,7 @@ Address.patch('/', userExtractorUser, async (req: Request, res: Response, next: 
   }
 })
 
-Address.delete('/', userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.delete("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const deletedAddress = await deleteAddress(req.body)
     if (deletedAddress) {

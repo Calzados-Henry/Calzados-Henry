@@ -1,5 +1,5 @@
 // import OnlinePays from '../../components/OnlinePays/OnlinePays';
-import Checkout from '../Checkout/Checkout';
+import Checkout from '../CheckoutP/Checkout';
 
 export default function Test() {
   return (
