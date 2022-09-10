@@ -1,31 +1,20 @@
 [
    {
       "id": 1,
-      "name": "Zapatos Casuales Suede Cafe",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "id_category": 1,
+      "name": "Casual Loafers(Suede)",
+      "description": "mode and leisure: abandon the traditional impression of safety shoes, we give them a more elegant look, making these safety work shoes a matching item and it will not look too drab due to work.",
       "gender": "Male",
       "season": "Winter",
       "rate_average": "0.00",
-      "price": 599,
+      "buy_price": 399,
+      "sell_price": 599,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp"
-         }
-      ],
       "category": {
          "id": 1,
-         "category": "Mocasines",
+         "category": "Loafers",
          "isActive": true
       },
       "reviews":
@@ -33,7 +22,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Great! :D",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -41,87 +30,83 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_931952-MLM31904761733_082019-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_608474-MLM31904760295_082019-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_989887-MLM31904760723_082019-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_669693-MLM31904760314_082019-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 2,
-      "name": "Tenis De Mujer Casuales Cómodo Antideslizantes",
-      "description": "Tenis deportivos para mujer muy comodos, con estos tenis tus pies te lo van agradecer",
+      "id_category": 2,
+      "name": "Non-slip Women's Tennis Shoes(Casual Comfortable)",
+      "description": "Very comfortable sports shoes for women, with these shoes your feet will thank you",
       "gender": "Female",
       "season": "Winter",
       "rate_average": "0.00",
-      "price": 612,
+      "buy_price": 500,
+      "sell_price": 612,
+      "isActive": true,
+      "Users": [],
       "sold": 43,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_853394-CBT45634859150_042021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_793531-CBT49606122896_042022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_712208-CBT49505689900_032022-F.webp"
-         }
-      ],
       "category": {
          "id": 2,
-         "category": "Tenis",
+         "category": "Tennis",
          "isActive": true
       },
       "reviews":
@@ -143,81 +128,72 @@
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_853394-CBT45634859150_042021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_793531-CBT49606122896_042022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_712208-CBT49505689900_032022-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 3,
-      "name": "Zapato Caballero Piel Baraldi Confort 100 Comodos Ligeros",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "id_category": 1,
+      "name": "Men's Leather Shoe Baraldi Comfort 100 Comfortable Light",
+      "description": "FASHION AND LEISURE: Give up the traditional impression of safety shoes, we give them a more stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
       "gender": "Male",
-      "season": "Winter",
+      "season": "Spring",
       "rate_average": "0.00",
-      "price": 612,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_658530-MLM48102609741_112021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_965159-MLM48102628684_112021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_658530-MLM48102609741_112021-F.webp"
-         }
-      ],
+      "buy_price": 500,
+      "sell_price": 615,
+      "isActive": true,
+      "Users": [],
+      "sold": 43,
       "category": {
          "id": 1,
-         "category": "Mocasines",
+         "category": "Loafers",
          "isActive": true
       },
       "reviews":
@@ -225,7 +201,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -233,87 +209,78 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_658530-MLM48102609741_112021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_965159-MLM48102628684_112021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_658530-MLM48102609741_112021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 4,
-      "name": "Zapatos Tenis Cómodos Y Resistentes Al Desgaste Para Mujer",
-      "description": "Tenis casuales para mujer muy comodos, con estos tenis tus pies te lo van agradecer",
+      "id_category": 2,
+      "name": "Comfortable And Wear-Resistant Tennis Shoes For Women",
+      "description": "Very comfortable casual tennis shoes for women, with these tennis shoes your feet will thank you",
       "gender": "Female",
-      "season": "Winter",
+      "season": "Autumn",
       "rate_average": "0.00",
-      "price": 599,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_620941-CBT48224135688_112021-F.webp"
-         }, {
-            "id": 2,
-            "image":  "https://http2.mlstatic.com/D_NQ_NP_936604-CBT48675288182_122021-F.webp"
-         }, {
-            "id": 3,
-            "image":  "https://http2.mlstatic.com/D_NQ_NP_2X_936604-CBT48675288182_122021-F.webp"
-         }
-      ],
+      "buy_price": 599,
+      "sell_price": 700,
+      "isActive": true,
+      "Users": [],
+      "sold": 43,
       "category": {
-         "id": 1,
-         "category": "Tenis",
+         "id": 2,
+         "category": "Tennis",
          "isActive": true
       },
       "reviews":
@@ -321,7 +288,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -329,87 +296,78 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 1,
+              "color": "White",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_620941-CBT48224135688_112021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_936604-CBT48675288182_122021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_936604-CBT48675288182_122021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 5,
-      "name": "Crocs Bistro Clog Negro - Crocs",
-      "description": "Diseñado y pensado para chefs, médicos y enfermeras. Este zapato es liviano y cómodo, ideal para acompañarte durante largas jornadas de trabajo. Las bandas Crocs Lock™ otorgan un soporte y protección adicional para tus pies.Con suela antiderrapante, y materiales fáciles de limpiar.Comodidad certificada.",
+      "id_category": 3,
+      "name": "Crocs Bistro Clog Black - Crocs",
+      "description": "Designed and thought for chefs, doctors and nurses. This shoe is light and comfortable, ideal to accompany you during long hours of work. The Crocs Lock ™ bands provide additional support and protection for your feet. With a non-slip sole, and easy-to-clean materials clean.Certified comfort.",
       "gender": "Male",
       "season": "Summer",
       "rate_average": "0.00",
-      "price": 1599,
+      "buy_price": 1009,
+      "sell_price": 1590,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_871500-MLM44370253608_122020-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_871500-MLM44370253608_122020-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_805974-MLM44370262409_122020-F.webp"
-         }
-      ],
       "category": {
          "id": 3,
-         "category": "Sandalias",
+         "category": "flipFlops",
          "isActive": true
       },
       "reviews":
@@ -417,7 +375,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -425,91 +383,78 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 3,
+              "color": "Brown",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_871500-MLM44370253608_122020-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_871500-MLM44370253608_122020-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_805974-MLM44370262409_122020-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 6,
-      "name": "Ojota Cómodas para Playa Antideslizantes Hombre",
-      "description": "Ojotas comodas y resistentes ideales para ir a la playa",
+      "id_category": 3,
+      "name": "Crocs Bistro Clog Black - Crocs",
+      "description": "Designed and thought for chefs, doctors and nurses. This shoe is light and comfortable, ideal to accompany you during long hours of work. The Crocs Lock ™ bands provide additional support and protection for your feet. With a non-slip sole, and easy-to-clean materials clean.Certified comfort.",
       "gender": "Male",
       "season": "Summer",
       "rate_average": "0.00",
-      "price": 299,
+      "buy_price": 250,
+      "sell_price": 299,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_979665-CBT50587761452_072022-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_891543-CBT50587739650_072022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_805862-CBT50587717843_072022-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_783213-CBT50587773324_072022-F.webp"
-
-         }
-      ],
       "category": {
          "id": 3,
-         "category": "Sandalias",
+         "category": "flipFlops",
          "isActive": true
       },
       "reviews":
@@ -517,7 +462,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -525,90 +470,83 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 3,
+              "color": "Brown",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_979665-CBT50587761452_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_891543-CBT50587739650_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_805862-CBT50587717843_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_783213-CBT50587773324_072022-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 7,
-      "name": "Sandalias De Cuña De Verano Para Mujer Zapatos De Plataforma",
-      "description": "Sandalias de cuña de mujer con parte superior sintética suave, cómoda y transpirable Suela de goma antideslizante resistente al desgaste, ofrece el equilibrio y la estabilidad para trabajar todo el día. Las sandalias de verano para mujer con diseño de velcro, fáciles de poner y quitar.El diseño hueco hace que las sandalias de verano sean más elegantes y de moda. Ocasiones: los zapatos de plataforma al aire libre se pueden usar en cualquier ocasión informal, compras, trabajo, playa, vacaciones, fiesta, caminar, etc. Estas sandalias son la mejor opción para el verano casual o elegante.",
+      "id_category": 3,
+      "name": "Womens Summer Wedge Flip Flops Platform Shoes",
+      "description": "Women's wedge Flip Flops with soft, comfortable and breathable synthetic upper. Non-slip wear-resistant rubber sole, offers the balance and stability to work all day. Women's summer flipFlops with velcro design, easy to put on and take off. The hollow design makes the summer flipFlops more stylish and fashionable. Occasions: Outdoor platform shoes can be worn in any casual occasions, shopping, work, beach, vacation, party, walking, etc. These flipFlops are the best choice for summer casual or dressy.",
       "gender": "Female",
       "season": "Summer",
       "rate_average": "0.00",
-      "price": 391,
+      "buy_price": 300,
+      "sell_price": 399,
+      "isActive": true,
+      "Users": [],
       "sold": 20,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_678011-CBT46397669151_062021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_862889-CBT46397604431_062021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_713445-CBT46397643373_062021-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_618803-CBT46397604430_062021-F.webp"
-         }
-      ],
       "category": {
          "id": 3,
-         "category": "Sandalias",
+         "category": "flipFlops",
          "isActive": true
       },
       "reviews":
@@ -616,7 +554,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -624,90 +562,83 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_678011-CBT46397669151_062021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_862889-CBT46397604431_062021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_713445-CBT46397643373_062021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_618803-CBT46397604430_062021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    },{
       "id": 8,
-      "name": "Sandalias Impermeable Varios Colores Para Caballero Sv-054-g",
-      "description": "Este modelo de sandalia hechas de EVA, un material ultra ligero, muy resistente, 100% impermeable, muy suave y flexible que te dará una pisada ergonómica y el máximo confort al caminar. Cuenta con un pequeño soporte en el arco y los dedos elevados para estar cómodo todo el tiempo, Además sus hebillas y las correas son ajutables, para mejorar el ajuste perfecto y más seguridad. Ideales para la playa, alberca, Gym, spa, natación, casa, baño o cualquier ocasión Casual. Colores Vivos e increíbles. ",
+      "id_category": 3,
+      "name": "Flip Flops Waterproof Various Colors For Men Sv-054-g",
+      "description": "This sandal model is made of EVA, an ultra-light material, very resistant, 100% waterproof, very soft and flexible that will give you an ergonomic footprint and maximum comfort when walking. It has a small arch support and raised toes to be comfortable all the time. In addition, its buckles and straps are adjustable, to improve the perfect fit and more security. Ideal for the beach, pool, gym, spa, swimming, home, bathroom or any casual occasion. Vivid and incredible colors.",
       "gender": "Male",
       "season": "Summer",
       "rate_average": "0.00",
-      "price": 214,
+      "buy_price": 150,
+      "sell_price": 214,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image":"https://http2.mlstatic.com/D_NQ_NP_983183-MLM47305693753_082021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_962049-MLM47305711615_082021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_643885-MLM47305689699_082021-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_825188-MLM47305717608_082021-F.webp"
-         }
-      ],
       "category": {
          "id": 3,
-         "category": "Sandalias",
+         "category": "flipFlops",
          "isActive": true
       },
       "reviews":
@@ -715,7 +646,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -723,876 +654,804 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 9,
-      "name": "Botas Hombre Timberland Chukka Davis Square Cuero",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Male",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 2119,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_881768-MLA50583084928_072022-F.webp"
-         }, {
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_983183-MLM47305693753_082021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_962049-MLM47305711615_082021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_643885-MLM47305689699_082021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_825188-MLM47305717608_082021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
+      },{
+         "id": 9,
+         "id_category": 2,
+         "name": "Square Leather Boots for Mens(Timberland Chukka Davis)",
+         "description": "FASHION AND LEISURE: Give up the traditional impression of safety shoes, we give them a more stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Male",
+         "season": "Winter",
+         "rate_average": "0.00",
+         "buy_price": 1800,
+         "sell_price": 2114,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_953191-MLA50583084926_072022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_881768-MLA50583084928_072022-F.webp"
-         }, {
+            "category": "Tennis",
+            "isActive": true
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 3,
+                 "color": "Brown",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_881768-MLA50583084928_072022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_953191-MLA50583084926_072022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_881768-MLA50583084928_072022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 4,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_883924-MLA50583084929_072022-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 10,
+         "id_category": 4,
+         "name": "Ankle Boots For Women(Autum Madden Girl)",
+         "description": "FASHION AND LEISURE: Give up the traditional impression of safety shoes, we give them a more stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Female",
+         "season": "Winter",
+         "rate_average": "0.00",
+         "buy_price": 1300,
+         "sell_price": 1594,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_883924-MLA50583084929_072022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 4,
-         "category": "Botas",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Boots",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 10,
-      "name": "Botin Autum Madden Girl Para Mujer",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Female",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 1594,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_816606-MLM51150135689_082022-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_697063-MLA48795043455_012022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_697063-MLA48795043455_012022-F.webp"
-         }, {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 3,
+                 "color": "Brown",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_816606-MLM51150135689_082022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_697063-MLA48795043455_012022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_697063-MLA48795043455_012022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 4,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_816606-MLM51150135689_082022-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 11,
+         "id_category": 4,
+         "name": "Boots Hiking Timberland Mt. Maddsen",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Male",
+         "season": "Winter",
+         "rate_average": "0.00",
+         "buy_price": 1800,
+         "sell_price": 2294,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_816606-MLM51150135689_082022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 4,
-         "category": "Botas",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Boots",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 11,
-      "name": "Botas Hiking Timberland Mt. Maddsen ",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Male",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 2299,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_693021-MLA50583083989_072022-F.webp"
-         }, {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 2,
+                 "color": "Black",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_693021-MLA50583083989_072022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_865241-MLA50583083986_072022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_826352-MLA50583083987_072022-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 12,
+         "id_category": 2,
+         "name": "Unisex White Tennis(Adidas Advantage)",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Unisex",
+         "season": "Autumn",
+         "rate_average": "0.00",
+         "buy_price": 900,
+         "sell_price": 1110,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_865241-MLA50583083986_072022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_826352-MLA50583083987_072022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 4,
-         "category": "Botas",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Tennis",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 12,
-      "name": "Tenis Unisex adidas Advantage Blancos",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Unisex",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 899,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_859781-MLM46774589113_072021-F.webp"
-         }, {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 1,
+                 "color": "White",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_859781-MLM46774589113_072021-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_894945-MLM46774559574_072021-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_661532-MLM46774500861_072021-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 4,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_823573-MLM46774580240_072021-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 13,
+         "id_category": 2,
+         "name": "Unisex Tennis Puma Rebound",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Unisex",
+         "season": "Autumn",
+         "rate_average": "0.00",
+         "buy_price": 1200,
+         "sell_price": 1340,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_894945-MLM46774559574_072021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_661532-MLM46774500861_072021-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_823573-MLM46774580240_072021-F.webp"
-         }
-      ],
-      "category": {
-         "id": 2,
-         "category": "Tenis",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Tennis",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 13,
-      "name": "Tenis Puma Unisex Rebound Negro Con Rojo",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Unisex",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 1340,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_802307-MLM49996755913_052022-F.webp"
-         }, {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 2,
+                 "color": "Black",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_802307-MLM49996755913_052022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_802307-MLM49996755913_052022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_802307-MLM49996755913_052022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 4,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_802307-MLM49996755913_052022-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 14,
+         "id_category": 2,
+         "name": "Urban Cofortable Unisex Tennis(Pals)",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Unisex",
+         "season": "Summer",
+         "rate_average": "0.00",
+         "buy_price": 190,
+         "sell_price": 283,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_839355-MLM49996877304_052022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_603935-MLM49996831535_052022-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_817518-MLM49996859369_052022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 2,
-         "category": "Tenis",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Tennis",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 14,
-      "name":"Tenis Unisex Cómodos Urbanos, Pals",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Unisex",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 283,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_874695-MLM46144380060_052021-F.webp"
-         }, {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 2,
+                 "color": "Black",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_874695-MLM46144380060_052021-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_857416-MLM49096339527_022022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_933330-MLM46144450973_052021-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 15,
+         "id_category": 2,
+         "name": "Urban Unisex Black Tennis(Converse All Star M9166c)",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Unisex",
+         "season": "Summer",
+         "rate_average": "0.00",
+         "buy_price": 190,
+         "sell_price": 283,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_857416-MLM49096339527_022022-F.webp"
-         }, {
-            "id": 3,
-            "image":"https://http2.mlstatic.com/D_NQ_NP_2X_933330-MLM46144450973_052021-F.webp"
-         }
-      ],
-      "category": {
-         "id": 2,
-         "category": "Tenis",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Tennis",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 15,
-      "name": "Tenis Converse All Star M9166c Urbano Unisex Negro",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Unisex",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 283,
-      "sold": 50,
-      "images": [
-         {
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 2,
+                 "color": "Black",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_925236-MLM42433092479_072020-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_784968-MLM42433083563_072020-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_781549-MLM42433048934_072020-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 4,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_735453-MLM42433048935_072020-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
+         "id": 16,
+         "id_category": 1,
+         "name": "Men's Rubber Sole Loafers(Steve Madden Marionn)",
+         "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+         "gender": "Male",
+         "season": "Winter",
+         "rate_average": "0.00",
+         "buy_price": 350,
+         "sell_price": 599,
+         "isActive": true,
+         "Users": [],
+         "sold": 50,
+         "category": {
             "id": 1,
-            "image":  "https://http2.mlstatic.com/D_NQ_NP_925236-MLM42433092479_072020-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_784968-MLM42433083563_072020-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_781549-MLM42433048934_072020-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_735453-MLM42433048935_072020-F.webp"
-         }
-      ],
-      "category": {
-         "id": 2,
-         "category": "Tenis",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
+            "category": "Loafers",
             "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 16,
-      "name": "Mocasín Steve Madden Marionn Con Suela De Goma Para Hombre",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Male",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 599,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_811574-MLM48829387240_012022-F.webp"
-         }, {
-            "id": 2,
-            "image":  "https://http2.mlstatic.com/D_NQ_NP_866931-MLM48829382225_012022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_866931-MLM48829382225_012022-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_815738-MLM48829397188_012022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 1,
-         "category": "Mocasines",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
+         },
+         "reviews":
+            [
+               {
+                  "id": 1,
+                  "id_user": 1,
+                  "review": "Confortable",
+                  "rate": 5,
+                  "date": "10/08/2022",
+                  "isActive": true
+               },
+               {
+                  "id": 2,
+                  "id_user": 2,
+                  "review": "Can be better",
+                  "rate": 3,
+                  "date": "10/08/2022",
+                  "isActive": true
+               }
+            ],
+            "details": {
+               "color": {
+                 "id": 3,
+                 "color": "Brown",
+                 "isActive": true
+               },
+               "images": [
+                 {
+                   "id": 1,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_811574-MLM48829387240_012022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_866931-MLM48829382225_012022-F.webp",
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "image": "https://http2.mlstatic.com/D_NQ_NP_2X_815738-MLM48829397188_012022-F.webp",
+                   "isActive": true
+                 }
+               ],
+               "sizes": [
+                 {
+                   "id": 4,
+                   "size": "36",
+                   "stock": 10,
+                   "isActive": true
+                 },
+                 {
+                   "id": 1,
+                   "size": "30",
+                   "stock": 16,
+                   "isActive": true
+                 },
+                 {
+                   "id": 3,
+                   "size": "34",
+                   "stock": 15,
+                   "isActive": true
+                 },
+                 {
+                   "id": 2,
+                   "size": "32",
+                   "stock": 18,
+                   "isActive": true
+                 }
+               ]
+             }
+      },{
       "id": 17,
-      "name": "Zapato Tassleme Steve Madden Para Caballero",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "id_category": 5,
+      "name": "Loafers For Men (Tassleme Steve Madden)",
+      "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
       "gender": "Male",
-      "season": "Winter",
+      "season": "Spring",
       "rate_average": "0.00",
-      "price": 1739,
+      "buy_price": 1590,
+      "sell_price": 1783,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_611003-MLM50451713030_062022-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_907953-MLM50451552622_062022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_606966-MLA48810800689_012022-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_907953-MLM50451552622_062022-F.webp"
-         }
-      ],
       "category": {
-         "id": 1,
-         "category": "Mocasines",
+         "id": 5,
+         "category": "Shoes",
          "isActive": true
       },
       "reviews":
@@ -1600,7 +1459,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -1608,90 +1467,78 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
+         "details": {
+            "color": {
+              "id": 3,
+              "color": "Brown",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_611003-MLM50451713030_062022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_907953-MLM50451552622_062022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_606966-MLA48810800689_012022-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
+   },  {
       "id": 18,
-      "name": "Tenis Forever 21 June Urbano Para Mujer Color Negro",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "id_category": 2,
+      "name": "Urban Tennis for woman(Forever 21 June)",
+      "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
       "gender": "Female",
-      "season": "Winter",
+      "season": "Spring",
       "rate_average": "0.00",
-      "price": 512,
+      "buy_price": 450,
+      "sell_price": 512,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_959062-MLM45851265655_052021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_705545-MLM45851256802_052021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_824372-MLM45851261776_052021-F.webp"
-         }, {
-            "id": 4,
-            "image":"https://http2.mlstatic.com/D_NQ_NP_2X_907366-MLM45851336203_052021-F.webp"
-         }
-      ],
       "category": {
          "id": 2,
-         "category": "Tenis",
+         "category": "Tennis",
          "isActive": true
       },
       "reviews":
@@ -1699,7 +1546,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -1707,189 +1554,78 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_959062-MLM45851265655_052021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_705545-MLM45851256802_052021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_824372-MLM45851261776_052021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
+   },  {
       "id": 19,
-      "name": "Botin Madden Girl Gotchha Para Mujer",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
-      "gender": "Male",
-      "season": "Winter",
-      "rate_average": "0.00",
-      "price": 2199,
-      "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_751729-MLM50893487543_072022-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_949087-MLM50893403911_072022-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_862480-MLM50893450730_072022-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669028-MLM50893612072_072022-F.webp"
-         }
-      ],
-      "category": {
-         "id": 4,
-         "category": "Botas",
-         "isActive": true
-      },
-      "reviews":
-         [
-            {
-               "id": 1,
-               "id_user": 1,
-               "review": "Muy bueno :D",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            },
-            {
-               "id": 2,
-               "id_user": 2,
-               "review": "Maso",
-               "rate": 3,
-               "date": "10/08/2022",
-               "isActive": true
-            }
-         ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
-   },{
-      "id": 20,
-      "name": "Bota Westies Weamagiri Caña Baja Taco Ancho Para Mujer",
-      "description": "moda y ocio: abandona la impresión tradicional de calzado de seguridad, les damos un aspecto más elegante, haciendo de estos zapatos de trabajo de seguridad un artículo a juego y no parecerá demasiado monótono debido al trabajo.",
+      "id_category": 4,
+      "name": "Boots for woman (Madden Girl Gotchha)",
+      "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
       "gender": "Female",
       "season": "Winter",
       "rate_average": "0.00",
-      "price": 2199,
+      "buy_price": 1850,
+      "sell_price": 2112,
+      "isActive": true,
+      "Users": [],
       "sold": 50,
-      "images": [
-         {
-            "id": 1,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_795726-MLM48498202067_122021-F.webp"
-         }, {
-            "id": 2,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_967244-MLM48498059897_122021-F.webp"
-         }, {
-            "id": 3,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_782475-MLM48498138383_122021-F.webp"
-         }, {
-            "id": 4,
-            "image": "https://http2.mlstatic.com/D_NQ_NP_2X_995545-MLM48498188183_122021-F.webp"
-         }
-      ],
       "category": {
          "id": 4,
-         "category": "Botas",
+         "category": "Boots",
          "isActive": true
       },
       "reviews":
@@ -1897,7 +1633,7 @@
             {
                "id": 1,
                "id_user": 1,
-               "review": "Muy bueno :D",
+               "review": "Confortable",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
@@ -1905,63 +1641,159 @@
             {
                "id": 2,
                "id_user": 2,
-               "review": "Maso",
+               "review": "Can be better",
                "rate": 3,
                "date": "10/08/2022",
                "isActive": true
             }
          ],
-      "product_details": [
-         {
-            "id_product": 1,
-            "id_size": 1,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 2,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 2,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 3,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 3,
-            "id_color": 4,
-            "stock": 10,
-            "isActive": true
-         }, {
-            "id_product": 1,
-            "id_size": 4,
-            "id_color": 1,
-            "stock": 10,
-            "isActive": true
-         }
-      ]
+         "details": {
+            "color": {
+              "id": 2,
+              "color": "Black",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_751729-MLM50893487543_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_949087-MLM50893403911_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_862480-MLM50893450730_072022-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_669028-MLM50893612072_072022-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
+   },  {
+      "id": 20,
+      "id_category": 4,
+      "name": "Low & Wide Heel Boots For Women(Westies Weamagiri)",
+      "description": "stylish look, making these safety work shoes a matching item and it won't look too drab due to work.",
+      "gender": "Male",
+      "season": "Winter",
+      "rate_average": "0.00",
+      "buy_price": 1850,
+      "sell_price": 2112,
+      "isActive": true,
+      "Users": [],
+      "sold": 50,
+      "category": {
+         "id": 4,
+         "category": "Boots",
+         "isActive": true
+      },
+      "reviews":
+         [
+            {
+               "id": 1,
+               "id_user": 1,
+               "review": "Confortable",
+               "rate": 5,
+               "date": "10/08/2022",
+               "isActive": true
+            },
+            {
+               "id": 2,
+               "id_user": 2,
+               "review": "Can be better",
+               "rate": 3,
+               "date": "10/08/2022",
+               "isActive": true
+            }
+         ],
+         "details": {
+            "color": {
+              "id": 3,
+              "color": "Brown",
+              "isActive": true
+            },
+            "images": [
+              {
+                "id": 1,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_795726-MLM48498202067_122021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_967244-MLM48498059897_122021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_782475-MLM48498138383_122021-F.webp",
+                "isActive": true
+              },
+              {
+                "id": 4,
+                "image": "https://http2.mlstatic.com/D_NQ_NP_2X_995545-MLM48498188183_122021-F.webp",
+                "isActive": true
+              }
+            ],
+            "sizes": [
+              {
+                "id": 4,
+                "size": "36",
+                "stock": 10,
+                "isActive": true
+              },
+              {
+                "id": 1,
+                "size": "30",
+                "stock": 16,
+                "isActive": true
+              },
+              {
+                "id": 3,
+                "size": "34",
+                "stock": 15,
+                "isActive": true
+              },
+              {
+                "id": 2,
+                "size": "32",
+                "stock": 18,
+                "isActive": true
+              }
+            ]
+          }
    }
 ]
 
