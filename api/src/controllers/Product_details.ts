@@ -6,7 +6,7 @@ import { Product_details, Color, Images, Sizes } from '../db';
 export const getP_Details = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
   var p_Detail = await Product_details.findAll({ include: [Color, Images, Sizes] })
-  return p_Detail.length > 0 ? p_Detail : { message: "No hay (detalles de producto) para mostrar" };
+  return p_Detail.length > 0 ? p_Detail : { message: "There's no product details to show" };
 }
 
 export const createP_Details = async (value: any): Promise<any> => {
@@ -28,7 +28,7 @@ export const updateP_Details = async (value: any): Promise<any> => {
     await p_DetailByID.save();
     return p_DetailByID
   }
-  return { message: `No se encontro (detalles de producto) con el ID: ${value.id}.` };
+  return { message: `we couldn't find the product details for the id: ${value.id}.` };
 }
 
 export const deleteP_Details = async (id: number): Promise<any> => {
@@ -40,7 +40,7 @@ export const deleteP_Details = async (id: number): Promise<any> => {
       await p_DetailByID.save();
       return p_DetailByID
     }
-    return { message: `El (detalles de producto) con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `the product details with id: ${id} is already deleted` };
   }
-  return { message: `No se encontro (detalles de producto) con el ID: ${id}` };
+  return { message: `we couldn't find the product details for the id: ${id}` };
 }
