@@ -79,7 +79,7 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
     if (nObjUser) {
       return await formatValueUsers(nObjUser)
     } else {
-      return { message: "No se encontro usuario con ID: " + id };
+      return { message: "we couldn't find user with id: " + id };
     }
   } else if (username) {
     let userName = await Users.findOne({ where: { username: username }, include: ['cart', 'favs'] })
@@ -87,7 +87,7 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
     if (nObjUser) {
       return await formatValueUsers(nObjUser)
     } else {
-      return { message: "No se encontro usuario con Username: " + username };
+      return { message: "we couldn't find user with username:" + username };
     }
   } else if (email) {
     let userEmail = await Users.findOne({ where: { email: email }, include: ['cart', 'favs'] })
@@ -95,11 +95,11 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
     if (nObjUser) {
       return await formatValueUsers(nObjUser)
     } else {
-      return { message: "No se encontro usuario con Email: " + email };
+      return { message: "there's no exist any user with the email: " + email };
     }
   } else {
     let users = await Users.findAll()
-    return users.length > 0 ? users : { message: "No hay usuarios" };
+    return users.length > 0 ? users : { message: "there're not users" };
   }
 }
 
@@ -120,13 +120,13 @@ export const createUsers = async (value: any): Promise<object> => {
   if (username.length > 0 || email.length > 0 || identification.length > 0) {
     let error: error = {};
     if (username.length > 0) {
-      error.username = "El username ya existe"
+      error.username = "the username already exists"
     }
     if (email.length > 0) {
-      error.email = "El email ya existe"
+      error.email = "the email already exists"
     }
     if (identification.length > 0) {
-      error.identification = "La identificacion ya existe"
+      error.identification = "The identification already exists"
     }
     return error;
   }
@@ -142,7 +142,7 @@ export const updateUser = async (value: any): Promise<object> => {
     await userByID.save();
     return userByID
   }
-  return { message: `No se encontro el usuario con ID ${value.id}` };
+  return { message: `we couldn't find user with id: ${value.id}` };
 }
 export const deleteUser = async (id: number): Promise<object> => {
   // Se busca el usuario por id para luego darle una baja logica, solo se actualiza el isActive de true a false.
@@ -153,9 +153,9 @@ export const deleteUser = async (id: number): Promise<object> => {
       await userByID.save();
       return userByID
     }
-    return { message: `El usuario con ID ${id} ya se encuentra Eliminado` };
+    return { message: `the user with id: ${id} is already 'deleted'` };
   }
-  return { message: `No se encontro el usuario con ID ${id}` };
+  return { message: `we couldn't find the user with id: ${id}` };
 }
 
 //!====================================================
@@ -164,7 +164,7 @@ export const deleteUser = async (id: number): Promise<object> => {
 export const getCart = async (_value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var cart = await Users.findAll()
-  return cart.length > 0 ? cart : { message: "No hay usuarios" };
+  return cart.length > 0 ? cart : { message: "there're not users" };
 }
 export const addCart = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
@@ -175,12 +175,12 @@ export const addCart = async (value: any): Promise<object> => {
 export const updateCart = async (_value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var users = await Users.findAll()
-  return users.length > 0 ? users : { message: "No hay usuarios" };
+  return users.length > 0 ? users : { message: "there're not users" };
 }
 export const deleteCart = async (_value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var users = await Users.findAll()
-  return users.length > 0 ? users : { message: "No hay usuarios" };
+  return users.length > 0 ? users : { message: "there're not users" };
 }
 
 
@@ -195,7 +195,7 @@ export const getFavs = async (id: any): Promise<object> => {
   console.log(id)
   var users: any = await Users.findByPk(id, { include: 'favs' })
 
-  return users ? users : { message: "No hay usuarios" };
+  return users ? users : { message: "there're not users" };
 }
 export const addFavs = async (value: any): Promise<object> => {
   var { id_user, id_product_details } = value;
@@ -204,6 +204,6 @@ export const addFavs = async (value: any): Promise<object> => {
   var users: any = await Users.findByPk(id_user)
   await users.addFavs(id_product_details)
 
-  return users ? users : { message: "No hay usuarios" };
+  return users ? users : { message: "there're not users" };
 }
 

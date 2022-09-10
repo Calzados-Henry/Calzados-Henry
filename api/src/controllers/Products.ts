@@ -93,7 +93,7 @@ export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
   var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
   var productValuesFormat = formatValueProduct(products)
-  return products.length > 0 ? productValuesFormat : { message: "No hay productos para mostrar" };
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
 }
 
 export const createProducts = async (req: any): Promise<any> => {
@@ -118,7 +118,7 @@ export const updateProducts = async (value: any): Promise<any> => {
     await productByID.save();
     return productByID
   }
-  return { message: `No se encontro el producto con el ID: ${value.id}.` };
+  return { message: `we couldn't find the product with id: ${value.id}.` };
 }
 
 export const deleteProducts = async (id: number): Promise<any> => {
@@ -130,7 +130,7 @@ export const deleteProducts = async (id: number): Promise<any> => {
       await productByID.save();
       return productByID
     }
-    return { message: `El producto con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `The product with id ${id} is already deleted` };
   }
-  return { message: `No se encontro el producto con el ID ${id}` };
+  return { message: `we couldn't find the product with id: ${id}` };
 }

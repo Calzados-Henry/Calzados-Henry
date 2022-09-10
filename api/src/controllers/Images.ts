@@ -22,13 +22,13 @@ export async function subirImagen(params: any) {
 export const getImages = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
   var images = await Images.findAll({ where: { isActive: true } })
-  return images.length > 0 ? images : { message: "No hay imagenes para el producto." };
+  return images.length > 0 ? images : { message: "There's not any images for the product." };
 }
 
 export const getImagesAll = async (): Promise<any> => {
   // Se trae todas las imagenes para los productos
   var images = await Images.findAll()
-  return images.length > 0 ? images : { message: "No hay imagenes para el producto." };
+  return images.length > 0 ? images : { message: "There's not any images for the product." };
 }
 
 export const createImages = async (value: any, details?: any): Promise<any> => {
@@ -64,13 +64,13 @@ export const updateImages = async (value: any): Promise<any> => {
   var imagesDuplicate = await Images.findAll({ where: { image: String(value.image) } })
   if (imagesByID !== null) {
     if (imagesDuplicate.length > 0) {
-      return { message: `La imagen del producto ya existe.` }
+      return { message: `The image already exists` }
     }
     imagesByID.set(value);
     await imagesByID.save();
     return imagesByID
   }
-  return { message: `No se encontro la imagen del producto con el ID: ${value.id}.` };
+  return { message: `We couldn't find the image with ID: ${value.id}.` };
 }
 export const deleteImages = async (id: number): Promise<any> => {
   // Se busca el usuario por id para luego darle una baja logica, solo se actualiza el isActive de true a false.
@@ -81,7 +81,7 @@ export const deleteImages = async (id: number): Promise<any> => {
       await imagesByID.save();
       return imagesByID
     }
-    return { message: `La imagen del producto con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `the product image with id: ${id} is already 'deleted'` };
   }
-  return { message: `No se encontro la imagen del producto con ID ${id}` };
+  return { message: `We couldn't find the image with ID: ${id}` };
 }
