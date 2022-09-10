@@ -1,3 +1,5 @@
+import { Images } from "../../sehostypes/Product";
+
 export interface Rating {
   rate: number;
   count: number;
@@ -7,17 +9,14 @@ export interface Category {
   category: string,
   isActive: boolean
 }
-export interface image {
-  id: number,
-  image: string
-}
+
 export interface ProductI {
   id?: number;
   name?: string;
   price?: number;
   description?: string;
   category?: Category;
-  images?: image[];
+  images?: Images[];
   rating?: Rating;
 }
 export interface RatingPartial extends Partial<Rating> {}

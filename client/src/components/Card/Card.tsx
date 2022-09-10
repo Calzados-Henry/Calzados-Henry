@@ -16,10 +16,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../features/cart/CartSlice';
+import { addToCart, CartI } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
 import toast, { Toaster } from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
+import { getProductsLocalStorage, setProductLocalStorage } from '../../utils/utils';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -35,11 +36,9 @@ const Shoe: React.FC<ProductPartial> = props => {
   const dispatch = useDispatch();
 
   const products = useSelector((state: RootState) => state.products.allProducts);
-  const added = useSelector((state: RootState) => state.cart.products);
-  const shoe = products.find(
-    (item: ProductPartial) => item.id !== undefined && parseInt(item.id) === parseInt(props.id),
-  );
-
+  const added = getProductsLocalStorage()
+  const cartProduct:Partial<CartI> = {}
+  
   props.name !== undefined &&
     (props.name.length >= 35
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
@@ -73,7 +72,7 @@ const Shoe: React.FC<ProductPartial> = props => {
                 titleTypographyProps={{ fontSize: 18 }}
                 title={titulo}
                 onClick={() => navigate(`${PublicRoutes.products}/${props.id}`)}
-                subheader='Que Copado es este producto!'
+                subheader={props.description?.slice(0,30) + '...'}
                 sx={{ cursor: 'pointer' }}
               />
             </Box>
@@ -83,7 +82,7 @@ const Shoe: React.FC<ProductPartial> = props => {
         {/* <Typography variant="body1" color="text.primary">
           {titulo}
         </Typography> */}
-        {props.images !== undefined && <img src={props.images[0].image} className={s.image} />}
+        {props.details?.images !== undefined && <img src={props.details?.images[0].image} className={s.image} />}
         {/* <CardMedia color='inherit'
         component="img"
         height="180"
@@ -93,7 +92,7 @@ const Shoe: React.FC<ProductPartial> = props => {
       /> */}
         <CardContent color='inherit'>
           <Typography variant='body2' color='text.secondary'>
-            {`$ ${props.price}`}
+            {`$ ${props.sell_price}`}
           </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
@@ -108,11 +107,10 @@ const Shoe: React.FC<ProductPartial> = props => {
             color='inherit'
             aria-label='add to cart'
             onClick={() => {
-              if (added.find(el => el.id === props.id)) {
-                toast.error(<b>El producto ya se encuentra en el carrito</b>);
+              if (added && added.find(el => el.details.id === props.id)) {
+                toast.success(<b>Correctly updated amount!</b>);
               } else {
-                dispatch(addToCart(shoe));
-                toast.success(<b>Producto agregado!!</b>);
+                toast.success(<b>Product added!!</b>);
               }
             }}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
@@ -122,6 +120,8 @@ const Shoe: React.FC<ProductPartial> = props => {
     </>
   );
 };
+
+
 
 export default Shoe;
 

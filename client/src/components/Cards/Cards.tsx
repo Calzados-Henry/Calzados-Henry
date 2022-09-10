@@ -6,44 +6,46 @@ import { ProductPartial } from '../../sehostypes/Product';
 import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { resetSearch, setProducts } from '../../features/product/productSlice';
-import Sorting from '../SideBarComponent/Sorting/Sorting';
-import { useNavigate } from 'react-router-dom';
-import { PublicRoutes } from '../../routes/routes';
+import { setProducts } from '../../features/product/productSlice';
 
 const Cards = () => {
-  const productsPerPage = 9;
+  const productsPerPage: number = 9;
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.allProducts);
-
+  const [page, setPage] = useState(1);
   const [current, setCurrent] = useState({
     first: 0,
     last: productsPerPage,
   });
 
+  
+  useEffect(() =>{ 
+    const newPages = {
+      first: (page - 1) * productsPerPage,
+      last: ((page - 1) * productsPerPage) + productsPerPage
+    }
+    setCurrent(newPages);
+  }, [page])
+  
+  const handleOnChange = (e: React.ChangeEvent<unknown>, value: number) => {
+    e.preventDefault();
+    setPage(value)
+  };
+  const { data, error, isLoading, isSuccess } = useGetProductsQuery();
+  let content;
+  if (isLoading)
+  content = <img src='https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif' alt='loading' />;
+  if (error) content = <h2>Ups hay un error</h2>;
   const updateList = () => {
     data !== undefined && dispatch(setProducts(data));
   };
 
   useEffect(() => {
-    // console.log(current)
-  }, [current.first, current.last]);
-
-  const handleOnChange = (e, page: number) => {
-    e.preventDefault();
-    const first = (page - 1) * productsPerPage;
-    const last = (page - 1) * productsPerPage + productsPerPage;
-    setCurrent({ first, last });
-  };
-  const { data, error, isLoading, isSuccess } = useGetProductsQuery();
-  let content;
-  if (isLoading)
-    content = <img src='https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif' alt='loading' />;
-  if (error) content = <h2>Ups hay un error</h2>;
-  if (data) updateList();
-
+    if (data) updateList();
+  },[data])
+  
   const currentsProducts = products.slice(current.first, current.last);
-
+  
   content = (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -52,14 +54,16 @@ const Cards = () => {
             key={shoe.id}
             id={shoe.id}
             name={shoe.name}
-            images={shoe.images}
-            price={shoe.price}
+            details={shoe.details}
+            sell_price={shoe.sell_price}
+            description={shoe.description}
           />
         ))}
       </div>
       <Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
         <Pagination
           count={Math.ceil(products.length / productsPerPage)}
+          page={page}
           onChange={handleOnChange}
         />
       </Box>
