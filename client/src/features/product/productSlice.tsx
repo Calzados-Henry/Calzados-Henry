@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ProductPartial, ProductI, Pricing } from '../../sehostypes/Product';
+import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
@@ -18,14 +18,23 @@ export const productsSlice = createSlice({
     reset: state => {
       state.allProducts = [];
     },
-    filtProductsByPrice: (state, action: PayloadAction<Pricing>) => {
+    filtProducts: (state, action: PayloadAction<Filter[]>) => {
       let filtro = [];
+      // [{clave: 'price', value: {}}, {clave: 'category', value: ''}]
+      // item.price !== undefined &&
+      //     item.price >= action.payload.base &&
+      //     item.price <= action.payload.top,
+
       filtro = state.allProducts.filter(
-        (item: ProductPartial) =>
-          item.price !== undefined &&
-          item.price >= action.payload.base &&
-          item.price <= action.payload.top,
-      );
+        (item: ProductI) => action.payload.every(filter => 
+          filter.clave === 'category' ?(filter.valor !== '' && item[filter.clave].category === filter.valor ):
+          (filter.clave === 'price' ?  ( (filter.valor.top !== 0 && filter.valor.base !== 0) &&
+          (item.price >= filter.valor.base &&
+          item.price <= filter.valor.top) ): (filter.valor !== '' && item[filter.clave] === filter.valor))
+          )
+          )
+          
+
       state.allProducts = filtro;
     },
     filtProductsByCategory: (state, action: PayloadAction<string>) => {
@@ -86,7 +95,7 @@ export const productsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setProducts, sortProducts, filtProductsByPrice, filtProductsByCategory, reset } =
+export const { setProducts, sortProducts, filtProducts, filtProductsByCategory, reset } =
   productsSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
