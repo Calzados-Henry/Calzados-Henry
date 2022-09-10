@@ -42,7 +42,7 @@ export interface ProductsI {
 }
 
 export interface ImagesI {
-  id: number
+  id: string
   image: string
   isActive: boolean
 }

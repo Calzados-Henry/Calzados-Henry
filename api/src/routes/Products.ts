@@ -3,6 +3,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { getProducts, createProducts, updateProducts, deleteProducts } from '../controllers/Products';
 import { userExtractorAdmin } from '../middleware/userExtractor';
+import fileUpload from 'express-fileupload'
 const router = Router();
 
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
@@ -13,9 +14,9 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
-router.post('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', userExtractorAdmin, fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    var nProducts = await createProducts(req.body)
+    var nProducts: string = await createProducts(req)
     res.json(nProducts)
   } catch (e) {
     next(e)

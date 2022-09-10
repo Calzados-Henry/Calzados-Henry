@@ -3,6 +3,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { getImages, createImages, updateImages, deleteImages } from '../controllers/Images';
 import { userExtractorAdmin } from '../middleware/userExtractor';
+import fileUpload from 'express-fileupload'
+
+
 const router = Router();
 
 //* README *
@@ -58,9 +61,9 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
-router.post('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', userExtractorAdmin, fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    var nImages: string = await createImages(req.body)
+    var nImages: string = await createImages(req)
     res.json(nImages)
   } catch (e) {
     next(e)

@@ -20,20 +20,20 @@ export const createSize = async (value: any): Promise<any> => {
       try {
         return await Sizes.bulkCreate(value)
       } catch (error) {
-        return { message: "No intente ingresar datos existente, verifique porfavor." }
+        return { message: "please don't try to insert exist data,verify." }
       }
     } else {
-      return { message: "Verifique si la key del objeto, ejemplo: [{'size':'talla'}] || {'size':'talla'}" }
+      return { message: "Please, verify the object key, e. g:  [{'size':'talla'}] || {'size':'talla'}" }
     }
   } else if (Object.prototype.toString.call(value) === '[object Object]') {
     if (value.hasOwnProperty('size')) {
       try {
         return await Sizes.create(value)
       } catch (error) {
-        return { message: "No intente ingresar datos existente, verifique porfavor." }
+        return { message: "please don't try to insert exist data,verify." }
       }
     } else {
-      return { message: "Verifique si la key del objeto, ejemplo: [{'size':'talla'}] || {'size':'talla'}" }
+      return { message: "Please, verify the object key, e. g: : [{'size':'talla'}] || {'size':'talla'}" }
     }
   }
 }
@@ -62,7 +62,7 @@ export const deleteSize = async (id: number): Promise<any> => {
       await sizeByID.save();
       return sizeByID
     }
-    return { message: `La talla con ID: ${id} ya se encuentra Eliminado` };
+    return { message: `the size with ID: ${id} is already 'deleted'` };
   }
-  return { message: `No se encontro la talla con ID ${id}` };
+  return { message: `we couldn't find the size with id: ${id}` };
 }

@@ -10,11 +10,7 @@ import type { RootState } from '../../store';
 import { Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { PublicRoutes } from '../../routes/routes';
-
-const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-});
+import { currencyFormatter } from '../../utils/currencyFormat';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
