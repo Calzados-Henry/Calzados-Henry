@@ -1,12 +1,13 @@
-import OnlinePays from '../../components/OnlinePays/OnlinePays';
+// import OnlinePays from '../../components/OnlinePays/OnlinePays';
+import Checkout from '../CheckoutP/Checkout';
 
 export default function Test() {
   return (
     <>
       {/* <Stripe></Stripe> */}
       {/*  <StripePay></StripePay> */}
-      <OnlinePays></OnlinePays>
-      <p>4242424242424242</p>
+      {/* <OnlinePays></OnlinePays> */}
+      <Checkout></Checkout>
     </>
   );
 }
