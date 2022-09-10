@@ -1,7 +1,8 @@
 'use strict'
 // se requiere el models
 import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
-import { createP_Details } from './Product_details';
+import { createImages } from './Images';
+// import { createP_Details } from './Product_details';
 
 
 //* README *
@@ -92,17 +93,21 @@ export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
   var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
   var productValuesFormat = formatValueProduct(products)
-  return products.length > 0 ? productValuesFormat : { message: "No hay productos para mostrar" };
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
 }
 
-export const createProducts = async (value: any): Promise<any> => {
+export const createProducts = async (req: any): Promise<any> => {
+  const { body } = req;
+  const value: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  const nProduct: any = await Products.create(value)
-  if (value.details) {
-    await createP_Details({ ...value.details, id_product: nProduct.id })
+  const nProduct: any = await Products.create(value) // aqui crea el producto en general.
+  const details = await nProduct.createDetail(value.details) // toma el producto y agrega el color.
+  for (const val of value.details.size) { // toma el producto anteriormente creado y añade tallas con el stock de cada uno.
+    await details.addSizes(val.id, { through: { stock: val.stock } })
   }
-  // si todo esta correcto crea una nueva talla.
-  return nProduct
+  await createImages(req, details);
+
+  return await Products.findByPk(nProduct.id, { include: [Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
 }
 
 export const updateProducts = async (value: any): Promise<any> => {
@@ -113,7 +118,7 @@ export const updateProducts = async (value: any): Promise<any> => {
     await productByID.save();
     return productByID
   }
-  return { message: `No se encontro el producto con el ID: ${value.id}.` };
+  return { message: `we couldn't find the product with id: ${value.id}.` };
 }
 
 export const deleteProducts = async (id: number): Promise<any> => {
@@ -125,7 +130,7 @@ export const deleteProducts = async (id: number): Promise<any> => {
       await productByID.save();
       return productByID
     }
-    return { message: `El producto con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `The product with id ${id} is already deleted` };
   }
-  return { message: `No se encontro el producto con el ID ${id}` };
+  return { message: `we couldn't find the product with id: ${id}` };
 }
