@@ -12,17 +12,17 @@ import {
   Tooltip,
 } from '@mui/material';
 
-import { Logout, AppRegistration, Settings, LoginOutlined} from '@mui/icons-material';
-import { removeCredentials } from '../../features/auth/authSlice';
+import { Logout, AppRegistration, Settings, LoginOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { createUser, resetUser } from '../../features/auth/authSlice';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function User() {
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initial = {
     id: null,
@@ -32,24 +32,23 @@ export default function User() {
     birth_date: null,
     phone: null,
     identification: null,
-  }
+  };
 
-  const [login, setLogin] = useState(false)
-  const [user, setUser] = useState(initial)
-  const [openDial, setOpenDial] = React.useState(false);
+  const [login, setLogin] = useState(false);
+  const [user, setUser] = useState(initial);
+  const [openDial, setOpenDial] = useState(false);
   const handleOpenBackdrop = () => setOpenDial(true);
   const handleCloseBackdrop = () => setOpenDial(false);
 
   useEffect(() => {
-    const local = window.localStorage.getItem('userInfo')
-    if(local) {
-      setUser(JSON.parse(local))
-      setLogin(true)
+    const local = window.localStorage.getItem('userInfo');
+    if (local) {
+      setUser(JSON.parse(local));
+      setLogin(true);
     } else {
-      setUser(initial)
+      setUser(initial);
     }
-  }, [openDial])
-
+  }, [openDial]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -99,17 +98,19 @@ export default function User() {
         <MenuItem onClick={() => navigate('/login')}>
           <ListItemIcon>
             <LoginOutlined fontSize='small' />
-          </ListItemIcon>Sign In
+          </ListItemIcon>
+          Sign In
         </MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem onClick={() => navigate('/register')}>
           <ListItemIcon>
             <AppRegistration fontSize='small' />
-          </ListItemIcon>Sign up
+          </ListItemIcon>
+          Sign up
         </MenuItem>
       </Menu>
-    )
-  }
+    );
+  };
 
   const renderMenuLogged = () => {
     return (
@@ -147,48 +148,50 @@ export default function User() {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem onClick={() => navigate('/profile')}><Avatar />{user.name} {user.last_name}</MenuItem>
-      <Divider/>
-      <MenuItem onClick={() => navigate('profile/settings')}>
-        <ListItemIcon>
-          <Settings fontSize='small' />
-        </ListItemIcon>
-        Settings
-      </MenuItem>
-      <MenuItem onClick={() => {
-        setLogin(false)
-        dispatch(removeCredentials())}
-        }>
-        <ListItemIcon >
-          <Logout fontSize='small'/>
-        </ListItemIcon>
-        Logout
-      </MenuItem>
-    </Menu>
-    )
-  }
-
-
+        <MenuItem onClick={() => navigate('/profile')}>
+          <Avatar />
+          {user.name} {user.last_name}
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={() => navigate('profile/settings')}>
+          <ListItemIcon>
+            <Settings fontSize='small' />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setLogin(false);
+            dispatch(resetUser());
+          }}>
+          <ListItemIcon>
+            <Logout fontSize='small' />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    );
+  };
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}/>
-        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Backdrop open={openDial} />
-          <Tooltip title='Account settings'>
-            <IconButton
-              onClick={handleClick}
-              size='small'
-              sx={{ ml: 2 }}
-              aria-controls={open ? 'account-menu' : undefined}
-              aria-haspopup='true'
-              aria-expanded={open ? 'true' : undefined}>
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+        <Backdrop open={openDial} />
+        <Tooltip title='Account settings'>
+          <IconButton
+            onClick={handleClick}
+            size='small'
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={open ? 'true' : undefined}>
+            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
       {!login && renderMenuSign()}
-      {login && renderMenuLogged()}      
+      {login && renderMenuLogged()}
     </>
   );
 }
