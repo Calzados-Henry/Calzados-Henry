@@ -2,6 +2,7 @@
 import { Color, Products, Product_details, Sizes, Users } from '../db';
 const bcrypt = require('bcrypt');
 import { carrito, favoritos } from '../types';
+import { send } from './NotificationMail';
 
 async function formatValueUsers(nObjUser: any) {
   var Carrito: Array<object> = nObjUser.cart;
@@ -129,8 +130,9 @@ export const createUsers = async (value: any): Promise<object> => {
     }
     return error;
   }
-  // si todo esta correcto crea nuevo usuario.
-  return await Users.create(value)
+  var nUser: any = await Users.create(value)
+  send(value.email, `Bienvenido a SEHOS STORE`, `Gracias por tu registro: ${value.name} ${value.last_name}`)
+  return nUser
 }
 export const updateUser = async (value: any): Promise<object> => {
   // Se busca el usuario por id
