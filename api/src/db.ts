@@ -1,8 +1,6 @@
 require('dotenv').config();
 import { Sequelize } from "sequelize-typescript";
 
-const DATABASE: string = (process.env.DATABASE_URL as string);
-
 var configSequelize = {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -17,7 +15,7 @@ var configSequelize = {
   // }
 }
 
-export const sequelize = new Sequelize(DATABASE, configSequelize)
+export const sequelize = new Sequelize(String(process.env.DATABASE_URL), configSequelize)
 
 export const { Product_details_size, Color, Carrousel, Sizes, Address, Users, Product_details, Products, Reviews, Orders, Images, Cart_details, Category, Orders_details } = sequelize.models
 
@@ -27,14 +25,11 @@ Address.belongsTo(Users, { foreignKey: 'id_user' })//!
 Color.hasMany(Product_details, { foreignKey: 'id_color' })
 Product_details.belongsTo(Color, { foreignKey: 'id_color' })
 
-Products.hasMany(Product_details, { foreignKey: 'id_product' })
-Product_details.belongsTo(Products, { foreignKey: 'id_product' })
+Products.hasMany(Product_details, { as: 'details', foreignKey: 'id_product' })
+Product_details.belongsTo(Products, { as: 'details', foreignKey: 'id_product' })
 
 Orders.hasMany(Orders_details, { foreignKey: 'id_order' })
 Orders_details.belongsTo(Orders, { foreignKey: 'id_order' })
-
-// Sizes.hasMany(Product_details, { foreignKey: 'id_sizes' })
-// Product_details.belongsTo(Sizes, { foreignKey: 'id_sizes' })
 
 Orders.belongsTo(Users, { foreignKey: 'id_user' })
 Users.hasMany(Orders, { foreignKey: 'id_user' })
@@ -57,7 +52,7 @@ Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_detai
 Users.belongsToMany(Product_details, { as: 'cart', foreignKey: 'id_user', through: Cart_details, })
 Product_details.belongsToMany(Users, { as: 'cart', foreignKey: 'id_product_details', through: Cart_details })
 
-// const model: any = Users
+// const model: any = Product_details
 // for (let assoc of Object.keys(model.associations)) {
 //   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
 //     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');

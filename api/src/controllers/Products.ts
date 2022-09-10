@@ -1,22 +1,113 @@
 'use strict'
 // se requiere el models
 import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
-import { createP_Details } from './Product_details';
+import { createImages } from './Images';
+// import { createP_Details } from './Product_details';
+
+
+//* README *
+//* LAS OPCIONES DE AGREGAR, ACTUALIZA, ELIMINAR, SOLO ESTAN DISPONIBLES PARA EL USUARIO DE NIVEL ADMINISTRADOR
+//* GET http://localhost:3001/carrousel/ = Lista de todas las imagenes para el carrousel [Slider] (isActive=true)
+//* NOTA: Es un Array de objetos. ejemplo ↓
+//* [
+//*   {
+//*     "id": 1,
+//*     "image": "foTO2",
+//*     "isActive": true
+//*   },
+//*   {
+//*     "id": 2,
+//*     "image": "foTO3",
+//*     "isActive": true
+//*   }
+//* ]
+//* GET http://localhost:3001/carrousel/all = Lista de todas las imagenes para el carrousel [Slider] (isActive=true y isActive=false)
+
+//* POST http://localhost:3001/products = Envio por BODY[req.body], ejemplo ↓
+//* NOTA: agregar imagenes sera por formulario cuando queramos agregar imagenes del producto.
+//* NOTA: Ojo!, mandarlo como array de objetos.
+//* {
+//*   "id_category": 4,                           [number]
+//*   "name": "Botas",                            [string]
+//*   "description": "Botas de trabajo",          [string]
+//*   "gender": "Male",                           [string] revisar en enums
+//*   "season": "Winter",                         [string] revisar en enums
+//*   "buy_price": 332.00,                        [integer] numero de 2 decimales
+//*   "sell_price": 442.00,                       [integer] numero de 2 decimales
+//*   "details": {                                [objeto]
+//*       "images": [                             [array de numeros]
+//*           1,
+//*           2,
+//*           3,
+//*           4
+//*       ],
+//*       "id_color": 2,                           [integer] solo 1 id de color
+//*       "size": [                                [array de objetos] {id de la talla, stock de dicha talla}
+//*           {
+//*               "id": 2,
+//*               "stock": 18
+//*           },
+//*           {
+//*               "id": 3,
+//*               "stock": 15
+//*           },
+//*           {
+//*               "id": 1,
+//*               "stock": 16
+//*           },
+//*           {
+//*               "id": 4,
+//*               "stock": 10
+//*           }
+//*       ]
+//*   }
+//* }
+//* DELETE http://localhost:3001/products = mandar datos es por body, solo mandar el id del producto a eliminar, ejemplo ↓
+//* NOTA: La imagen no se elimina, solo es baja logica, "isActive": false.
+//* {
+//*   "id": 3,                              (ID del producto)
+//* }
+
+
+function formatValueProduct(products: any) {
+  products = JSON.parse(JSON.stringify(products, null, 2))
+  for (var vProduct of products) {
+    var details = vProduct.details[0]
+    var image = details.Images.map((x: any) => {
+      return { id: x.id, image: x.image, isActive: x.isActive }
+    })
+    var sizes = details.Sizes.map((x: any) => {
+      return { id: x.id, size: x.size, stock: x.Product_details_size.stock, isActive: x.isActive }
+    })
+    var nDetails = {
+      color: details.Color,
+      images: image,
+      sizes: sizes
+    }
+    vProduct.details = nDetails
+  }
+  return products
+}
 
 export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
-  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, include: [Color, Images, Sizes] }] })
-  return products.length > 0 ? products : { message: "No hay productos para mostrar" };
+  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+  var productValuesFormat = formatValueProduct(products)
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
 }
 
-export const createProducts = async (value: any): Promise<any> => {
+export const createProducts = async (req: any): Promise<any> => {
+  const { body } = req;
+  const value: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
-  const nProduct: any = await Products.create(value)
-  if (value.details) {
-    await createP_Details({ ...value.details, id_product: nProduct.id })
+  const nProduct: any = await Products.create(value) // aqui crea el producto en general.
+  const details = await nProduct.createDetail(value.details) // toma el producto y agrega el color.
+  for (const val of value.details.size) { // toma el producto anteriormente creado y añade tallas con el stock de cada uno.
+    await details.addSizes(val.id, { through: { stock: val.stock } })
   }
-  // si todo esta correcto crea una nueva talla.
-  return nProduct
+  await createImages(req, details);
+
+  return await Products.findByPk(nProduct.id, { include: [Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
 }
 
 export const updateProducts = async (value: any): Promise<any> => {
@@ -27,7 +118,7 @@ export const updateProducts = async (value: any): Promise<any> => {
     await productByID.save();
     return productByID
   }
-  return { message: `No se encontro el producto con el ID: ${value.id}.` };
+  return { message: `we couldn't find the product with id: ${value.id}.` };
 }
 
 export const deleteProducts = async (id: number): Promise<any> => {
@@ -39,7 +130,7 @@ export const deleteProducts = async (id: number): Promise<any> => {
       await productByID.save();
       return productByID
     }
-    return { message: `El producto con el ID: ${id} ya se encuentra Eliminado` };
+    return { message: `The product with id ${id} is already deleted` };
   }
-  return { message: `No se encontro el producto con el ID ${id}` };
+  return { message: `we couldn't find the product with id: ${id}` };
 }

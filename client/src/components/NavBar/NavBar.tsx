@@ -8,9 +8,11 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 import MenuNav from './menuNav/MenuNav';
 import CartIcon from '../../features/cart/CartIcon';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function PrimarySearchAppBar() {
   const location = useLocation();
+
   return (
     <AppBar position='fixed' color='primary'>
       <Toolbar>
@@ -28,7 +30,7 @@ export default function PrimarySearchAppBar() {
 
         {location.pathname === '/products' && <Search name='product' />}
 
-        {/* <User /> */}
+        <User/>
         <CartIcon />
       </Toolbar>
     </AppBar>

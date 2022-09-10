@@ -1,53 +1,50 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { User } from './authApiSlice';
-
+import { UserInfoI } from '../../sehostypes/User';
+import { persistLocalStorage, clearLocalStorage } from '../../utils/auhtLocalStorage';
 
 // Esto es typescript
 export interface AuthUser {
-    user: string | null,
-    rol: string | null,
-    token: string | null;
+  user: string | null;
+  rol: string | null;
+  token: string | null;
 }
 
 // Estado inicial que puede ser cualquier cosa
-const initialState: AuthUser = {
-    user: null,
-    rol: null,
-    token: null
+const EmptyUserState: AuthUser = {
+  user: null,
+  rol: null,
+  token: null,
 };
 
 export const authSlice = createSlice({
   name: 'auth', // Optional
-  initialState,
-  // Aca van los reducers
-  // Redux Toolkit nos permite escribir lógica "mutante" en reductores. Eso
-  // en realidad no muta el estado porque usa la biblioteca Immer,
-  // que detecta cambios en un "estado de borrador" y produce un nuevo
-  // estado inmutable basado en esos cambios
+  initialState: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user') as string)
+    : EmptyUserState,
   reducers: {
-    setCredentials: (
-      state,
-      { payload: { user, rol, token } }: PayloadAction<{ user:string; rol:string; token: string }>
-    ) => {
-      state.user = user
-      state.rol = rol
-      state.token = token
+    createUser: (state, action) => {
+      persistLocalStorage<UserInfoI>(UserKey, action.payload);
+      return action.payload;
     },
-    removeCredentials: () => {
-      return initialState
+    updateUser: (state, action) => {
+      const result = { ...state, ...action.payload };
+      persistLocalStorage<UserInfoI>(UserKey, result);
+      return result;
+    },
+    resetUser: () => {
+      clearLocalStorage(UserKey);
+      return EmptyUserState;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setCredentials, removeCredentials } = authSlice.actions;
-
+export const { createUser, updateUser, resetUser } = authSlice.actions;
+export const UserKey = 'user';
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default authSlice.reducer;
 
-
-export const selectCurrentUser = (state:RootState) => state.auth.user
-export const selectCurrentToken = (state:RootState) => state.auth.token
+export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectCurrentToken = (state: RootState) => state.auth.token;

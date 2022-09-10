@@ -13,7 +13,7 @@ export const getProducts = async (product: string): Promise<any> => {
           [Op.iLike]: '%' + product + '%'
         }
       },
-      include: [Users, Category, { model: Product_details, include: [Color, Images, Sizes] }]
+      include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }]
     })
     if (productos.length > 0 && filtrados) {
       const datos = productos.concat(filtrados)
@@ -21,10 +21,10 @@ export const getProducts = async (product: string): Promise<any> => {
     } else if (filtrados) {
       return filtrados
     } else {
-      throw new Error('No se encontraron productos para ' + product)
+      throw new Error(`there's no any product for` + product)
 
     }
   } else {
-    throw new Error('Por favor ingrese el nombre del producto a buscar')
+    throw new Error('please type something to search for products')
   }
 }

@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import routes from './routes/index';
 import bodyParser from 'body-parser';
 import { errorHandler } from './middleware/handleErrors';
+const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 require('dotenv').config();
@@ -15,9 +16,9 @@ const STRIPE_TOKEN: string = (process.env.STRIPE_TOKEN as string);
 const stripe = new Stripe(STRIPE_TOKEN)
 
 /* stripe(STRIPE_TOKEN) */
-require('./db.ts');
+require('./db');
 const server = express();
-
+server.use(cors())
 // server.name = 'API';
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
@@ -32,26 +33,28 @@ server.use((_req: Request, res: Response, next: NextFunction) => {
 });
 
 server.use(express.json())
-
+/* server.options */
 server.post('/api/checkout', async (req, res) => {
 
   try {
     const { id, amount } = req.body
-
+    /* const monto=200; */
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
+
       currency: "USD",
-      description: "Game Keyboard",
+      description: "console",
       payment_method: id,
-      confirm: true
+      confirm: true,
+      amount
     })
 
     console.log(req.body)
     console.log(paymentIntent)
     res.send(paymentIntent)
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
-    res.json({msg:error})
+    console.log(error.raw.message)
+    res.status(404).json({ msg: error.raw.message })
   }
 
 })

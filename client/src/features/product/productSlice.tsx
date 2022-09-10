@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
+import searchReducer from './searchReducer';
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
@@ -13,12 +15,21 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     setProducts: (state, action: PayloadAction<ProductPartial[]>) => {
-      if (state.allProducts.length === 0) state.allProducts = action.payload;
+      state.allProducts = action.payload;
+      state.searchResult = [];
+    },
+    setSearchProducts: (state, action: PayloadAction<ProductPartial[]>) => {
+      state.searchProducts = action.payload;
+    },
+     resetSearch: state => {
+      state.searchResult = [];
     },
     reset: state => {
       state.allProducts = [];
     },
+
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
+
       let filtro = [];
       // [{clave: 'price', value: {}}, {clave: 'category', value: ''}]
       // item.price !== undefined &&
@@ -88,15 +99,24 @@ export const productsSlice = createSlice({
       }
 
       state.allProducts = orderProducts;
-      console.log(state.allProducts);
     },
   },
+  extraReducers: searchReducer,
 });
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setProducts, sortProducts, filtProducts, filtProductsByCategory, reset } =
-  productsSlice.actions;
+
+export const {
+  filtProducts,
+  setProducts,
+  setSearchProducts,
+  resetSearch,
+  sortProducts,
+  filtProductsByPrice,
+  filtProductsByCategory,
+  reset,
+} = productsSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default productsSlice.reducer;
