@@ -4,11 +4,16 @@ import { useSelector } from 'react-redux';
 import { PublicRoutes } from '../routes/routes';
 import { useAuth } from '../hooks/useAuth';
 
-function AuthGuard() {
+function RoleGuard() {
+  const auth = useAuth();
   const storage = window.localStorage?.getItem('user');
   const user = storage ? JSON.parse(storage) : {};
 
-  return user.name ? <Outlet /> : <Navigate replace to={PublicRoutes.login} />;
+  return user.rol === 'Administrator' || user.rol === 'Employee' ? (
+    <Outlet />
+  ) : (
+    <Navigate replace to={PublicRoutes.products} />
+  );
 }
 
-export default AuthGuard;
+export default RoleGuard;
