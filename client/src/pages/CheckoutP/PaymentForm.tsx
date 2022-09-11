@@ -11,16 +11,10 @@ import { CardCvcElement, CardNumberElement, CardExpiryElement } from '@stripe/re
 import { StripePay } from './Stripe';
 
 export default function PaymentForm() {
-  const dispatch = useAppDispatch();
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.log('aca estoy');
-    console.log(e.target.value);
-  };
   return (
     <Fragment>
       <Typography variant='h6' gutterBottom>
-        Payment Data
+        Method Payment
       </Typography>
       <StripePay></StripePay>
     </Fragment>

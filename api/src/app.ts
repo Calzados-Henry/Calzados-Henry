@@ -55,7 +55,6 @@ server.post("/api/checkout", async (req, res) => {
     res.status(404).json({ msg: error.raw.message })
   }
 })
-server.post("/create-checkout-session", async (req, res) => {})
 
 server.use("/", routes)
 

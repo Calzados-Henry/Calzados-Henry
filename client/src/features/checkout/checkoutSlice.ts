@@ -15,7 +15,11 @@ const initialState = {
     state: '',
     city: '',
   },
-  stepTwo: {},
+  delivery: {
+    type: '',
+    price: 0,
+    message: '',
+  },
   stepThree: {},
 };
 
@@ -27,7 +31,7 @@ export const checkoutSlice = createSlice({
       state.stepOne = action.payload;
       state.check = true;
     },
-    setStepTwoInfo: state => {
+    setDelivery: state => {
       console.log(state);
     },
     resetCheck: state => {
@@ -38,7 +42,7 @@ export const checkoutSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { setStepOneInfo, resetCheck } = checkoutSlice.actions;
+export const { setStepOneInfo, setDelivery, resetCheck } = checkoutSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default checkoutSlice.reducer;

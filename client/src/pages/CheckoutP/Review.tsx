@@ -4,6 +4,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
+import StripePay from '@/components/OnlinePays/StripePay/StripePay';
 
 const products = [
   {
@@ -29,6 +30,7 @@ const products = [
   { name: 'Shipping', desc: '', price: 'Free' },
 ];
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+
 const payments = [
   { name: 'Card type', detail: 'Visa' },
   { name: 'Card holder', detail: 'Mr John Smith' },
@@ -56,6 +58,11 @@ export default function Review() {
           </Typography>
         </ListItem>
       </List>
+
+      {/* -------------------------------- */}
+      {/* -------------------------------- */}
+      {/* -------------------------------- */}
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant='h6' gutterBottom sx={{ mt: 2 }}>
@@ -64,12 +71,9 @@ export default function Review() {
           <Typography gutterBottom>John Smith</Typography>
           <Typography gutterBottom>{addresses.join(', ')}</Typography>
         </Grid>
-        <Grid item container direction='column' xs={12} sm={6}>
-          <Typography variant='h6' gutterBottom sx={{ mt: 2 }}>
-            Payment details
-          </Typography>
-          <Grid container>
-            {payments.map(payment => (
+        <Grid item container direction='column' xs={12} sm={6} minHeight={280}>
+          <StripePay></StripePay>
+          {/* {payments.map(payment => (
               <React.Fragment key={payment.name}>
                 <Grid item xs={6}>
                   <Typography gutterBottom>{payment.name}</Typography>
@@ -78,10 +82,12 @@ export default function Review() {
                   <Typography gutterBottom>{payment.detail}</Typography>
                 </Grid>
               </React.Fragment>
-            ))}
-          </Grid>
+            ))} */}
         </Grid>
       </Grid>
+      {/* -------------------------------- */}
+      {/* -------------------------------- */}
+      {/* -------------------------------- */}
     </React.Fragment>
   );
 }

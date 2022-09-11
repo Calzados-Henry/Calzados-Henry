@@ -17,9 +17,9 @@
     "@mui/material": "^5.10.3",
     "@mui/x-data-grid": "^5.17.0",
     "@reduxjs/toolkit": "^1.8.5",
-    "axios": "^0.27.2",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
+    "axios": "^0.27.2",
     "dayjs": "^1.11.5",
     "formik": "^2.2.9",
     "react": "^18.2.0",
@@ -33,6 +33,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/node": "^18.7.16",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
