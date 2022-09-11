@@ -23,7 +23,7 @@ export interface Size {
 export interface Details {
   color: Color;
   images: Images[];
-  size: Size[];
+  sizes: Size[];
   isActive: boolean
 }
 

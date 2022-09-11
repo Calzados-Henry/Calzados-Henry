@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 export default function CardShop (product: Partial<CartI>) {
     const dispatch = useDispatch()
     const cart = useSelector((state:RootState) => state.cart)
+    const [size, setSize] = useState(product.details?.sizes[0])
     const [renderCount, setRenderCount] = useState(1)
 
     useEffect(() => {
@@ -44,33 +45,52 @@ export default function CardShop (product: Partial<CartI>) {
           })
     }
 
+    const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const finded = product.details?.sizes.findIndex(el => el.size === event.target.value)
+        finded && setSize(product.details?.sizes[finded])
+    }
+
     return (
         <Box>
             <Grid container spacing={0} alignItems='center'>
-                <Grid item xs={2}>
-                    <img style={{width: '30%'}} src={product.details?.images ? product.details.images[0].image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg'} alt="No hay" />
+                <Grid item xs={1}>
+                    <img style={{width: '80%'}} src={product.details?.images ? product.details.images[0].image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg'} alt="No hay" />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={11}>
                     <Grid container>
-                        <Grid item xs={5}>
+                        <Grid item xs={4}>
                             <label>Title</label>
                         </Grid>
                         <Grid item xs={1}>
-                            <label>price</label>
+                            <label>Price</label>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
+                            <label>Size</label>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <label>Stock</label>
+                        </Grid>
+                        <Grid item xs={2}>
                             <label>Amount</label>
                         </Grid>
                         <Grid item xs={1}>
                             <label>Total</label>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={4}>
                             <h5>{product.name}</h5>
                         </Grid>
                         <Grid item xs={1}>
                             <p>$ {product.price}</p>
                         </Grid>
-                        <Grid item xs={3} display={'flex'} alignItems='center' justifyContent='center'>
+                        <Grid item xs={1}>
+                                <select style={{marginTop: 15}} onChange={changeSize}>
+                                    {product.details?.sizes.map(s =><option>{s.size}</option>)}
+                                </select>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <p>{size && size.stock}</p>
+                        </Grid>
+                        <Grid item xs={2} display={'flex'} alignItems='center' justifyContent='center'>
                                 <button name='decrease' style={{width:'25px'}} onClick={updateAmount}>-</button>
                                 <input id={'amount'} type={'number'} autoComplete={'off'} disabled defaultValue={product.quantity} style={{width:'20px', textAlign:'center'}} />
                                 <button name='increase' style={{width:'25px'}} onClick={updateAmount}>+</button>
