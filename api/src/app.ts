@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import express, { Request, Response, NextFunction } from "express"
 import routes from "./routes/index"
 import bodyParser from "body-parser"
@@ -7,53 +6,24 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const morgan = require("morgan")
 require("dotenv").config()
-=======
-import express/* , { Request, Response, NextFunction }  */ from 'express';
-import routes from './routes/index';
-import bodyParser from 'body-parser';
-import { errorHandler } from './middleware/handleErrors';
-const cors = require('cors')
-const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
-require('dotenv').config();
-const Stripe = require('stripe')
->>>>>>> develop
+const Stripe = require("stripe")
 
 /* import Stripe from 'stripe'; */
 
 const STRIPE_TOKEN: string = process.env.STRIPE_TOKEN as string
-const stripe = require("stripe")(STRIPE_TOKEN)
+// const stripe = require("stripe")(STRIPE_TOKEN)
 
-// const stripe = new Stripe(STRIPE_TOKEN)
+const stripe = new Stripe(STRIPE_TOKEN)
 
-/* stripe(STRIPE_TOKEN) */
-<<<<<<< HEAD
 require("./db")
 const server = express()
-server.use(cors())
-server.use(express.static("public"))
+
 // server.name = 'API';
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }))
 server.use(bodyParser.json({ limit: "50mb" }))
 server.use(cookieParser())
 server.use(morgan("dev"))
-server.use((_req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000") // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Credentials", "true")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
-  next()
-})
-=======
-require('./db');
-const server = express();
-
-// server.name = 'API';
-server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-server.use(bodyParser.json({ limit: '50mb' }));
-server.use(cookieParser());
-server.use(morgan('dev'));
-server.use(cors({ credentials: true, origin: 'http://localhost:3000', methods: ['GET', 'PUT', 'POST', 'PATCH',] }));
+server.use(cors({ credentials: true, origin: "http://localhost:3000", methods: ["GET", "PUT", "POST", "PATCH"] }))
 // server.use((_req: Request, res: Response, next: NextFunction) => {
 //   res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
 //   res.header('Access-Control-Allow-Credentials', 'true');
@@ -61,7 +31,6 @@ server.use(cors({ credentials: true, origin: 'http://localhost:3000', methods: [
 //   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
 //   next();
 // });
->>>>>>> develop
 
 server.use(express.json())
 /* server.options */
