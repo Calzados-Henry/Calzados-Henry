@@ -28,7 +28,7 @@ const validations = yup.object({
     .number()
     .positive('This value is positive value')
     .min(0, 'This value is not < 0')
-    .required('This camp is require'),
+    .required('This camp is required'),
   sell_price: yup
     .number()
     .positive('This value is positive value')
@@ -60,7 +60,7 @@ export default function AddProduct() {
       sell_price: 0,
       category: '',
       size: '',
-      images: 0,
+      images: [],
     },
     validationSchema: validations,
     onSubmit: values => {
@@ -235,7 +235,8 @@ export default function AddProduct() {
             </Grid>
             {/* IMAGES */}
             <Grid item xs={12} sm={12}>
-              {/* <Button fullWidth variant='outlined' color='inherit' component='label'>
+              <>
+              <Button fullWidth variant='outlined' color='inherit' component='label'>
                 Upload Images
                 <input
                   hidden
@@ -246,8 +247,9 @@ export default function AddProduct() {
                   multiple
                   onChange={formik.handleChange}
                 />
-              </Button> */}
-              {/* {console.log(formik.values)} */}
+              </Button>
+              {console.log(formik.values)}
+            </>
             </Grid>
             {/* Images Test */}
             <Grid item xs={12} sm={12}>
