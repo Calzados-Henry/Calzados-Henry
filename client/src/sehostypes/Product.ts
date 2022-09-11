@@ -24,7 +24,6 @@ export interface Details {
   color: Color;
   images: Images[];
   size: Size[];
-  stock: number;
   isActive: boolean
 }
 

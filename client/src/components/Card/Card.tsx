@@ -16,11 +16,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, CartI } from '../../features/cart/CartSlice';
+import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
 import toast, { Toaster } from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
-import { getProductsLocalStorage, setProductLocalStorage } from '../../utils/utils';
+import { useAuth } from '../../hooks/useAuth';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -34,15 +34,44 @@ const Shoe: React.FC<ProductPartial> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
+  const added = useSelector((state:RootState) => state.cart)
+  const user = useAuth()
 
-  const products = useSelector((state: RootState) => state.products.allProducts);
-  const added = getProductsLocalStorage()
-  const cartProduct:Partial<CartI> = {}
+  const cartProduct:CartI = {
+    idUser: null,
+    idProduct: props.id,
+    details: props.details,
+    name: props.name,
+    price: props.sell_price,
+    quantity: 1
+  }
   
   props.name !== undefined &&
     (props.name.length >= 35
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
       : (titulo = props.name));
+
+  const updateCart = () => {
+    if(!user.user) {
+      if (!added.length) {
+        console.log('primer add')
+        dispatch(addToLocalCart(cartProduct))
+        toast.success(<b>Product added!!</b>);
+      } else {
+        const finded = added.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        if(finded) {
+          console.log('increase!')
+          dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
+          toast.success(<b>Correctly updated amount!</b>);
+        } else {
+          console.log('segundo add')
+          dispatch(addToLocalCart(cartProduct))
+          toast.success(<b>Product added!!</b>);
+        }
+      }
+    }
+  }
+
   return (
     <>
       <Toaster position='bottom-left' reverseOrder={false} />
@@ -106,13 +135,7 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={() => {
-              if (added && added.find(el => el.details.id === props.id)) {
-                toast.success(<b>Correctly updated amount!</b>);
-              } else {
-                toast.success(<b>Product added!!</b>);
-              }
-            }}>
+            onClick={updateCart}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>
