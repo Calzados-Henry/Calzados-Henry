@@ -34,3 +34,10 @@ server.listen(PORT, () => {
     console.log(e.message)
   })
 })
+
+
+// sequelize.sync({ alter: true }).then(() => {
+//   server.listen(PORT, () => {
+//     console.log('%s listening at 3001'); // eslint-disable-line no-console
+//   });
+// });
