@@ -1,7 +1,7 @@
 const Sib = require('sib-api-v3-sdk')
 const client = Sib.ApiClient.instance
 const apiKey = client.authentications['api-key']
-apiKey.apiKey = process.env.API_KEY
+apiKey.apiKey = process.env.API_MAIL_KEY
 const transporter = new Sib.TransactionalEmailsApi()
 
 const sender = {
