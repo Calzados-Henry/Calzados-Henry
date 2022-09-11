@@ -16,12 +16,13 @@ const SearchedProducts = () => {
     if (!products.length) navigate(PublicRoutes.products);
   }, [products]);
 
+
   return (
      <Box textAlign='center'>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {products?.map((e: any) => (
           <div key={e.id}>
-            <Card id={e.id} name={e.name} images={e.images} price={e.price}></Card>
+            <Card id={e.id} name={e.name} description={e.description} details={e.details} sell_price={e.sell_price}></Card>
           </div>
         ))}
       </div>
