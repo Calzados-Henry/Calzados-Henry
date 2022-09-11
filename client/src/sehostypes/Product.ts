@@ -1,13 +1,39 @@
 export interface UserI {
   id: number | string;
 }
-export interface Rating {
-  rate: number;
-  count: number;
+
+export interface Color {
+  id: number,
+  color: string,
+  isActive: boolean
 }
+
 export interface Images {
   id: string | number;
   image: string;
+}
+
+export interface Size {
+  id: number,
+  size: string,
+  stock: number,
+  isActive: boolean
+}
+
+export interface Details {
+  color: Color;
+  images: Images[];
+  sizes: Size[];
+  isActive: boolean
+}
+
+export interface Rating {
+  id: number;
+  id_user: number;
+  review: string
+  rate: number;
+  date: string;
+  isActive: boolean;
 }
 export interface Category {
   id: number,
@@ -17,12 +43,16 @@ export interface Category {
 export interface ProductI {
   id: number;
   name: string;
-  price: number;
   description: string;
-  category: Category;
-  images: Images[];
-  rating: Rating;
+  gender: string;
+  season: string;
+  rate_average: string;
+  buy_price: number;
+  sell_price: number;
   sold: number;
+  category: Category;
+  reviews: Rating[]
+  details: Details
 }
 export interface Pricing {
   base: number,
