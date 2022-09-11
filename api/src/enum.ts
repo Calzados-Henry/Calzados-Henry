@@ -12,6 +12,6 @@ export enum Gender {
 export enum Season {
   Winter = 'Winter',
   Summer = 'Summer',
-  Fall = 'Fall',
+  Autumn = 'Autumn',
   Spring = 'Spring'
 }

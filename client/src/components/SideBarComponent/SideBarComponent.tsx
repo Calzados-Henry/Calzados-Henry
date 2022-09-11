@@ -1,146 +1,148 @@
 import React, { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-
-import { StarBorder, ExpandMore, ExpandLess } from '@mui/icons-material';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import TuneIcon from '@mui/icons-material/Tune';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import PriceChangeIcon from '@mui/icons-material/PriceChange';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-
-import ListIcon from '@mui/icons-material/List';
+import PaidIcon from '@mui/icons-material/Paid';
+import {  ExpandMore, ExpandLess } from '@mui/icons-material';
+import FilterAltIcon  from '@mui/icons-material/FilterAlt';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
 import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
 import {
   sortProducts,
-  filtProductsByCategory,
-  filtProductsByPrice,
+  filtProducts,
   reset,
 } from '../../features/product/productSlice';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import { IconButton, Drawer, Button, useTheme, Box, TextField } from '@mui/material';
+import { IconButton, Drawer, Button, Box, TextField } from '@mui/material';
 
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { PublicRoutes } from '../../routes/routes';
+/* import * as yup from 'yup'; */
 
-const talles: number[] = [32, 34, 36, 44, 48, 50];
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+  
+
+
+
+// const talles: number[] = [32, 34, 36, 44, 48, 50];
+/* 
 interface State {
   initialValue: number;
   finalValue: number;
 }
-
-const validations = yup.object({
-  base: yup
-    .number()
-    .min(0, 'No se pueden ingresar valores negativos')
+ */
+/* const validations = yup.object({
+  initialValues: yup.array().of(yup.object({
+    values: yup.object({
+      base: yup.number().min(0, 'No se pueden ingresar valores negativos')
     .required('El valor debe ser mayor a 0'),
   top: yup.number().required('Debe tener un valor máximo de busqueda'),
-});
+    })}))
+  
+  
+ 
+}); */
 
 export default function SideBarComponent() {
-  const theme = useTheme();
+ // const theme = useTheme();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+/* const [openMenuPrices, setOpenMenuPrices] = useState(false) */
+  const [disable, setDisable] = useState(true)
+  const [category, setCategory] = React.useState('');
+  const [season, setSeason] = React.useState('');
 
-  const navigate = useNavigate();
 
-  const [openMenuPrices, setOpenMenuPrices] = useState(false);
-  const [openMenuFilter, setOpenMenuFilter] = useState(false);
-  const [openMenuRating, setOpenMenuRating] = useState(false);
-  const [rating, setRating] = useState<number | null>(0);
-  const [amount, setAmount] = useState<State>({
+const navigate = useNavigate();
+
+const [openMenuPrices, setOpenMenuPrices] = useState(false);
+
+/* const [rating, setRating] = useState<number | null>(0);
+const [amount, setAmount] = useState<State>({
     initialValue: 0,
     finalValue: 0,
-  });
+  }); */
 
   const formik = useFormik({
-    initialValues: {
-      base: 0,
-      top: 0,
+    initialValues: [ {
+      clave: 'price',
+      valor: {
+        base: 0,
+        top: 0,
+      }
+    }, {
+      clave: 'category',
+      valor: ''
     },
-    validationSchema: validations,
-    onSubmit: values => {
-      dispatch(filtProductsByPrice(values));
+    {
+      clave: 'season',
+      valor: ''
+    }
+  ],
+/*     validationSchema: validations, */
+    onSubmit: (values) => {
+      dispatch(filtProducts(values));
+      console.log("🚀 ~ file: SideBarComponent.tsx ~ line 112 ~ SideBarComponent ~ values", values)
       navigate('/products');
       setOpen(false);
     },
   });
+  
+  const validacion = (validar) => {
+    const errors = {}
+    if (validar[0].valor.base >= validar[0].valor.top) {
+      errors.price = 'El minimo no puede ser mayor que el maximo Pone voluntad!'
+    } else {
 
-  const [talla, setTalla] = useState<number>();
+      delete errors.price
+    }
+    if(validar[0].valor.base  <= 0  || validar[0].valor.top <= 0) {
+      errors.gratis = 'No vendemos nada gratis y menos pagamos para que te lleves productos'
+    }
+    else {
+      delete errors.gratis
 
-  const handleChangeTalla = (e: any) => {
-    setTalla(Number(e.target.value));
-    console.log(talla);
+    }
+    return errors
+  }
+  const handleChangeCategory = (event: SelectChangeEvent) => {
+    setCategory(event.target.value)
+   event.target.value !== 'Todas las categorias' && (formik.values[1].valor = event.target.value)
+  };
+  const handleChangeSeason = (event: SelectChangeEvent) => {
+    setSeason(event.target.value)
+   event.target.value !== 'Todas las Temporadas' && (formik.values[2].valor = event.target.value)
+  };
+  const [price, setPrice] = useState({
+    base: 0,
+    top:0
+  });
+
+const handleOnChangePrice = (e: SelectChangeEvent) => {
+   const validar = validacion(formik.values)
+   !Object.keys(validar).length ? setDisable(false) : setDisable(true)   
+  isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
+setPrice({...price, [e.target.name]: (e.target.value)} )
+formik.values[0].valor[e.target.name] = e.target.value 
+}
+  
+const handleClickPrices = () => {
+    setOpenMenuPrices(!openMenuPrices)
   };
 
-  const applyFilters = () => {
-    const data = {
-      talla,
-      rating,
-      amount,
-    };
-    console.log(data);
+   
 
-    cleanData();
-  };
-
-  const cleanData = () => {
-    setRating(0);
-    setAmount({
-      initialValue: 0,
-      finalValue: 0,
-    });
-    setTalla(0);
-
-    setOpenMenuPrices(false);
-    setOpenMenuFilter(false);
-    setOpenMenuRating(false);
-
-    setTimeout(() => setOpen(false), 1100);
-  };
-
-  const handleChangeAmount =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setAmount({ ...amount, [prop]: Number(event.target.value) });
-    };
-
-  const handleClickPrices = () => {
-    setOpenMenuPrices(!openMenuPrices);
-  };
-  const handleClickFilter = () => {
-    setOpenMenuFilter(!openMenuFilter);
-  };
-
-  const handleClickRating = () => {
-    setOpenMenuRating(!openMenuRating);
-  };
-
-  //PRUEBA DE FUNCIONALIDAD
+ 
+  // PRUEBA DE FUNCIONALIDAD
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
   // const handleToggle = () => {
@@ -149,7 +151,7 @@ export default function SideBarComponent() {
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-      return;
+      
     }
     // setOpen(false);
   };
@@ -190,126 +192,6 @@ export default function SideBarComponent() {
         onClose={() => setOpen(false)}
         sx={{ minWidth: 300 }}>
         <Box textAlign='center' width='300px'>
-          {/* <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            component='nav'
-            aria-labelledby='nested-list-subheader'
-            subheader={
-              <ListSubheader component='div' id='nested-list-subheader'>
-                SideBar
-              </ListSubheader>
-            }>
-            <ListItemButton onClick={handleClickFilter} autoFocus={false}>
-              <ListItemIcon>
-                <TuneIcon />
-              </ListItemIcon>
-              <ListItemText primary='Filtrar por talla' />
-              {openMenuFilter ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-
-            <Collapse in={openMenuFilter} timeout='auto' unmountOnExit>
-              <List component='div' disablePadding>
-                <ListItemButton sx={{ pl: 4 }} autoFocus={false}>
-                  <FormGroup>
-                    {talles?.map(e => (
-                      <div key={e}>
-                        <Box textAlign='center' key={e}>
-                          <FormControlLabel
-                            control={<Checkbox checked={talla === e ? true : false} />}
-                            value={e}
-                            onClick={handleChangeTalla}
-                            label={`Talle: ${e}`}
-                          />
-                        </Box>
-                      </div>
-                    ))}
-                  </FormGroup>
-                </ListItemButton>
-              </List>
-            </Collapse>
-
-            <ListItemButton onClick={handleClickPrices} autoFocus={false}>
-              <ListItemIcon>
-                <PriceChangeIcon />
-              </ListItemIcon>
-              <ListItemText primary='Filtrar por precio' />
-              {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-
-            <Collapse in={openMenuPrices} timeout='auto' unmountOnExit>
-              <List component='div' disablePadding>
-                <ListItemButton sx={{ pl: 4 }} autoFocus={false}>
-                  <ListItemIcon>
-                    <Box
-                      component='form'
-                      sx={{
-                        '& > :not(style)': { m: 1, width: '25ch' },
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                      textAlign='center'
-                      noValidate
-                      autoComplete='off'>
-                      <FormControl fullWidth sx={{ m: 1 }}>
-                        <InputLabel htmlFor='outlined-adornment-amount' color='info'>
-                          Valor Inicial
-                        </InputLabel>
-                        <OutlinedInput
-                          id='outlined-adornment-amount'
-                          value={amount.initialValue}
-                          onChange={handleChangeAmount('initialValue')}
-                          startAdornment={<InputAdornment position='start'>$</InputAdornment>}
-                          label='initialValue'
-                          color='info'
-                        />
-                      </FormControl>
-
-                      <FormControl fullWidth sx={{ m: 1 }}>
-                        <InputLabel htmlFor='outlined-adornment-amount' color='info'>
-                          Valor Final
-                        </InputLabel>
-                        <OutlinedInput
-                          id='outlined-adornment-amount'
-                          value={amount.finalValue}
-                          onChange={handleChangeAmount('finalValue')}
-                          startAdornment={<InputAdornment position='start'>$</InputAdornment>}
-                          label='finalValue'
-                          color='info'
-                        />
-                      </FormControl>
-                    </Box>
-                  </ListItemIcon>
-
-                  <ListItemText />
-                </ListItemButton>
-              </List>
-            </Collapse>
-          </List>
-
-          <ListItemButton onClick={handleClickRating} autoFocus={false}>
-            <ListItemIcon>
-              <TuneIcon />
-            </ListItemIcon>
-            <ListItemText primary='Filtrar por Rating' />
-            {openMenuRating ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-
-          <Collapse in={openMenuRating} timeout='auto' unmountOnExit>
-            <List component='div' disablePadding>
-              <ListItemButton sx={{ pl: 4 }} autoFocus={false}>
-                <Box textAlign='center'>
-                  <Typography component='legend'>Selecciona un rating</Typography>
-                  <Rating
-                    name='simple-controlled'
-                    value={rating}
-                    onChange={(event, newValue) => {
-                      setRating(newValue);
-                    }}
-                  />
-                </Box>
-              </ListItemButton>
-            </List>
-          </Collapse> */}
 
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
@@ -355,14 +237,12 @@ export default function SideBarComponent() {
             </ClickAwayListener>
           </Paper>
 
-          {/* <Button variant='contained' onClick={applyFilters} sx={{ mt: 2 }}>
-            Aplicar Filtros
-          </Button> */}
+       
           <ListItemButton onClick={handleClickPrices} autoFocus={false}>
             <ListItemIcon>
-              <PriceChangeIcon />
+              <FilterAltIcon />
             </ListItemIcon>
-            <ListItemText primary='Filtrar por precio' />
+            <ListItemText primary='Filtros' />
             {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
 
@@ -372,87 +252,79 @@ export default function SideBarComponent() {
                 component='form'
                 noValidate
                 onSubmit={formik.handleSubmit}
-                sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 3, mr: 1, ml: 1 }}>
+                sx={{  display: 'flex', flexDirection: 'column', gap: 0.5, mr: 1, ml: 1 }}>
+                  <PaidIcon sx={{position: 'relative', top: 45, left: 10}} />
                 <TextField
-                  autoComplete='given-name'
+                sx={{maxWidth:200, alignSelf: 'center'}}
+                  autoComplete='off'
                   name='base'
                   required
                   fullWidth
                   id='base'
-                  label='Initial Value'
+                  label='Minimo'
                   autoFocus
-                  value={formik.values.base}
-                  onChange={formik.handleChange}
-                  error={formik.touched.base && Boolean(formik.errors.base)}
-                  helperText={formik.touched.base && formik.errors.base}
+                  value={price.base}
+                  onChange={(e) => handleOnChangePrice(e)}
+                  /* onBlur= {formik.handleBlur} */
+                  error={formik.touched[0]?.valor.base && Boolean(formik.errors[0]?.valor.base)}
+                  helperText={formik.touched[0]?.valor.base && formik.errors[0]?.valor.base}
                 />
-
+<PaidIcon sx={{position: 'relative', top: 45, left: 10}}/>
                 <TextField
+                sx={{maxWidth:200, alignSelf: 'center'}}
                   required
                   fullWidth
                   id='top'
-                  label='Final Value'
+                  label='Maximo'
                   name='top'
-                  autoComplete='family-name'
-                  value={formik.values.top}
-                  onChange={formik.handleChange}
-                  error={formik.touched.top && Boolean(formik.errors.top)}
-                  helperText={formik.touched.top && formik.errors.top}
+                  autoComplete='off'
+                  value={price.top}
+                  onChange={(e) => handleOnChangePrice(e)}
+                  error={formik.touched[0]?.valor.top && Boolean(formik.errors[0]?.valor.top)}
+                  helperText={formik.touched[0]?.valor.top && formik.errors[0]?.valor.top}
                 />
-
-                <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+                 <FormControl sx={{marginTop: 2}}>
+        <InputLabel id="category">Categoría</InputLabel>
+        <Select
+          labelId="category"
+          id="category"
+          value={category}
+          label="Categoría"
+          onChange={handleChangeCategory}
+        >
+          <MenuItem value={'Todas las categorias'}>Todas las categorias</MenuItem>
+          <MenuItem value={'Botas'}>Botas</MenuItem>
+          <MenuItem value={'Sandalias'}>Sandalias</MenuItem>
+          <MenuItem value={'Mocasines'}>Mocasines</MenuItem>
+          <MenuItem value={'Tenis'}>Tenis</MenuItem>
+        </Select>
+          </FormControl>
+          <FormControl sx={{marginTop: 2}}>
+        <InputLabel id="season">Temporada</InputLabel>
+        <Select
+          labelId="season"
+          id="season"
+          value={season}
+          label="Temporada"
+          /* sx={{marginTop: 2}} */
+          onChange={handleChangeSeason}
+        >
+          <MenuItem value={'Todas las Temporadas'}>Todas las Temporadas</MenuItem>
+          <MenuItem value={'Summer'}>Verano</MenuItem>
+          <MenuItem value={'Winter'}>Invierno</MenuItem>
+          <MenuItem value={'Fall'}>Otoño</MenuItem>
+          <MenuItem value={'Spring'}>Primavera</MenuItem>
+        </Select>
+        </FormControl>
+      
+                <Button type='submit' disabled={disable} fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
                   Submit
                 </Button>
               </Box>
             </List>
           </Collapse>
 
-          <Paper>
-            <ClickAwayListener onClickAway={handleClose}>
-              <MenuList
-                autoFocusItem={open}
-                id='composition-menu'
-                aria-labelledby='composition-button'
-                onKeyDown={handleListKeyDown}>
-                <MenuItem
-                  onClick={() => {
-                    navigate(PublicRoutes.products);
-                    dispatch(filtProductsByCategory('Botas'));
-                    setOpen(false);
-                  }}>
-                  Botas
-                </MenuItem>
-
-                <MenuItem
-                  onClick={() => {
-                    navigate(PublicRoutes.products);
-                    dispatch(filtProductsByCategory('Mocasines'));
-                    setOpen(false);
-                  }}>
-                  Mocasines
-                </MenuItem>
-
-                <MenuItem
-                  onClick={() => {
-                    navigate(PublicRoutes.products);
-                    dispatch(filtProductsByCategory('Tenis'));
-                    setOpen(false);
-                  }}>
-                  Tenis
-                </MenuItem>
-
-                <MenuItem
-                  onClick={() => {
-                    navigate(PublicRoutes.products);
-                    dispatch(filtProductsByCategory('Sandalias'));
-                    setOpen(false);
-                  }}>
-                  Sandalias
-                </MenuItem>
-              </MenuList>
-            </ClickAwayListener>
-          </Paper>
-
+        
           <Button
             variant='contained'
             sx={{ mt: 3 }}
@@ -468,3 +340,4 @@ export default function SideBarComponent() {
     </>
   );
 }
+
