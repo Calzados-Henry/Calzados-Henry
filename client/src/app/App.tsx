@@ -19,6 +19,8 @@ import Register from '../components/Register/Register';
 import Test from '../pages/Test/Test';
 import SearchedProducts from '../pages/SearchedProducts/SearchedProducts';
 import Shopping from '../components/Shopping/Shopping';
+import RoleGuard from '../guards/role.guard';
+
 
 function App() {
   return (
@@ -35,15 +37,15 @@ function App() {
           <Route path={PublicRoutes.cart} element={<Shopping />} />
           <Route path='/test' element={<Test></Test>}></Route>
           <Route path={PublicRoutes.searchResult} element={<SearchedProducts />} />
-          
-
 
           {/* Private Routes  */}
           <Route element={<AuthGuard />}>
-            <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>
-              <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
-              <Route path={PrivatesRoutes.addCategory} element={<AddCategory />} />
-              <Route path={PrivatesRoutes.addAtribute} element={<AddAtributes />} />
+            <Route element={<RoleGuard />}>
+              <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>
+                <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
+                <Route path={PrivatesRoutes.addCategory} element={<AddCategory />} />
+                <Route path={PrivatesRoutes.addAtribute} element={<AddAtributes />} />
+              </Route>
             </Route>
             <Route path={PrivatesRoutes.user} element={<></>} />
           </Route>

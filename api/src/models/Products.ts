@@ -48,7 +48,7 @@ export default class Products extends Model implements ProductsI {
   gender!: Gender
 
   @Column({
-    type: DataType.ENUM('Winter', 'Summer', 'Fall', 'Spring'),
+    type: DataType.ENUM('Winter', 'Summer', 'Autumn', 'Spring'),
     allowNull: false
   })
   season!: Season
