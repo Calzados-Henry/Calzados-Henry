@@ -38,10 +38,10 @@ export const productsSlice = createSlice({
 
       filtro = state.allProducts.filter(
         (item: ProductI) => action.payload.every(filter => 
-          filter.clave === 'category' ?(filter.valor !== '' && item[filter.clave].category === filter.valor ):
+          filter.clave === 'Category' ?(filter.valor !== '' && item[filter.clave].category === filter.valor ):
           (filter.clave === 'price' ?  ( (filter.valor.top !== 0 && filter.valor.base !== 0) &&
-          (item.price >= filter.valor.base &&
-          item.price <= filter.valor.top) ): (filter.valor !== '' && item[filter.clave] === filter.valor))
+          (item.sell_price >= filter.valor.base &&
+          item.sell_price <= filter.valor.top) ): (filter.valor !== '' && item[filter.clave] === filter.valor))
           )
           )
           

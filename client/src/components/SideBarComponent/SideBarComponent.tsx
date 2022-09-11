@@ -80,7 +80,7 @@ const [amount, setAmount] = useState<State>({
         top: 0,
       }
     }, {
-      clave: 'category',
+      clave: 'Category',
       valor: ''
     },
     {

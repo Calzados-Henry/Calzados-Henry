@@ -18,18 +18,19 @@ export default function PromotionalList() {
     dispatch(setProducts(products));
   };
 
+
   let content;
   if (isLoading) content = <h1>Loading...</h1>;
   if (data) updateList();
   content = (
     <Grid container spacing={2} mb={2}>
-      {data
-        ?.filter(shoe => shoe.price >= 2120)
+      {selector
+        ?.filter(shoe => shoe.sell_price <= 290)
         .map(shoe => {
           return (
             <Grid key={shoe.id} item xs={4}>
               {shoe.name !== undefined && (
-                <Card id={shoe.id} name={shoe.name} images={shoe.images} price={shoe.price}></Card>
+                <Card id={shoe.id} name={shoe.name} description={shoe.description} details={shoe.details} sell_price={shoe.sell_price}></Card>
               )}
             </Grid>
           );

@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
+
 /* 
 import styles from './ProductDetail.module.css';
-import Sizes from './sizes/Sizes';
+
 import Cant from './cant/Cant'; */
 // import Ratings from './ratings/Ratings';
 import Photos from './photos/Photos';
@@ -16,7 +17,8 @@ import { Grid, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { addToCart } from '../../features/cart/CartSlice';
+import { addToLocalCart } from '../../features/cart/CartSlice';
+import Sizes from './sizes/Sizes';
 
 // import { ProductPartial } from '../Card/product.model';
 
@@ -34,15 +36,16 @@ export default function ProductDetail() {
     <Container maxWidth='xl'>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <Photos images={shoe?.images}></Photos>
+          <Photos images={shoe.details?.images}></Photos>
         </Grid>
         <Grid item xs={6}>
           <Description
             name={shoe?.name}
             description={shoe?.description}
-            price={shoe?.price}></Description>
-
-          {/*  */}
+            price={shoe?.sell_price}
+             ></Description>
+            <Sizes details={shoe?.details}/>
+        
           <Box
             mt={2}
             sx={{
@@ -54,7 +57,7 @@ export default function ProductDetail() {
               size='large'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
-              onClick={() => dispatch(addToCart(shoe))}
+              onClick={() => dispatch(addToLocalCart(shoe))}
               startIcon={<AddShoppingCartIcon />}>
               ADD TO CART
             </Button>
