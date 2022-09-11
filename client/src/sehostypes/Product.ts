@@ -28,6 +28,12 @@ export interface Pricing {
   base: number,
   top: number
 }
+
+export interface Filter {
+  clave: string,
+  valor: any
+}
+
 // DTO Data Transfer Object : interfaces creadas a partir de una intefaz para manejo de datos
 export interface RatingPartial extends Partial<Rating> {}
 export interface ProductPartial extends Partial<ProductI> {}
