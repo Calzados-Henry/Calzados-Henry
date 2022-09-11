@@ -1,50 +1,105 @@
 import { Box, Button, Grid } from "@mui/material"
-import { useState } from "react"
-import { ProductI } from "../../features/product/product.model"
-import { removeOneFromLS } from "../../utils/utils"
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { CartI, deleteFromLS, updateQuantity } from "../../features/cart/CartSlice"
+import { RootState } from "../../store"
+import Swal from 'sweetalert2'
 
-export default function CardShop (product: ProductI) {
-    const [amount, setAmount] = useState(1)
 
-    const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export default function CardShop (product: Partial<CartI>) {
+    const dispatch = useDispatch()
+    const cart = useSelector((state:RootState) => state.cart)
+    const [size, setSize] = useState(product.details?.sizes[0])
+    const [renderCount, setRenderCount] = useState(1)
+
+    useEffect(() => {
+        setRenderCount(renderCount + 1)
+    }, [cart])
+
+    const updateAmount = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        product.idProduct &&
+        dispatch(updateQuantity({method: e.currentTarget.name, id: product.idProduct}))
+    }
+    
+    const deleteProduct = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
-        setAmount(Number(e.target.value))
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete that product from your cart!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(deleteFromLS(id))
+              Swal.fire(
+                'Deleted!',
+                'Your product has been deleted.',
+                'success'
+              )
+            }
+          })
+    }
+
+    const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const finded = product.details?.sizes.findIndex(el => el.size === event.target.value)
+        finded && setSize(product.details?.sizes[finded])
     }
 
     return (
         <Box>
-            <Grid container spacing={2} alignItems='center'>
-                <Grid item xs={2}>
-                    <img style={{width: '30%'}} src={product.image} alt="No hay" />
+            <Grid container spacing={0} alignItems='center'>
+                <Grid item xs={1}>
+                    <img style={{width: '80%'}} src={product.details?.images ? product.details.images[0].image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg'} alt="No hay" />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={11}>
                     <Grid container>
-                        <Grid item xs={7}>
+                        <Grid item xs={4}>
                             <label>Title</label>
                         </Grid>
                         <Grid item xs={1}>
-                            <label>price</label>
+                            <label>Price</label>
                         </Grid>
                         <Grid item xs={1}>
+                            <label>Size</label>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <label>Stock</label>
+                        </Grid>
+                        <Grid item xs={2}>
                             <label>Amount</label>
                         </Grid>
                         <Grid item xs={1}>
                             <label>Total</label>
                         </Grid>
-                        <Grid item xs={7}>
-                            <h5>{product.title}</h5>
+                        <Grid item xs={4}>
+                            <h5>{product.name}</h5>
                         </Grid>
                         <Grid item xs={1}>
                             <p>$ {product.price}</p>
                         </Grid>
-                        <Grid item xs={1} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                                <input id={'amount'} type={'number'} defaultValue={1} style={{width: '50%'}} min={1} onChange={handleAmountChange}/>
+                        <Grid item xs={1}>
+                                <select style={{marginTop: 15}} onChange={changeSize}>
+                                    {product.details?.sizes.map(s =><option>{s.size}</option>)}
+                                </select>
                         </Grid>
                         <Grid item xs={1}>
-                            <p>$ {amount * product.price}</p>
+                            <p>{size && size.stock}</p>
+                        </Grid>
+                        <Grid item xs={2} display={'flex'} alignItems='center' justifyContent='center'>
+                                <button name='decrease' style={{width:'25px'}} onClick={updateAmount}>-</button>
+                                <input id={'amount'} type={'number'} autoComplete={'off'} disabled defaultValue={product.quantity} style={{width:'20px', textAlign:'center'}} />
+                                <button name='increase' style={{width:'25px'}} onClick={updateAmount}>+</button>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <p>$ {product.price && product.quantity ? product.quantity * product.price : 0}</p>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button variant='text' sx={{border:'1px solid primary.main'}} onClick={() => removeOneFromLS(product.id)}>Delete</Button>
+                            <Button variant='contained' sx={{border:'1px solid primary.main'}} onClick={(e) => product.idProduct ? deleteProduct(e, product.idProduct) : e.preventDefault()}>Delete</Button>
                         </Grid>
                     </Grid>
                 </Grid>

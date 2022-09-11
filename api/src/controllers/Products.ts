@@ -90,8 +90,22 @@ function formatValueProduct(products: any) {
 }
 
 export const getProducts = async (): Promise<any> => {
+  // Temporal para cambiar los Fall to Autumn
+
+  const updatedRows = await Products.update(
+    {
+      season: "Autumn",
+    },
+    {
+      where: { season: "Fall" },
+    }
+  );
+  console.log(updatedRows)
   // Se trae todas las imagenes para el Slider
+
   var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+  
+
   var productValuesFormat = formatValueProduct(products)
   return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
 }

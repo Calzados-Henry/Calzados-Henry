@@ -14,7 +14,7 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
-router.post('/', userExtractorAdmin, fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nProducts: string = await createProducts(req)
     res.json(nProducts)

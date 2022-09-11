@@ -16,10 +16,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../features/cart/CartSlice';
+import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
 import toast, { Toaster } from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
+import { useAuth } from '../../hooks/useAuth';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -33,17 +34,44 @@ const Shoe: React.FC<ProductPartial> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
+  const added = useSelector((state:RootState) => state.cart)
+  const user = useAuth()
 
-  const products = useSelector((state: RootState) => state.products.allProducts);
-  const added = useSelector((state: RootState) => state.cart.products);
-  const shoe = products.find(
-    (item: ProductPartial) => item.id !== undefined && parseInt(item.id) === parseInt(props.id),
-  );
-
+  const cartProduct:CartI = {
+    idUser: null,
+    idProduct: props.id,
+    details: props.details,
+    name: props.name,
+    price: props.sell_price,
+    quantity: 1
+  }
+  
   props.name !== undefined &&
     (props.name.length >= 35
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
       : (titulo = props.name));
+
+  const updateCart = () => {
+    if(!user.user) {
+      if (!added.length) {
+        console.log('primer add')
+        dispatch(addToLocalCart(cartProduct))
+        toast.success(<b>Product added!!</b>);
+      } else {
+        const finded = added.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        if(finded) {
+          console.log('increase!')
+          dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
+          toast.success(<b>Correctly updated amount!</b>);
+        } else {
+          console.log('segundo add')
+          dispatch(addToLocalCart(cartProduct))
+          toast.success(<b>Product added!!</b>);
+        }
+      }
+    }
+  }
+
   return (
     <>
       <Toaster position='bottom-left' reverseOrder={false} />
@@ -73,7 +101,7 @@ const Shoe: React.FC<ProductPartial> = props => {
                 titleTypographyProps={{ fontSize: 18 }}
                 title={titulo}
                 onClick={() => navigate(`${PublicRoutes.products}/${props.id}`)}
-                subheader='Que Copado es este producto!'
+                subheader={props.description?.slice(0,30) + '...'}
                 sx={{ cursor: 'pointer' }}
               />
             </Box>
@@ -83,7 +111,7 @@ const Shoe: React.FC<ProductPartial> = props => {
         {/* <Typography variant="body1" color="text.primary">
           {titulo}
         </Typography> */}
-        {props.images !== undefined && <img src={props.images[0].image} className={s.image} />}
+        {props.details?.images !== undefined && <img src={props.details?.images[0].image} className={s.image} />}
         {/* <CardMedia color='inherit'
         component="img"
         height="180"
@@ -93,7 +121,7 @@ const Shoe: React.FC<ProductPartial> = props => {
       /> */}
         <CardContent color='inherit'>
           <Typography variant='body2' color='text.secondary'>
-            {`$ ${props.price}`}
+            {`$ ${props.sell_price}`}
           </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
@@ -107,14 +135,7 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={() => {
-              if (added.find(el => el.id === props.id)) {
-                toast.error(<b>El producto ya se encuentra en el carrito</b>);
-              } else {
-                dispatch(addToCart(shoe));
-                toast.success(<b>Producto agregado!!</b>);
-              }
-            }}>
+            onClick={updateCart}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>
@@ -122,6 +143,8 @@ const Shoe: React.FC<ProductPartial> = props => {
     </>
   );
 };
+
+
 
 export default Shoe;
 

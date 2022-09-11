@@ -13,19 +13,20 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import AddProduct from '../pages/Dashboard/Products/AddProduct/AddProduct';
 import AddCategory from '../pages/Dashboard/Products/AddCategory/AddCategory';
 import AddAtributes from '../pages/Dashboard/Products/AddAtributes/AddAtributes';
-import CartStore from '../features/cart/CartStore';
 import { PublicRoutes, PrivatesRoutes } from '../routes/routes';
 import AuthGuard from '../guards/auth.guard';
 import Register from '../components/Register/Register';
 import Test from '../pages/Test/Test';
-import StripePay from '../components/StripePay/StripePay';
 import SearchedProducts from '../pages/SearchedProducts/SearchedProducts';
+import Shopping from '../components/Shopping/Shopping';
+import RoleGuard from '../guards/role.guard';
+
 
 function App() {
   return (
     <>
       <NavBar />
-      <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '100vh' }}>
+      <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '75vh' }}>
         <Routes>
           <Route path={PublicRoutes.start} element={<LandingPage />} />
           <Route path={PublicRoutes.home} element={<LandingPage />} />
@@ -33,18 +34,18 @@ function App() {
           <Route path={PublicRoutes.products} element={<Cards />} />
           <Route path={PublicRoutes.productsIdParams} element={<ProductDetail />} />
           <Route path={PublicRoutes.contact} element={<ContactForm />} />
-          <Route path={PublicRoutes.cart} element={<CartStore />} />
+          <Route path={PublicRoutes.cart} element={<Shopping />} />
           <Route path='/test' element={<Test></Test>}></Route>
           <Route path={PublicRoutes.searchResult} element={<SearchedProducts />} />
-          
-
 
           {/* Private Routes  */}
           <Route element={<AuthGuard />}>
-            <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>
-              <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
-              <Route path={PrivatesRoutes.addCategory} element={<AddCategory />} />
-              <Route path={PrivatesRoutes.addAtribute} element={<AddAtributes />} />
+            <Route element={<RoleGuard />}>
+              <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>
+                <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
+                <Route path={PrivatesRoutes.addCategory} element={<AddCategory />} />
+                <Route path={PrivatesRoutes.addAtribute} element={<AddAtributes />} />
+              </Route>
             </Route>
             <Route path={PrivatesRoutes.user} element={<></>} />
           </Route>

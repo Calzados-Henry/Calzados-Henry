@@ -23,7 +23,7 @@ export default function CartIcon() {
   return (
     <IconButton onClick={() => navigate(PublicRoutes.cart)} aria-label='cart'>
       <StyledBadge
-        badgeContent={cart.products.length < 10 ? cart.products.length : '9+'}
+        badgeContent={cart.length < 10 ? cart.length : '9+'}
         color='secondary'>
         <ShoppingCartIcon />
       </StyledBadge>
