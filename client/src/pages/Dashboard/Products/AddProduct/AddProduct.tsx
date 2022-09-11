@@ -60,7 +60,7 @@ export default function AddProduct() {
       sell_price: 0,
       category: '',
       size: '',
-      images: [],
+      images: 0,
     },
     validationSchema: validations,
     onSubmit: values => {
@@ -251,17 +251,17 @@ export default function AddProduct() {
             </Grid>
             {/* Images Test */}
             <Grid item xs={12} sm={12}>
-              <Button fullWidth variant='outlined' color='inherit' component='label'>
+              {/*               <Button fullWidth variant='outlined' color='inherit' component='label'>
                 Upload Images
                 <input
-                  accept='image/*'
                   type='file'
+                  accept='image/*'
                   id='images'
                   name='images'
                   multiple
                   onChange={event => setFieldValue(event.target.files)}
                 />
-              </Button>
+              </Button> */}
             </Grid>
             {/* END */}
             <Grid item xs={12}>
