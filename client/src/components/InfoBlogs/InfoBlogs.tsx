@@ -15,7 +15,7 @@ export interface LandingBlog {
 }
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  backgroundColor: theme.palette.mode === 'dark' ? '#482307' : '#fff',
   height: 300,
   padding: 20,
   textAlign: 'left',

@@ -7,11 +7,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Copyright from '../../components/Copyright/Copyright';
+import Copyright from '@/components/Copyright/Copyright';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import toast, { Toaster } from 'react-hot-toast';
-import { PublicRoutes } from '../../routes/routes';
+import { PublicRoutes } from '@/routes/routes';
 
 const validations = yup.object({
   firstName: yup.string().required('First Name is required'),
