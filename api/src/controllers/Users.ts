@@ -1,5 +1,5 @@
 'use strict'
-import { Color, Products, Product_details, Sizes, Users } from '../db';
+import { Color, Images, Products, Product_details, Sizes, Users, Cart_details } from '../db';
 const bcrypt = require('bcrypt');
 import { carrito, favoritos } from '../types';
 import { send } from './NotificationMail';
@@ -7,6 +7,8 @@ import { send } from './NotificationMail';
 async function formatValueUsers(nObjUser: any) {
   var Carrito: Array<object> = nObjUser.cart;
   var Favs: Array<object> = nObjUser.favs;
+  var totalCarrito = 0;
+  var arrayCarrito = [];
   nObjUser.cart = []
   nObjUser.favs = []
   for (var vFavs of Favs) {
@@ -46,7 +48,7 @@ async function formatValueUsers(nObjUser: any) {
     var quantity: any = cValue.Cart_details.quantity;
 
     var producto: any = await Products.findByPk(id_product, { attributes: ['name', 'sell_price'] })
-    var details: any = await Product_details.findByPk(id_detail, { include: [Sizes, Color] })
+    var details: any = await Product_details.findByPk(id_detail, { include: [Images, Sizes, Color] })
 
     var productoP = JSON.parse(JSON.stringify(producto, null, 2))
     var detailsP = JSON.parse(JSON.stringify(details, null, 2))
@@ -57,18 +59,36 @@ async function formatValueUsers(nObjUser: any) {
 
     var carritoN: carrito = {
       id_details: id_detail,
+      image: detailsP.Images[0].image,
       name: productoP.name,
       color: detailsP.Color.color,
       size: detailsP.Sizes,
       price: productoP.sell_price,
       quantity: quantity
     }
-    nObjUser.cart.push(carritoN)
+    arrayCarrito.push(carritoN)
+    totalCarrito += carritoN.price * carritoN.quantity
     //CARRITO
   }
+  nObjUser.cart = { arrayCarrito: arrayCarrito, totalCarrito: totalCarrito }
   return nObjUser
 }
-
+async function verificarUser(params: any) {
+  var findUser: any = await Users.findByPk(params)
+  if (findUser) {
+    return true
+  } else {
+    throw new Error("No existe el usuario.");
+  }
+}
+async function verificarProducto(params: any) {
+  var findUser: any = await Product_details.findByPk(params)
+  if (findUser) {
+    return true
+  } else {
+    throw new Error("No existe el Producto.");
+  }
+}
 export const getAllValuesUsers = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   var { id, username, email } = value;
@@ -102,7 +122,6 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
     return users.length > 0 ? users : { message: "there're not users" };
   }
 }
-
 export const createUsers = async (value: any): Promise<object> => {
   const hashPassword = bcrypt.hashSync(value.password, 10)
   value = { ...value, password: hashPassword }
@@ -168,21 +187,41 @@ export const getCart = async (_value: any): Promise<object> => {
 }
 export const addCart = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  var findUser: any = await Users.findByPk(value.id_user)
-  await findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })
-  return findUser
-}
-export const updateCart = async (_value: any): Promise<object> => {
-  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  var users = await Users.findAll()
-  return users.length > 0 ? users : { message: "there're not users" };
-}
-export const deleteCart = async (_value: any): Promise<object> => {
-  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  var users = await Users.findAll()
-  return users.length > 0 ? users : { message: "there're not users" };
-}
+  await verificarUser(value.id_user)
+  await verificarProducto(value.id_product_details)
 
+  var findUser: any = await Users.findByPk(value.id_user)
+  findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })
+  return findUser
+
+}
+export const updateCart = async (value: any): Promise<object> => {
+  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
+  await verificarUser(value.id_user)
+  await verificarProducto(value.id_product_details)
+
+  await Cart_details.update({ quantity: value.quantity }, { where: { id_user: value.id_user, id_product_details: value.id_product_details } })
+  let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
+  return users
+}
+export const deleteCart = async (value: any): Promise<object> => {
+  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
+  await verificarUser(value.id_user)
+  await verificarProducto(value.id_product_details)
+
+  await Cart_details.destroy({ where: { id_user: value.id_user, id_product_details: value.id_product_details } })
+  let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
+  return users
+}
+export const allDeleteCart = async (value: any): Promise<object> => {
+  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
+  await verificarUser(value.id_user)
+  await verificarProducto(value.id_product_details)
+
+  await Cart_details.destroy({ where: { id_user: value.id_user } })
+  let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
+  return users
+}
 
 //!====================================================
 //!===================FAVORITOS========================
