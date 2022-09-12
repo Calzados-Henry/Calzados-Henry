@@ -22,7 +22,7 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Drawer, Button, Box, TextField } from '@mui/material';
-
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import { useFormik } from 'formik';
 /* import * as yup from 'yup'; */
 
@@ -58,13 +58,13 @@ export default function SideBarComponent() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 /* const [openMenuPrices, setOpenMenuPrices] = useState(false) */
-  const [disable, setDisable] = useState(true)
+  const [disable, setDisable] = useState(false)
   const [category, setCategory] = React.useState('');
   const [season, setSeason] = React.useState('');
-const { data, error, isLoading, isSuccess } = useGetProductsQuery();
-
+const { data } = useGetProductsQuery();
+const [gender, setGender] = React.useState('')
 const navigate = useNavigate();
-
+const [openMenu, setOpenMenu ] = useState(false)
 const [openMenuPrices, setOpenMenuPrices] = useState(false);
 
 /* const [rating, setRating] = useState<number | null>(0);
@@ -72,7 +72,26 @@ const [amount, setAmount] = useState<State>({
     initialValue: 0,
     finalValue: 0,
   }); */
-
+  
+  const errors = {
+    price: ''
+  }
+   const validacion2 = (validar) => {
+    let price;
+    if ( Number(validar[0].valor.base) > Number(validar[0].valor.top)) {
+      price = 'El minimo no puede ser mayor que el maximo!'
+    }
+    else if(Number(validar[0].valor.base) !== 0 && (Number(validar[0].valor.base) === Number(validar[0].valor.top))){
+      price = 'El minimo no puede ser igual que el maximo!'
+    }
+    return price 
+  }
+  const validacion = (validar) => {
+    if ( Number(validar[0].valor.base) !== 0 ? (Number(validar[0].valor.base) >= Number(validar[0].valor.top)) : (Number(validar[0].valor.base) > Number(validar[0].valor.top)) ) {
+      errors.price = 'El minimo no puede ser mayor que el maximo Pone voluntad!'
+    }
+     errors.price.length > 0 ? setDisable(true) : setDisable(false);
+  }
   const formik = useFormik({
     initialValues: [ {
       clave: 'price',
@@ -87,9 +106,13 @@ const [amount, setAmount] = useState<State>({
     {
       clave: 'season',
       valor: ''
+    },
+    {
+      clave: 'gender',
+      valor: ''
     }
   ],
-/*     validationSchema: validations, */
+    /* validationSchema: validacion, */
     onSubmit: (values) => {
       dispatch(filtProducts(values));
       console.log("🚀 ~ file: SideBarComponent.tsx ~ line 112 ~ SideBarComponent ~ values", values)
@@ -98,44 +121,37 @@ const [amount, setAmount] = useState<State>({
     },
   });
   
-  const validacion = (validar) => {
-    const errors = {}
-    if (validar[0].valor.base >= validar[0].valor.top) {
-      errors.price = 'El minimo no puede ser mayor que el maximo Pone voluntad!'
-    } else {
-
-      delete errors.price
-    }
-    if(validar[0].valor.base  <= 0  || validar[0].valor.top <= 0) {
-      errors.gratis = 'No vendemos nada gratis y menos pagamos para que te lleves productos'
-    }
-    else {
-      delete errors.gratis
-
-    }
-    return errors
-  }
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value)
-   event.target.value !== 'Todas las categorias' && (formik.values[1].valor = event.target.value)
+    event.target.value === 'Todas las categorias' ? (formik.values[1].valor = '') :   (formik.values[1].valor = event.target.value)
   };
   const handleChangeSeason = (event: SelectChangeEvent) => {
     setSeason(event.target.value)
-   event.target.value !== 'Todas las Temporadas' && (formik.values[2].valor = event.target.value)
+    event.target.value === 'Todas las Temporadas' ? (formik.values[2].valor = '') :  (formik.values[2].valor = event.target.value)
+  };
+  const handleChangeGender = (event: SelectChangeEvent) => {
+    setGender(event.target.value)
+    event.target.value === 'Todos los Generos' ? (formik.values[3].valor = '') :  (formik.values[3].valor = event.target.value)
   };
   const [price, setPrice] = useState({
     base: 0,
     top:0
   });
-
-const handleOnChangePrice = (e: SelectChangeEvent) => {
-   const validar = validacion(formik.values)
-   !Object.keys(validar).length ? setDisable(false) : setDisable(true)   
-  isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
-setPrice({...price, [e.target.name]: Number(e.target.value)} )
-formik.values[0].valor[e.target.name] = Number(e.target.value) 
-}
+  React.useEffect(() => {
+    validacion(formik.values)
+  },[price.base, price.top])
   
+  const handleOnChangePrice =  (e) => {
+  isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
+  setPrice({...price, [e.target.name]: Number(e.target.value)} )
+  formik.values[0].valor[e.target.name] = Number(e.target.value) 
+   
+}
+const handleClick = () => {
+    setOpenMenu(!openMenu)
+  };
+  
+
 const handleClickPrices = () => {
     setOpenMenuPrices(!openMenuPrices)
   };
@@ -239,24 +255,39 @@ const handleClickPrices = () => {
           </Paper>
 
        
-          <ListItemButton onClick={handleClickPrices} autoFocus={false}>
+          <ListItemButton onClick={handleClick} autoFocus={false}>
             <ListItemIcon>
               <FilterAltIcon />
             </ListItemIcon>
             <ListItemText primary='Filtros' />
-            {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
+            {openMenu ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
 
-          <Collapse in={openMenuPrices} timeout='auto' unmountOnExit>
+          <Collapse in={openMenu} timeout='auto' unmountOnExit>
             <List component='div' disablePadding>
               <Box
                 component='form'
                 noValidate
                 onSubmit={formik.handleSubmit}
                 sx={{  display: 'flex', flexDirection: 'column', gap: 0.5, mr: 1, ml: 1 }}>
+          
+          <ListItemButton onClick={handleClickPrices} autoFocus={false}>
+            <ListItemIcon>
+              <PriceChangeIcon />
+            </ListItemIcon>
+            <ListItemText primary='Precio' />
+            {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+                  
+                  <Collapse in={openMenuPrices} timeout='auto' unmountOnExit>
+                    <Box
+                component='form'
+                noValidate
+                onSubmit={formik.handleSubmit}
+                sx={{  display: 'flex', flexDirection: 'column', gap: 0.5, mr: 1, ml: 1 }}>
                   <PaidIcon sx={{position: 'relative', top: 45, left: 10}} />
                 <TextField
-                sx={{maxWidth:200, alignSelf: 'center'}}
+                sx={{maxWidth:200, alignSelf: 'center',}}
                   autoComplete='off'
                   name='base'
                   required
@@ -267,8 +298,8 @@ const handleClickPrices = () => {
                   value={price.base}
                   onChange={(e) => handleOnChangePrice(e)}
                   /* onBlur= {formik.handleBlur} */
-                  error={formik.touched[0]?.valor.base && Boolean(formik.errors[0]?.valor.base)}
-                  helperText={formik.touched[0]?.valor.base && formik.errors[0]?.valor.base}
+                  error={validacion2(formik.values) && validacion2(formik.values).length > 0 }
+                  helperText={validacion2(formik.values)}
                 />
 <PaidIcon sx={{position: 'relative', top: 45, left: 10}}/>
                 <TextField
@@ -281,9 +312,11 @@ const handleClickPrices = () => {
                   autoComplete='off'
                   value={price.top}
                   onChange={(e) => handleOnChangePrice(e)}
-                  error={formik.touched[0]?.valor.top && Boolean(formik.errors[0]?.valor.top)}
-                  helperText={formik.touched[0]?.valor.top && formik.errors[0]?.valor.top}
+                  error={validacion2(formik.values) && validacion2(formik.values).length > 0 }
+                  helperText={validacion2(formik.values)}
                 />
+                </Box>
+                </Collapse>
                  <FormControl sx={{marginTop: 2}}>
         <InputLabel id="category">Categoría</InputLabel>
         <Select
@@ -317,6 +350,22 @@ const handleClickPrices = () => {
           <MenuItem value={'Spring'}>Primavera</MenuItem>
         </Select>
         </FormControl>
+         <FormControl sx={{marginTop: 2}}>
+        <InputLabel id="gender">Genero</InputLabel>
+        <Select
+          labelId="gender"
+          id="gender"
+          value={gender}
+          label="Genero"
+          
+          onChange={handleChangeGender}
+        >
+          <MenuItem value={'Todos los Generos'}>Todos los Generos</MenuItem>
+          <MenuItem value={'Female'}>Femenino</MenuItem>
+          <MenuItem value={"Male"}>Masculino</MenuItem>
+          <MenuItem value={'Unisex'}>Unisex</MenuItem>
+        </Select>
+        </FormControl>
       
                 <Button type='submit' disabled={disable} fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
                   Submit
@@ -328,11 +377,11 @@ const handleClickPrices = () => {
         
           <Button
             variant='contained'
-            sx={{ mt: 3 }}
+            sx={{ mt: 2, marginBottom: 5 }}
             onClick={() => {
               dispatch(setProducts(data));
-              navigate('/products');
-              setOpen(false);
+             /*  navigate('/products');
+              setOpen(false); */
             }}>
             Reset
           </Button>
