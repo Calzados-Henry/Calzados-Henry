@@ -16,7 +16,7 @@ import { Grid, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { addToCart } from '../../features/cart/CartSlice';
+// import { addToCart } from '../../features/cart/CartSlice';
 
 // import { ProductPartial } from '../Card/product.model';
 
@@ -54,7 +54,7 @@ export default function ProductDetail() {
               size='large'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
-              onClick={() => dispatch(addToCart(shoe))}
+              onClick={() => console.log('dispatch')}
               startIcon={<AddShoppingCartIcon />}>
               ADD TO CART
             </Button>

@@ -2,23 +2,23 @@ import { useState, Fragment, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { PublicRoutes } from '../../routes/routes';
-import toast, { Toaster } from 'react-hot-toast';
-import { setStepOneInfo } from '../../features/checkout/checkoutSlice';
-import { useDispatch } from 'react-redux';
+import { setStepOneInfo, resetCheck } from '@/features/checkout/checkoutSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { LocalShipping } from '@mui/icons-material';
+import { RootState } from '@/store';
+import * as yup from 'yup';
 
 const validations = yup.object({
-  firstName: yup.string().max(12, 'No more than 20 characters').required('First Name is required'),
-  lastName: yup.string().max(12, 'No more than 20 characters').required('Last Name is required'),
+  firstName: yup.string().max(20, 'No more than 20 characters').required('First Name is required'),
+  lastName: yup.string().max(20, 'No more than 20 characters').required('Last Name is required'),
   address: yup.string().max(20, 'No more than 20 characters').required('address is required'),
-  country: yup.string().max(20, 'No more than 20 characters').required('country is required'),
+  country: yup
+    .string()
+    .min(4)
+    .max(20, 'No more than 20 characters')
+    .required('country is required'),
   state: yup.string().max(20, 'No more than 20 characters').required('state is required'),
   city: yup.string().max(20, 'No more than 20 characters').required('city is required'),
   zip: yup
@@ -29,32 +29,20 @@ const validations = yup.object({
 
 export default function AddressForm() {
   const dispatch = useDispatch();
+  const initialValues = useSelector((state: RootState) => state.checkout.stepOne);
+  useEffect(() => {
+    dispatch(resetCheck());
+  }, []);
   const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      address: '',
-      country: '',
-      state: '',
-      city: '',
-      zip: '',
-    },
+    initialValues,
     validationSchema: validations,
     onSubmit: values => {
-      console.log(values);
       dispatch(setStepOneInfo(values));
     },
   });
-  const { isValid, errors, dirty } = formik;
+  const { isValid } = formik;
   return (
     <Fragment>
-      <Typography gutterBottom>
-        1. Please provide the data so that the transporter can take the product to you.
-      </Typography>
-      <Typography gutterBottom mb={2}>
-        2. Validate the delivery data and click the &quot;Nex&quot; button at the bottom of the
-        screen to go to step two
-      </Typography>
       <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
         <LocalShipping /> &nbsp;&nbsp;Shipping address
       </Typography>
@@ -165,6 +153,17 @@ export default function AddressForm() {
             />
           </Grid>
         </Grid>
+        <Grid container textAlign='center' mt={2}>
+          <Grid item xs={12} sm={4}>
+            <Typography>1. Provide Data.</Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography>2. Update Info.</Typography>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography>3. Click the &quot;Next&quot; button.</Typography>
+          </Grid>
+        </Grid>
 
         <Button
           size='large'
@@ -172,9 +171,9 @@ export default function AddressForm() {
           color='secondary'
           variant='contained'
           fullWidth
-          disabled={!(isValid && dirty)}
+          disabled={!isValid}
           sx={{ mt: 3, mb: 2 }}>
-          Validate Info
+          Update Info
         </Button>
       </Box>
     </Fragment>

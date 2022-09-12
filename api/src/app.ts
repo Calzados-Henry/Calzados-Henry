@@ -6,14 +6,11 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const morgan = require("morgan")
 require("dotenv").config()
-const Stripe = require("stripe")
 
 /* import Stripe from 'stripe'; */
 
 const STRIPE_TOKEN: string = process.env.STRIPE_TOKEN as string
-// const stripe = require("stripe")(STRIPE_TOKEN)
-
-const stripe = new Stripe(STRIPE_TOKEN)
+const stripe = require("stripe")(STRIPE_TOKEN)
 
 require("./db")
 const server = express()

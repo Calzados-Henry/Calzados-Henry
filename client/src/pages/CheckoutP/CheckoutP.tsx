@@ -9,14 +9,15 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
 import Review from './Review';
-import Copyright from '../../components/Copyright/Copyright';
+import Copyright from '@/components/Copyright/Copyright';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '@/store';
 import DeliveryMethod from './DeliveryMethod';
+import OrderStatus from './OrderStatus';
+import { useNavigate } from 'react-router-dom';
 
-const steps = ['Shipping address', 'Delivery method', 'Review your order'];
+const steps = ['Shipping address', 'Delivery method', 'Pay Order  Summary', 'Finish'];
 
 function getStepContent(step: number) {
   switch (step) {
@@ -26,6 +27,8 @@ function getStepContent(step: number) {
       return <DeliveryMethod />;
     case 2:
       return <Review />;
+    case 3:
+      return <OrderStatus />;
     default:
       throw new Error('Unknown step');
   }
@@ -34,6 +37,7 @@ function getStepContent(step: number) {
 export default function CheckoutP() {
   const [activeStep, setActiveStep] = React.useState(0);
   const check = useSelector((state: RootState) => state.checkout.check);
+  const navigate = useNavigate();
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -61,18 +65,14 @@ export default function CheckoutP() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant='h5' gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant='subtitle1'>
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Thank you for your buy.
                 </Typography>
               </React.Fragment>
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  {/* {activeStep !== 0 && (
+                  {activeStep !== 0 && (
                     <Button
                       color='secondary'
                       variant='outlined'
@@ -81,16 +81,28 @@ export default function CheckoutP() {
                       sx={{ mt: 3, ml: 1 }}>
                       Back
                     </Button>
-                  )} */}
-                  <Button
-                    disabled={!check}
-                    size='medium'
-                    variant='contained'
-                    color='secondary'
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}>
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
+                  )}
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={!check}
+                      size='medium'
+                      variant='contained'
+                      color='secondary'
+                      onClick={() => navigate('/')}
+                      sx={{ mt: 3, ml: 1 }}>
+                      Finish
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={!check}
+                      size='medium'
+                      variant='contained'
+                      color='secondary'
+                      onClick={handleNext}
+                      sx={{ mt: 3, ml: 1 }}>
+                      {'Next'}
+                    </Button>
+                  )}
                 </Box>
               </React.Fragment>
             )}

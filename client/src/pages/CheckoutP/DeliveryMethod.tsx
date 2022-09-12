@@ -2,43 +2,40 @@ import Typography from '@mui/material/Typography';
 import { Box, Button, Container, Grid, Paper, Radio, TextField } from '@mui/material';
 import RoomServiceIcon from '@mui/icons-material/RoomService';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDelivery, resetCheck } from '@/features/checkout/checkoutSlice';
+import { RootState } from '@/store';
 
 export default function DeliveryMethod() {
   const [selectedValue, setSelectedValue] = useState('');
   const dispatch = useDispatch();
+  const selector = useSelector((state: RootState) => state.checkout.delivery);
+  const [options, setOptions] = useState(selector);
+  useEffect(() => {
+    dispatch(resetCheck());
+    setOptions(selector);
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
+    event.target.value === 'delivery'
+      ? setOptions({ ...options, type: event.target.value, price: 10 })
+      : setOptions({ ...options, type: event.target.value, price: 0 });
   };
-
-  const controlProps = (item: string) => ({
-    checked: selectedValue === item,
-    onChange: handleChange,
-    value: item,
-    name: 'size-radio-button-demo',
-    inputProps: { 'aria-label': item },
-  });
 
   return (
     <Container component='main' maxWidth='xl' sx={{ mb: 4 }}>
-      <Box
-        component='form'
-        noValidate
-        onSubmit={e => {
-          console.log(e);
-        }}>
+      <Box component='form' noValidate>
         <Paper variant='outlined' sx={{ my: { xs: 1, md: 1 }, p: { xs: 2, md: 3 } }}>
           <Grid container spacing={2} alignItems={'center'} justifyContent={'space-bettwen'}>
             <Grid item xs={2}>
               <Radio
                 color='secondary'
-                {...controlProps('sehos')}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
+                checked={selectedValue === 'sehos'}
+                onChange={handleChange}
+                value='sehos'
+                name='radio-buttons'
+                inputProps={{ 'aria-label': 'sehos' }}
               />
             </Grid>
             <Grid item xs={1}>
@@ -65,12 +62,11 @@ export default function DeliveryMethod() {
             <Grid item xs={2}>
               <Radio
                 color='secondary'
-                {...controlProps('delivery')}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
+                checked={selectedValue === 'delivery'}
+                onChange={handleChange}
+                value='delivery'
+                name='radio-buttons'
+                inputProps={{ 'aria-label': 'delivery' }}
               />
             </Grid>
             <Grid item xs={1}>
@@ -104,6 +100,8 @@ export default function DeliveryMethod() {
               label='Message'
               type='text'
               multiline
+              onChange={e => setOptions({ ...options, message: e.currentTarget.value })}
+              value={options.message}
               minRows={5}
               maxRows={10}
               id='message'
@@ -113,13 +111,13 @@ export default function DeliveryMethod() {
         </Paper>
         <Button
           size='large'
-          type='submit'
+          onClick={() => dispatch(setDelivery(options))}
           color='secondary'
           variant='contained'
           disabled={!selectedValue}
           fullWidth
           sx={{ mt: 3, mb: 2 }}>
-          Validate Info
+          Update Info
         </Button>
       </Box>
     </Container>

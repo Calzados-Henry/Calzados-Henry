@@ -20,7 +20,7 @@ import Test from '../pages/Test/Test';
 import SearchedProducts from '../pages/SearchedProducts/SearchedProducts';
 import Shopping from '../components/Shopping/Shopping';
 import RoleGuard from '../guards/role.guard';
-
+import { CheckoutP } from '@/pages/CheckoutP';
 
 function App() {
   return (
@@ -40,6 +40,9 @@ function App() {
 
           {/* Private Routes  */}
           <Route element={<AuthGuard />}>
+            <Route path={PrivatesRoutes.user} element={<></>} />
+            <Route path={PrivatesRoutes.checkout} element={<CheckoutP />} />
+
             <Route element={<RoleGuard />}>
               <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>
                 <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
@@ -47,7 +50,6 @@ function App() {
                 <Route path={PrivatesRoutes.addAtribute} element={<AddAtributes />} />
               </Route>
             </Route>
-            <Route path={PrivatesRoutes.user} element={<></>} />
           </Route>
 
           <Route path={PublicRoutes.login} element={<Login />} />

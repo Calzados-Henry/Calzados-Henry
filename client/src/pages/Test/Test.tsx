@@ -7,7 +7,7 @@ export default function Test() {
       {/* <Stripe></Stripe> */}
       {/*  <StripePay></StripePay> */}
       {/* <OnlinePays></OnlinePays> */}
-      <CheckoutP></CheckoutP>
+      {/* <CheckoutP></CheckoutP> */}
     </>
   );
 }
