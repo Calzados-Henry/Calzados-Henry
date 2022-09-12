@@ -15,10 +15,10 @@ export default function Photos({ images }: ProductPartial) {
       <>
         <img className={s.image} src={images[count].image} alt={images[0].image} />
         <ImageList sx={{ width: '400px', display: 'flex', minHeight: 150, height: 'auto', cursor: 'pointer' }}>
-          {images.map(item => (
+          {images.map((item, index) => (
             <ImageListItem key={item.id}>
               <img
-                onClick={() => setCount(item.id-1)}
+                onClick={() => setCount(index)}
                 src={`${item.image}`}
                 alt={`${item.image}`}
                 loading='lazy'

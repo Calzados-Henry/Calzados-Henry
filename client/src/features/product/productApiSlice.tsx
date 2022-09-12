@@ -10,7 +10,7 @@ export const pokemonSelector = productAdapter.getSelectors();
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<ProductI[], void>({
-      query: () => '/prueba',
+      query: () => '/products',
       transformResponse: (response: ProductI[]) => {
         productAdapter.setAll(initialState, response);
         return response;
