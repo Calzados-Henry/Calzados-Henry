@@ -1,5 +1,5 @@
 // import OnlinePays from '../../components/OnlinePays/OnlinePays';
-import Checkout from '../CheckoutP/Checkout';
+import CheckoutP from '../CheckoutP/CheckoutP';
 
 export default function Test() {
   return (
@@ -7,7 +7,7 @@ export default function Test() {
       {/* <Stripe></Stripe> */}
       {/*  <StripePay></StripePay> */}
       {/* <OnlinePays></OnlinePays> */}
-      <Checkout></Checkout>
+      {/* <CheckoutP></CheckoutP> */}
     </>
   );
 }

@@ -13,7 +13,7 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#E6CCB2',
+      main: '#f6e9cb',
     },
     neutral: {
       main: '#64748B',
@@ -23,6 +23,13 @@ const theme = createTheme({
     },
     secondary: {
       main: '#5d3a00',
+    },
+    text: {
+      primary: 'rgb(72, 35, 7)',
+      secondary: 'rgb(161, 114, 78)',
+    },
+    background: {
+      default: 'rgb(255, 254, 253)',
     },
   },
 });

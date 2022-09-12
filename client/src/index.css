@@ -10,7 +10,7 @@ a:hover,
 a:visited,
 a:active {
   text-decoration: none;
-  color: black;
+  color: #482307;
 }
 
 ul {
@@ -18,7 +18,7 @@ ul {
 }
 
 input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

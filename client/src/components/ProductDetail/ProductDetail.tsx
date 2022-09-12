@@ -22,6 +22,7 @@ import Sizes from './sizes/Sizes';
 import toast, { Toaster } from 'react-hot-toast';
 import { RootState } from '../../store';
 
+
 // import { ProductPartial } from '../Card/product.model';
 
 export default function ProductDetail() {
@@ -90,7 +91,9 @@ export default function ProductDetail() {
               size='large'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
+
               onClick={updateCart}
+
               startIcon={<AddShoppingCartIcon />}>
               ADD TO CART
             </Button>
