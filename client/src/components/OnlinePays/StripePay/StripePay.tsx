@@ -42,7 +42,6 @@ export const CheckoutForm = () => {
         content: 'Su pago fue resuelto correctamente! ',
       });
     };
-    console.log(user);
     const dataStripe = await stripe?.createPaymentMethod({
       type: 'card',
       card: elements?.getElement(CardElement),
