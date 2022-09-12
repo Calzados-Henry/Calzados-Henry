@@ -22,6 +22,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
 import { useAuth } from '../../hooks/useAuth';
 import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
+import { CircularProgress } from '@mui/material';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -153,7 +154,10 @@ const Shoe: React.FC<ProductPartial> = props => {
             color='inherit'
             aria-label='add to cart'
             onClick={updateCart}>
-            <AddShoppingCartIcon></AddShoppingCartIcon>
+            {added.loading ? 
+            <CircularProgress color="inherit" />
+            : 
+            <AddShoppingCartIcon/>}
           </IconButton>
         </CardActions>
       </Card>

@@ -22,7 +22,6 @@ const getUserCart: any = createAsyncThunk('cart/getUserCart', (idUser:number) =>
 })
 
 const setUserCart = createAsyncThunk('cart/setUserCart', ({id, products, token}: {id:number, products:CartI[] | CartI, token:string}) => {
-    console.log(id, products)
     if(Array.isArray(products)) {
         products.forEach(p=> {
             axios.post(`http://localhost:3001/users/cart`, {
