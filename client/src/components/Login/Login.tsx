@@ -155,11 +155,11 @@ export default function Login() {
             Submit
           </Button>
 
-          <Link to='/recoverPass' style={{ textDecoration: 'underline', color: 'blue' }}>
+          {/* <Link to='/recoverPass' style={{ textDecoration: 'underline', color: 'blue' }}>
             Forgot Password?
-          </Link>
+          </Link> */}
           <Typography>
-            Don&apost have account?
+            Don't have account?
             <Link to='/register' style={{ textDecoration: 'underline', color: 'blue' }}>
               Register now!
             </Link>

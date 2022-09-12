@@ -36,6 +36,7 @@ export const productsSlice = createSlice({
       // item.price !== undefined &&
       //     item.price >= action.payload.base &&
       //     item.price <= action.payload.top,
+
     
       filtro = state.allProducts.filter(
         (item: ProductI) => action.payload.every(filter => 
@@ -47,7 +48,8 @@ export const productsSlice = createSlice({
           )
           
 
-      state.allProducts = filtro;
+      state.allProducts = filtro.length ? filtro : []
+
     },
     filtProductsByCategory: (state, action: PayloadAction<string>) => {
       let filtCategory = [];
