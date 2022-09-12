@@ -14,6 +14,7 @@ export const PublicRoutes = {
 export const PrivatesRoutes = {
   dashboard: '/dashboard',
   user: '/user',
+  checkout: '/checkout',
   addProduct: 'addProduct',
   addCategory: 'addCategory',
   addAtribute: 'addAtribute',

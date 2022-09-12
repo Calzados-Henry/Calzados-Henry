@@ -1,34 +1,34 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
 import Review from './Review';
-import Copyright from '../../components/Copyright/Copyright';
+import Copyright from '@/components/Copyright/Copyright';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '@/store';
+import DeliveryMethod from './DeliveryMethod';
+import OrderStatus from './OrderStatus';
+import { useNavigate } from 'react-router-dom';
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Shipping address', 'Delivery method', 'Pay Order  Summary', 'Finish'];
 
 function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <AddressForm />;
     case 1:
-      return <PaymentForm />;
+      return <DeliveryMethod />;
     case 2:
       return <Review />;
+    case 3:
+      return <OrderStatus />;
     default:
       throw new Error('Unknown step');
   }
@@ -37,6 +37,7 @@ function getStepContent(step: number) {
 export default function CheckoutP() {
   const [activeStep, setActiveStep] = React.useState(0);
   const check = useSelector((state: RootState) => state.checkout.check);
+  const navigate = useNavigate();
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -51,7 +52,7 @@ export default function CheckoutP() {
       <Container component='main' maxWidth='xl' sx={{ mb: 4 }}>
         <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component='h1' variant='h4' align='center'>
-            Checkout
+            Sehos Checkout
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map(label => (
@@ -64,11 +65,7 @@ export default function CheckoutP() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant='h5' gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant='subtitle1'>
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Thank you for your buy.
                 </Typography>
               </React.Fragment>
             ) : (
@@ -85,15 +82,27 @@ export default function CheckoutP() {
                       Back
                     </Button>
                   )}
-                  <Button
-                    disabled={!check}
-                    size='medium'
-                    variant='contained'
-                    color='secondary'
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}>
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={!check}
+                      size='medium'
+                      variant='contained'
+                      color='secondary'
+                      onClick={() => navigate('/')}
+                      sx={{ mt: 3, ml: 1 }}>
+                      Finish
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={!check}
+                      size='medium'
+                      variant='contained'
+                      color='secondary'
+                      onClick={handleNext}
+                      sx={{ mt: 3, ml: 1 }}>
+                      {'Next'}
+                    </Button>
+                  )}
                 </Box>
               </React.Fragment>
             )}

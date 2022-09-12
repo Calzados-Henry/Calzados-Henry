@@ -21,7 +21,7 @@ export const productsSlice = createSlice({
     setSearchProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       state.searchProducts = action.payload;
     },
-     resetSearch: state => {
+    resetSearch: state => {
       state.searchResult = [];
     },
     reset: state => {
@@ -29,22 +29,24 @@ export const productsSlice = createSlice({
     },
 
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
-
       let filtro = [];
       // [{clave: 'price', value: {}}, {clave: 'category', value: ''}]
       // item.price !== undefined &&
       //     item.price >= action.payload.base &&
       //     item.price <= action.payload.top,
 
-      filtro = state.allProducts.filter(
-        (item: ProductI) => action.payload.every(filter => 
-          filter.clave === 'Category' ?(filter.valor !== '' && item[filter.clave].category === filter.valor ):
-          (filter.clave === 'price' ?  ( (filter.valor.top !== 0 && filter.valor.base !== 0) &&
-          (item.sell_price >= filter.valor.base &&
-          item.sell_price <= filter.valor.top) ): (filter.valor !== '' && item[filter.clave] === filter.valor))
-          )
-          )
-          
+      filtro = state.allProducts.filter((item: ProductI) =>
+        action.payload.every(filter =>
+          filter.clave === 'Category'
+            ? filter.valor !== '' && item[filter.clave].category === filter.valor
+            : filter.clave === 'price'
+            ? filter.valor.top !== 0 &&
+              filter.valor.base !== 0 &&
+              item.sell_price >= filter.valor.base &&
+              item.sell_price <= filter.valor.top
+            : filter.valor !== '' && item[filter.clave] === filter.valor,
+        ),
+      );
 
       state.allProducts = filtro;
     },
@@ -64,15 +66,15 @@ export const productsSlice = createSlice({
 
       if (action.payload === 'lowerPrice') {
         orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.price < productB.price) return -1;
-          if (productA.price > productB.price) return 1;
+          if (productA.sell_price > productB.sell_price) return -1;
+          if (productA.sell_price < productB.sell_price) return 1;
           return 0;
         });
       }
       if (action.payload === 'higherPrice') {
         orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.price > productB.price) return -1;
-          if (productA.price < productB.price) return 1;
+          if (productA.sell_price < productB.sell_price) return -1;
+          if (productA.sell_price > productB.sell_price) return 1;
           return 0;
         });
       }
