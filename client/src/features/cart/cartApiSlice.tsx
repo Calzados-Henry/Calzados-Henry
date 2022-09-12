@@ -110,7 +110,7 @@ export const cartApiSlice = createSlice({
 
 export const getApiUserCart: any = getUserCart
 export const setApiUserCart: any = setUserCart
+
+export const { reset } = cartApiSlice.actions
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default cartApiSlice.reducer;
-
-window.localStorage.getItem('userInfo') && getUserCart(JSON.parse(window.localStorage.getItem('userInfo') as string).id)

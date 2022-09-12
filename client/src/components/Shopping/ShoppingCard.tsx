@@ -12,7 +12,7 @@ export default function CardShop (product: Partial<CartI>) {
     const auth = useAuth()
     const dispatch = useDispatch()
     const {loading, products, error} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
-    const [size, setSize] = useState(product.size && product.size[0])
+    const [size, setSize] = useState(product.size && {size: product.size[0].size, stock: product.size[0].stock})
     const [renderCount, setRenderCount] = useState(1)
 
 
@@ -50,7 +50,9 @@ export default function CardShop (product: Partial<CartI>) {
 
     const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const finded = product.size?.findIndex(el => el.size === event.target.value)
-        finded && setSize(product.size && product.size[finded])
+        console.log(finded)
+        console.log(size)
+        finded && setSize(product.size && {size: product.size[finded].size, stock: product.size[finded].stock})
     }
 
     return (
@@ -94,9 +96,9 @@ export default function CardShop (product: Partial<CartI>) {
                             <p>{size && size.stock}</p>
                         </Grid>
                         <Grid item xs={2} display={'flex'} alignItems='center' justifyContent='center'>
-                                <button name='decrease' style={{width:'25px'}} onClick={updateAmount}>-</button>
+                                <button name='decrease' disabled={product.quantity ? product.quantity === 1 : false} style={{width:'25px'}} onClick={updateAmount}>-</button>
                                 <input id={'amount'} type={'number'} autoComplete={'off'} disabled defaultValue={product.quantity} style={{width:'20px', textAlign:'center'}} />
-                                <button name='increase' style={{width:'25px'}} onClick={updateAmount}>+</button>
+                                <button name='increase' disabled={product.quantity && size?.stock ? (product.quantity >= size?.stock) : false} style={{width:'25px'}} onClick={updateAmount}>+</button>
                         </Grid>
                         <Grid item xs={1}>
                             <p>$ {product.price && product.quantity ? product.quantity * product.price : 0}</p>

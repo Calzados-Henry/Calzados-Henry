@@ -17,8 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
-import { reset } from '@/features/product/productSlice';
 import { PublicRoutes } from '@/routes/routes';
+import { reset } from '@/features/cart/cartApiSlice';
 
 export default function User() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
