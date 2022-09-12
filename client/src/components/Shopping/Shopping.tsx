@@ -149,7 +149,7 @@ export default function Shopping() {
                     </Box>
                 </Box>}
                     <h2>Recommended</h2>
-                    {/* <PromotionalList></PromotionalList> */}
+                    <PromotionalList></PromotionalList>
             </Box>
     )
 }
