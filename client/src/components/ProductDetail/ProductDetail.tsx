@@ -17,23 +17,57 @@ import { Grid, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { addToLocalCart } from '../../features/cart/CartSlice';
+import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import Sizes from './sizes/Sizes';
+import toast, { Toaster } from 'react-hot-toast';
+import { RootState } from '../../store';
 
 // import { ProductPartial } from '../Card/product.model';
 
 export default function ProductDetail() {
   const params = useParams();
   const dispatch = useDispatch();
-  const products = useSelector(state => state.products.allProducts);
-  const shoe = products.find(item => parseInt(item.id) === parseInt(params.id));
+  const products = useSelector((state: RootState) => state.products.allProducts);
+  const shoe = products.find((item: any) => parseInt(item.id) === parseInt(params.id));
+  const added = useSelector((state: RootState) => state.cart);
+
+  console.log(shoe);
+  const cartProduct: CartI = {
+    idUser: null,
+    idProduct: shoe?.id,
+    details: shoe?.details,
+    name: shoe?.name,
+    price: shoe?.sell_price,
+    quantity: 1,
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const updateCart = () => {
+    if (!added.length) {
+      dispatch(addToLocalCart(cartProduct));
+      toast.success(<b>Product added!!</b>);
+    } else {
+      const finded = added.find(
+        (el: { idProduct: number | undefined }) => el.idProduct === cartProduct.idProduct,
+      );
+      if (finded) {
+        console.log('increase!');
+        dispatch(updateQuantity({ method: 'increase', id: shoe.id ? shoe.id : 0 }));
+        toast.success(<b>Correctly updated amount!</b>);
+      } else {
+        console.log('segundo add');
+        dispatch(addToLocalCart(cartProduct));
+        toast.success(<b>Product added!!</b>);
+      }
+    }
+  };
+
   return (
     <Container maxWidth='xl'>
+      <Toaster position='bottom-left' />
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <Photos images={shoe.details?.images}></Photos>
@@ -42,10 +76,9 @@ export default function ProductDetail() {
           <Description
             name={shoe?.name}
             description={shoe?.description}
-            price={shoe?.sell_price}
-             ></Description>
-            <Sizes details={shoe?.details}/>
-        
+            price={shoe?.sell_price}></Description>
+          <Sizes details={shoe?.details} />
+
           <Box
             mt={2}
             sx={{
@@ -57,7 +90,7 @@ export default function ProductDetail() {
               size='large'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
-              onClick={() => dispatch(addToLocalCart(shoe))}
+              onClick={updateCart}
               startIcon={<AddShoppingCartIcon />}>
               ADD TO CART
             </Button>
