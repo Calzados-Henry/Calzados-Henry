@@ -15,8 +15,10 @@ import {
 import { Logout, AppRegistration, Settings, LoginOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { createUser, resetUser } from '../../features/auth/authSlice';
+import { resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
+import { reset } from '@/features/product/productSlice';
+import { PublicRoutes } from '@/routes/routes';
 
 export default function User() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -95,14 +97,14 @@ export default function User() {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem onClick={() => navigate('/login')}>
+        <MenuItem onClick={() => navigate(PublicRoutes.login)}>
           <ListItemIcon>
             <LoginOutlined fontSize='small' />
           </ListItemIcon>
           Sign In
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => navigate('/register')}>
+        <MenuItem onClick={() => navigate(PublicRoutes.register)}>
           <ListItemIcon>
             <AppRegistration fontSize='small' />
           </ListItemIcon>
@@ -153,7 +155,8 @@ export default function User() {
           {user.name} {user.last_name}
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => navigate('profile/settings')}>
+        <MenuItem>
+     {/* onClick={() => navigate('profile/settings')} */}
           <ListItemIcon>
             <Settings fontSize='small' />
           </ListItemIcon>
@@ -162,7 +165,8 @@ export default function User() {
         <MenuItem
           onClick={() => {
             setLogin(false);
-            dispatch(resetUser());
+            dispatch(reset());
+            dispatch(resetUser())
           }}>
           <ListItemIcon>
             <Logout fontSize='small' />

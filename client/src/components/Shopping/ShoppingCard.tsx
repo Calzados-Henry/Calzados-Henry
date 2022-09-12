@@ -5,17 +5,20 @@ import { useDispatch } from "react-redux"
 import { CartI, deleteFromLS, updateQuantity } from "../../features/cart/CartSlice"
 import { RootState } from "../../store"
 import Swal from 'sweetalert2'
+import { useAuth } from "../../hooks/useAuth"
 
 
 export default function CardShop (product: Partial<CartI>) {
+    const auth = useAuth()
     const dispatch = useDispatch()
-    const cart = useSelector((state:RootState) => state.cart)
-    const [size, setSize] = useState(product.details?.sizes[0])
+    const {loading, products, error} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const [size, setSize] = useState(product.size && product.size[0])
     const [renderCount, setRenderCount] = useState(1)
+
 
     useEffect(() => {
         setRenderCount(renderCount + 1)
-    }, [cart])
+    }, [products])
 
     const updateAmount = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -46,15 +49,15 @@ export default function CardShop (product: Partial<CartI>) {
     }
 
     const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const finded = product.details?.sizes.findIndex(el => el.size === event.target.value)
-        finded && setSize(product.details?.sizes[finded])
+        const finded = product.size?.findIndex(el => el.size === event.target.value)
+        finded && setSize(product.size && product.size[finded])
     }
 
     return (
         <Box>
             <Grid container spacing={0} alignItems='center'>
                 <Grid item xs={1}>
-                    <img style={{width: '80%'}} src={product.details?.images ? product.details.images[0].image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg'} alt="No hay" />
+                    <img style={{width: '80%'}} src={product.image ? product.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/925px-Unknown_person.jpg'} alt="No hay" />
                 </Grid>
                 <Grid item xs={11}>
                     <Grid container>
@@ -84,7 +87,7 @@ export default function CardShop (product: Partial<CartI>) {
                         </Grid>
                         <Grid item xs={1}>
                                 <select style={{marginTop: 15}} onChange={changeSize}>
-                                    {product.details?.sizes.map(s =><option>{s.size}</option>)}
+                                    {product.size?.map(s =><option key={s.size}>{s.size}</option>)}
                                 </select>
                         </Grid>
                         <Grid item xs={1}>
