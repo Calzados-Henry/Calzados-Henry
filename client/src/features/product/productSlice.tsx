@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
+import { useGetProductsQuery } from './productApiSlice';
 import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
 import searchReducer from './searchReducer';
 
@@ -25,7 +25,8 @@ export const productsSlice = createSlice({
       state.searchResult = [];
     },
     reset: state => {
-      state.allProducts = [];
+ const { data, error, isLoading, isSuccess } = useGetProductsQuery();
+ if (data) state.allProducts = data
     },
 
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
@@ -38,7 +39,7 @@ export const productsSlice = createSlice({
 
       filtro = state.allProducts.filter(
         (item: ProductI) => action.payload.every(filter => 
-          filter.clave === 'Category' ?(filter.valor !== '' && item[filter.clave].category === filter.valor ):
+          filter.clave === 'Category' ?(filter.valor !== '' && item.Category.category === filter.valor ):
           (filter.clave === 'price' ?  ( (filter.valor.top !== 0 && filter.valor.base !== 0) &&
           (item.sell_price >= filter.valor.base &&
           item.sell_price <= filter.valor.top) ): (filter.valor !== '' && item[filter.clave] === filter.valor))
@@ -64,15 +65,15 @@ export const productsSlice = createSlice({
 
       if (action.payload === 'lowerPrice') {
         orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.price < productB.price) return -1;
-          if (productA.price > productB.price) return 1;
+          if (productA.sell_price < productB.sell_price) return -1;
+          if (productA.sell_price > productB.sell_price) return 1;
           return 0;
         });
       }
       if (action.payload === 'higherPrice') {
         orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.price > productB.price) return -1;
-          if (productA.price < productB.price) return 1;
+          if (productA.sell_price > productB.sell_price) return -1;
+          if (productA.sell_price < productB.sell_price) return 1;
           return 0;
         });
       }
