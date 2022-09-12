@@ -19,6 +19,11 @@ import { LoginRequest, useLoginMutation } from '../../features/auth/authApiSlice
 import { createUser, resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import { PublicRoutes } from '../../routes/routes';
+import { deleteAllfromLS } from '../../features/cart/CartSlice';
+import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -27,16 +32,17 @@ const validations = yup.object().shape({
 
 export default function Login() {
   const paperstyle = { padding: 20, height: '70vh', width: 400, margin: '100px auto' };
+  const {loading, products, error} = useSelector((state:RootState) => state.cart)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const dispatchAsync: any = useDispatch()
   const auth = useAuth();
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   useEffect(() => {
-    const user = window.localStorage.getItem('user');
-    if (user) {
-      window.history.back();
+    if (auth.user) {
+      navigate(PublicRoutes.home);
     }
   }, []);
 
@@ -51,7 +57,7 @@ export default function Login() {
         email: formik.values.email,
         password: formik.values.password,
       };
-      const data = await login(dataLogin).unwrap();
+      const data: any = await login(dataLogin).unwrap();
 
       if (!data.message) {
         const userAuth = {
@@ -70,22 +76,29 @@ export default function Login() {
         };
         window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
         dispatch(createUser(userAuth));
-        Swal.fire({
-          title: 'Success!',
-          icon: 'success',
-          text: `Welcome! ${data.name} ${data.last_name}, you will be redirect`,
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        setTimeout(() => {
-          window.history.back();
+        if(products.length) {
+          if (data.id && data.token) {
+          dispatchAsync(setApiUserCart({id: data.id, products, token: data.token}))
+          dispatch(deleteAllfromLS())
+        }
+      }
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        text: `Welcome! ${data.name} ${data.last_name}, you will be redirect`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      setTimeout(() => {
+        navigate(PublicRoutes.home);
         }, 1200);
         if (!checked) {
           setTimeout(() => {
             dispatch(resetUser());
             window.location.reload();
-          }, 600000);
+          }, 10000);
         }
+        dispatchAsync(getApiUserCart(data.id))
       } else {
         Swal.fire({
           title: 'Error!',
@@ -134,7 +147,7 @@ export default function Login() {
             autoComplete='password'></TextField>
           <FormControlLabel
             control={
-              <Checkbox name='checked' color='primary' onChange={() => setChecked(!checked)} />
+              <Checkbox name='checked' checked color='primary' onChange={() => setChecked(!checked)} />
             }
             label='Remember me'
           />

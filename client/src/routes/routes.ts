@@ -1,6 +1,7 @@
 export const PublicRoutes = {
   start: '/',
   login: '/login',
+  register: '/register',
   home: '/home',
   about: '/about',
   products: '/products',
@@ -8,6 +9,8 @@ export const PublicRoutes = {
   cart: '/cart',
   contact: '/contact',
   searchResult: 'search-results',
+  profile: '/profile',
+  settings: 'settings',
   error: '*',
 };
 

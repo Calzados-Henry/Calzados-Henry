@@ -9,21 +9,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { currencyFormatter } from '@/utils/currencyFormat';
 import { setTotalCart } from '@/features/checkout/checkoutSlice';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Review() {
   /* ------------------------------------------ */
-  const products = useSelector((state: RootState) => state.cart);
+  const auth = useAuth()
+  const {products} = useSelector((state: RootState) => auth.user ? state.apiCart : state.cart);
   const shipping = useSelector((state: RootState) => state.checkout);
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
+  
   useEffect(() => {
-    let parcial = 0;
-    products.forEach((p: { price: number; quantity: number }) => {
-      parcial += p.price * p.quantity;
-    });
-    setTotal(parcial);
+    let parcial = 0
+    products.forEach( p => {
+        p.price && (parcial = parcial + (p.price * p.quantity))
+    })
+    setTotal(parcial)
     dispatch(setTotalCart(parcial));
-  });
+}, [products])
 
   /* ------------------------------------------ */
   return (
@@ -36,10 +39,10 @@ export default function Review() {
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={product.name} secondary={'Quantity ' + product.quantity} />
             <Typography mr={12} variant='body2'>
-              {currencyFormatter.format(product.price)}
+              {currencyFormatter.format(product.price ? product.price : 0)}
             </Typography>
             <Typography variant='body2'>
-              {currencyFormatter.format(product.price * product.quantity)}
+              {currencyFormatter.format(product.price ? product.price * product.quantity : 0)}
             </Typography>
           </ListItem>
         ))}

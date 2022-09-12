@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Stack, styled, Typography } from "@mui/material"
+import { Backdrop, Box, Button, CircularProgress, Paper, Stack, styled, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
@@ -8,19 +8,27 @@ import PromotionalList from "../PromotionalProducts/PromotionalList"
 import CardShop from "./ShoppingCard"
 import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom"
-import { PublicRoutes } from "../../routes/routes"
+import { PrivatesRoutes, PublicRoutes } from "../../routes/routes"
+import { useAuth } from "../../hooks/useAuth"
+import { getApiUserCart } from "../../features/cart/cartApiSlice"
 
 
 export default function Shopping() {
-    const products = useSelector((state:RootState) => state.cart)
+    const auth = useAuth()
+    const {loading, products, error, complete} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [total, setTotal] = useState(0)
 
     useEffect(() => {
+      window.localStorage.getItem('userInfo') &&
+      dispatch(getApiUserCart(JSON.parse(window.localStorage.getItem('userInfo') as string).id))
+    }, [])
+
+    useEffect(() => {
         let parcial = 0
-        products.forEach((p: { price: number; quantity: number }) => {
-            parcial += p.price * p.quantity
+        products.forEach( p => {
+            p.price && (parcial = parcial + (p.price * p.quantity))
         })
         setTotal(parcial)
     }, [products])
@@ -67,19 +75,32 @@ export default function Shopping() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirm!',
-            cancelButtonText: 'More Products'
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Success!',
-                'Redirecting!',
-                'success'
-              )
-              setTimeout(() => {
-                navigate(PublicRoutes.cart)
-              }, 1000)
-            } else {
-                navigate(PublicRoutes.products)
+              if(!auth.user) {
+                Swal.fire({
+                  title: 'Wait!',
+                  icon: 'error',
+                  text: 'First you need to Sign In! Redirecting!',
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                setTimeout(() => {
+                  navigate(PublicRoutes.login)
+                }, 1000)
+              } else {
+                Swal.fire({
+                  title: 'Redirecting!',
+                  icon: 'info',
+                  text: 'Please complete checkout form!',
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+                
+                setTimeout(() => {
+                  navigate(PrivatesRoutes.checkout)
+                }, 1000)
+              }
             }
           })
     }
@@ -87,13 +108,21 @@ export default function Shopping() {
     return (
             <Box height='80%'>
                 <h3>Your current Shopping Cart</h3>
+                {loading ? 
+                <Backdrop
+                  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  open={true}
+                ><CircularProgress color="inherit" /></Backdrop> :
                 <Stack spacing={2} alignItems={'center'}>
                     {products.length ? products?.map((p: CartI) => {
                         return(<Item key = {p.idProduct}><CardShop
-                            name = {p.name}
-                            details = {p.details}
-                            price = {p.price}
+                            idUser={auth.user ? p.idUser : null}
                             idProduct={p.idProduct}
+                            image = {p.image}
+                            name = {p.name}
+                            color = {p.color}
+                            size = {p.size}
+                            price = {p.price}
                             quantity={p.quantity}
                         />
                         </Item>
@@ -101,7 +130,7 @@ export default function Shopping() {
                     }) :
                     <Item>There are any products in the cart, try go to our <Link to={PublicRoutes.products}>Products List</Link> and get someones</Item>
                     }
-                </Stack>
+                </Stack>}
                 {products.length <= 1 ? null : 
                 <Box display={'flex'} justifyContent={'flex-end'} margin={2}>
                     <Button sx={{width:120}} variant="contained" onClick={deleteAll}>Delete All</Button>
