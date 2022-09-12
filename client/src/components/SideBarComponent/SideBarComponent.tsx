@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import PaidIcon from '@mui/icons-material/Paid';
 import {  ExpandMore, ExpandLess } from '@mui/icons-material';
+import { useGetProductsQuery } from '../../features/product/productApiSlice';
 import FilterAltIcon  from '@mui/icons-material/FilterAlt';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Paper from '@mui/material/Paper';
@@ -16,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import {
   sortProducts,
   filtProducts,
-  reset,
+  setProducts,
 } from '../../features/product/productSlice';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -60,7 +61,7 @@ export default function SideBarComponent() {
   const [disable, setDisable] = useState(true)
   const [category, setCategory] = React.useState('');
   const [season, setSeason] = React.useState('');
-
+const { data, error, isLoading, isSuccess } = useGetProductsQuery();
 
 const navigate = useNavigate();
 
@@ -131,8 +132,8 @@ const handleOnChangePrice = (e: SelectChangeEvent) => {
    const validar = validacion(formik.values)
    !Object.keys(validar).length ? setDisable(false) : setDisable(true)   
   isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
-setPrice({...price, [e.target.name]: (e.target.value)} )
-formik.values[0].valor[e.target.name] = e.target.value 
+setPrice({...price, [e.target.name]: Number(e.target.value)} )
+formik.values[0].valor[e.target.name] = Number(e.target.value) 
 }
   
 const handleClickPrices = () => {
@@ -311,7 +312,7 @@ const handleClickPrices = () => {
         >
           <MenuItem value={'Todas las Temporadas'}>Todas las Temporadas</MenuItem>
           <MenuItem value={'Summer'}>Verano</MenuItem>
-          <MenuItem value={'Winter'}>Invierno</MenuItem>
+          <MenuItem value={"Winter"}>Invierno</MenuItem>
           <MenuItem value={'Fall'}>Otoño</MenuItem>
           <MenuItem value={'Spring'}>Primavera</MenuItem>
         </Select>
@@ -329,7 +330,7 @@ const handleClickPrices = () => {
             variant='contained'
             sx={{ mt: 3 }}
             onClick={() => {
-              dispatch(reset());
+              dispatch(setProducts(data));
               navigate('/products');
               setOpen(false);
             }}>

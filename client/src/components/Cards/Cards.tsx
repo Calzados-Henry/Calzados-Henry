@@ -31,12 +31,12 @@ const Cards = () => {
     e.preventDefault();
     setPage(value)
   };
-  const { data, error, isLoading, isSuccess } = useGetProductsQuery();
+  const { data, error, isLoading} = useGetProductsQuery();
   let content;
   if (isLoading)
   content = <img src='https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif' alt='loading' />;
   if (error) content = <h2>Ups hay un error</h2>;
-  const updateList = () => {
+   const updateList = () => {
     data !== undefined && dispatch(setProducts(data));
   };
 
@@ -60,13 +60,13 @@ const Cards = () => {
           />
         ))}
       </div>
-      <Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
+      { Math.ceil(products.length / productsPerPage) > 1 && (<Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
         <Pagination
           count={Math.ceil(products.length / productsPerPage)}
           page={page}
           onChange={handleOnChange}
         />
-      </Box>
+      </Box>)}
     </>
   );
 

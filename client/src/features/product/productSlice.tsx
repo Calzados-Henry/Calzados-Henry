@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
+import { useGetProductsQuery } from './productApiSlice';
 import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
 import searchReducer from './searchReducer';
 
@@ -25,7 +25,8 @@ export const productsSlice = createSlice({
       state.searchResult = [];
     },
     reset: state => {
-      state.allProducts = [];
+ const { data, error, isLoading, isSuccess } = useGetProductsQuery();
+ if (data) state.allProducts = data
     },
 
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
@@ -47,6 +48,7 @@ export const productsSlice = createSlice({
             : filter.valor !== '' && item[filter.clave] === filter.valor,
         ),
       );
+
 
       state.allProducts = filtro;
     },
