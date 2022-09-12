@@ -54,8 +54,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 type Name = string;
 
-const SearchComponent = (name: Name) => {
-  const [search, setSearch] = useState({});
+const SearchComponent = (name: any) => {
+  const [search, setSearch] = useState({ product: '' });
   const products = useSelector((state: RootState) => state.products.searchResult);
 
   const dispatch = useDispatch();
@@ -70,10 +70,10 @@ const SearchComponent = (name: Name) => {
   };
 
   const onClick = () => {
-    if (!search[name]?.length || !search.hasOwnProperty(name)) {
+    if (!search.product.length) {
       toast.error(<b>Debe ingresar un valor primero</b>);
     } else {
-      dispatchSearch(search[name]);
+      dispatchSearch(search.product);
     }
   };
 
@@ -89,9 +89,9 @@ const SearchComponent = (name: Name) => {
         </SearchIconWrapper>
         <StyledInputBase
           placeholder='Search...'
-          name={name}
+          name={name.name}
           onChange={onChange}
-          inputProps={{ 'aria-label': name }}
+          inputProps={{ 'aria-label': name.name }}
         />
       </Search>
       <Button onClick={onClick} size='small' variant='contained'>
