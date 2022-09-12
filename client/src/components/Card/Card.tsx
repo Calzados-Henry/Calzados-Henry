@@ -34,43 +34,41 @@ const Shoe: React.FC<ProductPartial> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
-  const added = useSelector((state:RootState) => state.cart)
-  const user = useAuth()
+  const added: any = useSelector((state: RootState) => state.cart);
 
-  const cartProduct:CartI = {
+  const cartProduct: CartI = {
     idUser: null,
     idProduct: props.id,
     details: props.details,
     name: props.name,
     price: props.sell_price,
-    quantity: 1
-  }
-  
+    quantity: 1,
+  };
+
   props.name !== undefined &&
     (props.name.length >= 35
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
       : (titulo = props.name));
 
   const updateCart = () => {
-    if(!user.user) {
-      if (!added.length) {
-        console.log('primer add')
-        dispatch(addToLocalCart(cartProduct))
-        toast.success(<b>Product added!!</b>);
+    if (!added.length) {
+      dispatch(addToLocalCart(cartProduct));
+      toast.success(<b>Product added!!</b>);
+    } else {
+      const finded = added.find(
+        (el: { idProduct: number | undefined }) => el.idProduct === cartProduct.idProduct,
+      );
+      if (finded) {
+        console.log('increase!');
+        dispatch(updateQuantity({ method: 'increase', id: props.id ? props.id : 0 }));
+        toast.success(<b>Correctly updated amount!</b>);
       } else {
-        const finded = added.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
-        if(finded) {
-          console.log('increase!')
-          dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
-          toast.success(<b>Correctly updated amount!</b>);
-        } else {
-          console.log('segundo add')
-          dispatch(addToLocalCart(cartProduct))
-          toast.success(<b>Product added!!</b>);
-        }
+        console.log('segundo add');
+        dispatch(addToLocalCart(cartProduct));
+        toast.success(<b>Product added!!</b>);
       }
     }
-  }
+  };
 
   return (
     <>
@@ -101,7 +99,7 @@ const Shoe: React.FC<ProductPartial> = props => {
                 titleTypographyProps={{ fontSize: 18 }}
                 title={titulo}
                 onClick={() => navigate(`${PublicRoutes.products}/${props.id}`)}
-                subheader={props.description?.slice(0,30) + '...'}
+                subheader={props.description?.slice(0, 30) + '...'}
                 sx={{ cursor: 'pointer' }}
               />
             </Box>
@@ -111,7 +109,9 @@ const Shoe: React.FC<ProductPartial> = props => {
         {/* <Typography variant="body1" color="text.primary">
           {titulo}
         </Typography> */}
-        {props.details?.images !== undefined && <img src={props.details?.images[0].image} className={s.image} />}
+        {props.details?.images !== undefined && (
+          <img src={props.details?.images[0].image} className={s.image} />
+        )}
         {/* <CardMedia color='inherit'
         component="img"
         height="180"
@@ -132,10 +132,7 @@ const Shoe: React.FC<ProductPartial> = props => {
             <ShareIcon />
           </IconButton>
 
-          <IconButton
-            color='inherit'
-            aria-label='add to cart'
-            onClick={updateCart}>
+          <IconButton color='inherit' aria-label='add to cart' onClick={updateCart}>
             <AddShoppingCartIcon></AddShoppingCartIcon>
           </IconButton>
         </CardActions>
@@ -143,8 +140,6 @@ const Shoe: React.FC<ProductPartial> = props => {
     </>
   );
 };
-
-
 
 export default Shoe;
 
