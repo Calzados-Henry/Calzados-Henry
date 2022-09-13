@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs } from '../controllers/Users';
+import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
 
 const router = Router();
 
@@ -76,39 +76,46 @@ router.delete('/', async (req: Request, res: Response) => {
 //!===================CART_DETAILS=====================
 //!====================================================
 
-router.get('/cart', async (req: Request, res: Response) => {
+router.get('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var cart = await getCart(req.body)
     res.json(cart)
-  } catch (e: any) {
-    res.json({ error: e.message })
+  } catch (e) {
+    next(e)
   }
 })
-router.post('/cart', async (req: Request, res: Response) => {
+router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var cart = await addCart(req.body)
     res.json(cart)
   } catch (e: any) {
-    res.json({ error: e.message })
+    next(e)
   }
 })
-router.put('/cart', async (req: Request, res: Response) => {
+router.put('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var cart = await updateCart(req.body)
     res.json(cart)
   } catch (e: any) {
-    res.json({ error: e.message })
+    next(e)
   }
 })
-router.delete('/cart', async (req: Request, res: Response) => {
+router.delete('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var delCart = await deleteCart(req.body)
     res.json(delCart)
   } catch (e: any) {
-    res.json({ error: e.message })
+    next(e)
   }
 })
-
+router.delete('/cart/all', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    var delCart = await allDeleteCart(req.body)
+    res.json(delCart)
+  } catch (e: any) {
+    next(e)
+  }
+})
 //!=========================================================================
 //* FAVORITES
 

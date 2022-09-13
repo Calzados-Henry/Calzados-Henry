@@ -14,7 +14,6 @@ const searchReducer = (builder: any) => {
   });
 
   builder.addCase(searchProduct.fulfilled, (state, action) => {
-    console.log(action);
     if (action.payload.length) {
       toast.dismiss();
       toast.success('Redirigiendo...');

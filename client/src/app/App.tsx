@@ -69,6 +69,7 @@ function App() {
           </Routes>
         </Container>
       </Suspense>
+
       <Footer />
     </>
   );
