@@ -1,13 +1,4 @@
-// import OnlinePays from '../../components/OnlinePays/OnlinePays';
-import CheckoutP from '../CheckoutP/CheckoutP';
-
+import { UserSettings } from '../UserSettings';
 export default function Test() {
-  return (
-    <>
-      {/* <Stripe></Stripe> */}
-      {/*  <StripePay></StripePay> */}
-      {/* <OnlinePays></OnlinePays> */}
-      {/* <CheckoutP></CheckoutP> */}
-    </>
-  );
+  return <UserSettings />;
 }

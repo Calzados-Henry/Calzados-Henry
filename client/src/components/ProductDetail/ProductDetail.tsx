@@ -1,20 +1,10 @@
 import Box from '@mui/material/Box';
-
-/* 
-import styles from './ProductDetail.module.css';
-
-import Cant from './cant/Cant'; */
-// import Ratings from './ratings/Ratings';
-import Photos from './photos/Photos';
 import Description from './description/Description';
-// import ProductModal from './ProductModal';
-import { useGetProductsQuery } from '../../features/product/productApiSlice';
-import { useParams, useLocation } from 'react-router-dom';
-import Reviews from '../Reviews/Reviews';
-import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, lazy } from 'react';
 import { Container } from '@mui/system';
 import { Grid, Button } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
@@ -23,7 +13,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { RootState } from '../../store';
 import { useAuth } from '@/hooks/useAuth';
 import { setApiUserCart, getApiUserCart } from '@/features/cart/cartApiSlice';
-// import { ProductPartial } from '../Card/product.model';
+import { RootState } from '@/store';
+
+const Photos = lazy(() => import('./photos/Photos'));
+const Reviews = lazy(() => import('../Reviews/Reviews'));
 
 export default function ProductDetail() {
   const params = useParams();
@@ -48,7 +41,7 @@ export default function ProductDetail() {
     price: shoe?.sell_price,
     quantity: 1,
   };
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -123,6 +116,7 @@ export default function ProductDetail() {
             <Button
               variant='outlined'
               size='large'
+              color='secondary'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
               startIcon={<ShoppingCartCheckoutOutlinedIcon />}>
