@@ -29,7 +29,8 @@ import { useFormik } from 'formik';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
   
 
 
@@ -77,14 +78,17 @@ const [amount, setAmount] = useState<State>({
     price: ''
   }
    const validacion2 = (validar) => {
-    let price;
+    const error = {
+      base: '',
+      top: ''
+    };
     if ( Number(validar[0].valor.base) > Number(validar[0].valor.top)) {
-      price = 'El minimo no puede ser mayor que el maximo!'
+      error.base = 'El minimo no puede ser mayor que el maximo!'
     }
     else if(Number(validar[0].valor.base) !== 0 && (Number(validar[0].valor.base) === Number(validar[0].valor.top))){
-      price = 'El minimo no puede ser igual que el maximo!'
+      error.top = 'El maximo no puede ser igual que el minimo!'
     }
-    return price 
+    return error 
   }
   const validacion = (validar) => {
     if ( Number(validar[0].valor.base) !== 0 ? (Number(validar[0].valor.base) >= Number(validar[0].valor.top)) : (Number(validar[0].valor.base) > Number(validar[0].valor.top)) ) {
@@ -118,6 +122,7 @@ const [amount, setAmount] = useState<State>({
       console.log("🚀 ~ file: SideBarComponent.tsx ~ line 112 ~ SideBarComponent ~ values", values)
       navigate('/products');
       setOpen(false);
+      setOpenMenu(false)
     },
   });
   
@@ -139,7 +144,13 @@ const [amount, setAmount] = useState<State>({
   });
   React.useEffect(() => {
     validacion(formik.values)
-  },[price.base, price.top])
+    if (!openMenuPrices){
+      setPrice({base:0, top: 0})
+    formik.values[0].valor.base = 0
+    formik.values[0].valor.top = 0
+    } 
+
+  },[price.base, price.top, openMenuPrices])
   
   const handleOnChangePrice =  (e) => {
   isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
@@ -270,15 +281,19 @@ const handleClickPrices = () => {
                 noValidate
                 onSubmit={formik.handleSubmit}
                 sx={{  display: 'flex', flexDirection: 'column', gap: 0.5, mr: 1, ml: 1 }}>
-          
+          <Tooltip
+            title='Cerrar si no se quiere filtrar por precio'
+            TransitionComponent={Zoom}
+            sx={{ x: 1  }}
+            arrow>
           <ListItemButton onClick={handleClickPrices} autoFocus={false}>
             <ListItemIcon>
               <PriceChangeIcon />
             </ListItemIcon>
-            <ListItemText primary='Precio' />
+            <ListItemText primary='Precio' sx={{padding: 0}} />
             {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-                  
+          </Tooltip>
                   <Collapse in={openMenuPrices} timeout='auto' unmountOnExit>
                     <Box
                 component='form'
@@ -298,10 +313,10 @@ const handleClickPrices = () => {
                   value={price.base}
                   onChange={(e) => handleOnChangePrice(e)}
                   /* onBlur= {formik.handleBlur} */
-                  error={validacion2(formik.values) && validacion2(formik.values).length > 0 }
-                  helperText={validacion2(formik.values)}
+                  error={validacion2(formik.values).base && validacion2(formik.values).base.length > 0 }
+                  helperText={validacion2(formik.values).base}
                 />
-<PaidIcon sx={{position: 'relative', top: 45, left: 10}}/>
+                  <PaidIcon sx={{position: 'relative', top: 45, left: 10}}/>
                 <TextField
                 sx={{maxWidth:200, alignSelf: 'center'}}
                   required
@@ -312,8 +327,8 @@ const handleClickPrices = () => {
                   autoComplete='off'
                   value={price.top}
                   onChange={(e) => handleOnChangePrice(e)}
-                  error={validacion2(formik.values) && validacion2(formik.values).length > 0 }
-                  helperText={validacion2(formik.values)}
+                  error={validacion2(formik.values).top && validacion2(formik.values).top.length > 0 }
+                  helperText={validacion2(formik.values).top}
                 />
                 </Box>
                 </Collapse>
@@ -372,19 +387,27 @@ const handleClickPrices = () => {
                 </Button>
               </Box>
             </List>
-          </Collapse>
-
-        
+      <Tooltip
+            title='Se usa para hacer un nuevo filtrado'
+            TransitionComponent={Zoom}
+            sx={{ x: 1  }}
+            arrow>
           <Button
-            variant='contained'
-            sx={{ mt: 2, marginBottom: 5 }}
-            onClick={() => {
-              dispatch(setProducts(data));
-             /*  navigate('/products');
-              setOpen(false); */
-            }}>
-            Reset
+              variant='contained'
+              sx={{ mt: 2, marginBottom: 5 }}
+              onClick={() => {
+                dispatch(setProducts(data));
+               /*  navigate('/products');
+                setOpen(false); */
+              }}>
+              Reset
           </Button>
+
+        {/* <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>  */}
+      </Tooltip>
+          </Collapse>
+            
+         
         </Box>
       </Drawer>
     </>
