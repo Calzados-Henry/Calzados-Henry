@@ -4,13 +4,12 @@ import { useParams } from 'react-router-dom';
 import { useEffect, lazy } from 'react';
 import { Container } from '@mui/system';
 import { Grid, Button } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import Sizes from './sizes/Sizes';
 import toast, { Toaster } from 'react-hot-toast';
-import { RootState } from '../../store';
 import { useAuth } from '@/hooks/useAuth';
 import { setApiUserCart, getApiUserCart } from '@/features/cart/cartApiSlice';
 import { RootState } from '@/store';
@@ -41,7 +40,7 @@ export default function ProductDetail() {
     price: shoe?.sell_price,
     quantity: 1,
   };
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

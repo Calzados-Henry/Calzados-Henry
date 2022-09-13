@@ -4,17 +4,24 @@ import { ProductPartial } from '../../../sehostypes/Product';
 import s from './Photos.module.css';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import React from 'react'
+import React from 'react';
 // https://picsum.photos/500/400
 
 export default function Photos({ images }: ProductPartial) {
   let content;
-  const [count,setCount ] = React.useState(0)
+  const [count, setCount] = React.useState(0);
   if (images?.length) {
     content = (
       <>
         <img className={s.image} src={images[count].image} alt={images[0].image} />
-        <ImageList sx={{ width: '400px', display: 'flex', minHeight: 150, height: 'auto', cursor: 'pointer' }}>
+        <ImageList
+          sx={{
+            width: '400px',
+            display: 'flex',
+            minHeight: 150,
+            height: 'auto',
+            cursor: 'pointer',
+          }}>
           {images.map((item, index) => (
             <ImageListItem key={item.id}>
               <img
