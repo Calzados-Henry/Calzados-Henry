@@ -1,4 +1,4 @@
-import { itemData } from '../data';
+// import { itemData } from '../data';
 import { Box } from '@mui/material';
 import { ProductPartial } from '../../../sehostypes/Product';
 import s from './Photos.module.css';
@@ -7,15 +7,15 @@ import ImageListItem from '@mui/material/ImageListItem';
 import React from 'react'
 // https://picsum.photos/500/400
 
-export default function Photos({ images }: ProductPartial) {
+export default function Photos({ details }: ProductPartial) {
   let content;
   const [count,setCount ] = React.useState(0)
-  if (images?.length) {
+  if (details !== undefined && details.images !== undefined && details.images?.length) {
     content = (
       <>
-        <img className={s.image} src={images[count].image} alt={images[0].image} />
+        <img className={s.image} src={details.images[count].image} alt={details.images[0].image} />
         <ImageList sx={{ width: '400px', display: 'flex', minHeight: 150, height: 'auto', cursor: 'pointer' }}>
-          {images.map((item, index) => (
+          {details.images.map((item, index) => (
             <ImageListItem key={item.id}>
               <img
                 onClick={() => setCount(index)}

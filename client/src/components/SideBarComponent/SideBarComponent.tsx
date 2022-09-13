@@ -23,7 +23,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Drawer, Button, Box, TextField } from '@mui/material';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
-import { useFormik } from 'formik';
+import { FormikValues, useFormik } from 'formik';
 /* import * as yup from 'yup'; */
 
 import InputLabel from '@mui/material/InputLabel';
@@ -42,23 +42,12 @@ interface State {
   finalValue: number;
 }
  */
-/* const validations = yup.object({
-  initialValues: yup.array().of(yup.object({
-    values: yup.object({
-      base: yup.number().min(0, 'No se pueden ingresar valores negativos')
-    .required('El valor debe ser mayor a 0'),
-  top: yup.number().required('Debe tener un valor máximo de busqueda'),
-    })}))
-  
-  
- 
-}); */
+
 
 export default function SideBarComponent() {
  // const theme = useTheme();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-/* const [openMenuPrices, setOpenMenuPrices] = useState(false) */
   const [disable, setDisable] = useState(false)
   const [category, setCategory] = React.useState('');
   const [season, setSeason] = React.useState('');
@@ -77,20 +66,24 @@ const [amount, setAmount] = useState<State>({
   const errors = {
     price: ''
   }
-   const validacion2 = (validar) => {
+   const validacion2 = (validar: FormikValues) => {
     const error = {
       base: '',
-      top: ''
+      top: '',
+      errorBase: false,
+      errorTop: false
     };
     if ( Number(validar[0].valor.base) > Number(validar[0].valor.top)) {
       error.base = 'El minimo no puede ser mayor que el maximo!'
+      error.errorBase = true
     }
     else if(Number(validar[0].valor.base) !== 0 && (Number(validar[0].valor.base) === Number(validar[0].valor.top))){
       error.top = 'El maximo no puede ser igual que el minimo!'
+      error.errorTop = true
     }
     return error 
   }
-  const validacion = (validar) => {
+  const validacion = (validar: FormikValues) => {
     if ( Number(validar[0].valor.base) !== 0 ? (Number(validar[0].valor.base) >= Number(validar[0].valor.top)) : (Number(validar[0].valor.base) > Number(validar[0].valor.top)) ) {
       errors.price = 'El minimo no puede ser mayor que el maximo Pone voluntad!'
     }
@@ -116,10 +109,9 @@ const [amount, setAmount] = useState<State>({
       valor: ''
     }
   ],
-    /* validationSchema: validacion, */
+  
     onSubmit: (values) => {
       dispatch(filtProducts(values));
-      console.log("🚀 ~ file: SideBarComponent.tsx ~ line 112 ~ SideBarComponent ~ values", values)
       navigate('/products');
       setOpen(false);
       setOpenMenu(false)
@@ -145,17 +137,17 @@ const [amount, setAmount] = useState<State>({
   React.useEffect(() => {
     validacion(formik.values)
     if (!openMenuPrices){
-      setPrice({base:0, top: 0})
-    formik.values[0].valor.base = 0
-    formik.values[0].valor.top = 0
+      setPrice({base:0, top: 0});
+     ( typeof formik.values[0].valor === "object") && (formik.values[0].valor.base = 0);
+    ( typeof formik.values[0].valor === "object") && (formik.values[0].valor.top = 0)
     } 
 
   },[price.base, price.top, openMenuPrices])
   
-  const handleOnChangePrice =  (e) => {
-  isNaN(e.target.value) ? setPrice({...price, [e.target.name]: 0} ) :
-  setPrice({...price, [e.target.name]: Number(e.target.value)} )
-  formik.values[0].valor[e.target.name] = Number(e.target.value) 
+  const handleOnChangePrice =  (e:  React.ChangeEvent<HTMLTextAreaElement>) => {
+ typeof e.currentTarget.value === 'number' && isNaN(e.currentTarget.value) ? setPrice({...price, [e.currentTarget.name]: 0} ) :
+  setPrice({...price, [e.currentTarget.name]: Number(e.currentTarget.value)} )
+ typeof formik.values[0].valor === 'object' && ( e.currentTarget.name === 'base' ||e.currentTarget.name === 'top') && (formik.values[0].valor[e.currentTarget.name] = Number(e.currentTarget.value)) 
    
 }
 const handleClick = () => {
@@ -179,7 +171,7 @@ const handleClickPrices = () => {
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-      
+//
     }
     // setOpen(false);
   };
@@ -311,9 +303,8 @@ const handleClickPrices = () => {
                   label='Minimo'
                   autoFocus
                   value={price.base}
-                  onChange={(e) => handleOnChangePrice(e)}
-                  /* onBlur= {formik.handleBlur} */
-                  error={validacion2(formik.values).base && validacion2(formik.values).base.length > 0 }
+                  onChange={handleOnChangePrice}
+                  error={validacion2(formik.values).errorBase }
                   helperText={validacion2(formik.values).base}
                 />
                   <PaidIcon sx={{position: 'relative', top: 45, left: 10}}/>
@@ -326,8 +317,8 @@ const handleClickPrices = () => {
                   name='top'
                   autoComplete='off'
                   value={price.top}
-                  onChange={(e) => handleOnChangePrice(e)}
-                  error={validacion2(formik.values).top && validacion2(formik.values).top.length > 0 }
+                  onChange={handleOnChangePrice}
+                  error={(validacion2(formik.values).errorTop)}
                   helperText={validacion2(formik.values).top}
                 />
                 </Box>
@@ -396,14 +387,10 @@ const handleClickPrices = () => {
               variant='contained'
               sx={{ mt: 2, marginBottom: 5 }}
               onClick={() => {
-                dispatch(setProducts(data));
-               /*  navigate('/products');
-                setOpen(false); */
+              data !== undefined && dispatch(setProducts(data));
               }}>
               Reset
           </Button>
-
-        {/* <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>  */}
       </Tooltip>
           </Collapse>
             
