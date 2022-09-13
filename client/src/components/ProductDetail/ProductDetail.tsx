@@ -1,29 +1,20 @@
 import Box from '@mui/material/Box';
-/* 
-import styles from './ProductDetail.module.css';
-import Sizes from './sizes/Sizes';
-import Cant from './cant/Cant'; */
-// import Ratings from './ratings/Ratings';
-import Photos from './photos/Photos';
 import Description from './description/Description';
-// import ProductModal from './ProductModal';
-import { useGetProductsQuery } from '../../features/product/productApiSlice';
-import { useParams, useLocation } from 'react-router-dom';
-import Reviews from '../Reviews/Reviews';
-import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, lazy } from 'react';
 import { Container } from '@mui/system';
 import { Grid, Button } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-// import { addToCart } from '../../features/cart/CartSlice';
+import { RootState } from '@/store';
 
-// import { ProductPartial } from '../Card/product.model';
+const Photos = lazy(() => import('./photos/Photos'));
+const Reviews = lazy(() => import('../Reviews/Reviews'));
 
 export default function ProductDetail() {
   const params = useParams();
-  const dispatch = useDispatch();
-  const products = useSelector(state => state.products.allProducts);
+  const products = useSelector((state: RootState) => state.products.allProducts);
   const shoe = products.find(item => parseInt(item.id) === parseInt(params.id));
 
   useEffect(() => {
@@ -42,7 +33,6 @@ export default function ProductDetail() {
             description={shoe?.description}
             price={shoe?.price}></Description>
 
-          {/*  */}
           <Box
             mt={2}
             sx={{
@@ -61,6 +51,7 @@ export default function ProductDetail() {
             <Button
               variant='outlined'
               size='large'
+              color='secondary'
               fullWidth
               sx={{ width: '100%', marginBottom: 2 }}
               startIcon={<ShoppingCartCheckoutOutlinedIcon />}>

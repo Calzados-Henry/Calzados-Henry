@@ -12,12 +12,18 @@ export const PublicRoutes = {
 };
 
 export const PrivatesRoutes = {
-  dashboard: '/dashboard',
+  // Rutas user
   user: '/user',
-  checkout: '/checkout',
-  addProduct: 'addProduct',
-  addCategory: 'addCategory',
-  addAtribute: 'addAtribute',
+  settings: 'user/settings',
+  profile: 'user/profile',
+  addaddress: 'user/address',
+  userOrders: 'user/orders',
+
+  checkout: 'checkout',
+  dashboard: '/dashboard',
+  addProduct: 'addproduct',
+  addCategory: 'addcategory',
+  addAttribute: 'addattribute',
 };
 
 export const URL = {

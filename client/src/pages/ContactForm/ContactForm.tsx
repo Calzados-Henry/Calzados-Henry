@@ -64,7 +64,7 @@ export default function ContactForm() {
   });
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component='main' maxWidth='sm'>
       <Toaster position='bottom-left' reverseOrder={false} />
       <CssBaseline />
       <Box
@@ -146,8 +146,9 @@ export default function ContactForm() {
             type='submit'
             fullWidth
             variant='contained'
+            color='secondary'
             sx={{ mt: 3, mb: 2 }}>
-            Submit
+            Send
           </Button>
           <Grid container justifyContent='flex-end'>
             <Grid item></Grid>
