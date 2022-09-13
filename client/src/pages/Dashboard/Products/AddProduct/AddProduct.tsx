@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import { RootState } from '../../../../store';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -19,6 +20,9 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getSizes } from '@/features/sizes/sizesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 /* VALIDACIONES */
 const validations = yup.object({
@@ -33,8 +37,7 @@ const validations = yup.object({
     .number()
     .positive('This value is positive value')
     .moreThan(yup.ref('buy_price'), `The value sell must be greater than buy price`)
-    .required('This camp is require'),
-  images: yup.mixed().required(),
+    .required('This camp is require')
   // images: yup
   //   .mixed()
   //   .required('A file is required')
@@ -45,36 +48,59 @@ const validations = yup.object({
   //     value => value && SUPPORTED_FORMATS.includes(value.type),
   //   ),
 });
-
+// details:{
+//   id_color:'', //!   id color ver como registrar
+//   size: [/* {id: x  , stock: x} */]  //!sizes : ver que se envie un id y un stock en total 
+// }
 /* COMPONENT */
+// const isLoggedIn = useSelector((state: IRootState) => state.user.loggedIn)
 export default function AddProduct() {
+  const dispatch = useDispatch()
+  const sizes:any = useSelector((state: RootState)=> state.sizes)
   const [fieldValue, setFieldValue] = useState<any>();
+  useEffect(()=>{
+    dispatch(getSizes())
+  },[])
   /* HOOKS */
   const formik = useFormik({
-    initialValues: {
+    initialValues: {  //!import correcto de los size y las categories
+      id_category: '', //! ver que esté cambiado category ->  id_category
       name: '',
       description: '',
       gender: '',
       season: '',
       buy_price: 0,
       sell_price: 0,
-      category: '',
-      size: '',
-      images: [],
     },
     validationSchema: validations,
     onSubmit: values => {
-      alert(
-        JSON.stringify(
-          {
-            values,
-          },
-          null,
-          2,
-        ),
-      );
+      handleFormSubmit(values)
+      // alert(
+      //   JSON.stringify(
+      //     {
+      //       values,
+      //     },
+      //     null,
+      //     2,
+      //   ),
+      // );
     },
   });
+  var arrayDeImagenes:Array<any>
+  const handleImageChange = (e:any) =>{
+    arrayDeImagenes = e.target.files
+  }
+  const handleFormSubmit = async (values:any)=>{
+    const formData = new FormData()
+    formData.append("body", JSON.stringify(values))
+    if(arrayDeImagenes){
+      for (let img of arrayDeImagenes){
+        formData.append("image", img)
+      }
+    }
+    // await fetch("http://localhost:3001/products", { method: "POST", body: formData });
+    console.log(formData)
+  }
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -202,17 +228,17 @@ export default function AddProduct() {
               <InputLabel id='category'>Category</InputLabel>
               <Select
                 fullWidth
-                id='category'
-                labelId='category'
-                name='category'
+                id='id_category'
+                labelId='id_category'
+                name='id_category'
                 label='Category'
-                value={formik.values.category}
+                value={formik.values.id_category}
                 onChange={formik.handleChange}
-                error={formik.touched.category && Boolean(formik.errors.category)}>
-                <MenuItem value={'sport'}>sport</MenuItem>
-                <MenuItem value={'casual'}>casual</MenuItem>
-                <MenuItem value={'sandals'}>sandals</MenuItem>
-                <MenuItem value={'winter'}>Winter</MenuItem>
+                error={formik.touched.id_category && Boolean(formik.errors.id_category)}>
+                <MenuItem value={"sport"}>sport</MenuItem>
+                <MenuItem value={"macaco"}>casual</MenuItem>
+                <MenuItem value={"mandioca"}>sandals</MenuItem>
+                <MenuItem value={"tremendo"}>Winter</MenuItem>
               </Select>
             </Grid>
             {/* Sizes */}
@@ -224,9 +250,12 @@ export default function AddProduct() {
                 labelId='size'
                 name='size'
                 label='Size'
-                value={formik.values.size}
+                value={formik.values.details?.size}
                 onChange={formik.handleChange}
-                error={formik.touched.size && Boolean(formik.errors.size)}>
+                error={formik.touched.details?.size && Boolean(formik.errors.details?.size)}>
+                {sizes.map((size:any)=>{
+                  <MenuItem value={size.id}>{size.size}</MenuItem>
+                })}
                 <MenuItem value={36}>36</MenuItem>
                 <MenuItem value={37}>37</MenuItem>
                 <MenuItem value={38}>38</MenuItem>
@@ -245,7 +274,7 @@ export default function AddProduct() {
                   id='images'
                   name='images'
                   multiple
-                  onChange={formik.handleChange}
+                  onChange={(e)=>handleImageChange(e)}
                 />
               </Button>
               {console.log(formik.values)}
@@ -253,7 +282,8 @@ export default function AddProduct() {
             </Grid>
             {/* Images Test */}
             <Grid item xs={12} sm={12}>
-              {/*               <Button fullWidth variant='outlined' color='inherit' component='label'>
+              {/*
+              <Button fullWidth variant='outlined' color='inherit' component='label'>
                 Upload Images
                 <input
                   type='file'

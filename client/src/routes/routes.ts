@@ -12,10 +12,10 @@ export const PublicRoutes = {
 };
 
 export const PrivatesRoutes = {
+  addProduct: '/dashboard/addProduct',
   dashboard: '/dashboard',
   user: '/user',
   checkout: '/checkout',
-  addProduct: 'addProduct',
   addCategory: 'addCategory',
   addAtribute: 'addAtribute',
 };
