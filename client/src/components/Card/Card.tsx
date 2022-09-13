@@ -11,7 +11,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import s from './Card.module.css';
 import { ProductPartial } from '../../sehostypes/Product';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
@@ -21,6 +21,8 @@ import { RootState } from '../../store';
 import toast, { Toaster } from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
 import { useAuth } from '../../hooks/useAuth';
+import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
+import { CircularProgress } from '@mui/material';
 /* const styles = {
   tr: {
     backgroundColor: 'white',
@@ -34,14 +36,18 @@ const Shoe: React.FC<ProductPartial> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
-  const added = useSelector((state:RootState) => state.cart)
+  const dispatchAsync: any = useDispatch()
   const user = useAuth()
+  const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
+  const added = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
 
   const cartProduct:CartI = {
-    idUser: null,
+    idUser: user.user ? userInfo.id : null,
     idProduct: props.id,
-    details: props.details,
+    image: props.details?.images[0].image,
     name: props.name,
+    color: props.details?.color.color,
+    size: props.details?.sizes,
     price: props.sell_price,
     quantity: 1
   }
@@ -51,21 +57,33 @@ const Shoe: React.FC<ProductPartial> = props => {
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
       : (titulo = props.name));
 
-  const updateCart = () => {
+  const updateCart = async () => {
     if(!user.user) {
-      if (!added.length) {
-        console.log('primer add')
+      if (!added.products.length) {
         dispatch(addToLocalCart(cartProduct))
         toast.success(<b>Product added!!</b>);
       } else {
-        const finded = added.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        const finded = added.products.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
         if(finded) {
-          console.log('increase!')
           dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
           toast.success(<b>Correctly updated amount!</b>);
         } else {
-          console.log('segundo add')
           dispatch(addToLocalCart(cartProduct))
+          toast.success(<b>Product added!!</b>);
+        }
+      }
+    } else {
+      await dispatch(getApiUserCart(userInfo.id))
+      if (!added.products.length) {
+        dispatchAsync({id: userInfo.id, products: cartProduct , token: user.token})
+        toast.success(<b>Product added!!</b>);
+      } else {
+        console.log(added)
+        const finded = added.products.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        if(finded) {
+          toast.success(<b>Correctly updated amount!</b>);
+        } else {
+          dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
           toast.success(<b>Product added!!</b>);
         }
       }
@@ -136,7 +154,10 @@ const Shoe: React.FC<ProductPartial> = props => {
             color='inherit'
             aria-label='add to cart'
             onClick={updateCart}>
-            <AddShoppingCartIcon></AddShoppingCartIcon>
+            {added.loading ? 
+            <CircularProgress color="inherit" />
+            : 
+            <AddShoppingCartIcon/>}
           </IconButton>
         </CardActions>
       </Card>

@@ -32,7 +32,7 @@ export default function ProductList() {
         return (
           <Grid key={shoe.id} item xs={4}>
             {shoe.name !== undefined && (
-              <Card id={shoe.id} name={shoe.name} images={shoe.images} price={shoe.price}></Card>
+              <Card id={shoe.id} name={shoe.name} images={shoe.images} price={shoe.sell_price}></Card>
             )}
           </Grid>
         );

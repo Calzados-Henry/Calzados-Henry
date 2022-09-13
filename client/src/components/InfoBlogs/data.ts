@@ -5,21 +5,21 @@ export const dataBlog = [
     image:
       'http://zapatosymujer.es/zym/wp-content/uploads/2017/07/sandalia-Gloria-negro-pies-2.jpg',
     link: 'http://zapatosymujer.es/2017/07/la-sandalia-de-tacon-medio-y-tiras-que-querras-este-verano.html',
-    colums: 8,
+    columns: 8,
   },
   {
     title: 'Tacon',
     description: 'Los zapatos de tacón que llevaremos esta primavera',
     image: 'http://zapatosymujer.es/zym/wp-content/uploads/2017/02/IMG_20170208_225128_946.jpg',
     link: 'http://zapatosymujer.es/2017/02/los-zapatos-de-tacon-que-llevaremos-esta-primavera.html',
-    colums: 4,
+    columns: 4,
   },
   {
     title: 'Botas Hombre',
     description: 'Cómo combinar botas marrones',
     image: 'https://i.pinimg.com/originals/df/ed/0c/dfed0c8f3379932d12359f2320f7bdc8.jpg',
     link: 'https://www.blogmodahombre.com/combinar-botas-marrones-hombre/',
-    colums: 4,
+    columns: 4,
   },
   {
     title: 'Zapatillas',
@@ -27,6 +27,6 @@ export const dataBlog = [
     image:
       'https://media.gq.com.mx/photos/6196a20bc2a55bfe71d56bbe/master/w_1600,c_limit/tenis-para-hombre-que-no-estaran-de-moda-en-2022-jordan.jpg',
     link: 'https://www.blogmodahombre.com/zapatillas-moda-hombre-2022/',
-    colums: 8,
+    columns: 8,
   },
 ];

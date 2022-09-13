@@ -1,6 +1,7 @@
 export const PublicRoutes = {
   start: '/',
   login: '/login',
+  register: '/register',
   home: '/home',
   about: '/about',
   products: '/products',
@@ -8,16 +9,24 @@ export const PublicRoutes = {
   cart: '/cart',
   contact: '/contact',
   searchResult: 'search-results',
+  profile: '/profile',
+  settings: 'settings',
   error: '*',
 };
 
 export const PrivatesRoutes = {
-  addProduct: '/dashboard/addProduct',
-  dashboard: '/dashboard',
+  // Rutas user
   user: '/user',
-  checkout: '/checkout',
-  addCategory: 'addCategory',
-  addAtribute: 'addAtribute',
+  settings: 'user/settings',
+  profile: 'user/profile',
+  addaddress: 'user/address',
+  userOrders: 'user/orders',
+
+  checkout: 'checkout',
+  dashboard: '/dashboard',
+  addProduct: 'addproduct',
+  addCategory: 'addcategory',
+  addAttribute: 'addattribute',
 };
 
 export const URL = {

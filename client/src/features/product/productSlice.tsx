@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
+import { useGetProductsQuery } from './productApiSlice';
 import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
 import searchReducer from './searchReducer';
 
@@ -21,34 +21,35 @@ export const productsSlice = createSlice({
     setSearchProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       state.searchProducts = action.payload;
     },
-    resetSearch: state => {
+     resetSearch: state => {
       state.searchResult = [];
     },
     reset: state => {
-      state.allProducts = [];
+      
+ 
     },
 
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
+
       let filtro = [];
       // [{clave: 'price', value: {}}, {clave: 'category', value: ''}]
       // item.price !== undefined &&
       //     item.price >= action.payload.base &&
       //     item.price <= action.payload.top,
 
-      filtro = state.allProducts.filter((item: ProductI) =>
-        action.payload.every(filter =>
-          filter.clave === 'Category'
-            ? filter.valor !== '' && item[filter.clave].category === filter.valor
-            : filter.clave === 'price'
-            ? filter.valor.top !== 0 &&
-              filter.valor.base !== 0 &&
-              item.sell_price >= filter.valor.base &&
-              item.sell_price <= filter.valor.top
-            : filter.valor !== '' && item[filter.clave] === filter.valor,
-        ),
-      );
+    
+      filtro = state.allProducts.filter(
+        (item: ProductI) => action.payload.every(filter => 
+          filter.clave === 'Category' ?((filter.valor !== '') ? (item.Category.category === filter.valor) : true ):
+          (filter.clave === 'price' ?  ( (filter.valor.top !== 0) ?
+          (item.sell_price >= filter.valor.base &&
+          item.sell_price <= filter.valor.top) : true ): (filter.valor !== '' ? (item[filter.clave] === filter.valor) : true))
+          )
+          )
+          
 
-      state.allProducts = filtro;
+      state.allProducts = filtro.length ? filtro : []
+
     },
     filtProductsByCategory: (state, action: PayloadAction<string>) => {
       let filtCategory = [];
@@ -65,18 +66,18 @@ export const productsSlice = createSlice({
       const orderProducts = state.allProducts;
 
       if (action.payload === 'lowerPrice') {
-        orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.sell_price > productB.sell_price) return -1;
-          if (productA.sell_price < productB.sell_price) return 1;
-          return 0;
-        });
+        orderProducts.sort((productA: ProductI, productB: ProductI) => 
+          (productA.sell_price - productB.sell_price) 
+         
+          
+        );
       }
       if (action.payload === 'higherPrice') {
-        orderProducts.sort((productA: ProductI, productB: ProductI) => {
-          if (productA.sell_price < productB.sell_price) return -1;
-          if (productA.sell_price > productB.sell_price) return 1;
-          return 0;
-        });
+        orderProducts.sort((productA: ProductI, productB: ProductI) => 
+        
+           (productB.sell_price - productA.sell_price) 
+          
+        );
       }
       if (action.payload === 'nameZA') {
         orderProducts.sort((productA: ProductI, productB: ProductI) => {

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -11,7 +10,7 @@ export interface LandingBlog {
   description: string;
   image: string;
   link: string;
-  colums: number;
+  columns: number;
 }
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -38,7 +37,7 @@ export default function BasicGrid() {
       <Grid container spacing={2}>
         {dataBlog.map((elem: LandingBlog, index: number) => {
           return (
-            <Grid key={index} item xs={elem.colums}>
+            <Grid key={index} item xs={elem.columns}>
               <Item
                 sx={{
                   backgroundImage: `url(${elem.image})`,

@@ -11,6 +11,7 @@ import { RootState } from '@/store';
 import axios from 'axios';
 import './StripePay.css';
 import Swal from 'sweetalert2';
+import { useAuth } from '@/hooks/useAuth';
 
 const stripePromise = loadStripe(stripePublicKey);
 
@@ -21,11 +22,26 @@ export const CheckoutForm = () => {
   const price = useSelector((state: RootState) => state.checkout.totalCart);
   const elements = useElements();
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   /*  */
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const successPayment = () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Your payment was received successfully',
+        confirmButtonColor: '#412800',
+        showConfirmButton: true,
+      });
+      axios.post('http://localhost:3001/email', {
+        email: user,
+        subject: 'Your payment was received successfully',
+        content: 'Su pago fue resuelto correctamente! ',
+      });
+    };
     const dataStripe = await stripe?.createPaymentMethod({
       type: 'card',
       card: elements?.getElement(CardElement),
@@ -39,12 +55,7 @@ export const CheckoutForm = () => {
           amount: price * 100, // cents
         });
         data && data.status === 'succeeded'
-          ? Swal.fire({
-              icon: 'success',
-              title: 'Your payment was received successfully',
-              confirmButtonColor: '#412800',
-              showConfirmButton: true,
-            })
+          ? successPayment()
           : Swal.fire({
               icon: 'error',
               title: 'Your payment was declined',

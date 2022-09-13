@@ -9,9 +9,17 @@ import MenuNav from './menuNav/MenuNav';
 import CartIcon from '../../features/cart/CartIcon';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getApiUserCart } from '../../features/cart/cartApiSlice';
 
 export default function PrimarySearchAppBar() {
   const location = useLocation();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    window.localStorage.getItem('userInfo') &&
+    dispatch(getApiUserCart(JSON.parse(window.localStorage.getItem('userInfo') as string).id))
+  }, [])
 
   return (
     <AppBar position='fixed' color='primary'>
