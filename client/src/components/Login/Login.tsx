@@ -24,7 +24,7 @@ import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { PublicRoutes, Endpoint } from '../../routes/routes';
 import { deleteAllfromLS } from '../../features/cart/CartSlice';
-import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
+import { setApiUserCart, getApiUserCart } from '../../features/cart/cartApiSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { GoogleLogin } from 'react-google-login';
@@ -46,7 +46,7 @@ const googleValidation = yup.object().shape({
 
 export default function Login() {
   const paperstyle = { padding: 20, height: '90vh', width: 400, margin: '100px auto' };
-  const { loading, products, error } = useSelector((state: RootState) => state.cart);
+  const { products } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dispatchAsync: any = useDispatch();
@@ -111,10 +111,10 @@ export default function Login() {
     });
   };
 
-  const updateUserCart = (data: any) => {
+  const updateUserCart = async (data: any) => {
     if (products.length) {
       if (data.id && data.token) {
-        dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
+        await dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
         dispatch(deleteAllfromLS());
       }
     }
@@ -125,7 +125,9 @@ export default function Login() {
 
   const createUserStorage = (userAuth: any) => dispatch(createUser(userAuth));
 
-  const successAlert = (loginData: any) => {
+  const successAlert = async (loginData: any) => {
+    await dispatch(getApiUserCart(loginData.id));
+
     Swal.fire({
       title: 'Success!',
       icon: 'success',
@@ -161,11 +163,16 @@ export default function Login() {
     },
     validationSchema: validations,
     onSubmit: async () => {
+      handleOpenBackDrop();
+
       const dataLogin = {
         email: formik.values.email,
         password: formik.values.password,
       };
+
       const data: any = await login(dataLogin).unwrap();
+
+      handleCloseBackDrop();
 
       if (!data.message) {
         const { userAuth, userInfo } = setUserInfo(data);
@@ -191,8 +198,6 @@ export default function Login() {
     initialValues: initial,
     validationSchema: googleValidation,
     onSubmit: () => {
-      console.log(Endpoint.registerUser, 'me clickeaste', JSON.stringify(googleLogin.values));
-
       handleCloseLoginModal();
       handleOpenBackDrop();
 
@@ -279,8 +284,7 @@ export default function Login() {
     <Grid alignContent={'center'}>
       <Backdrop
         sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={openBackDrop}
-        onClick={handleCloseBackDrop}>
+        open={openBackDrop}>
         <CircularProgress color='inherit' />
       </Backdrop>
       <Box component='form' noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
