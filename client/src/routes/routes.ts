@@ -17,12 +17,12 @@ export const PublicRoutes = {
 export const PrivatesRoutes = {
   // Rutas user
   user: '/user',
-  settings: 'user/settings',
-  profile: 'user/profile',
-  addaddress: 'user/address',
-  userOrders: 'user/orders',
-
+  settings: '/user/settings',
+  profile: 'profile',
+  addaddress: 'address',
+  userOrders: 'orders',
   checkout: 'checkout',
+
   dashboard: '/dashboard',
   addProduct: 'addproduct',
   addCategory: 'addcategory',

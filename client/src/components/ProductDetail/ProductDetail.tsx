@@ -41,7 +41,7 @@ export default function ProductDetail() {
     price: shoe?.sell_price,
     quantity: 1,
   };
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
