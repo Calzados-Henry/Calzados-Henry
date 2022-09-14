@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
+import { createUsers, updateUser, deleteUser, addToCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
 
 const router = Router();
 
@@ -86,7 +86,7 @@ router.get('/cart', async (req: Request, res: Response, next: NextFunction) => {
 })
 router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    var cart = await addCart(req.body)
+    var cart = await addToCart(req.body)
     res.json(cart)
   } catch (e: any) {
     next(e)
