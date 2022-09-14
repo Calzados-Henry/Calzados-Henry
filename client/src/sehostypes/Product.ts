@@ -9,7 +9,7 @@ export interface Color {
 }
 
 export interface Images {
-  id: string | number;
+  id: string 
   image: string;
 }
 
@@ -21,10 +21,10 @@ export interface Size {
 }
 
 export interface Details {
-  color: Color;
-  images: Images[];
-  sizes: Size[];
-  isActive: boolean
+  color?: Color;
+  images?: Images[];
+  sizes?: Size[];
+  isActive?: boolean
 }
 
 export interface Rating {
@@ -52,7 +52,7 @@ export interface ProductI {
   sold: number;
   category: Category;
   reviews: Rating[]
-  details: Details
+  details?: Details
 }
 export interface Pricing {
   base: number,

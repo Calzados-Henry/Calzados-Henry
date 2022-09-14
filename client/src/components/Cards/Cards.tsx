@@ -43,7 +43,7 @@ const Cards = () => {
   useEffect(() => {
     if (data) updateList();
   },[data])
-  
+  const cant = " Can't find any products whit that parameters " 
   const currentsProducts = products.slice(current.first, current.last);
   
   content = (
@@ -59,7 +59,7 @@ const Cards = () => {
             description={shoe.description}
           />
         )) :
-        <p> Can't find any products whit that parameters </p>
+        <p>{cant}</p>
       }
       </div>
       { Math.ceil(products.length / productsPerPage) > 1 && (<Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
