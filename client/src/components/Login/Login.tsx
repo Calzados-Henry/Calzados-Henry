@@ -68,7 +68,6 @@ export default function Login() {
   }, []);
 
   const successLogin = async (res: any) => {
-    handleCloseBackDrop();
     setGoogleData(res);
 
     const loginUserData = {
@@ -77,6 +76,7 @@ export default function Login() {
     };
 
     const Logged = await login(loginUserData).unwrap();
+    handleCloseBackDrop();
 
     // Loggin exitoso -->
     if (!Logged.message) {
