@@ -22,7 +22,7 @@ import { LoginRequest, useLoginMutation } from '../../features/auth/authApiSlice
 import { createUser, resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
-import { PublicRoutes } from '../../routes/routes';
+import { PublicRoutes, Endpoint } from '../../routes/routes';
 import { deleteAllfromLS } from '../../features/cart/CartSlice';
 import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
 import { useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ import { RootState } from '../../store';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 
-import { initial, clientId, style } from './utils';
+import { initial, setUserInfo, clientId, style } from './utils';
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -38,7 +38,7 @@ const validations = yup.object().shape({
 });
 
 const googleValidation = yup.object().shape({
-  userName: yup.string().required('Username is required'),
+  username: yup.string().required('Username is required'),
   phone: yup.number().required('Phone number is required'),
   identification: yup.number().required('Identification is required'),
   birth_date: yup.date().required('Birthdate is required'),
@@ -54,42 +54,97 @@ export default function Login() {
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
   const [checked, setChecked] = useState(true);
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [googleData, setGoogleData] = useState({});
+  const [googleData, setGoogleData] = useState<any>({});
   const [openBackDrop, setOpenBackDrop] = useState(false);
 
   useEffect(() => {
-    gapi.load('client:auth2', () => {
-      gapi.auth2.init({ clientId });
-    });
-
     if (auth.user) {
       navigate(PublicRoutes.home);
     }
+
+    gapi.load('client:auth2', () => {
+      gapi.auth2.init({ clientId });
+    });
   }, []);
 
-  const successLogin = (res: any) => {
+  const successLogin = async (res: any) => {
     handleCloseBackDrop();
     setGoogleData(res);
 
-    googleLogin.setValues({
-      ...googleLogin.values,
-      name: res.profileObj.givenName,
-      last_name: res.profileObj.familyName,
+    const loginUserData = {
       email: res.profileObj.email,
       password: res.googleId,
-    });
-    handleOpenLoginModal();
+    };
+
+    const Logged = await login(loginUserData).unwrap();
+
+    // Loggin exitoso -->
+    if (!Logged.message) {
+      const { userAuth, userInfo } = setUserInfo(Logged);
+
+      setLocalStorage(userInfo);
+      createUserStorage(userAuth);
+
+      updateUserCart(Logged);
+
+      successAlert(Logged);
+    } else {
+      googleLogin.setValues({
+        ...googleLogin.values,
+        name: res.profileObj.givenName,
+        last_name: res.profileObj.familyName,
+        email: res.profileObj.email,
+        password: res.googleId,
+      });
+      handleOpenLoginModal();
+    }
   };
 
-  const errorLogin = (response: any) => {
+  const errorLogin = (res: any) => {
     handleCloseBackDrop();
 
-    console.log(response);
+    Swal.fire({
+      title: 'Error!',
+      text: res.message,
+      icon: 'error',
+      confirmButtonText: 'Try again!',
+    });
   };
 
-  const loadingStatus = () => {
-    handleOpenBackDrop();
+  const updateUserCart = (data: any) => {
+    if (products.length) {
+      if (data.id && data.token) {
+        dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
+        dispatch(deleteAllfromLS());
+      }
+    }
   };
+
+  const setLocalStorage = (userInfo: any) =>
+    window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+  const createUserStorage = (userAuth: any) => dispatch(createUser(userAuth));
+
+  const successAlert = (loginData: any) => {
+    Swal.fire({
+      title: 'Success!',
+      icon: 'success',
+      text: `Welcome! ${loginData.name} ${loginData.last_name}, you will be redirect`,
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    setTimeout(() => {
+      navigate(PublicRoutes.home);
+    }, 2500);
+    if (!checked) {
+      setTimeout(() => {
+        dispatch(resetUser());
+        window.location.reload();
+      }, 10000);
+    }
+  };
+
+  const loadingStatus = () => handleOpenBackDrop();
 
   //BACKDROP
   const handleCloseBackDrop = () => setOpenBackDrop(false);
@@ -113,45 +168,14 @@ export default function Login() {
       const data: any = await login(dataLogin).unwrap();
 
       if (!data.message) {
-        const userAuth = {
-          user: data.email,
-          rol: data.type_user,
-          token: data.token,
-        };
-        const userInfo = {
-          id: data.id,
-          username: data.username,
-          name: data.name,
-          last_name: data.last_name,
-          birth_date: data.birth_date,
-          phone: data.phone,
-          identification: data.identification,
-        };
-        window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        dispatch(createUser(userAuth));
-        if (products.length) {
-          if (data.id && data.token) {
-            dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
-            dispatch(deleteAllfromLS());
-          }
-        }
-        Swal.fire({
-          title: 'Success!',
-          icon: 'success',
-          text: `Welcome! ${data.name} ${data.last_name}, you will be redirect`,
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        setTimeout(() => {
-          navigate(PublicRoutes.home);
-        }, 1200);
-        if (!checked) {
-          setTimeout(() => {
-            dispatch(resetUser());
-            window.location.reload();
-          }, 10000);
-        }
-        dispatchAsync(getApiUserCart(data.id));
+        const { userAuth, userInfo } = setUserInfo(data);
+
+        setLocalStorage(userInfo);
+        createUserStorage(userAuth);
+
+        updateUserCart(data);
+
+        successAlert(data);
       } else {
         Swal.fire({
           title: 'Error!',
@@ -167,19 +191,89 @@ export default function Login() {
     initialValues: initial,
     validationSchema: googleValidation,
     onSubmit: () => {
-      console.log(googleLogin.values, googleData);
-      // Swal.fire({
-      //   title: 'Success!',
-      //   icon: 'success',
-      //   text: `Welcome! , you will be redirect`,
-      //   showConfirmButton: false,
-      //   timer: 1000,
-      // });
+      console.log(Endpoint.registerUser, 'me clickeaste', JSON.stringify(googleLogin.values));
+
       handleCloseLoginModal();
       handleOpenBackDrop();
+
+      fetch(Endpoint.registerUser, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(googleLogin.values),
+      })
+        .then(response => response.json())
+        .then(data => {
+          handleCloseBackDrop();
+
+          if (
+            data.username?.includes('existe') ||
+            data.email?.includes('existe') ||
+            (isNaN(data.identification) && data.identification?.includes('existe'))
+          ) {
+            Swal.fire({
+              title: 'Error!',
+              text: data.username || data.email || data.identification,
+              icon: 'error',
+              confirmButtonText: 'Try again!',
+            });
+          } else {
+            const loggin = async () => {
+              const LogginData = {
+                email: googleData.profileObj.email,
+                password: googleData.googleId,
+              };
+
+              const Logged = await login(LogginData).unwrap();
+
+              // Loggin exitoso -->
+              if (!Logged.message) {
+                const { userAuth, userInfo } = setUserInfo(Logged);
+
+                setLocalStorage(userInfo);
+                createUserStorage(userAuth);
+
+                updateUserCart(Logged);
+
+                successAlert(Logged);
+              }
+
+              Swal.fire({
+                title: 'Success!',
+                icon: 'success',
+                text: `You're logged!, you will be redirect to Home`,
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              setTimeout(() => {
+                navigate(PublicRoutes.home);
+              }, 2200);
+            };
+
+            loggin();
+          }
+        })
+        .catch(error => {
+          handleCloseBackDrop();
+
+          const errorAlert = () => {
+            Swal.fire({
+              title: 'Error!',
+              text: error.message,
+              icon: 'error',
+              confirmButtonText: 'Try again!',
+            });
+          };
+
+          setTimeout(() => {
+            errorAlert();
+          }, 200);
+        });
     },
   });
-  console.log(googleLogin.values);
+  if (auth.user) return <></>;
 
   return (
     <Grid alignContent={'center'}>
@@ -289,12 +383,12 @@ export default function Login() {
                     sx={{ mt: 3 }}
                     placeholder='Enter an username...'
                     fullWidth
-                    id='userName'
-                    name='userName'
-                    value={googleLogin.values.userName}
+                    id='username'
+                    name='username'
+                    value={googleLogin.values.username}
                     onChange={googleLogin.handleChange}
-                    error={googleLogin.touched.userName && Boolean(googleLogin.errors.userName)}
-                    helperText={googleLogin.touched.userName && googleLogin.errors.userName}
+                    error={googleLogin.touched.username && Boolean(googleLogin.errors.username)}
+                    helperText={googleLogin.touched.username && googleLogin.errors.username}
                     autoComplete='username'></TextField>
 
                   <Grid container spacing={1} sx={{ mt: 3 }}>
