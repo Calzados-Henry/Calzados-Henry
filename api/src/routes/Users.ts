@@ -46,6 +46,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
+
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nUser = await createUsers(req.body)
@@ -54,6 +55,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
+
 router.put('/', async (req: Request, res: Response) => {
   try {
     var putUser = await updateUser(req.body)
