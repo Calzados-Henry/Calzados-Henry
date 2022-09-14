@@ -185,14 +185,17 @@ export const getCart = async (_value: any): Promise<object> => {
   var cart = await Users.findAll()
   return cart.length > 0 ? cart : { message: "there're not users" };
 }
-export const addCart = async (value: any): Promise<object> => {
+export const addToCart = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   await verificarUser(value.id_user)
   await verificarProducto(value.id_product_details)
 
-  var findUser: any = await Users.findByPk(value.id_user)
-  findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })
-  return findUser
+  var findUser: any = await Users.findByPk(value.id_user, { include: ['cart', 'favs']})
+  await findUser.addCart(value.id_product_details, { through: { quantity: value.quantity } })
+  const added = await Users.findByPk(value.id_user, { include: ['cart', 'favs']})
+  var nObjUser: any = JSON.parse(JSON.stringify(added))
+  const userCart = await formatValueUsers(nObjUser)
+  return userCart.cart
 
 }
 export const updateCart = async (value: any): Promise<object> => {
@@ -210,17 +213,18 @@ export const deleteCart = async (value: any): Promise<object> => {
   await verificarProducto(value.id_product_details)
 
   await Cart_details.destroy({ where: { id_user: value.id_user, id_product_details: value.id_product_details } })
-  let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
-  return users
+  let findUser: any = await Users.findByPk(value.id_user, { include: ['cart', 'favs'] })
+  var nObjUser: any = JSON.parse(JSON.stringify(findUser, null, 2))
+  const userCart = await formatValueUsers(nObjUser)
+  return userCart.cart
 }
 export const allDeleteCart = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
   await verificarUser(value.id_user)
-  await verificarProducto(value.id_product_details)
 
   await Cart_details.destroy({ where: { id_user: value.id_user } })
   let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
-  return users
+  return users.cart
 }
 
 //!====================================================
