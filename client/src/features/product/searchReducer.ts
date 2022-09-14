@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Endpoints } from '../../routes/routes';
+import { Endpoint } from '../../routes/routes';
 import toast from 'react-hot-toast';
 
 export const searchProduct = createAsyncThunk('search-product', (search: any) => {
-  return fetch(`${Endpoints.searchProduct}/${search}`)
+  return fetch(`${Endpoint.searchProduct}/${search}`)
     .then(res => res.json())
     .catch(err => console.log(err));
 });
