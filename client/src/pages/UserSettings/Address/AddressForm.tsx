@@ -122,15 +122,17 @@ export default function AddressForm() {
           </Grid>
         </Grid>
 
-        <Button
-          size='small'
-          type='submit'
-          color='secondary'
-          variant='contained'
-          disabled={!isValid}
-          sx={{ mt: 3, mb: 2 }}>
-          Add Address
-        </Button>
+        <Box display='flex' justifyContent='end'>
+          <Button
+            size='small'
+            type='submit'
+            color='secondary'
+            variant='contained'
+            disabled={!isValid}
+            sx={{ mt: 3, mb: 2 }}>
+            Add Address
+          </Button>
+        </Box>
       </Box>
     </Fragment>
   );

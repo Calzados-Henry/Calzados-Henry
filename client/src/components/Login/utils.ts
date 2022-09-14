@@ -1,5 +1,6 @@
 export function setUserInfo(user: any) {
   const userAuth = {
+    id: user.id,
     user: user.email,
     rol: user.type_user,
     token: user.token,
