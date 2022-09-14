@@ -2,13 +2,11 @@ import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { NavLink } from 'react-router-dom';
 import { PrivatesRoutes } from '@/routes/routes';
 import PersonIcon from '@mui/icons-material/Person';
@@ -43,17 +41,20 @@ export const mainListItems = (
       </ListItemButton>
     </NavLink>
     {/*  */}
+    <NavLink to={PrivatesRoutes.favorites}>
+      <ListItemButton>
+        <ListItemIcon>
+          <FavoriteIcon />
+        </ListItemIcon>
+        <ListItemText primary='Favorites' />
+      </ListItemButton>
+    </NavLink>
+    {/*  */}
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <DeleteForeverIcon />
       </ListItemIcon>
-      <ListItemText primary='Reports' />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary='Integrations' />
+      <ListItemText primary='Delete Account' />
     </ListItemButton>
   </React.Fragment>
 );

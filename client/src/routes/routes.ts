@@ -21,6 +21,7 @@ export const PrivatesRoutes = {
   profile: 'profile',
   addaddress: 'address',
   userOrders: 'orders',
+  favorites: 'favorites',
   checkout: 'checkout',
 
   dashboard: '/dashboard',

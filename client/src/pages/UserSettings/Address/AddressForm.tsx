@@ -36,6 +36,7 @@ export default function AddressForm() {
     validationSchema: validations,
     onSubmit: values => {
       /* createAddress(values); */
+
       console.log(values);
     },
   });
@@ -122,11 +123,10 @@ export default function AddressForm() {
         </Grid>
 
         <Button
-          size='large'
+          size='small'
           type='submit'
           color='secondary'
           variant='contained'
-          fullWidth
           disabled={!isValid}
           sx={{ mt: 3, mb: 2 }}>
           Add Address
