@@ -6,19 +6,21 @@ import { CartI, deleteFromLS, updateQuantity } from "../../features/cart/CartSli
 import { RootState } from "../../store"
 import Swal from 'sweetalert2'
 import { useAuth } from "../../hooks/useAuth"
+import { deleteApiUserCart } from "@/features/cart/cartApiSlice"
 
 
 export default function CardShop (product: Partial<CartI>) {
     const auth = useAuth()
+    const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
     const dispatch = useDispatch()
-    const {loading, products, error} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const {complete} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
     const [size, setSize] = useState(product.size && {size: product.size[0].size, stock: product.size[0].stock})
     const [renderCount, setRenderCount] = useState(1)
 
 
     useEffect(() => {
         setRenderCount(renderCount + 1)
-    }, [products])
+    }, [complete])
 
     const updateAmount = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -26,7 +28,7 @@ export default function CardShop (product: Partial<CartI>) {
         dispatch(updateQuantity({method: e.currentTarget.name, id: product.idProduct}))
     }
     
-    const deleteProduct = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    const deleteProduct = (e: React.MouseEvent<HTMLButtonElement>, idProduct: number) => {
         e.preventDefault();
         Swal.fire({
             title: 'Are you sure?',
@@ -36,22 +38,29 @@ export default function CardShop (product: Partial<CartI>) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-              dispatch(deleteFromLS(id))
-              Swal.fire(
-                'Deleted!',
-                'Your product has been deleted.',
-                'success'
-              )
+            if(!auth.user) {
+                dispatch(deleteFromLS(idProduct))
+                Swal.fire(
+                    'Deleted!',
+                    'Your product has been deleted.',
+                    'success'
+                    )
+                } else {
+                    await dispatch(deleteApiUserCart({idUser: userInfo.id, idProduct}))
+                    complete && Swal.fire(
+                        'Deleted!',
+                        'Your product has been deleted.',
+                        'success'
+                        )
+                }
             }
           })
     }
 
     const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const finded = product.size?.findIndex(el => el.size === event.target.value)
-        console.log(finded)
-        console.log(size)
         finded && setSize(product.size && {size: product.size[finded].size, stock: product.size[finded].stock})
     }
 
@@ -104,7 +113,7 @@ export default function CardShop (product: Partial<CartI>) {
                             <p>$ {product.price && product.quantity ? product.quantity * product.price : 0}</p>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button variant='contained' sx={{border:'1px solid primary.main'}} onClick={(e) => product.idProduct ? deleteProduct(e, product.idProduct) : e.preventDefault()}>Delete</Button>
+                            <Button variant='contained' sx={{border:'1px solid primary.main'}} onClick={(e) => product.idProduct && deleteProduct(e, product.idProduct)}>Delete</Button>
                         </Grid>
                     </Grid>
                 </Grid>
