@@ -1,8 +1,15 @@
-import { Roles } from './Roles';
-
-export interface UserInfoI {
+export interface UserI {
   id: number;
-  name: string;
+  username: string;
+  password: string;
   email: string;
-  rol: Roles;
+  name: string;
+  last_name: string;
+  birth_date: Date;
+  phone: string;
+  identification: number;
+  type_user: string;
+  isActive: boolean;
 }
+
+export interface UserInfoI extends Partial<UserI> {}

@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
-import { PublicRoutes } from '@/routes/routes';
+import { PublicRoutes, PrivatesRoutes } from '@/routes/routes';
 import { reset } from '@/features/cart/cartApiSlice';
 
 export default function User() {
@@ -150,13 +150,13 @@ export default function User() {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem onClick={() => navigate('/profile')}>
+        <MenuItem onClick={() => navigate(`${PrivatesRoutes.settings}/${PrivatesRoutes.profile}`)}>
           <Avatar />
           {user.name} {user.last_name}
         </MenuItem>
         <Divider />
-        <MenuItem>
-     {/* onClick={() => navigate('profile/settings')} */}
+        <MenuItem onClick={() => navigate(`${PrivatesRoutes.settings}/${PrivatesRoutes.profile}`)}>
+          {/* onClick={() => navigate('profile/settings')} */}
           <ListItemIcon>
             <Settings fontSize='small' />
           </ListItemIcon>
@@ -166,7 +166,8 @@ export default function User() {
           onClick={() => {
             setLogin(false);
             dispatch(reset());
-            dispatch(resetUser())
+            dispatch(resetUser());
+            navigate(PublicRoutes.home);
           }}>
           <ListItemIcon>
             <Logout fontSize='small' />
