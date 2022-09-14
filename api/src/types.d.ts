@@ -124,8 +124,12 @@ export interface UsersI {
 export interface AddressI {
   id: number
   id_user?: number
+  title: string
   address: string
-  zip_code: number
+  city: string
+  state: string
+  country: string
+  zip_code: string
   isActive: boolean
 }
 
