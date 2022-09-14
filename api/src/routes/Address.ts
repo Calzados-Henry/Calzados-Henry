@@ -25,7 +25,7 @@ import { userExtractorUser } from "../middleware/userExtractor"
 
 const Address = Router()
 
-Address.get("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.get("/", /* userExtractorUser, */ async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses = await getAddress(req.params.id)
     if (addresses) {
@@ -36,7 +36,7 @@ Address.get("/", userExtractorUser, async (req: Request, res: Response, next: Ne
   }
 })
 
-Address.post("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
+Address.post("/", /* userExtractorUser, */ async (req: Request, res: Response, next: NextFunction) => {
   try {
     const postedAddress = await postAddress(req.params.id, req.body)
     console.log(postedAddress)

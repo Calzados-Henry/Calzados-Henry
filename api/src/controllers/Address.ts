@@ -20,11 +20,14 @@ export const getAddress = async (id: string): Promise<object> => {
 }
 
 export const postAddress = async (id: string, body: any): Promise<object> => {
-  const { address, zip_code }: any = body
+  const { address, zip_code, city, state, country}: any = body
   const [newAddress, created]: any = await Address.findOrCreate({
     where: {
       id_user: id,
       address: address,
+      city: city,
+      state: state,
+      country: country,
       zip_code: zip_code
     }
   })

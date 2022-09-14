@@ -32,13 +32,37 @@ export default class Address extends Model implements AddressI {
     type: DataType.STRING,
     allowNull: false
   })
+  title!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   address!: string;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
+    allowNull: false
+  })
+  city!: string;
+  
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
+  state!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
+  country!: string;
+
+  @Column({
+    type: DataType.STRING,
     allowNull: false,
   })
-  zip_code!: number;
+  zip_code!: string;
 
   @Column({
     type: DataType.BOOLEAN,
