@@ -26,4 +26,4 @@ export const style = {
 export const clientId = '483531712034-g2pbnlg7iu6qakfguv6pdhobsksqnvc9.apps.googleusercontent.com';
 
 //secret google
-export const googleSecret = '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';
+
