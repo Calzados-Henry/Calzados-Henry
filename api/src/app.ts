@@ -20,7 +20,7 @@ server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }))
 server.use(bodyParser.json({ limit: "50mb" }))
 server.use(cookieParser())
 server.use(morgan("dev"))
-server.use(cors({ credentials: true, origin: "http://localhost:3000", methods: ["GET", "PUT", "POST", "PATCH"] }))
+server.use(cors({ credentials: true, origin: "http://localhost:3000", methods: ["GET", "PUT", "POST", "PATCH", "DELETE"] }))
 // server.use((_req: Request, res: Response, next: NextFunction) => {
 //   res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
 //   res.header('Access-Control-Allow-Credentials', 'true');

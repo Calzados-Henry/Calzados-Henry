@@ -61,6 +61,7 @@ export const cartSlice = createSlice({
     },
     deleteAllfromLS: () => {
       window.localStorage.removeItem('product')
+      return initialState
     }
   },
 });

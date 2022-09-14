@@ -8,18 +8,9 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 import MenuNav from './menuNav/MenuNav';
 import CartIcon from '../../features/cart/CartIcon';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getApiUserCart } from '../../features/cart/cartApiSlice';
 
 export default function PrimarySearchAppBar() {
   const location = useLocation();
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    window.localStorage.getItem('userInfo') &&
-    dispatch(getApiUserCart(JSON.parse(window.localStorage.getItem('userInfo') as string).id))
-  }, [])
 
   return (
     <AppBar position='fixed' color='primary'>
@@ -28,18 +19,20 @@ export default function PrimarySearchAppBar() {
 
         <StoreIconComponent />
 
-        <Box sx={{ flexGrow: 0.7 }} />
+        <Box sx={{ flexGrow: 1 }} />
 
         {/* <SearchComponent name={'search'} /> */}
 
         <MenuNav />
 
-        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 1}} />
 
         {location.pathname === '/products' && <Search name='product' />}
+        <Box sx={{display:'flex', flexDirection:'row', marginLeft: 5}}>
+        <CartIcon />
 
         <User/>
-        <CartIcon />
+        </Box>
       </Toolbar>
     </AppBar>
   );
