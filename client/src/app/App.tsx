@@ -16,8 +16,9 @@ import RoleGuard from '../guards/role.guard';
 import { CheckoutP } from '@/pages/CheckoutP';
 import { lazy, Suspense } from 'react';
 import Loader from './Loader';
-import { AddAddress, Orders } from '@/pages/UserSettings';
+import { Orders, Address } from '@/pages/UserSettings';
 import Profile from '@/pages/UserSettings/Profile/Profile';
+import Favorites from '@/pages/UserSettings/Favorites/Favorites';
 // Lazy Loading
 const Cards = lazy(() => import('@/components/Cards/Cards'));
 const ProductDetail = lazy(() => import('@/components/ProductDetail/ProductDetail'));
@@ -48,11 +49,12 @@ function App() {
             {/* Private Routes  */}
             <Route element={<AuthGuard />}>
               <Route path={PrivatesRoutes.user} element={<></>}></Route>
-              <Route path={PrivatesRoutes.settings} element={<UserSettings />} />
-              <Route path={PrivatesRoutes.profile} element={<Profile />} />
-              <Route path={PrivatesRoutes.addaddress} element={<AddAddress />} />
-              <Route path={PrivatesRoutes.userOrders} element={<Orders />} />
-              <Route path={PrivatesRoutes.checkout} element={<CheckoutP />} />
+              <Route path={PrivatesRoutes.settings} element={<UserSettings />}>
+                <Route path={PrivatesRoutes.profile} element={<Profile />} />
+                <Route path={PrivatesRoutes.addaddress} element={<Address />} />
+                <Route path={PrivatesRoutes.favorites} element={<Favorites />} />
+                <Route path={PrivatesRoutes.userOrders} element={<Orders />} />
+              </Route>
 
               <Route element={<RoleGuard />}>
                 <Route path={PrivatesRoutes.dashboard} element={<Dashboard />}>

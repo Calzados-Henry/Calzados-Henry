@@ -1,23 +1,24 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { /* createAsyncThunk, */ createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Details } from '../../sehostypes/Product';
 import { removeOneProductFromLS, setProductLocalStorage, updateQuantityLS } from '../../utils/utils';
-import axios from 'axios';
+// import axios from 'axios';
 
 // Esto es typescript
 export interface UserSizeI {
-  size: string | undefined
-  stock: number | undefined
+  size?: string 
+  stock?: number 
 }
 
 export interface CartI {
   idUser: number | null
-  idProduct: number | undefined
-  image: string | undefined
-  name: string | undefined
-  color: string | undefined
-  size: UserSizeI[] | undefined
-  price: number | undefined 
+  idProduct?: number
+  image?: string
+  details?: Details
+  name?: string
+  color?: string
+  size?: UserSizeI[]
+  price?: number 
   quantity: number
 }
 
@@ -60,6 +61,7 @@ export const cartSlice = createSlice({
     },
     deleteAllfromLS: () => {
       window.localStorage.removeItem('product')
+      return initialState
     }
   },
 });

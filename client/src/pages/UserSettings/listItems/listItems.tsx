@@ -2,13 +2,11 @@ import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { NavLink } from 'react-router-dom';
 import { PrivatesRoutes } from '@/routes/routes';
 import PersonIcon from '@mui/icons-material/Person';
@@ -25,14 +23,14 @@ export const mainListItems = (
       </ListItemButton>
     </NavLink>
     {/* ----- */}
-
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary='Orders' />
-    </ListItemButton>
-
+    <NavLink to={PrivatesRoutes.userOrders}>
+      <ListItemButton>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary='Orders' />
+      </ListItemButton>
+    </NavLink>
     {/* Address */}
     <NavLink to={PrivatesRoutes.addaddress}>
       <ListItemButton>
@@ -43,24 +41,27 @@ export const mainListItems = (
       </ListItemButton>
     </NavLink>
     {/*  */}
+    <NavLink to={PrivatesRoutes.favorites}>
+      <ListItemButton>
+        <ListItemIcon>
+          <FavoriteIcon />
+        </ListItemIcon>
+        <ListItemText primary='Favorites' />
+      </ListItemButton>
+    </NavLink>
+    {/*  */}
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <DeleteForeverIcon />
       </ListItemIcon>
-      <ListItemText primary='Reports' />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary='Integrations' />
+      <ListItemText primary='Delete Account' />
     </ListItemButton>
   </React.Fragment>
 );
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component='div' inset>
+    {/*     <ListSubheader component='div' inset>
       Saved reports
     </ListSubheader>
     <ListItemButton>
@@ -80,6 +81,6 @@ export const secondaryListItems = (
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary='Year-end sale' />
-    </ListItemButton>
+    </ListItemButton> */}
   </React.Fragment>
 );
