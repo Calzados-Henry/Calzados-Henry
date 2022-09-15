@@ -4,16 +4,16 @@ import { useParams } from 'react-router-dom';
 import { useEffect, lazy } from 'react';
 import { Container } from '@mui/system';
 import { Grid, Button } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import Sizes from './sizes/Sizes';
 import toast, { Toaster } from 'react-hot-toast';
-import { RootState } from '../../store';
 import { useAuth } from '@/hooks/useAuth';
 import { setApiUserCart, getApiUserCart } from '@/features/cart/cartApiSlice';
-import { RootState } from '@/store';
+import { RootState } from '../../store';
+import { ProductPartial } from '@/sehostypes/Product';
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
@@ -30,7 +30,7 @@ export default function ProductDetail() {
 
   const products = useSelector((state: RootState) => state.products.allProducts);
 
-  const shoe = products.find((item: any) => parseInt(item.id) === parseInt(params.id));
+  const shoe: ProductPartial = products.find((item: ProductPartial) => params.id !== undefined && item.id !== undefined && item.id === parseInt(params.id));
   const added = useSelector((state: RootState) => (user ? state.apiCart : state.cart));
 
   const cartProduct: CartI = {
@@ -41,7 +41,7 @@ export default function ProductDetail() {
     price: shoe?.sell_price,
     quantity: 1,
   };
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -53,7 +53,7 @@ export default function ProductDetail() {
         toast.success(<b>Product added!!</b>);
       } else {
         const finded = added.products.find(
-          (el: { idProduct: number | undefined }) => el.idProduct === cartProduct.idProduct,
+          (el: { idProduct?: number }) => el.idProduct === cartProduct.idProduct,
         );
         if (finded) {
           dispatch(updateQuantity({ method: 'increase', id: shoe.id ? shoe.id : 0 }));
@@ -70,7 +70,7 @@ export default function ProductDetail() {
         toast.success(<b>Product added!!</b>);
       } else {
         const finded = added.products.find(
-          (el: { idProduct: number | undefined }) => el.idProduct === cartProduct.idProduct,
+          (el: { idProduct?: number }) => el.idProduct === cartProduct.idProduct,
         );
         if (finded) {
           toast.success(<b>Correctly updated amount!</b>);
@@ -89,13 +89,13 @@ export default function ProductDetail() {
       <Toaster position='bottom-left' />
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <Photos images={shoe.details?.images}></Photos>
+          {shoe.details !== undefined && (<Photos details={shoe.details}></Photos>)}
         </Grid>
         <Grid item xs={6}>
           <Description
             name={shoe?.name}
             description={shoe?.description}
-            price={shoe?.sell_price}></Description>
+            sell_price={shoe?.sell_price}></Description>
           <Sizes details={shoe?.details} />
 
           <Box

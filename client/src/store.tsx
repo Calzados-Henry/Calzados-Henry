@@ -6,6 +6,7 @@ import auth from './features/auth/authSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { apiSlice } from './features/api/apiSlice';
 import checkout from './features/checkout/checkoutSlice';
+import user from './features/user/userSlice';
 import sizes from './features/sizes/sizesSlice';
 
 // importamos el export default que viene del slice
@@ -13,6 +14,7 @@ import sizes from './features/sizes/sizesSlice';
 // Usamos la funcion configureStore y le pasamos un objeto que contiene el reducer/slice.reducer
 export const store = configureStore({
   reducer: {
+    user,
     products,
     cart,
     apiCart: cartApiSlice,

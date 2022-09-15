@@ -17,12 +17,13 @@ export const PublicRoutes = {
 export const PrivatesRoutes = {
   // Rutas user
   user: '/user',
-  settings: 'user/settings',
-  profile: 'user/profile',
-  addaddress: 'user/address',
-  userOrders: 'user/orders',
-
+  settings: '/user/settings',
+  profile: 'profile',
+  addaddress: 'address',
+  userOrders: 'orders',
+  favorites: 'favorites',
   checkout: 'checkout',
+
   dashboard: '/dashboard',
   addProduct: '/dashboard/addproduct',
   addCategory: 'addcategory',
@@ -33,6 +34,7 @@ export const URL = {
   baseURL: 'http://localhost:3001',
 };
 
-export const Endpoints = {
-  searchProduct: `${URL.baseURL}${'/products/search'}`,
+export const Endpoint = {
+  searchProduct: `${URL.baseURL}/products/search`,
+  registerUser: `${URL.baseURL}/users/`,
 };
