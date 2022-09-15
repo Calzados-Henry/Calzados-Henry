@@ -2,11 +2,13 @@ import { Fragment } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
 import { Button, Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { LocalShipping } from '@mui/icons-material';
-import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
+import {
+  useCreateAddressMutation,
+  useGetAddressQuery,
+} from '@/features/user/address/addressApiSlice';
 import { useAuth } from '@/hooks/useAuth';
 import * as yup from 'yup';
 
@@ -21,22 +23,25 @@ const validations = yup.object({
 });
 
 export default function AddressForm() {
-  const [createAddress, { data, isLoading }] = useCreateAddressMutation();
+  const [createAddress, result] = useCreateAddressMutation();
+  const direcciones = useGetAddressQuery();
   const { id } = useAuth();
+
+  console.log(direcciones.data);
 
   const formik = useFormik({
     initialValues: {
-      id,
       title: '',
+      country: 'Argentina',
       state: '',
       city: '',
       address: '',
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: async newAddres => {
-      await createAddress(newAddres);
-      console.log(newAddres);
+    onSubmit: newAddress => {
+      createAddress(newAddress);
+      console.log(newAddress);
     },
   });
   const { isValid } = formik;
@@ -127,9 +132,9 @@ export default function AddressForm() {
             type='submit'
             color='secondary'
             variant='contained'
-            disabled={!isValid || isLoading}
+            disabled={!isValid || result.isLoading}
             sx={{ mt: 3, mb: 2 }}>
-            {isLoading ? 'loading' : 'Add Address'}
+            {result.isLoading ? 'loading' : 'Add Address'}
           </Button>
         </Box>
       </Box>
