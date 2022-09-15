@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Description from './description/Description';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, lazy } from 'react';
 import { Container } from '@mui/system';
 import { Grid, Button } from '@mui/material';
@@ -11,78 +11,109 @@ import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartS
 import Sizes from './sizes/Sizes';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { setApiUserCart, getApiUserCart } from '@/features/cart/cartApiSlice';
+import { setApiUserCart, updateApiUserCart } from '@/features/cart/cartApiSlice';
 import { RootState } from '../../store';
 import { ProductPartial } from '@/sehostypes/Product';
+import { PublicRoutes } from '@/routes/routes';
+import Swal from 'sweetalert2';
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
 
 export default function ProductDetail() {
+  const navigate = useNavigate()
   const params = useParams();
   const dispatch = useDispatch();
   const dispatchAsync: any = useDispatch();
 
   const { user } = useAuth();
-  const userInfo: any = window.localStorage.getItem('userInfo')
-    ? JSON.parse(window.localStorage.getItem('userInfo') as string)
-    : null;
-
+  const userInfo: any = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null;
   const products = useSelector((state: RootState) => state.products.allProducts);
-
-  const shoe: ProductPartial = products.find((item: ProductPartial) => params.id !== undefined && item.id !== undefined && item.id === parseInt(params.id));
   const added = useSelector((state: RootState) => (user ? state.apiCart : state.cart));
 
-  const cartProduct: CartI = {
-    idUser: null,
-    idProduct: shoe?.id,
-    details: shoe?.details,
-    name: shoe?.name,
-    price: shoe?.sell_price,
-    quantity: 1,
-  };
+  const shoe: ProductPartial = products.find((item: ProductPartial) => params.id !== undefined && item.id !== undefined && item.id === parseInt(params.id));
+
+  const cartProduct:CartI = {
+    idUser: user.user ? userInfo.id : null,
+    idProduct: shoe.id,
+    image: shoe?.details?.images ? shoe.details.images[0].image : undefined,
+    name: shoe.name,
+    color: shoe?.details?.color?.color,
+    size: shoe.details?.sizes,
+    price: shoe.sell_price,
+    quantity: 1
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const updateCart = async () => {
-    if (!user) {
+  const updateCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if(!user) {
       if (!added.products.length) {
-        dispatch(addToLocalCart(cartProduct));
+        dispatch(addToLocalCart(cartProduct))
         toast.success(<b>Product added!!</b>);
       } else {
-        const finded = added.products.find(
-          (el: { idProduct?: number }) => el.idProduct === cartProduct.idProduct,
-        );
-        if (finded) {
-          dispatch(updateQuantity({ method: 'increase', id: shoe.id ? shoe.id : 0 }));
+        const finded = added.products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
+        if(finded) {
+          dispatch(updateQuantity({method:'increase', id: params.id ? Number(params.id) : 0}))
           toast.success(<b>Correctly updated amount!</b>);
         } else {
-          dispatch(addToLocalCart(cartProduct));
+          dispatch(addToLocalCart(cartProduct))
           toast.success(<b>Product added!!</b>);
         }
       }
     } else {
-      await dispatch(getApiUserCart(userInfo.id));
       if (!added.products.length) {
-        dispatchAsync({ id: userInfo.id, products: cartProduct, token: user.token });
+        dispatch(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
         toast.success(<b>Product added!!</b>);
       } else {
-        const finded = added.products.find(
-          (el: { idProduct?: number }) => el.idProduct === cartProduct.idProduct,
-        );
-        if (finded) {
-          toast.success(<b>Correctly updated amount!</b>);
+        const finded = added.products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
+        if(finded) {
+          const maxStock = cartProduct.size && cartProduct.size[0].stock && (cartProduct.size[0].stock - finded.quantity)
+          if(!maxStock) {
+            Swal.fire({icon: 'error', text:'No more products in stock!'})
+          } else {
+              Swal.fire({
+                title: 'Wait! that products is already on your cart, we will add this',
+                text: `Current Stock (realStock - cartStock): ${maxStock}`,
+                input: 'number',
+                inputAttributes: {
+                  autocapitalize: 'off',
+                  max:`${maxStock}`,
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Update',
+                showLoaderOnConfirm: true,
+                preConfirm: (quantity: number) => {
+                  const updatedQuantity = finded?.quantity + Number(quantity)
+                  dispatch(updateApiUserCart({idUser: userInfo.id, idProduct: cartProduct.idProduct , quantity:updatedQuantity}))
+                  .catch((error: Error)=> Swal.showValidationMessage(
+                    `Request failed: ${error}`
+                  ))
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    icon: 'success',
+                    text: 'Correctly updated amount!, you will be redirect',
+                    timer: 1500
+                  })
+                  setTimeout(() => {
+                    navigate(PublicRoutes.cart)
+                  }, 2000);
+                }
+              })  
+            }   
         } else {
-          dispatchAsync(
-            setApiUserCart({ id: userInfo.id, products: cartProduct, token: user.token }),
-          );
+          await dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
           toast.success(<b>Product added!!</b>);
         }
       }
     }
-  };
+  }
 
   return (
     <Container maxWidth='xl'>
@@ -96,7 +127,7 @@ export default function ProductDetail() {
             name={shoe?.name}
             description={shoe?.description}
             sell_price={shoe?.sell_price}></Description>
-          <Sizes details={shoe?.details} />
+          <Sizes sizes={shoe?.details?.sizes} />
 
           <Box
             mt={2}
@@ -118,6 +149,7 @@ export default function ProductDetail() {
               size='large'
               color='secondary'
               fullWidth
+              onClick={() => navigate(PublicRoutes.cart)}
               sx={{ width: '100%', marginBottom: 2 }}
               startIcon={<ShoppingCartCheckoutOutlinedIcon />}>
               GO TO CART

@@ -1,7 +1,6 @@
 import { apiSlice } from '../api/apiSlice';
 import { ProductI } from './product.model';
 import { createSelector, createEntityAdapter, EntityState } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
 
 
 const productAdapter = createEntityAdapter<ProductI>({});

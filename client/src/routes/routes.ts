@@ -21,6 +21,7 @@ export const PrivatesRoutes = {
   profile: 'profile',
   addaddress: 'address',
   userOrders: 'orders',
+  favorites: 'favorites',
   checkout: 'checkout',
 
   dashboard: '/dashboard',
@@ -33,6 +34,7 @@ export const URL = {
   baseURL: 'http://localhost:3001',
 };
 
-export const Endpoints = {
-  searchProduct: `${URL.baseURL}${'/products/search'}`,
+export const Endpoint = {
+  searchProduct: `${URL.baseURL}/products/search`,
+  registerUser: `${URL.baseURL}/users/`,
 };

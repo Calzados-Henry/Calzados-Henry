@@ -8,7 +8,6 @@ export * from './checkout';
 export { default as Counter } from './counter/Counter';
 export { default as counterSlice } from './counter/counterSlice';
 export * from './hooks';
-export * from './index';
 export { default as ProductList } from './product/ProductList';
 export * from './product/product.model';
 export * from './product/productApiSlice';

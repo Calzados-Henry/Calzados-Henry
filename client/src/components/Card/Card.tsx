@@ -1,52 +1,46 @@
+import React from 'react';
+import s from './Card.module.css';
+import { Box } from '@mui/system';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-// import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import { Box } from '@mui/system';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import s from './Card.module.css';
 import { ProductPartial } from '../../sehostypes/Product';
-import React, { useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { useNavigate } from 'react-router-dom';
 import Zoom from '@mui/material/Zoom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
 import { useAuth } from '../../hooks/useAuth';
-import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
-import { CircularProgress } from '@mui/material';
-/* const styles = {
-  tr: {
-    backgroundColor: 'white',
-    '&:hover': {
-     boxShadow: 'rgba(0, 0, 0, 0.50) 0px 54px 55px' 
-}
-    }
-  } */
+import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
+import { setApiUserCart, updateApiUserCart } from '../../features/cart/cartApiSlice';
+import Swal from 'sweetalert2';
 
-const Shoe: React.FC<ProductPartial> = props => {
+interface Props extends ProductPartial {
+  addTouched: Function
+}
+
+const Shoe: React.FC<Props> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
-  const dispatchAsync: any = useDispatch()
-  const user = useAuth()
+  const user = useAuth();
   const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
-  const added = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
+  const {products, loading} = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
 
   const cartProduct:CartI = {
     idUser: user.user ? userInfo.id : null,
     idProduct: props.id,
-    image: props.details?.images[0].image,
+    image: props?.details?.images ? props.details.images[0].image : undefined,
     name: props.name,
-    color: props.details?.color.color,
+    color: props?.details?.color?.color,
     size: props.details?.sizes,
     price: props.sell_price,
     quantity: 1
@@ -57,13 +51,15 @@ const Shoe: React.FC<ProductPartial> = props => {
       ? (titulo = props.name.slice(0, 30 - props.name.length) + '...')
       : (titulo = props.name));
 
-  const updateCart = async () => {
+  const updateCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    props.addTouched(e.currentTarget.id)
     if(!user.user) {
-      if (!added.products.length) {
+      if (!products.length) {
         dispatch(addToLocalCart(cartProduct))
         toast.success(<b>Product added!!</b>);
       } else {
-        const finded = added.products.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        const finded = products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
         if(finded) {
           dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
           toast.success(<b>Correctly updated amount!</b>);
@@ -73,17 +69,37 @@ const Shoe: React.FC<ProductPartial> = props => {
         }
       }
     } else {
-      await dispatch(getApiUserCart(userInfo.id))
-      if (!added.products.length) {
-        dispatchAsync({id: userInfo.id, products: cartProduct , token: user.token})
+      if (!products.length) {
+        dispatch(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
         toast.success(<b>Product added!!</b>);
       } else {
-        console.log(added)
-        const finded = added.products.find((el: { idProduct: number | undefined; }) => el.idProduct === cartProduct.idProduct)
+        const finded = products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
         if(finded) {
-          toast.success(<b>Correctly updated amount!</b>);
+          const maxStock = cartProduct.size && cartProduct.size[0].stock && (cartProduct.size[0].stock - finded.quantity)
+          let updatedQuantity: number;
+          Swal.fire({
+            title: 'Wait! that products is already on your cart, we will add this',
+            text: `Current Stock (realStock - cartStock): ${maxStock}`,
+            input: 'number',
+            inputAttributes: {
+              autocapitalize: 'off',
+              max:`${maxStock}`,
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            showLoaderOnConfirm: true,
+            preConfirm: (quantity) => {
+              updatedQuantity = finded?.quantity + Number(quantity)
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                await dispatch(updateApiUserCart({idUser: userInfo.id, idProduct: cartProduct.idProduct , quantity:updatedQuantity}))
+                toast.success(<b>Correctly updated amount!</b>);
+            }
+          })          
         } else {
-          dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
+          await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
           toast.success(<b>Product added!!</b>);
         }
       }
@@ -92,8 +108,6 @@ const Shoe: React.FC<ProductPartial> = props => {
 
   return (
     <>
-      <Toaster position='bottom-left' reverseOrder={false} />
-
       <Card
         sx={{ maxWidth: 345 }}
         className={s.card}
@@ -109,10 +123,10 @@ const Shoe: React.FC<ProductPartial> = props => {
         }}>
         {props.name !== undefined && (
           <Tooltip
-            title={props?.name ? props.name : 'none'}
-            TransitionComponent={Zoom}
-            sx={{ x: 1 }}
-            arrow>
+          title={props?.name ? props.name : 'none'}
+          TransitionComponent={Zoom}
+          sx={{ x: 1 }}
+          arrow>
             <Box>
               <CardHeader
                 color='inherit'
@@ -125,18 +139,7 @@ const Shoe: React.FC<ProductPartial> = props => {
             </Box>
           </Tooltip>
         )}
-
-        {/* <Typography variant="body1" color="text.primary">
-          {titulo}
-        </Typography> */}
         {props.details?.images !== undefined && <img src={props.details?.images[0].image} className={s.image} />}
-        {/* <CardMedia color='inherit'
-        component="img"
-        height="180"
-        image= {props.image}
-
-        alt="Que zapato!"
-      /> */}
         <CardContent color='inherit'>
           <Typography variant='body2' color='text.secondary'>
             {`$ ${props.sell_price}`}
@@ -149,15 +152,14 @@ const Shoe: React.FC<ProductPartial> = props => {
           <IconButton color='inherit' aria-label='share'>
             <ShareIcon />
           </IconButton>
-
           <IconButton
             color='inherit'
             aria-label='add to cart'
-            onClick={updateCart}>
-            {added.loading ? 
-            <CircularProgress color="inherit" />
-            : 
-            <AddShoppingCartIcon/>}
+            id={`id${props.id}`}
+            onClick={updateCart}
+            disabled={loading}
+            >             
+            <AddShoppingCartIcon/>
           </IconButton>
         </CardActions>
       </Card>
@@ -168,55 +170,3 @@ const Shoe: React.FC<ProductPartial> = props => {
 
 
 export default Shoe;
-
-/* 
-import * as React from 'react';
-
-import Typography from '@mui/material/Typography';
-
-export default function MouseOverPopover() {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-
-  return (
-    <div>
-      <Typography
-        aria-owns={open ? 'mouse-over-popover' : undefined}
-        aria-haspopup="true"
-        onMouseEnter={handlePopoverOpen}
-        onMouseLeave={handlePopoverClose}
-      >
-        Hover with a Popover.
-      </Typography>
-      <Popover
-        id="mouse-over-popover"
-        sx={{
-          pointerEvents: 'none',
-        }}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
-      >
-        <Typography sx={{ p: 1 }}>I use Popover.</Typography>
-      </Popover>
-    </div>
-  );
-} */

@@ -1,3 +1,9 @@
+import Header from '../Header';
+
 export default function Orders() {
-  return <h1>Orders</h1>;
+  return (
+    <>
+      <Header title='Orders' />
+    </>
+  );
 }

@@ -1,7 +1,8 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { createUsers, updateUser, deleteUser, addCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
+import { createUsers, updateUser, deleteUser, addToCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
+import { Users } from '../db';
 
 const router = Router();
 
@@ -46,6 +47,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
+
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nUser = await createUsers(req.body)
@@ -54,6 +56,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
+
 router.put('/', async (req: Request, res: Response) => {
   try {
     var putUser = await updateUser(req.body)
@@ -68,6 +71,25 @@ router.delete('/', async (req: Request, res: Response) => {
     res.json(delUser)
   } catch (e: any) {
     res.json({ error: e.message })
+  }
+})
+
+// DELETE ----> http:localhost:3001/users/delete/:id 
+// se ingresa por params el id del usuario a eliminar
+// !! Atencion, es eliminacion fisica, solo para valientes.
+
+router.delete('/delete/:id', async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const user = await Users.findByPk(id)
+    if (user) {
+      await user.destroy()
+      res.json(user)
+    } else {
+      res.status(404).json({ error: "User inexistent" })
+    }
+  } catch (error: any) {
+    res.status(404).json({ error: error.message })
   }
 })
 
@@ -86,7 +108,7 @@ router.get('/cart', async (req: Request, res: Response, next: NextFunction) => {
 })
 router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    var cart = await addCart(req.body)
+    var cart = await addToCart(req.body)
     res.json(cart)
   } catch (e: any) {
     next(e)

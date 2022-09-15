@@ -10,24 +10,22 @@ import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom"
 import { PrivatesRoutes, PublicRoutes } from "../../routes/routes"
 import { useAuth } from "../../hooks/useAuth"
-import { getApiUserCart } from "../../features/cart/cartApiSlice"
+import { deleteApiUserCart } from "../../features/cart/cartApiSlice"
 
 
 export default function Shopping() {
     const auth = useAuth()
-    const {loading, products, error, complete} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
+    const {loading, products} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [total, setTotal] = useState(0)
 
-    useEffect(() => {
-      window.localStorage.getItem('userInfo') &&
-      dispatch(getApiUserCart(JSON.parse(window.localStorage.getItem('userInfo') as string).id))
-    }, [])
+    useEffect(() => {window.scrollTo(0, 0)}, [])
 
     useEffect(() => {
         let parcial = 0
-        products.forEach( p => {
+        products?.forEach((p: CartI) => {
             p.price && (parcial = parcial + (p.price * p.quantity))
         })
         setTotal(parcial)
@@ -53,14 +51,23 @@ export default function Shopping() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete them!'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-              dispatch(deleteAllfromLS())
+              if(!auth.user) {
+                dispatch(deleteAllfromLS())
               Swal.fire(
                 'Deleted!',
                 'Your products has been deleted.',
                 'success'
               )
+              } else {
+                await dispatch(deleteApiUserCart({idUser: userInfo.id}))
+                Swal.fire(
+                  'Deleted!',
+                  'Your products has been deleted.',
+                  'success'
+                )
+              }
             }
           })
     }
@@ -108,13 +115,13 @@ export default function Shopping() {
     return (
             <Box height='80%'>
                 <h3>Your current Shopping Cart</h3>
-                {loading ? 
+                {loading && 
                 <Backdrop
                   sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                   open={true}
-                ><CircularProgress color="inherit" /></Backdrop> :
+                ><CircularProgress color="inherit" /></Backdrop>}
                 <Stack spacing={2} alignItems={'center'}>
-                    {products.length ? products?.map((p: CartI) => {
+                    {products?.length ? products?.map((p: CartI) => {
                         return(<Item key = {p.idProduct}><CardShop
                             idUser={auth.user ? p.idUser : null}
                             idProduct={p.idProduct}
@@ -130,18 +137,18 @@ export default function Shopping() {
                     }) :
                     <Item>There are any products in the cart, try go to our <Link to={PublicRoutes.products}>Products List</Link> and get someones</Item>
                     }
-                </Stack>}
-                {products.length <= 1 ? null : 
+                </Stack>
+                {products?.length <= 1 ? null : 
                 <Box display={'flex'} justifyContent={'flex-end'} margin={2}>
                     <Button sx={{width:120}} variant="contained" onClick={deleteAll}>Delete All</Button>
                 </Box>}
-                {!products.length ? null : 
+                {!products?.length ? null : 
                 <Box display={'flex'} justifyContent={'flex-end'} gap={5} margin={2}>
                     <Typography variant='body1' color='text.secondary' sx={{alignSelf: 'center'}}>Total: $ {total}</Typography>
                     <Button sx={{width:120}} variant="contained" onClick={confirmOrder}>Buy Now!</Button>
                 </Box>}
 
-                {!products.length ? null : 
+                {!products?.length ? null : 
                 <Box sx={{height: '20%'}}>
                     <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={2}>
                         <h3>Want to buy more? Go to our</h3>

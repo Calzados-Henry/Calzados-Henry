@@ -9,6 +9,7 @@ import { Address, Users } from '../db'
 //}
 
 export const getAddress = async (id: string): Promise<object> => {
+  
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
   if (!userAddresses.Addresses && userAddresses) {
     throw new Error(`There's not any addresses for the user id: ${id}`)
@@ -20,10 +21,11 @@ export const getAddress = async (id: string): Promise<object> => {
 }
 
 export const postAddress = async (id: string, body: any): Promise<object> => {
-  const { address, zip_code, city, state, country}: any = body
+  const { address, zip_code, city, state, country, title }: any = body
   const [newAddress, created]: any = await Address.findOrCreate({
     where: {
       id_user: id,
+      title: title,
       address: address,
       city: city,
       state: state,

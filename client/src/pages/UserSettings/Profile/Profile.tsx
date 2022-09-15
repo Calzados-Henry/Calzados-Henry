@@ -1,9 +1,15 @@
-import { Container } from '@mui/material';
+import { Divider } from '@mui/material';
+import AccountInfo from './AccountInfo';
+import PersonalInfo from './PersonalInfo';
+import Header from '../Header';
 
 export default function Profile() {
   return (
-    <Container>
-      <h1>Profile</h1>
-    </Container>
+    <>
+      <Header title='Profile' />
+      <PersonalInfo />
+      <Divider sx={{ my: 1 }} />
+      <AccountInfo />
+    </>
   );
 }
