@@ -42,6 +42,7 @@ const Address = Router()
 Address.get("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses: any = await getAddress(req.params.id)
+    console.log(addresses)
     if (addresses.length) {
 
       res.json(addresses)
