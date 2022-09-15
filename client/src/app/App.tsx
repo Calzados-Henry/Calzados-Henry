@@ -5,6 +5,7 @@ import Footer from '../components/Footer/Footer';
 import About from '../components/Footer/About';
 import LandingPage from '../pages/LandingPage/LandingPage';
 import ContactForm from '../pages/ContactForm/ContactForm';
+import IMAGEN from '@/pages/Dashboard/Products/AddProduct/adproduc2'; 
 import AddProduct from '../pages/Dashboard/Products/AddProduct/AddProduct';
 import AddCategory from '../pages/Dashboard/Products/AddCategory/AddCategory';
 import AddAttributes from '../pages/Dashboard/Products/AddAttributes/AddAttributes';
@@ -68,7 +69,7 @@ function App() {
             <Route path={PublicRoutes.login} element={<Login />} />
             <Route path={PublicRoutes.error} element={<Error404 />} />
             <Route path='/register' element={<Register />}></Route>
-            <Route path='/adproducts' element={<AddProduct />}></Route>
+            <Route path={PublicRoutes.adproduc} element={<AddProduct />}></Route>
           </Routes>
         </Container>
       </Suspense>

@@ -12,6 +12,7 @@ export const PublicRoutes = {
   profile: '/profile',
   settings: 'settings',
   error: '*',
+  adproduc:"/pruebaAdProduct"
 };
 
 export const PrivatesRoutes = {
@@ -25,9 +26,10 @@ export const PrivatesRoutes = {
   checkout: 'checkout',
 
   dashboard: '/dashboard',
-  addProduct: '/dashboard/addproduct',
+  addProduct: '/dashboard/addProduct',
   addCategory: 'addcategory',
   addAttribute: 'addattribute',
+
 };
 
 export const URL = {

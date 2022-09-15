@@ -14,12 +14,14 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
-router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', /* userExtractorAdmin,*/  fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, _next: NextFunction) => {
   try {
-    var nProducts: string = await createProducts(req)
+    console.log(req)
+    var nProducts: any = await createProducts(req)
     res.json(nProducts)
-  } catch (e) {
-    next(e)
+  } catch (e:any) {
+    // next(e)
+    res.send(e.message)
   }
 })
 router.put('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
