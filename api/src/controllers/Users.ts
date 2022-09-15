@@ -204,8 +204,10 @@ export const updateCart = async (value: any): Promise<object> => {
   await verificarProducto(value.id_product_details)
 
   await Cart_details.update({ quantity: value.quantity }, { where: { id_user: value.id_user, id_product_details: value.id_product_details } })
-  let users: any = await Users.findByPk(value.id_user, { include: ['cart'] })
-  return users
+  let users: any = await Users.findByPk(value.id_user, { include: ['cart', 'favs'] })
+  var nObjUser: any = JSON.parse(JSON.stringify(users))
+  const userCart = await formatValueUsers(nObjUser)
+  return userCart.cart
 }
 export const deleteCart = async (value: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".

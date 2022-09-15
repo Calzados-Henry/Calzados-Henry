@@ -93,6 +93,7 @@ export const getProducts = async (): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
 
+
   var products = await Products.findAll({
     order: [
       ['details', Sizes, 'size', 'ASC'],
@@ -109,24 +110,32 @@ export const getProducts = async (): Promise<any> => {
   }) */
 
 
+
   var productValuesFormat = formatValueProduct(products)
   return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
 }
 
 export const createProducts = async (req: any): Promise<any> => {
-  console.log(req)
+
   const { body } = req;
-  console.log(body.body)
+  
+
   const value: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value) // aqui crea el producto en general.
-  const details = await nProduct.createDetail(value.details) // toma el producto y agrega el color.
+
+  const details = await nProduct.createDetail(value.details) 
+  //const details = await nProduct.createDetail({ id_product: nProduct.id, id_color: value.details.id_color }) // toma el producto y agrega el color.
+ 
   for (const val of value.details.size) { // toma el producto anteriormente creado y añade tallas con el stock de cada uno.
     await details.addSizes(val.id, { through: { stock: val.stock } })
   }
+
   await createImages(req, details);
 
   return await Products.findByPk(nProduct.id, { include: [Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+
+
 }
 
 export const updateProducts = async (value: any): Promise<any> => {
@@ -143,6 +152,7 @@ export const updateProducts = async (value: any): Promise<any> => {
 export const deleteProducts = async (id: number): Promise<any> => {
   // Se busca el usuario por id para luego darle una baja logica, solo se actualiza el isActive de true a false.
   var productByID: any = await Products.findByPk(id)
+  
   if (productByID !== null) {
     if (productByID.isActive) {
       productByID.isActive = false;
