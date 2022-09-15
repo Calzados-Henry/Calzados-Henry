@@ -12,7 +12,5 @@ export interface AddressI {
   isActive: boolean;
 }
 
-export interface AddressResponseDTO extends Omit<AddressI, 'id' | 'id_user' | 'isActive'> {}
-export interface AddressPostDTO extends AddressResponseDTO {
-  userId: UserI['id'];
-}
+export interface AddressResponseDTO extends Omit<AddressI, 'id_user' | 'isActive'> {}
+export interface AddressPostDTO extends AddressResponseDTO {}

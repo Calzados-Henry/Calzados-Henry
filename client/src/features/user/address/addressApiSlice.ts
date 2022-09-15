@@ -1,33 +1,31 @@
 import { apiSlice } from '@/features/api/apiSlice';
 import { AddressPostDTO } from '@/sehostypes/Address';
-import { UserI } from '@/sehostypes/User';
 
 export const addressApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getAddresses: builder.query({
-      query: (userId: UserI['id']) => ({
-        url: `/addresses/${userId}`,
+      query: id => ({
+        url: `/addresses/${id}`,
       }),
     }),
     createAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: ({ userId, ...address }) => ({
-        url: `/address/${userId}`,
+      query: ({ id, ...address }) => ({
+        url: `/address/${id}`,
         method: 'POST',
         body: address,
       }),
     }),
     updateAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: address => ({
-        url: `/address/${address.userId}`,
+      query: ({ id, ...address }) => ({
+        url: `/address/${id}`,
         method: 'PATCH',
         body: address,
       }),
     }),
     deleteAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: address => ({
-        url: `/address/${address.userId}`,
+      query: id => ({
+        url: `/address/${id}`,
         method: 'DELETE',
-        body: address,
       }),
     }),
   }),

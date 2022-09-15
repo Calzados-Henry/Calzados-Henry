@@ -21,7 +21,7 @@ const validations = yup.object({
 });
 
 export default function AddressForm() {
-  const [createAddress, { data }] = useCreateAddressMutation();
+  const [createAddress, { data, isLoading }] = useCreateAddressMutation();
   const { id } = useAuth();
 
   const formik = useFormik({
@@ -34,9 +34,9 @@ export default function AddressForm() {
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: async values => {
-      const res = await createAddress(values);
-      console.log(res);
+    onSubmit: async newAddres => {
+      await createAddress(newAddres);
+      console.log(newAddres);
     },
   });
   const { isValid } = formik;
@@ -127,9 +127,9 @@ export default function AddressForm() {
             type='submit'
             color='secondary'
             variant='contained'
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             sx={{ mt: 3, mb: 2 }}>
-            Add Address
+            {isLoading ? 'loading' : 'Add Address'}
           </Button>
         </Box>
       </Box>
