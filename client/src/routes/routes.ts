@@ -24,7 +24,7 @@ export const PrivatesRoutes = {
 
   checkout: 'checkout',
   dashboard: '/dashboard',
-  addProduct: 'addproduct',
+  addProduct: '/dashboard/addproduct',
   addCategory: 'addcategory',
   addAttribute: 'addattribute',
 };

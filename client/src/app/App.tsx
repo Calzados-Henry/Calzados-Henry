@@ -66,6 +66,7 @@ function App() {
             <Route path={PublicRoutes.login} element={<Login />} />
             <Route path={PublicRoutes.error} element={<Error404 />} />
             <Route path='/register' element={<Register />}></Route>
+            <Route path='/adproducts' element={<AddProduct />}></Route>
           </Routes>
         </Container>
       </Suspense>
