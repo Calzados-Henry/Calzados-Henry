@@ -7,7 +7,7 @@ import { Button, Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { LocalShipping } from '@mui/icons-material';
 import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
-import { RootState } from '@/store';
+import { useAuth } from '@/hooks/useAuth';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -21,12 +21,12 @@ const validations = yup.object({
 });
 
 export default function AddressForm() {
-  const [createAddress] = useCreateAddressMutation();
-  const userId = useSelector((state: RootState) => state.user.id);
+  const [createAddress, { data }] = useCreateAddressMutation();
+  const { id } = useAuth();
 
   const formik = useFormik({
     initialValues: {
-      userId,
+      id,
       title: '',
       state: '',
       city: '',
@@ -34,10 +34,9 @@ export default function AddressForm() {
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: values => {
-      /* createAddress(values); */
-
-      console.log(values);
+    onSubmit: async values => {
+      const res = await createAddress(values);
+      console.log(res);
     },
   });
   const { isValid } = formik;

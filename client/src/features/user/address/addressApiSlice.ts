@@ -10,8 +10,8 @@ export const addressApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     createAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: address => ({
-        url: `/address/${address.userId}`,
+      query: ({ userId, ...address }) => ({
+        url: `/address/${userId}`,
         method: 'POST',
         body: address,
       }),
