@@ -9,13 +9,15 @@ import { Address, Users } from '../db'
 //}
 
 export const getAddress = async (id: string): Promise<object> => {
-  
+  console.log(id)
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-  if (!userAddresses.Addresses && userAddresses) {
+  console.log(userAddresses)
+  if (!userAddresses?.Addresses && userAddresses) {
     throw new Error(`There's not any addresses for the user id: ${id}`)
   } else if (!userAddresses) {
     throw new Error(`There's not any user for the id: ${id}`)
   } else {
+    console.log("entre")
     return (userAddresses.Addresses)
   }
 }

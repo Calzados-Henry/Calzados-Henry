@@ -93,7 +93,22 @@ export const getProducts = async (): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
 
-  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+
+  var products = await Products.findAll({
+    order: [
+      ['details', Sizes, 'size', 'ASC'],
+      ['id', 'ASC'],
+    ], include: [Users, Category, {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes],
+    }]
+  })
+
+  /* var products = await Products.findAll({
+    include: [Users, Category, {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes],
+    }]
+  }) */
+
 
 
   var productValuesFormat = formatValueProduct(products)
@@ -102,9 +117,9 @@ export const getProducts = async (): Promise<any> => {
 
 export const createProducts = async (req: any): Promise<any> => {
 
-
   const { body } = req;
   
+
   const value: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value) // aqui crea el producto en general.
