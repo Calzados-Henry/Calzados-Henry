@@ -1,15 +1,9 @@
-import { Fragment } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { Button, Box } from '@mui/material';
-import { useFormik } from 'formik';
-import { LocalShipping } from '@mui/icons-material';
-import {
-  useCreateAddressMutation,
-  useGetAddressQuery,
-} from '@/features/user/address/addressApiSlice';
+import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
 import { useAuth } from '@/hooks/useAuth';
+import { LocalShipping } from '@mui/icons-material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { Fragment } from 'react';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -24,13 +18,12 @@ const validations = yup.object({
 
 export default function AddressForm() {
   const [createAddress, result] = useCreateAddressMutation();
-  const direcciones = useGetAddressQuery();
-  const { id } = useAuth();
 
-  console.log(direcciones.data);
+  const { id } = useAuth();
 
   const formik = useFormik({
     initialValues: {
+      id,
       title: '',
       country: 'Argentina',
       state: '',
@@ -39,9 +32,9 @@ export default function AddressForm() {
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: newAddress => {
-      createAddress(newAddress);
-      console.log(newAddress);
+    onSubmit: async (newAddress, { resetForm }) => {
+      await createAddress(newAddress).unwrap();
+      result.isSuccess ? resetForm() : <></>;
     },
   });
   const { isValid } = formik;

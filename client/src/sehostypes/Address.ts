@@ -2,7 +2,7 @@ import { UserI } from './User';
 
 export interface AddressI {
   id: number;
-  id_user: number;
+  id_user: UserI['id'];
   title: string;
   country: string;
   state: string;
