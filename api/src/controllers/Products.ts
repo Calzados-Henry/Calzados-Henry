@@ -1,6 +1,6 @@
 'use strict'
 // se requiere el models
-import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
+import { Category, Color, Images, Products, Product_details, Sizes, Users, Orders_details } from '../db';
 import { createImages } from './Images';
 // import { createP_Details } from './Product_details';
 
@@ -93,7 +93,18 @@ export const getProducts = async (): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
 
-  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
+  
+
+  var productValuesFormat = formatValueProduct(products)
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
+}
+
+export const getProductsAdmin = async (): Promise<any> => {
+  // Temporal para cambiar los Fall to Autumn
+  // Se trae todas las imagenes para el Slider
+
+  var products = await Products.findAll({ include: [Users, Category, Orders_details, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
   
 
   var productValuesFormat = formatValueProduct(products)

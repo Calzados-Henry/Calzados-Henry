@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { getProducts, createProducts, updateProducts, deleteProducts } from '../controllers/Products';
+import { getProducts, createProducts, updateProducts, deleteProducts, getProductsAdmin } from '../controllers/Products';
 import { userExtractorAdmin } from '../middleware/userExtractor';
 import fileUpload from 'express-fileupload'
 const router = Router();
@@ -14,6 +14,19 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
+
+
+router.get('/dashboard',userExtractorAdmin, async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    var products = await getProductsAdmin();
+    res.json(products)
+  } catch (e) {
+    next(e)
+  }
+})
+
+
+
 router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nProducts: string = await createProducts(req)

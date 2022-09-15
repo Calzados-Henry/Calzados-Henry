@@ -7,12 +7,12 @@ var configSequelize = {
   timestamps: false,
   freezeTableName: true,
   models: [__dirname + '/models'],
-  dialectOptions: {
+/*   dialectOptions: {
     ssl: {
       require: true, // This will help you. But you will see nwe error
       rejectUnauthorized: false // This line will fix new error
     }
-  }
+  } */
 }
 export const sequelize = new Sequelize(String(process.env.DATABASE_URL), configSequelize)
 
@@ -32,6 +32,9 @@ Orders_details.belongsTo(Orders, { foreignKey: 'id_order' })
 
 Orders.belongsTo(Users, { foreignKey: 'id_user' })
 Users.hasMany(Orders, { foreignKey: 'id_user' })
+
+Products.hasMany(Orders_details, { foreignKey: 'id_product' })
+Orders_details.belongsTo(Products, { foreignKey: 'id_product' })
 
 Products.belongsTo(Category, { foreignKey: 'id_category' })
 Category.hasMany(Products, { foreignKey: 'id_category' })
