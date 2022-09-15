@@ -6,7 +6,7 @@ import { userExtractorUser } from "../middleware/userExtractor"
 
 //Breve Documentacion:
 
-// Ruta GET/addresses --> Trae todas las direcciones asociadas al usuario que hace la peticion,
+// Ruta GET/address --> Trae todas las direcciones asociadas al usuario que hace la peticion,
 // se toma el id del token que envia en la peticion.
 
 

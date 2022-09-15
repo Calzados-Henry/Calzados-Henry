@@ -51,11 +51,11 @@ Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_detai
 Users.belongsToMany(Product_details, { as: 'cart', foreignKey: 'id_user', through: Cart_details, })
 Product_details.belongsToMany(Users, { as: 'cart', foreignKey: 'id_product_details', through: Cart_details })
 
-// const model: any = Product_details
-// for (let assoc of Object.keys(model.associations)) {
-//   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
-//     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
-//   }
-// }
-
+/* const model: any = Products
+for (let assoc of Object.keys(model.associations)) {
+  for (let accessor of Object.keys(model.associations[assoc].accessors)) {
+    console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
+  }
+}
+ */
 
