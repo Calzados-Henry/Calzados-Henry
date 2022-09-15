@@ -1,6 +1,10 @@
 import { Box, CircularProgress } from '@mui/material';
 
-export default function Loader() {
+interface LoadrerProps {
+  size: number;
+}
+
+export default function Loader(props: LoadrerProps) {
   return (
     <Box
       sx={{ display: 'flex' }}
@@ -8,7 +12,7 @@ export default function Loader() {
       alignItems={'center'}
       width='100vw'
       height='100vh'>
-      <CircularProgress size={120} color='secondary' />
+      <CircularProgress size={props.size} color='secondary' />
     </Box>
   );
 }

@@ -9,7 +9,7 @@ export default function Address() {
       <Header title='Address' />
       <AddressForm />
       <Divider sx={{ my: 1 }} />
-      <AddressCards />
+      <AddressCards></AddressCards>
     </>
   );
 }

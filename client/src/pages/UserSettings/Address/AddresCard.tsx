@@ -1,41 +1,83 @@
-import * as React from 'react';
+import { useDeleteAddressMutation } from '@/features';
+import { AddressI } from '@/sehostypes/Address';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import HomeIcon from '@mui/icons-material/Home';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HomeIcon from '@mui/icons-material/Home';
+import { SyntheticEvent, useState } from 'react';
+import Swal from 'sweetalert2';
 
-export default function AddressCard() {
-  const [expanded, setExpanded] = React.useState<string | false>(false);
+export default function AddressCard({
+  id,
+  title,
+  city,
+  country,
+  address,
+  state,
+}: Partial<AddressI>) {
+  const [expanded, setExpanded] = useState<string | false>(false);
+  const [edit, setEdit] = useState(true);
+  const [deleteAddress, { data }] = useDeleteAddressMutation();
 
-  const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+  const handleChange = (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const deleteAddFn = (): void => {
+    Swal.fire({
+      title: `Are you sure?`,
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.isConfirmed) {
+        id ? deleteAddress(id) : <></>;
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+      }
+    });
   };
 
   return (
     <>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1bh-content' id='panel1bh-header'>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls='panel1bh-content'
+          id='panel1bh-header'>
           <HomeIcon />
-          <Typography sx={{ marginLeft: '1rem', width: '33%', flexShrink: 0 }}>Title</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>City</Typography>
+          <Typography sx={{ marginLeft: '1rem', width: '33%', flexShrink: 0 }}>{title}</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>{city}</Typography>
+          {/* <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
+            {edit ? <u>edit</u> : <u>close</u>}
+          </Button> */}
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Nueva Esparta, Calle Marti Jaramillo, Apto 74</Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1bh-content' id='panel1bh-header'>
-          <HomeIcon />
-          <Typography sx={{ marginLeft: '1rem', width: '33%', flexShrink: 0 }}>Home</Typography>
-          <Typography sx={{ color: 'text.secondary' }}></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est, id dignissim
-            quam.
+          <Typography variant='h6'>
+            {country} / {state}
           </Typography>
+          <Typography>
+            {city} / {address}
+          </Typography>
+          <Box display={'flex'} width='100%' justifyContent={'flex-end'}>
+            <Button color='secondary' onClick={deleteAddFn}>
+              <DeleteIcon />
+            </Button>
+          </Box>
         </AccordionDetails>
       </Accordion>
     </>

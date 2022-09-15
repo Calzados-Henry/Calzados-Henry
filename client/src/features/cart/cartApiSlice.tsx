@@ -3,22 +3,16 @@ import axios from 'axios';
 import { CartI, State } from './CartSlice';
 
 
-const getUserCart: any = createAsyncThunk('cart/getUserCart', (idUser:number) => {
-  return axios.get(`http://localhost:3001/users?id=${idUser}`)
-      .then(response => {
-        const newInfo:CartI[] = response.data.cart.arrayCarrito.map((r: any) => {
-          const updated: CartI = {...r, idProduct: r.id_details , idUser}
-          return updated
-        }) 
-        return newInfo
-      })
-      .catch(e=> {
-        const newInfo: [] = []
-        return newInfo
-      })
+export const getApiUserCart: any = createAsyncThunk('cart/getApiUserCart', async (idUser:number) => {
+  const response = await axios.get(`http://localhost:3001/users?id=${idUser}`);
+  const newInfo: CartI[] = response.data.cart.arrayCarrito.map((r: any) => {
+    const updated: CartI = { ...r, idProduct: r.id_details, idUser };
+    return updated;
+  });
+  return newInfo;
 })
 
-const setUserCart: any = createAsyncThunk('cart/setUserCart', async ({id, products, token}: {id:number, products:CartI[] | CartI, token:string}) => {
+export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async ({id, products, token}: {id:number, products:CartI[] | CartI, token:string}) => {
   if(Array.isArray(products)) {
         let arrayCart: [] = []
         products.forEach(async p=> {
@@ -40,7 +34,6 @@ const setUserCart: any = createAsyncThunk('cart/setUserCart', async ({id, produc
       })
       return newInfo
     } else {
-        console.log('entro en 1')
         let response = await axios.post(`http://localhost:3001/users/cart`, {
             id_user: id,
             id_product_details: products.idProduct,
@@ -50,7 +43,6 @@ const setUserCart: any = createAsyncThunk('cart/setUserCart', async ({id, produc
                 'Authorization': `bearer ${token}`
             }
             })
-                  console.log(response.data)
                   const newInfo:CartI[] = response.data.arrayCarrito.map((r: any) => {
                   const updated: CartI = {...r, idProduct: r.id_details , idUser: id}
                   return updated
@@ -59,7 +51,7 @@ const setUserCart: any = createAsyncThunk('cart/setUserCart', async ({id, produc
     }
 })
 
-const deleteUserCart: any = createAsyncThunk('cart/deleteUserCart', async ({idUser, idProduct}: {idUser:number, idProduct: number}) => {
+export const deleteApiUserCart: any = createAsyncThunk('cart/deleteApiUserCart', async ({idUser, idProduct}: {idUser:number, idProduct: number}) => {
   
   if(idProduct) {
     let response = await axios.delete('http://localhost:3001/users/cart', {
@@ -79,6 +71,19 @@ const deleteUserCart: any = createAsyncThunk('cart/deleteUserCart', async ({idUs
       }})
       return response.data
     }
+})
+
+export const updateApiUserCart: any = createAsyncThunk('cart/updateApiUserCart', async ({idUser, idProduct, quantity}: {idUser:number, idProduct: number, quantity:number}) => {
+  let response = await axios.put('http://localhost:3001/users/cart', {
+    id_user: idUser,
+    id_product_details: idProduct,
+    quantity
+  })
+  const newInfo:CartI[] = response.data.arrayCarrito.map((r: any) => {
+    const updated: CartI = {...r, idProduct: r.id_details , idUser}
+    return updated
+  })
+    return newInfo
 })
 
 // Estado inicial que puede ser cualquier cosa
@@ -104,59 +109,67 @@ export const cartApiSlice = createSlice({
   },
   extraReducers: builder  => {  
     //Builder GetUser
-    builder.addCase(getUserCart.pending, (state: State) =>{
+    builder.addCase(getApiUserCart.pending, (state: State) =>{
         state.loading = true
         state.complete = false
     })
-    builder.addCase(getUserCart.fulfilled,(state: State, action)=>{
+    builder.addCase(getApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
       state.products = action.payload
       state.error = ''
       state.complete = true
     }) 
-    builder.addCase(getUserCart.rejected, (state: State, action)=>{
-      state.products = initialState.products
+    builder.addCase(getApiUserCart.rejected, (state: State, action)=>{
       state.error = action.error.message || ''
       state.complete = false
     })
     //Builder SetUser
-    builder.addCase(setUserCart.pending, (state: State) =>{
+    builder.addCase(setApiUserCart.pending, (state: State) =>{
       state.loading = true
       state.complete = false
     })
-    builder.addCase(setUserCart.fulfilled,(state: State, action)=>{
+    builder.addCase(setApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
       state.products = action.payload
       state.complete = true
       state.error = ''
     }) 
-    builder.addCase(setUserCart.rejected, (state: State, action)=>{
-      state.products = initialState.products
+    builder.addCase(setApiUserCart.rejected, (state: State, action)=>{
       state.error = action.error.message || ''
       state.complete = false
     })
     //Builder deleteUser
-    builder.addCase(deleteUserCart.pending, (state: State) =>{
+    builder.addCase(deleteApiUserCart.pending, (state: State) =>{
       state.loading = true
       state.complete = false
     })
-    builder.addCase(deleteUserCart.fulfilled,(state: State, action)=>{
+    builder.addCase(deleteApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
       state.products = action.payload
       state.complete = true
       state.error = ''
     }) 
-    builder.addCase(deleteUserCart.rejected, (state: State, action)=>{
-      state.products = initialState.products
+    builder.addCase(deleteApiUserCart.rejected, (state: State, action)=>{
+      state.complete = false
+      state.error = action.error.message || ''
+    })
+    //Builder updateUser
+    builder.addCase(updateApiUserCart.pending, (state: State) =>{
+      state.loading = true
+      state.complete = false
+    })
+    builder.addCase(updateApiUserCart.fulfilled,(state: State, action)=>{
+      state.loading = false
+      state.products = action.payload
+      state.complete = true
+      state.error = ''
+    }) 
+    builder.addCase(updateApiUserCart.rejected, (state: State, action)=>{
       state.complete = false
       state.error = action.error.message || ''
     })
 }
 });
-
-export const getApiUserCart: any = getUserCart
-export const setApiUserCart: any = setUserCart
-export const deleteApiUserCart: any = deleteUserCart
 
 export const { reset } = cartApiSlice.actions
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
