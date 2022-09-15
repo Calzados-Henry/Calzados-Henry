@@ -20,7 +20,8 @@ import toast from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
 import { useAuth } from '../../hooks/useAuth';
 import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
-import { setApiUserCart } from '../../features/cart/cartApiSlice';
+import { setApiUserCart, updateApiUserCart } from '../../features/cart/cartApiSlice';
+import Swal from 'sweetalert2';
 
 interface Props extends ProductPartial {
   addTouched: Function
@@ -30,8 +31,7 @@ const Shoe: React.FC<Props> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
-  const dispatchAsync: any = useDispatch()
-  const user = useAuth()
+  const user = useAuth();
   const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
   const {products, loading} = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
 
@@ -70,14 +70,36 @@ const Shoe: React.FC<Props> = props => {
       }
     } else {
       if (!products.length) {
-        dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
+        dispatch(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
         toast.success(<b>Product added!!</b>);
       } else {
         const finded = products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
         if(finded) {
-          toast.success(<b>Correctly updated amount!</b>);
+          const maxStock = cartProduct.size && cartProduct.size[0].stock && (cartProduct.size[0].stock - finded.quantity)
+          let updatedQuantity: number;
+          Swal.fire({
+            title: 'Wait! that products is already on your cart, we will add this',
+            text: `Current Stock (realStock - cartStock): ${maxStock}`,
+            input: 'number',
+            inputAttributes: {
+              autocapitalize: 'off',
+              max:`${maxStock}`,
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            showLoaderOnConfirm: true,
+            preConfirm: (quantity) => {
+              updatedQuantity = finded?.quantity + Number(quantity)
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                await dispatch(updateApiUserCart({idUser: userInfo.id, idProduct: cartProduct.idProduct , quantity:updatedQuantity}))
+                toast.success(<b>Correctly updated amount!</b>);
+            }
+          })          
         } else {
-          await dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
+          await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
           toast.success(<b>Product added!!</b>);
         }
       }
