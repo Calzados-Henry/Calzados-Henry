@@ -17,7 +17,7 @@ export const userExtractorAdmin = (req: Request, res: Response, next: NextFuncti
     token = authorization.substring(7)
   }
   // decodifica el token para tener la informacion del usuario
-  const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN)
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN)
   // si no hay token ó el tipo de usuario es distinto a "Administrator" devolvera un error
   if (!token || decodedToken.type_user !== Administrator) {
     return res.status(404).json({ error: "Error: Accesso denegado, token invalido" })
@@ -35,7 +35,7 @@ export const userExtractorUser = (req: Request, res: Response, next: NextFunctio
     token = authorization.substring(7)
   }
   // decodifica el token para tener la informacion del usuario
-  const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN)
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN)
   // si no hay token ó el tipo de usuario es distinto a "Administrator" devolvera un error
   if (!token || !decodedToken.id) {
     return res.status(404).json({ error: "Error: Accesso denegado, token invalido" })
