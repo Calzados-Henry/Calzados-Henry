@@ -30,7 +30,7 @@ import { RootState } from '../../store';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 
-import { initial, setUserInfo, clientId, style } from './utils';
+import { initial, setUserInfo, clientId, setLocalStorage, style } from './utils';
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -49,9 +49,10 @@ export default function Login() {
   const { products } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dispatchAsync: any = useDispatch();
   const auth = useAuth();
+  const { complete } = useSelector((state: RootState) => (auth.user ? state.apiCart : state.cart));
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+  const UserId = localStorage ? JSON.parse(localStorage.getItem('userInfo')) : {};
   const [checked, setChecked] = useState(true);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [googleData, setGoogleData] = useState<any>({});
@@ -67,6 +68,10 @@ export default function Login() {
     });
   }, []);
 
+  useEffect(() => {
+    if (UserId?.id) dispatch(getApiUserCart(UserId.id));
+  }, [complete]);
+
   const successLogin = async (res: any) => {
     setGoogleData(res);
 
@@ -76,7 +81,6 @@ export default function Login() {
     };
 
     const Logged = await login(loginUserData).unwrap();
-    handleCloseBackDrop();
 
     // Loggin exitoso -->
     if (!Logged.message) {
@@ -85,7 +89,7 @@ export default function Login() {
       setLocalStorage(userInfo);
       createUserStorage(userAuth);
 
-      updateUserCart(Logged);
+      await updateUserCart(Logged);
 
       successAlert(Logged);
     } else {
@@ -114,19 +118,17 @@ export default function Login() {
   const updateUserCart = async (data: any) => {
     if (products.length) {
       if (data.id && data.token) {
-        await dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
+        dispatch(setApiUserCart({ id: data.id, products, token: data.token }));
         dispatch(deleteAllfromLS());
       }
     }
+    await dispatch(getApiUserCart(data.id));
   };
-
-  const setLocalStorage = (userInfo: any) =>
-    window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
   const createUserStorage = (userAuth: any) => dispatch(createUser(userAuth));
 
-  const successAlert = async (loginData: any) => {
-    await dispatch(getApiUserCart(loginData.id));
+  const successAlert = (loginData: any) => {
+    handleCloseBackDrop();
 
     Swal.fire({
       title: 'Success!',
@@ -138,6 +140,7 @@ export default function Login() {
     setTimeout(() => {
       navigate(PublicRoutes.home);
     }, 2500);
+
     if (!checked) {
       setTimeout(() => {
         dispatch(resetUser());
@@ -233,6 +236,7 @@ export default function Login() {
 
               const Logged = await login(LogginData).unwrap();
 
+              console.log(Logged, LogginData);
               // Loggin exitoso -->
               if (!Logged.message) {
                 const { userAuth, userInfo } = setUserInfo(Logged);
@@ -243,18 +247,18 @@ export default function Login() {
                 updateUserCart(Logged);
 
                 successAlert(Logged);
-              }
 
-              Swal.fire({
-                title: 'Success!',
-                icon: 'success',
-                text: `You're logged!, you will be redirect to Home`,
-                showConfirmButton: false,
-                timer: 2000,
-              });
-              setTimeout(() => {
-                navigate(PublicRoutes.home);
-              }, 2200);
+                Swal.fire({
+                  title: 'Success!',
+                  icon: 'success',
+                  text: `You're logged!, you will be redirect to Home`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+                setTimeout(() => {
+                  navigate(PublicRoutes.home);
+                }, 2200);
+              }
             };
 
             loggin();
