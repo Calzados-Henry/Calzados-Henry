@@ -1,6 +1,5 @@
 import { /* createAsyncThunk, */ createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Details } from '../../sehostypes/Product';
 import { removeOneProductFromLS, setProductLocalStorage, updateQuantityLS } from '../../utils/utils';
 // import axios from 'axios';
 
@@ -14,7 +13,6 @@ export interface CartI {
   idUser: number | null
   idProduct?: number
   image?: string
-  details?: Details
   name?: string
   color?: string
   size?: UserSizeI[]
