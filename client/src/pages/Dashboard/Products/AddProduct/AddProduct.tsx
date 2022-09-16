@@ -58,8 +58,8 @@ const validations = yup.object({
 export default function AddProduct() {
   const dispatch = useDispatch()
   const sizes: any = useSelector((state: RootState) => state.sizes)
-  const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData:currentDataC } = useGetCategoriesQuery()
-  const { data: seasons, error: errorS, isLoading: isLoadingS, isError: isErrorS, isSuccess: isSuccessS, currentData:currentDataS } = useGetSeasonsQuery()
+   const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData: currentDataC } = useGetCategoriesQuery()
+  const { data: seasons, error: errorS, isLoading: isLoadingS, isError: isErrorS, isSuccess: isSuccessS, currentData: currentDataS } = useGetSeasonsQuery()
 
   useEffect(() => {
     dispatch(getSizes())
@@ -200,11 +200,12 @@ export default function AddProduct() {
                   value={formik.values.season}
                   onChange={formik.handleChange}
                   error={formik.touched.season && Boolean(formik.errors.season)}>
-                    {seasons?.map((s: any) => {
+                  {seasons?.map((s: any) => {
                     return (
                       <MenuItem value={s.id}>{s.season}</MenuItem>
                     )
-                  })}                </Select>
+                  })}
+                </Select>
               </Grid>
               {/* Buy Price */}
               <Grid item xs={6} sm={6}>
@@ -214,7 +215,7 @@ export default function AddProduct() {
                   name='buy_price'
                   id='buy_price'
                   label='Buy Price'
-                  type='string'
+                  type='number'
                   value={formik.values.buy_price}
                   onChange={formik.handleChange}
                   error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
@@ -229,7 +230,7 @@ export default function AddProduct() {
                   name='sell_price'
                   id='sell_price'
                   label='Sell Price'
-                  type='string'
+                  type='number'
                   value={formik.values.sell_price}
                   onChange={formik.handleChange}
                   error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
@@ -306,7 +307,6 @@ export default function AddProduct() {
                   <Button fullWidth variant='outlined' color='inherit' component='label'>
                     Upload Images
                     <input
-
                       hidden
                       type='file'
                       id='file'
@@ -358,7 +358,6 @@ export default function AddProduct() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-
     </FormikProvider>
   )
 }
