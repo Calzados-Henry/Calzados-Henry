@@ -1,12 +1,13 @@
 import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
 import { useAuth } from '@/hooks/useAuth';
 import { LocalShipping } from '@mui/icons-material';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { Fragment } from 'react';
 import * as yup from 'yup';
 
 const validations = yup.object({
+  title: yup.string().max(80, 'No more than 20 characters').required('address is required'),
   address: yup.string().max(80, 'No more than 20 characters').required('address is required'),
   state: yup.string().max(20, 'No more than 20 characters').required('state is required'),
   city: yup.string().max(20, 'No more than 20 characters').required('city is required'),
@@ -34,7 +35,7 @@ export default function AddressForm() {
     validationSchema: validations,
     onSubmit: async (newAddress, { resetForm }) => {
       await createAddress(newAddress).unwrap();
-      result.isSuccess ? resetForm() : <></>;
+      resetForm();
     },
   });
   const { isValid } = formik;
@@ -47,9 +48,10 @@ export default function AddressForm() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id='title'
               name='title'
-              label='Address title'
+              label='Title'
               fullWidth
               value={formik.values.title}
               onBlur={formik.handleBlur}
@@ -60,6 +62,7 @@ export default function AddressForm() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id='state'
               name='state'
               label='State/Province/Region'
@@ -127,7 +130,7 @@ export default function AddressForm() {
             variant='contained'
             disabled={!isValid || result.isLoading}
             sx={{ mt: 3, mb: 2 }}>
-            {result.isLoading ? 'loading' : 'Add Address'}
+            {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'add adrress'}
           </Button>
         </Box>
       </Box>

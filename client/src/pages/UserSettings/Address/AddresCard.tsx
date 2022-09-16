@@ -41,14 +41,20 @@ export default function AddressCard({
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#412800',
+      cancelButtonColor: '#fe4450',
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.isConfirmed) {
         id ? deleteAddress(id) : <></>;
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          icon: 'success',
+          confirmButtonColor: '#412800',
+        });
       }
+      // 'Deleted!', 'Your file has been deleted.', 'success'
     });
   };
 
