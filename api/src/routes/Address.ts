@@ -3,10 +3,9 @@ import { postAddress, getAddress, patchAddress, deleteAddress } from "../control
 import { Router, Request, Response, NextFunction } from "express"
 import { userExtractorUser } from "../middleware/userExtractor"
 
-
 //Breve Documentacion:
 
-// Ruta GET/addresses --> Trae todas las direcciones asociadas al usuario que hace la peticion,
+// Ruta GET/address --> Trae todas las direcciones asociadas al usuario que hace la peticion,
 // se toma el id del token que envia en la peticion.
 
 
@@ -31,6 +30,7 @@ import { userExtractorUser } from "../middleware/userExtractor"
 
 
 
+
 //Ruta DELETE/category --> se envia por body un objeto con id de la direccion a eliminar ("logicamente")
 // Ejemplo:
 // {
@@ -42,8 +42,8 @@ const Address = Router()
 Address.get("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses: any = await getAddress(req.params.id)
+    console.log(addresses)
     if (addresses.length) {
-
       res.json(addresses)
     } else {
       res.status(404).send("There is no address associated with that ID")
@@ -56,6 +56,7 @@ Address.get("/", userExtractorUser, async (req: Request, res: Response, next: Ne
 
 Address.post("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body)
     const postedAddress = await postAddress(req.params.id, req.body)
     if (postedAddress) {
       res.json(postedAddress)

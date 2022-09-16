@@ -33,7 +33,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader size={120} />}>
         <Container maxWidth='lg' sx={{ width: '100%', mt: '5rem', minHeight: '75vh' }}>
           <Routes>
             <Route path={PublicRoutes.start} element={<LandingPage />} />

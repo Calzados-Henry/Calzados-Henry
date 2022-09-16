@@ -1,13 +1,9 @@
-import { Fragment } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
-import { Button, Box } from '@mui/material';
-import { useFormik } from 'formik';
-import { LocalShipping } from '@mui/icons-material';
 import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
 import { useAuth } from '@/hooks/useAuth';
+import { LocalShipping } from '@mui/icons-material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { Fragment } from 'react';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -21,22 +17,24 @@ const validations = yup.object({
 });
 
 export default function AddressForm() {
-  const [createAddress, { data }] = useCreateAddressMutation();
+  const [createAddress, result] = useCreateAddressMutation();
+
   const { id } = useAuth();
 
   const formik = useFormik({
     initialValues: {
       id,
       title: '',
+      country: 'Argentina',
       state: '',
       city: '',
       address: '',
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: async values => {
-      const res = await createAddress(values);
-      console.log(res);
+    onSubmit: async (newAddress, { resetForm }) => {
+      await createAddress(newAddress).unwrap();
+      result.isSuccess ? resetForm() : <></>;
     },
   });
   const { isValid } = formik;
@@ -121,15 +119,17 @@ export default function AddressForm() {
           </Grid>
         </Grid>
 
-        <Button
-          size='small'
-          type='submit'
-          color='secondary'
-          variant='contained'
-          disabled={!isValid}
-          sx={{ mt: 3, mb: 2 }}>
-          Add Address
-        </Button>
+        <Box display='flex' justifyContent='end'>
+          <Button
+            size='small'
+            type='submit'
+            color='secondary'
+            variant='contained'
+            disabled={!isValid || result.isLoading}
+            sx={{ mt: 3, mb: 2 }}>
+            {result.isLoading ? 'loading' : 'Add Address'}
+          </Button>
+        </Box>
       </Box>
     </Fragment>
   );

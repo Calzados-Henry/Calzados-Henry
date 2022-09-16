@@ -1,18 +1,18 @@
 /* eslint-disable camelcase */
-import { Fragment, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
-import { Button, Box } from '@mui/material';
-import { useFormik } from 'formik';
 import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
+import { useAuth } from '@/hooks/useAuth';
+import { UserDataInfoForm } from '@/sehostypes/User';
 import { RootState } from '@/store';
 import EditIcon from '@mui/icons-material/Edit';
-import { UserDataInfoForm } from '@/sehostypes/User';
-import * as yup from 'yup';
-import { useAuth } from '@/hooks/useAuth';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { Box, Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { useFormik } from 'formik';
+import { Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
+import * as yup from 'yup';
 
 const validations = yup.object({
   username: yup.string().required('Username is required'),
@@ -39,9 +39,7 @@ export default function AccountInfo() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      /* createAddress(values); */
       setEdit(() => !edit);
-      console.log(values);
     },
   });
   const { isValid } = formik;

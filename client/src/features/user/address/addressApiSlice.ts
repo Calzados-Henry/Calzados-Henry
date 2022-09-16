@@ -1,40 +1,45 @@
 import { apiSlice } from '@/features/api/apiSlice';
-import { AddressPostDTO } from '@/sehostypes/Address';
-import { UserI } from '@/sehostypes/User';
+import { AddressPostDTO, AddressI } from '@/sehostypes/Address';
 
+// <ReturnValueHere, ArgumentTypeHere>
 export const addressApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAddresses: builder.query({
-      query: (userId: UserI['id']) => ({
-        url: `/addresses/${userId}`,
+    getAddress: builder.query<AddressI[], void>({
+      query: () => ({
+        url: `/users/address/`,
       }),
+      transformResponse: (address: AddressI[]) => address?.filter(item => item.isActive),
+      providesTags: ['Address'],
     }),
-    createAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: ({ userId, ...address }) => ({
-        url: `/address/${userId}`,
+    createAddress: builder.mutation<AddressPostDTO, AddressPostDTO>({
+      query: address => ({
+        url: `/users/address/`,
         method: 'POST',
         body: address,
       }),
+      invalidatesTags: ['Address'],
     }),
     updateAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
       query: address => ({
-        url: `/address/${address.userId}`,
+        url: `/users/address/`,
         method: 'PATCH',
-        body: address,
+        body: JSON.stringify(address),
       }),
+      invalidatesTags: ['Address'],
     }),
-    deleteAddress: builder.mutation<AddressPostDTO, Partial<AddressPostDTO>>({
-      query: address => ({
-        url: `/address/${address.userId}`,
+    deleteAddress: builder.mutation<AddressPostDTO, number>({
+      query: id => ({
+        url: `/users/address/`,
         method: 'DELETE',
-        body: address,
+        body: { id },
       }),
+      invalidatesTags: ['Address'],
     }),
   }),
 });
 
 export const {
-  useGetAddressesQuery,
+  useGetAddressQuery,
   useCreateAddressMutation,
   useUpdateAddressMutation,
   useDeleteAddressMutation,
