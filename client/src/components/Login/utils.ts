@@ -9,6 +9,7 @@ export function setUserInfo(user: any) {
     id: user.id,
     username: user.username,
     name: user.name,
+    email: user.email,
     last_name: user.last_name,
     birth_date: user.birth_date,
     phone: user.phone,
@@ -48,4 +49,4 @@ export const clientId = '483531712034-g2pbnlg7iu6qakfguv6pdhobsksqnvc9.apps.goog
 export const setLocalStorage = (userInfo: any) =>
   window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-//secret google
+// secret google

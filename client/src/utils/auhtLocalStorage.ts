@@ -3,5 +3,4 @@ export const persistLocalStorage = <T>(key: string, value: T) => {
 };
 export const clearLocalStorage = (key: string) => {
   localStorage.removeItem(key);
-  localStorage.removeItem('userInfo');
 };

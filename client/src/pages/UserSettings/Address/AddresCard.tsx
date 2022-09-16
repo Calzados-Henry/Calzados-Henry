@@ -2,16 +2,8 @@ import { useDeleteAddressMutation } from '@/features';
 import { AddressI } from '@/sehostypes/Address';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HomeIcon from '@mui/icons-material/Home';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import LabelIcon from '@mui/icons-material/Label';
+import { Box, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -54,7 +46,6 @@ export default function AddressCard({
           confirmButtonColor: '#412800',
         });
       }
-      // 'Deleted!', 'Your file has been deleted.', 'success'
     });
   };
 
@@ -65,7 +56,7 @@ export default function AddressCard({
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1bh-content'
           id='panel1bh-header'>
-          <HomeIcon />
+          <LabelIcon />
           <Typography sx={{ marginLeft: '1rem', width: '33%', flexShrink: 0 }}>{title}</Typography>
           <Typography sx={{ color: 'text.secondary' }}>{city}</Typography>
           {/* <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>

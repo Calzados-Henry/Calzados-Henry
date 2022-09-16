@@ -19,6 +19,7 @@ import { resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { PublicRoutes, PrivatesRoutes } from '@/routes/routes';
 import { reset } from '@/features/cart/cartApiSlice';
+import { resetUserInfo } from '@/features/user/userSlice';
 
 export default function User() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -167,6 +168,7 @@ export default function User() {
             setLogin(false);
             dispatch(reset());
             dispatch(resetUser());
+            dispatch(resetUserInfo());
             navigate(PublicRoutes.home);
           }}>
           <ListItemIcon>
