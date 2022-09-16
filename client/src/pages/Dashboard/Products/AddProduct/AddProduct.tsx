@@ -24,7 +24,9 @@ import MenuItem from '@mui/material/MenuItem';
 // import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSizes } from '@/features/sizes/sizesSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useGetCategoriesQuery, useGetSeasonsQuery } from '@/features';
 import axios from 'axios';
+
 
 /* VALIDACIONES */
 const validations = yup.object({
@@ -56,6 +58,9 @@ const validations = yup.object({
 export default function AddProduct() {
   const dispatch = useDispatch()
   const sizes: any = useSelector((state: RootState) => state.sizes)
+  const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData:currentDataC } = useGetCategoriesQuery()
+  const { data: seasons, error: errorS, isLoading: isLoadingS, isError: isErrorS, isSuccess: isSuccessS, currentData:currentDataS } = useGetSeasonsQuery()
+
   useEffect(() => {
     dispatch(getSizes())
   }, [])
@@ -113,210 +118,211 @@ export default function AddProduct() {
     }
     const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, /*headers:{"Authorization":`bearer ${auth.token}`}*/ });
     console.log(prueba)
-}
+  }
 
-return (
-  <FormikProvider value={formik}>
-    <Container component='main' maxWidth='xs'>
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
-        <Typography component='h1' variant='h5'>
-          Create Product
-        </Typography>
-        <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            {/* NAME */}
-            <Grid item xs={12} sm={12}>
-              <InputLabel id='name'>Title Product</InputLabel>
-              <TextField
-                autoComplete='given-name'
-                name='name'
-                required
-                fullWidth
-                id='name'
-                label='Name'
-                autoFocus
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-            </Grid>
-            {/* DESCRIPTION */}
-            <Grid item xs={12} sm={12}>
-              <InputLabel id='description'>Product description</InputLabel>
-              <TextField
-                required
-                fullWidth
-                id='description'
-                name='description'
-                label='Description'
-                autoComplete='family-name'
-                multiline
-                rows={5}
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                error={formik.touched.description && Boolean(formik.errors.description)}
-                helperText={formik.touched.description && formik.errors.description}
-              />
-            </Grid>
-            {/* GENDER */}
-            <Grid item xs={6} sm={6}>
-              <InputLabel id='gender'>Gender</InputLabel>
-              <Select
-                fullWidth
-                id='gender'
-                labelId='gender'
-                name='gender'
-                label='Gender'
-                value={formik.values.gender}
-                onChange={formik.handleChange}
-                error={formik.touched.gender && Boolean(formik.errors.gender)}>
-                <MenuItem value={'Unisex'}>Unisex</MenuItem>
-                <MenuItem value={'Male'}>Male</MenuItem>
-                <MenuItem value={'Female'}>Female</MenuItem>
-              </Select>
-            </Grid>
-            {/* SEASON */}
-            <Grid item xs={6} sm={6}>
-              <InputLabel id='season'>Season</InputLabel>
-              <Select
-                fullWidth
-                id='season'
-                labelId='season'
-                name='season'
-                label='Season'
-                value={formik.values.season}
-                onChange={formik.handleChange}
-                error={formik.touched.season && Boolean(formik.errors.season)}>
-                <MenuItem value={'Spring'}>Spring</MenuItem>
-                <MenuItem value={'Summer'}>Summer</MenuItem>
-                <MenuItem value={'Autumn'}>Fall</MenuItem>
-                <MenuItem value={'Winter'}>Winter</MenuItem>
-              </Select>
-            </Grid>
-            {/* Buy Price */}
-            <Grid item xs={6} sm={6}>
-              <TextField
-                required
-                fullWidth
-                name='buy_price'
-                id='buy_price'
-                label='Buy Price'
-                type='string'
-                value={formik.values.buy_price}
-                onChange={formik.handleChange}
-                error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
-                helperText={formik.touched.buy_price && formik.errors.buy_price}
-              />
-            </Grid>
-            {/* Sell Price */}
-            <Grid item xs={6} sm={6}>
-              <TextField
-                required
-                fullWidth
-                name='sell_price'
-                id='sell_price'
-                label='Sell Price'
-                type='string'
-                value={formik.values.sell_price}
-                onChange={formik.handleChange}
-                error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
-                helperText={formik.touched.sell_price && formik.errors.sell_price}
-              />
-            </Grid>
-            {/* Section */}
-            <Container>
-              <Typography mt={2} component='h1' variant='h6' textAlign='center'>
-                Details
-              </Typography>
-            </Container>
-            {/* Category */}
-            <Grid item xs={12} sm={12}>
-              <InputLabel id='category'>Category</InputLabel>
-              <Select
-                fullWidth
-                id='id_category'
-                labelId='id_category'
-                name='id_category'
-                label='Category'
-                value={formik.values.id_category}
-                onChange={formik.handleChange}
-                error={formik.touched.id_category && Boolean(formik.errors.id_category)}>
-                <MenuItem value={1}>Sport</MenuItem>
-                <MenuItem value={2}>Casual</MenuItem>
-                <MenuItem value={3}>Sandals</MenuItem>
-                <MenuItem value={4}>Winter</MenuItem>
-              </Select>
-            </Grid>
-            {/* details */}
-            <Grid>
-              <FieldArray name="details.size">
-                {({ push, remove }) => (
-                  <React.Fragment>
-                    <Grid item>
-                      <Typography variant="body2">Size</Typography>
-                    </Grid>
-                    {formik.values.details.size.map((_, index) => (
-                      <Grid container item>
-                        <Grid item>
-                          <Select fullWidth onChange={formik.handleChange} name={`details.size[${index}].id`}>
-                            {sizes.sizes.map((s: any) => {
-                              return (
-                                <MenuItem value={s.id}>{s.size}</MenuItem>
-                              )
-                            })}
-                          </Select>
-                        </Grid>
-                        <Grid xs={8} item>
-                          <TextField
-                            fullWidth
-                            label="Stock"
-                            name={`details.size[${index}].stock`}
-                            onChange={formik.handleChange}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <Button variant="contained" onClick={() => remove(index)}>Delete</Button>
-                        </Grid>
+  return (
+    <FormikProvider value={formik}>
+      <Container component='main' maxWidth='xs'>
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+          <Typography component='h1' variant='h5'>
+            Create Product
+          </Typography>
+          <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              {/* NAME */}
+              <Grid item xs={12} sm={12}>
+                <InputLabel id='name'>Title Product</InputLabel>
+                <TextField
+                  autoComplete='given-name'
+                  name='name'
+                  required
+                  fullWidth
+                  id='name'
+                  label='Name'
+                  autoFocus
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                />
+              </Grid>
+              {/* DESCRIPTION */}
+              <Grid item xs={12} sm={12}>
+                <InputLabel id='description'>Product description</InputLabel>
+                <TextField
+                  required
+                  fullWidth
+                  id='description'
+                  name='description'
+                  label='Description'
+                  autoComplete='family-name'
+                  multiline
+                  rows={5}
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  error={formik.touched.description && Boolean(formik.errors.description)}
+                  helperText={formik.touched.description && formik.errors.description}
+                />
+              </Grid>
+              {/* GENDER */}
+              <Grid item xs={6} sm={6}>
+                <InputLabel id='gender'>Gender</InputLabel>
+                <Select
+                  fullWidth
+                  id='gender'
+                  labelId='gender'
+                  name='gender'
+                  label='Gender'
+                  value={formik.values.gender}
+                  onChange={formik.handleChange}
+                  error={formik.touched.gender && Boolean(formik.errors.gender)}>
+                  <MenuItem value={'Unisex'}>Unisex</MenuItem>
+                  <MenuItem value={'Male'}>Male</MenuItem>
+                  <MenuItem value={'Female'}>Female</MenuItem>
+                </Select>
+              </Grid>
+              {/* SEASON */}
+              <Grid item xs={6} sm={6}>
+                <InputLabel id='season'>Season</InputLabel>
+                <Select
+                  fullWidth
+                  id='season'
+                  labelId='season'
+                  name='season'
+                  label='Season'
+                  value={formik.values.season}
+                  onChange={formik.handleChange}
+                  error={formik.touched.season && Boolean(formik.errors.season)}>
+                    {seasons?.map((s: any) => {
+                    return (
+                      <MenuItem value={s.id}>{s.season}</MenuItem>
+                    )
+                  })}                </Select>
+              </Grid>
+              {/* Buy Price */}
+              <Grid item xs={6} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name='buy_price'
+                  id='buy_price'
+                  label='Buy Price'
+                  type='string'
+                  value={formik.values.buy_price}
+                  onChange={formik.handleChange}
+                  error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
+                  helperText={formik.touched.buy_price && formik.errors.buy_price}
+                />
+              </Grid>
+              {/* Sell Price */}
+              <Grid item xs={6} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name='sell_price'
+                  id='sell_price'
+                  label='Sell Price'
+                  type='string'
+                  value={formik.values.sell_price}
+                  onChange={formik.handleChange}
+                  error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
+                  helperText={formik.touched.sell_price && formik.errors.sell_price}
+                />
+              </Grid>
+              {/* Section */}
+              <Container>
+                <Typography mt={2} component='h1' variant='h6' textAlign='center'>
+                  Details
+                </Typography>
+              </Container>
+              {/* Category */}
+              <Grid item xs={12} sm={12}>
+                <InputLabel id='category'>Category</InputLabel>
+                <Select
+                  fullWidth
+                  id='id_category'
+                  labelId='id_category'
+                  name='id_category'
+                  label='Category'
+                  value={formik.values.id_category}
+                  onChange={formik.handleChange}
+                  error={formik.touched.id_category && Boolean(formik.errors.id_category)}>
+                  {categories?.map((c: any) => {
+                    return (
+                      <MenuItem value={c.id}>{c.category}</MenuItem>
+                    )
+                  })}
+                </Select>
+              </Grid>
+              {/* details */}
+              <Grid>
+                <FieldArray name="details.size">
+                  {({ push, remove }) => (
+                    <React.Fragment>
+                      <Grid item>
+                        <Typography variant="body2">Size</Typography>
                       </Grid>
-                    ))}
-                    <Grid item>
-                      <Button variant="contained" onClick={() => push({ id: "", stock: 0 })} >Add Size</Button>
-                    </Grid>
-                  </React.Fragment>
-                )}
-              </FieldArray>
-            </Grid>
-            {/* IMAGES */}
-            <Grid item xs={12} sm={12}>
-              <>
-                <Button fullWidth variant='outlined' color='inherit' component='label'>
-                  Upload Images
-                  <input
+                      {formik.values.details.size.map((_, index) => (
+                        <Grid container item>
+                          <Grid item>
+                            <Select fullWidth onChange={formik.handleChange} name={`details.size[${index}].id`}>
+                              {sizes.sizes.map((s: any) => {
+                                return (
+                                  <MenuItem value={s.id}>{s.size}</MenuItem>
+                                )
+                              })}
+                            </Select>
+                          </Grid>
+                          <Grid xs={8} item>
+                            <TextField
+                              fullWidth
+                              label="Stock"
+                              name={`details.size[${index}].stock`}
+                              onChange={formik.handleChange}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Button variant="contained" onClick={() => remove(index)}>Delete</Button>
+                          </Grid>
+                        </Grid>
+                      ))}
+                      <Grid item>
+                        <Button variant="contained" onClick={() => push({ id: "", stock: 0 })} >Add Size</Button>
+                      </Grid>
+                    </React.Fragment>
+                  )}
+                </FieldArray>
+              </Grid>
+              {/* IMAGES */}
+              <Grid item xs={12} sm={12}>
+                <>
+                  <Button fullWidth variant='outlined' color='inherit' component='label'>
+                    Upload Images
+                    <input
 
-                    hidden
-                    type='file'
-                    id='file'
-                    name='file'
-                    multiple
-                    onChange={(event: any) => {
-                      formik.setFieldValue("file", event.target.files)
-                    }}
-                  />
-                </Button>
-                {console.log(formik.values)}
-              </>
-            </Grid>
-            {/* Images Test */}
-            <Grid item xs={12} sm={12}>
-              {/*
+                      hidden
+                      type='file'
+                      id='file'
+                      name='file'
+                      multiple
+                      onChange={(event: any) => {
+                        formik.setFieldValue("file", event.target.files)
+                      }}
+                    />
+                  </Button>
+                  {console.log(formik.values)}
+                </>
+              </Grid>
+              {/* Images Test */}
+              <Grid item xs={12} sm={12}>
+                {/*
               <Button fullWidth variant='outlined' color='inherit' component='label'>
                 Upload Images
                 <input
@@ -328,31 +334,31 @@ return (
                   onChange={event => setFieldValue(event.target.files)}
                 />
               </Button> */}
-            </Grid>
-            {/* END */}
-            <Grid item xs={12}>
-              {/* <FormControlLabel
+              </Grid>
+              {/* END */}
+              <Grid item xs={12}>
+                {/* <FormControlLabel
                 control={<Checkbox value='allowExtraEmails' color='primary' />}
                 label='I want to receive inspiration, marketing promotions and updates via email.'
               /> */}
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-            Create Product
-          </Button>
-          <Grid container justifyContent='flex-end'>
-            <Grid item>
-              {/* <Link href='#' variant='body2'>
+            <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+              Create Product
+            </Button>
+            <Grid container justifyContent='flex-end'>
+              <Grid item>
+                {/* <Link href='#' variant='body2'>
                 No hay categorias
               </Link> */}
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Copyright sx={{ mt: 5 }} />
-    </Container>
+        <Copyright sx={{ mt: 5 }} />
+      </Container>
 
-  </FormikProvider>
-)
+    </FormikProvider>
+  )
 }
