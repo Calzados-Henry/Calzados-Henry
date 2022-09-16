@@ -19,6 +19,8 @@ import Loader from './Loader';
 import { Orders, Address } from '@/pages/UserSettings';
 import Profile from '@/pages/UserSettings/Profile/Profile';
 import Favorites from '@/pages/UserSettings/Favorites/Favorites';
+import ResetPassword from '@/pages/ResetPassword/ResetPassword';
+import ForgotPassword from '@/pages/ResetPassword/ForgotPassword';
 // Lazy Loading
 const Cards = lazy(() => import('@/components/Cards/Cards'));
 const ProductDetail = lazy(() => import('@/components/ProductDetail/ProductDetail'));
@@ -64,7 +66,8 @@ function App() {
                 </Route>
               </Route>
             </Route>
-
+            <Route path={PublicRoutes.resetPassword} element={<ResetPassword />} />
+            <Route path={PublicRoutes.forgotPassword} element={<ForgotPassword />} />
             <Route path={PublicRoutes.login} element={<Login />} />
             <Route path={PublicRoutes.error} element={<Error404 />} />
             <Route path='/register' element={<Register />}></Route>

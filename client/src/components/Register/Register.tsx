@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { useAuth } from '@/hooks/useAuth';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { PublicRoutes } from '@/routes/routes';
 
 const validations = yup.object().shape({
   name: yup.string().required('Username is required'),
@@ -227,9 +228,16 @@ export default function Register() {
           <Button type='submit' id='formSubmit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
             Register Now
           </Button>
-          <Typography>
+          <Typography sx={{ mt: 2 }}>
             Have an account?{' '}
-            <Link to='/login' style={{ textDecoration: 'underline', color: 'blue' }}>
+            <Link to={PublicRoutes.login} style={{ textDecoration: 'underline', color: 'blue' }}>
+              Go to login!
+            </Link>
+          </Typography>
+
+          <Typography sx={{ mt: 2 }}>
+            Quieres registrarte con tu Google Account?
+            <Link to={PublicRoutes.login} style={{ textDecoration: 'underline', color: 'blue' }}>
               Go to login!
             </Link>
           </Typography>
