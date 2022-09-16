@@ -13,7 +13,7 @@ import { RootState } from '@/store';
 
 function UserSettingsContent() {
   const dispatch = useDispatch();
-  const { id:userId } = useAuth();
+  const { id: userId } = useAuth();
   const { data, isSuccess, isError } = useGetUserByIdQuery(userId);
 
   return (

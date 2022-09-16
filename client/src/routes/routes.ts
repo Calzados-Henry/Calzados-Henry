@@ -24,6 +24,7 @@ export const PrivatesRoutes = {
   favorites: 'favorites',
   checkout: 'checkout',
 
+  admin: '/admin',
   dashboard: '/dashboard',
   addProduct: 'addproduct',
   addCategory: 'addcategory',
