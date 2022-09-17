@@ -1,3 +1,4 @@
+import { Reviews } from "./db"
 import { Gender, Season } from "./enum"
 
 export interface Orders_detailsI {
@@ -27,6 +28,7 @@ export interface ReviewsI {
   date: Date
   isActive: boolean
 }
+export interface ReviewsPostI extends Omit<ReviewsI, "isActive"> {}
 
 export interface ProductsI {
   id: number
@@ -90,22 +92,22 @@ export interface CartDetailsI {
 }
 
 export interface carrito {
-  id_details: number,
-  image?: string,
-  name: string,
-  color: string,
-  size: Array<object>,
-  price: number,
+  id_details: number
+  image?: string
+  name: string
+  color: string
+  size: Array<object>
+  price: number
   quantity: number
 }
 
 export interface favoritos {
-  id_details: number,
-  image?: string,
-  name: string,
-  color: string,
-  size: Array<object>,
-  price: number,
+  id_details: number
+  image?: string
+  name: string
+  color: string
+  size: Array<object>
+  price: number
 }
 
 export interface UsersI {
@@ -115,7 +117,7 @@ export interface UsersI {
   email: string
   name: string
   last_name: string
-  birth_date: Date,
+  birth_date: Date
   phone: string
   identification: number
   type_user: TypeUser
