@@ -15,6 +15,7 @@ import Login from './Login';
 import { send } from './../controllers/NotificationMail';
 import Prueba from './Prueba';
 import RecoveryPassword from './RecoveryPassword';
+import Reviews from './Reviews';
 
 const router = Router();
 
@@ -46,6 +47,8 @@ router.use('/products/details/images', Images); // jesner
 router.use('/products/details/color', Color); // jesner
 router.use('/orders', Orders); // jesner
 router.use('/orders/details', Orders_Details);
-router.use('/recovery_password', RecoveryPassword);
+router.use("/reviews", Reviews); //andres
+router.use("/recovery_password", RecoveryPassword); //joel
 
 export default router;
+

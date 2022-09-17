@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
+import { useAppSelector } from '@/features';
 import { useGetUserByIdQuery, useUpdateUserMutation } from '@/features/user/userApiSlice';
+import { updateUserInfo } from '@/features/user/userSlice';
+import { useAppDispatch } from '@/hooks/store';
 import { useAuth } from '@/hooks/useAuth';
 import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -13,29 +16,30 @@ import * as yup from 'yup';
 
 const validations = yup.object({
   username: yup.string().required('Username is required'),
-  email: yup.string().email().required('Username is required'),
 });
 
 export default function AccountInfo() {
   const [updateUser, result] = useUpdateUserMutation();
   const [edit, setEdit] = useState(true);
   const auth = useAuth();
+  const dispatch = useAppDispatch();
   const { data: user, isLoading, isSuccess, isError } = useGetUserByIdQuery(auth.id);
+  const { name, last_name, birth_date, identification } = useAppSelector(state => state.user);
 
   const formik = useFormik({
     initialValues: {
       id: auth.id,
       username: user?.username,
-      email: user?.email,
       phone: user?.phone,
     },
     validationSchema: validations,
     onSubmit: values => {
       updateUser(values);
+      dispatch(updateUserInfo(values));
       setEdit(() => !edit);
     },
   });
-  const { isValid, isSubmitting } = formik;
+  const { isValid } = formik;
   return (
     <Fragment>
       <Box component='form' noValidate onSubmit={formik.handleSubmit}>
@@ -50,6 +54,7 @@ export default function AccountInfo() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id='username'
               name='username'
               label='User Name'
@@ -59,7 +64,7 @@ export default function AccountInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
+              /* helperText={formik.touched.username && formik.errors.username} */
             />
           </Grid>
 
@@ -76,7 +81,7 @@ export default function AccountInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
+              /*   helperText={formik.touched.phone && formik.errors.phone} */
             />
           </Grid>
         </Grid>

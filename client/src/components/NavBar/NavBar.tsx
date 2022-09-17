@@ -1,5 +1,4 @@
 import StoreIconComponent from '../StoreIconComponent/StoreIconComponent';
-import SearchComponent from '../Search/SearchComponent';
 import SideBarComponent from '../SideBarComponent/SideBarComponent';
 import User from '../User/User';
 import Search from '../Search/SearchComponent';
@@ -25,13 +24,13 @@ export default function PrimarySearchAppBar() {
 
         <MenuNav />
 
-        <Box sx={{ flexGrow: 1}} />
+        <Box sx={{ flexGrow: 1 }} />
 
         {location.pathname === '/products' && <Search name='product' />}
-        <Box sx={{display:'flex', flexDirection:'row', marginLeft: 5}}>
-        <CartIcon />
+        <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: 5 }}>
+          <CartIcon />
 
-        <User/>
+          <User />
         </Box>
       </Toolbar>
     </AppBar>

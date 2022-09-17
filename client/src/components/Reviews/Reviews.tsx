@@ -1,11 +1,8 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import styles from './Reviews.module.css';
-import AvatarCard from '../AvatarCard/AvatarCard';
-import Typography from '@mui/material/Typography';
 import { Rating } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import AvatarCard from '../AvatarCard/AvatarCard';
+import styles from './Reviews.module.css';
 
 const date = new Date(2022, 1, 17);
 

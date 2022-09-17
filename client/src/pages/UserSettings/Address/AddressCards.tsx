@@ -1,7 +1,9 @@
 import Loader from '@/app/Loader';
 import { useGetAddressQuery } from '@/features/user/address/addressApiSlice';
 import Typography from '@mui/material/Typography';
+import HomeIcon from '@mui/icons-material/Home';
 import AddressCard from './AddresCard';
+import { Box } from '@mui/material';
 
 export default function AddressCards() {
   const { data, isLoading, isSuccess, isError, error } = useGetAddressQuery();
@@ -33,9 +35,12 @@ export default function AddressCards() {
 
   return (
     <>
-      <Typography variant='h5' gutterBottom>
-        My Addresses
-      </Typography>
+      <Box display='flex' alignItems={'center'}>
+        <HomeIcon />
+        <Typography variant='h6' gutterBottom>
+          &nbsp;&nbsp;My Addresses
+        </Typography>
+      </Box>
       {content}
     </>
   );
