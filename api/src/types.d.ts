@@ -87,6 +87,7 @@ export interface OrdersI {
 export interface CartDetailsI {
   id_user: number
   id_product_details: number
+  id_size: number
   quantity: number
 }
 

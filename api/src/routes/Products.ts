@@ -6,6 +6,7 @@ import { userExtractorAdmin } from '../middleware/userExtractor';
 import fileUpload from 'express-fileupload'
 const router = Router();
 
+
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     var products = await getProducts();
@@ -17,6 +18,7 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
 router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nProducts: string = await createProducts(req)
+    
     res.json(nProducts)
   } catch (e) {
     next(e)
@@ -30,8 +32,9 @@ router.put('/', userExtractorAdmin, async (req: Request, res: Response, next: Ne
     next(e)
   }
 })
-router.delete('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/', /* userExtractorAdmin, */ async (req: Request, res: Response, next: NextFunction) => {
   try {
+    
     var delProducts = await deleteProducts(req.body.id)
     res.json(delProducts)
   } catch (e) {

@@ -71,7 +71,7 @@ export default class Users extends Model implements UsersI {
   identification!: number;
 
   @Column({
-    type: DataType.ENUM('Administrator', 'Employee', 'User'),
+    type: DataType.ENUM('Administrator', 'Employee', 'User', 'Google'),
     allowNull: false,
     defaultValue: 'User'
   })
