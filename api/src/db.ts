@@ -36,8 +36,11 @@ Users.hasMany(Orders, { foreignKey: 'id_user' })
 Products.belongsTo(Category, { foreignKey: 'id_category' })
 Category.hasMany(Products, { foreignKey: 'id_category' })
 
-Cart_details.belongsTo(Sizes, {foreignKey:"id_size"})
-Sizes.hasMany(Cart_details, {foreignKey:"id_size"})
+Cart_details.belongsTo(Sizes, { foreignKey: "id_size" })
+Sizes.hasMany(Cart_details, { foreignKey: "id_size" })
+
+/* Cart_details.belongsTo(Users, {foreignKey: "id_user"})
+Users.hasMany(Cart_details, {foreignKey: "id_user"}) */
 
 
 Products.belongsToMany(Users, { foreignKey: 'id_product', through: Reviews })
@@ -52,16 +55,26 @@ Sizes.belongsToMany(Product_details, { foreignKey: 'id_sizes', through: Product_
 Users.belongsToMany(Product_details, { as: 'favs', foreignKey: 'id_user', through: 'favourite' })
 Product_details.belongsToMany(Users, { as: 'favs', foreignKey: 'id_product_details', through: 'favourite' })
 
-Users.belongsToMany(Product_details, { as: 'cart', foreignKey: 'id_user', through: Cart_details, })
-Product_details.belongsToMany(Users, { as: 'cart', foreignKey: 'id_product_details', through: Cart_details })
+Users.belongsToMany(Product_details, {/*  as: 'cart', */ foreignKey: 'id_user', through: Cart_details, })
+Product_details.belongsToMany(Users, { /* as: 'cart', */ foreignKey: 'id_product_details', through: Cart_details })
+Cart_details.belongsTo(Users, { as: 'cart', foreignKey: 'id_user' })
+Cart_details.belongsTo(Product_details, { foreignKey: 'id_product_details' })
+Users.hasMany(Cart_details, {as: 'cart', foreignKey: 'id_user' })
+Product_details.hasMany(Cart_details, { foreignKey: 'id_product_details' })
+
+
+// GameTeam.belongsTo(Game);
+// GameTeam.belongsTo(Team);
+// Game.hasMany(GameTeam);
+// Team.hasMany(GameTeam);
 
 
 
-/* const model: any = Products
+const model: any = Users
 for (let assoc of Object.keys(model.associations)) {
   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
   }
 }
- */
+
 
