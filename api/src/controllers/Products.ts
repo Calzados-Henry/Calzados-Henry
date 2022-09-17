@@ -1,6 +1,6 @@
 'use strict'
 // se requiere el models
-import { Category, Color, Images, Products, Product_details, Sizes, Users, Orders_details } from '../db';
+import { Category, Color, Images, Orders_details, Products, Product_details, Sizes, Users } from '../db';
 import { createImages } from './Images';
 // import { createP_Details } from './Product_details';
 
@@ -98,9 +98,9 @@ export const getProducts = async (): Promise<any> => {
     order: [
       ['details', Sizes, 'size', 'ASC'],
       ['id', 'ASC'],
-    ], include: [Users, Category,  Orders_details {
-      model: Product_details, as: 'details', include: [Color, Images, Sizes], , attributes: {exclude: ['buy_price']
-    }]
+    ], include: [Users, Category,  {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes]}] , attributes: {exclude: ['buy_price']
+    }
   })
 var productValuesFormat = formatValueProduct(products)
   return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
