@@ -109,14 +109,16 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
 //!===================CART_DETAILS=====================
 //!====================================================
 
-router.get('/cart', async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		var cart = await getCart(req.body);
-		res.json(cart);
-	} catch (e) {
-		next(e);
-	}
-});
+router.get('/cart/:idUser', async (req: Request, res: Response, next: NextFunction) => {
+  const {idUser} = req.params
+  try {
+    var cart = await getCart(parseInt(idUser))
+    res.json(cart)
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		var cart = await addToCart(req.body);

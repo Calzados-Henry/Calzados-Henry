@@ -4,22 +4,23 @@ import { CartI, State } from './CartSlice';
 
 
 export const getApiUserCart: any = createAsyncThunk('cart/getApiUserCart', async (idUser:number) => {
-  const response = await axios.get(`http://localhost:3001/users?id=${idUser}`);
-  const newInfo: CartI[] = response.data.cart.arrayCarrito.map((r: any) => {
+  const response = await axios.get(`http://localhost:3001/users/cart/${idUser}`);
+  const newInfo: CartI[] = response.data.arrayCarrito.map((r: any) => {
     const updated: CartI = { ...r, idProduct: r.id_details, idUser };
     return updated;
   });
   return newInfo;
 })
 
-export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async ({id, products, token}: {id:number, products:CartI[] | CartI, token:string}) => {
+export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async ({id, products, id_size, token}: {id:number, products:CartI[] | CartI, id_size:number, token:string}) => {
   if(Array.isArray(products)) {
         let arrayCart: [] = []
         products.forEach(async p=> {
             let response = await axios.post(`http://localhost:3001/users/cart`, {
             id_user: id,
             id_product_details: p.idProduct,
-            quantity: p.quantity
+            quantity: 1,
+            id_size: p.sizeCart?.id
             }, {
             headers: {
                 'Authorization': `bearer ${token}`
@@ -37,7 +38,8 @@ export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async
         let response = await axios.post(`http://localhost:3001/users/cart`, {
             id_user: id,
             id_product_details: products.idProduct,
-            quantity: products.quantity
+            quantity: 1,
+            id_size
             }, {
             headers: {
                 'Authorization': `bearer ${token}`
@@ -73,10 +75,11 @@ export const deleteApiUserCart: any = createAsyncThunk('cart/deleteApiUserCart',
     }
 })
 
-export const updateApiUserCart: any = createAsyncThunk('cart/updateApiUserCart', async ({idUser, idProduct, quantity}: {idUser:number, idProduct: number, quantity:number}) => {
+export const updateApiUserCart: any = createAsyncThunk('cart/updateApiUserCart', async ({idUser, idProduct, quantity, id_size}: {idUser:number, idProduct: number, quantity:number, id_size:number}) => {
   let response = await axios.put('http://localhost:3001/users/cart', {
     id_user: idUser,
     id_product_details: idProduct,
+    id_size,
     quantity
   })
   const newInfo:CartI[] = response.data.arrayCarrito.map((r: any) => {
