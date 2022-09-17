@@ -241,7 +241,7 @@ export const allDeleteCart = async (value: any): Promise<object> => {
 
 export const getFavs = async (id: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
-  console.log(id)
+
   var users: any = await Users.findByPk(id, { include: "favs" })
 
   return users ? users : { message: "there're not users" }

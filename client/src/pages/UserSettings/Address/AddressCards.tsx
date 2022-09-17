@@ -11,6 +11,7 @@ export default function AddressCards() {
   let content;
   if (isLoading) content = <Loader size={60} />;
   if (isError || error) content = <>Error</>;
+
   if (isSuccess && data)
     if (data.length < 1)
       content = (

@@ -18,6 +18,7 @@ import { useGetProductQuery } from '@/features';
 import { resetProduct, setProduct } from '@/features/product/productSlice';
 import { PublicRoutes } from '@/routes/routes';
 import Swal from 'sweetalert2';
+import ReviewModal from '../Reviews/ReviewModal';
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
@@ -187,7 +188,7 @@ export default function ProductDetail() {
           </Grid>
         </Grid>
 
-        <Reviews></Reviews>
+        <Reviews />
       </Container>
     </Box>
   );
