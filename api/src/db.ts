@@ -52,6 +52,10 @@ Products.belongsTo(Category, { foreignKey: "id_category" })
 Category.hasMany(Products, { foreignKey: "id_category" })
 
 
+Products.hasMany(Orders_details, { foreignKey: 'id_product' })
+Orders_details.belongsTo(Products, { foreignKey: 'id_product' })
+
+
 Cart_details.belongsTo(Sizes, {foreignKey:"id_size"})
 Sizes.hasMany(Cart_details, {foreignKey:"id_size"})
 

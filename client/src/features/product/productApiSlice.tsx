@@ -1,6 +1,7 @@
 import { apiSlice } from '../api/apiSlice';
 import { ProductI } from './product.model';
-import { createSelector, createEntityAdapter, EntityState } from '@reduxjs/toolkit';
+import { createSelector, createEntityAdapter/* , EntityState */ } from '@reduxjs/toolkit';
+
 
 const productAdapter = createEntityAdapter<ProductI>({});
 const initialState = productAdapter.getInitialState();
@@ -16,8 +17,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: ['Product'],
     }),
+    getProductsDashboard: builder.query({
+      query:() => '/products/dashboard',
+      transformResponse: ( response ) => {
+        return response
+      } 
+  }),
     getProduct: builder.query<ProductI, string | void>({
-      query: id => `/products/${id}`,
+      query: (id:string) => `/products/id/${id}`,
     }),
     addNewProduct: builder.mutation({
       query: body => ({
@@ -30,7 +37,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useAddNewProductMutation, useGetProductQuery } =
+export const { useGetProductsQuery, useAddNewProductMutation, useGetProductQuery, useGetProductsDashboardQuery } =
   productsApiSlice;
 
 // returns the query result object

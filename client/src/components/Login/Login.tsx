@@ -45,14 +45,14 @@ const googleValidation = yup.object().shape({
 });
 
 export default function Login() {
-  const paperstyle = { padding: 20, height: '90vh', width: 400, margin: '100px auto' };
+  const paperstyle = { padding: 20, height: '100vh', width: 400, margin: '100px auto' };
   const { products } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useAuth();
   const { complete } = useSelector((state: RootState) => (auth.user ? state.apiCart : state.cart));
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
-  const UserId = localStorage ? JSON.parse(localStorage.getItem('userInfo')) : {};
+  const UserId = localStorage ? JSON.parse(localStorage?.getItem('userInfo')) : {};
   const [checked, setChecked] = useState(true);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [googleData, setGoogleData] = useState<any>({});
@@ -366,6 +366,14 @@ export default function Login() {
             Don't have account?
             <Link to='/register' style={{ textDecoration: 'underline', color: 'blue' }}>
               Register now!
+            </Link>
+          </Typography>
+          <Typography sx={{ mt: 1 }}>
+            Forgot your password?
+            <Link
+              to={PublicRoutes.forgotPassword}
+              style={{ textDecoration: 'underline', color: 'blue' }}>
+              Click here!
             </Link>
           </Typography>
         </Paper>

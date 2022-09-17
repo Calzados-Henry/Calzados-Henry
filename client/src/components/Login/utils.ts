@@ -28,7 +28,7 @@ export const initial = {
   phone: '',
   identification: '',
   birth_date: '',
-  type_user: 'User',
+  type_user: 'Google',
 };
 
 export const style = {

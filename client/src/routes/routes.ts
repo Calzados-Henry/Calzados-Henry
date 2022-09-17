@@ -11,6 +11,8 @@ export const PublicRoutes = {
   searchResult: 'search-results',
   profile: '/profile',
   settings: 'settings',
+  resetPassword: '/reset-password/:name',
+  forgotPassword: '/reset-password',
   error: '*',
 };
 
