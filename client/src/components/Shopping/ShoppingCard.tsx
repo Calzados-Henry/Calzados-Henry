@@ -2,45 +2,103 @@ import { Box, Button, Grid } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
-import { CartI, deleteFromLS, updateQuantity, UserSizeI } from "../../features/cart/CartSlice"
+import { CartI, deleteFromLS, updateLocalCart, UserSizeI } from "../../features/cart/CartSlice"
 import { RootState } from "../../store"
 import Swal from 'sweetalert2'
 import { useAuth } from "../../hooks/useAuth"
 import { deleteApiUserCart, updateApiUserCart } from "@/features/cart/cartApiSlice"
+import { Update } from "@mui/icons-material"
+import { PublicRoutes } from "@/routes/routes"
+import { Link } from "react-router-dom"
 
 
 export default function CardShop (product: Partial<CartI>) {
     const auth = useAuth()
-    const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
     const dispatch = useDispatch()
-    const {complete} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
-    const [size, setSize] = useState<UserSizeI>({size: product.size && product.size[product.size.length - 1].size, stock: product.size && product?.size[product.size.length - 1]?.stock})
-    const [renderCount, setRenderCount] = useState(1)
-    let selectSizes = product.size && Array.from(product.size);
+    const {products, complete} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const [renderCount, setRenderCount] = useState(0)
     const [apiQuantity, setApiQuantity] = useState(product.quantity)
+    const [sizeChanged, setSizeChanged] = useState('')
+    const currentProduct = products?.find(el => el.idProduct === product.idProduct)
 
     useEffect(() => {
         setRenderCount(renderCount + 1)
+        if(auth.user) {
+            const selectorAmount = (document.getElementById(`apiAmount${product.idProduct}`) as HTMLInputElement)
+            if(currentProduct?.sizeCart?.stock && parseInt(selectorAmount.value) > currentProduct.sizeCart.stock) {
+                Swal.fire({
+                    text: "We will update your amount cause you have more than stock available",
+                    icon: 'warning',
+                    timer: 1500
+                })
+                dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, quantity: currentProduct.sizeCart.stock}))
+            }
+        }
+        if(!auth.user) {
+            const selectorLocalAmount = (document.getElementById(`localAmount${product.idProduct}`) as HTMLInputElement)
+            if(currentProduct?.sizeCart?.stock && parseInt(selectorLocalAmount.value) > currentProduct.sizeCart.stock) {
+                console.log('entre a validacion')
+                Swal.fire({
+                    text: "We will update your amount cause you have more than stock available",
+                    icon: 'warning',
+                    timer: 1500
+                })
+                product.idProduct && dispatch(updateLocalCart({method: 'modify', id: product.idProduct, sizes:{stock: currentProduct.sizeCart.stock}}))
+            }
+        }
     }, [complete])
 
     const updateAmount = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        product.idProduct && dispatch(updateQuantity({method: e.currentTarget.name, id: product.idProduct}))
+        product.idProduct && dispatch(updateLocalCart({method: e.currentTarget.name, id: product.idProduct, sizes:{}}))
     }
     
-    const updateApiAmount = (e: React.MouseEvent<HTMLButtonElement> ) => {
+    const updateApiAmount = async (e: React.MouseEvent<HTMLButtonElement> ) => {
         e.preventDefault();
-        if(size.stock && apiQuantity && size.stock >= apiQuantity ) {
-            dispatch(updateApiUserCart({idUser: userInfo.id, idProduct: product.idProduct, quantity: apiQuantity}))
+        if(product.quantity !== apiQuantity) {
+            if(product?.sizeCart?.stock && apiQuantity && product.sizeCart.stock >= apiQuantity) {
+                await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, quantity: apiQuantity}))
+                Swal.fire({
+                    text: "Amount updated succesfully",
+                    icon: 'success',
+                    timer: 1500
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: "can't exceed stock amount",
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                })
+            }
         } else {
             Swal.fire({
-                title: 'Error',
-                text: "can't exceed stock amount",
-                icon: 'error',
-                confirmButtonText: 'Try Again'
+                text: "You already have that quantity",
+                icon: 'warning',
+                confirmButtonText: 'Ok!'
             })
         }
-        
+    }
+    
+    const updateSize = (e: React.ChangeEvent<HTMLSelectElement> ) => {
+        if(auth.user) setSizeChanged(e.target.value)
+        else {
+            const findedSize = product?.size?.find(el => el.size === e.target.value)
+            product.idProduct && findedSize && dispatch(updateLocalCart({method: e.currentTarget.name, id: product.idProduct, sizes: findedSize}))
+        }
+    }
+
+    const updateApiSize = async (e: React.MouseEvent<HTMLButtonElement> ) => {
+        e.preventDefault();
+        const findedApiSize = product?.size?.find(el => el.size === sizeChanged)
+        await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, id_size: findedApiSize?.id}))
+        Swal.fire({
+            text: "Size updated succesfully",
+            icon: 'success',
+            timer: 1500
+        })
+        const selector = (document.getElementById('selectSize') as HTMLSelectElement)
+        selector.value = 'currentSize' 
     }
 
     const deleteProduct = (e: React.MouseEvent<HTMLButtonElement>, idProduct: number) => {
@@ -63,7 +121,7 @@ export default function CardShop (product: Partial<CartI>) {
                     'success'
                     )
                 } else {
-                    await dispatch(deleteApiUserCart({idUser: userInfo.id, idProduct}))
+                    await dispatch(deleteApiUserCart({idUser: auth.id, idProduct}))
                     complete && Swal.fire(
                         'Deleted!',
                         'Your product has been deleted.',
@@ -72,17 +130,6 @@ export default function CardShop (product: Partial<CartI>) {
                 }
             }
           })
-    }
-
-    const changeSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const finded = product.size?.findIndex(el => el.size === event.target.value)
-        if(finded !== -1 && product.size) {
-            setSize({
-                size: product.size[finded ? finded : 0].size,
-                stock: product.size[finded ? finded : 0].stock
-            })
-        }
-        // finded && setSize(product.size && {size: product.size[finded].size, stock: product.size[finded].stock})
     }
 
     return (
@@ -111,30 +158,35 @@ export default function CardShop (product: Partial<CartI>) {
                         <Grid item xs={1}>
                             <label>Total</label>
                         </Grid>
-                        <Grid item xs={4}>
-                            <h5>{product.name}</h5>
+                        <Grid item xs={4} sx={{display: 'flex', alignItems:'center', justifyContent:'center'}}>
+                            <Link style={{fontSize: 'smaller'}} to={`${PublicRoutes.products}/${product.idProduct}`}>{product.name}</Link>
                         </Grid>
                         <Grid item xs={1}>
                             <p>$ {product.price}</p>
                         </Grid>
                         <Grid item xs={1}>
-                                <select style={{marginTop: 15}} onChange={changeSize}>
-                                    {selectSizes && selectSizes.reverse().map(s =><option key={s.size}>{s.size}</option>)}
-                                </select>
+                                <span style={{marginTop: 5}}>Current: {currentProduct?.sizeCart?.size}</span>
+                                <Box display={auth.user ? 'flex' : 'inherit'} gap={1}>
+                                    <select name='changeSize' style={{width:'min-content'}} id='selectSize' defaultValue='currentSize' onChange={updateSize}>
+                                        <option id="currentSize" value='currentSize' disabled>sizes</option>
+                                        {product?.size?.map(s =><option key={s.size}>{s.size}</option>)}
+                                    </select>
+                                    {auth.user && <Button variant='contained' title='Update!' sx={{minWidth: 'max-content', padding: 0}} name='apiUpdate' onClick={updateApiSize}><Update sx={{width: 'fit-content'}}/></Button>}
+                                </Box>
                         </Grid>
                         <Grid item xs={1}>
-                            <p>{size && size.stock}</p>
+                            <p>{product?.sizeCart?.stock}</p>
                         </Grid>
                         { !auth.user &&
                         <Grid item xs={2} display={'flex'} alignItems='center' justifyContent='center'>
                                 <button name='decrease' disabled={product.quantity ? product.quantity === 1 : false} style={{width:'25px'}} onClick={updateAmount}>-</button>
-                                <input id={'amount'} disabled defaultValue={product.quantity} style={{width:'20px', textAlign:'center'}} />
-                                <button name='increase' disabled={product.quantity && size?.stock ? (product.quantity >= size?.stock) : false} style={{width:'25px'}} onClick={updateAmount}>+</button>
+                                <input id={`localAmount${product.idProduct}`} disabled defaultValue={product.quantity} style={{width:'20px', textAlign:'center'}} />
+                                <button name='increase' disabled={product.quantity && product.sizeCart?.stock ? (product.quantity >= product.sizeCart.stock) : false} style={{width:'25px'}} onClick={updateAmount}>+</button>
                         </Grid>}
                         {auth.user &&
-                        <Grid item xs={2} display={'flex'} alignItems='center' justifyContent='center'>
-                                <input id={'apiAmount'} type='number' title="can't exceed stock" value={apiQuantity} style={{width:'20px', textAlign:'center'}} onChange={(e) => setApiQuantity(Number(e.target.value))}/>
-                                <button name='apiUpdate' style={{width:'min-content'}} onClick={updateApiAmount}>Update</button>
+                        <Grid item xs={2} display='flex' gap={1} alignItems='center' justifyContent='center'>
+                                <input id={`apiAmount${product.idProduct}`} type='number' title="can't exceed stock" value={apiQuantity} style={{width:'20px', textAlign:'center'}} onChange={(e) => setApiQuantity(Number(e.target.value))}/>
+                                <Button variant='contained' title='Update!' sx={{minWidth: 'max-content', padding: 0}} name='apiUpdate' onClick={updateApiAmount}><Update sx={{width: 'fit-content'}}/></Button>
                         </Grid>}
                         <Grid item xs={1}>
                             <p>$ {product.price && product.quantity ? product.quantity * product.price : 0}</p>

@@ -1,10 +1,11 @@
 import { /* createAsyncThunk, */ createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { removeOneProductFromLS, setProductLocalStorage, updateQuantityLS } from '../../utils/utils';
+import { removeOneProductFromLS, setProductLocalStorage, updateLS } from '../../utils/utils';
 // import axios from 'axios';
 
 // Esto es typescript
 export interface UserSizeI {
+  id?: number
   size?: string 
   stock?: number 
 }
@@ -17,7 +18,8 @@ export interface CartI {
   color?: string
   size?: UserSizeI[]
   price?: number 
-  quantity: number
+  sizeCart?: UserSizeI
+  quantity?: number
 }
 
 
@@ -49,24 +51,24 @@ export const cartSlice = createSlice({
         const newProduct = [...state.products, action.payload]
         return {...state, products: newProduct}
       },
-    updateQuantity: (state: State, action: PayloadAction<{method: string, id: number}>) => {
-      const updatedProducts = updateQuantityLS(action.payload.method, action.payload.id)
-      return {...state, products:updatedProducts}
+    updateLocalCart: (state: State, action: PayloadAction<{method: string, id: number, sizes: UserSizeI}>) => {
+      const updatedProducts = updateLS(action.payload.method, action.payload.id, action.payload.sizes ? action.payload.sizes : {})
+      return {...state, products:updatedProducts, complete: !state.complete}
     },
     deleteFromLS: (state: State, action: PayloadAction<number>) => {
       const filteredProducts = removeOneProductFromLS(action.payload)
       return {...state, products:filteredProducts}
     },
-    deleteAllfromLS: () => {
+    deleteAllfromLS: (state: State) => {
       window.localStorage.removeItem('product')
-      return initialState
+      return {...state, products: []}
     }
   },
 });
 
 // Action creators are generated for each case reducer function
 // exportamos las acciones con destructuring
-export const { addToLocalCart, updateQuantity, deleteFromLS, deleteAllfromLS } = cartSlice.actions;
+export const { addToLocalCart, updateLocalCart, deleteFromLS, deleteAllfromLS } = cartSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default cartSlice.reducer;

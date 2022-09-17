@@ -7,13 +7,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { Size } from '@/sehostypes/Product';
 
-export default function Sizes({sizes}: {sizes: Size[] | undefined}) {
+export default function Sizes({sizes, updateSizes}: {sizes: Size[] | undefined, updateSizes: Function}) {
   const [sizeValue, setSizeValue] = React.useState( { 
       value: ''
   });
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSizeValue({...sizeValue, [event.target.name]: event.target.value});
+    updateSizes(event.target.value);
+    setSizeValue({value: event.target.value})
   };
 
   return (

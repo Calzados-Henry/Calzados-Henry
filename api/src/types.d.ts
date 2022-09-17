@@ -91,6 +91,12 @@ export interface CartDetailsI {
   quantity: number
 }
 
+export interface sizeCartI {
+  id: number
+  size: string
+  stock: number
+}
+
 export interface carrito {
   id_details: number
   image?: string
@@ -98,6 +104,7 @@ export interface carrito {
   color: string
   size: Array<object>
   price: number
+  sizeCart: sizeCartI
   quantity: number
 }
 
