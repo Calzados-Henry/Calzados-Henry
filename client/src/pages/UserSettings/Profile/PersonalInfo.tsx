@@ -1,16 +1,17 @@
 /* eslint-disable camelcase */
-import { Fragment, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
-import { Button, Box } from '@mui/material';
-import { useFormik } from 'formik';
+import { useAppSelector } from '@/features';
+import { useGetUserByIdQuery, useUpdateUserMutation } from '@/features/user/userApiSlice';
+import { updateUserInfo } from '@/features/user/userSlice';
+import { useAuth } from '@/hooks/useAuth';
 import BadgeIcon from '@mui/icons-material/Badge';
-import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
-import { RootState } from '@/store';
 import EditIcon from '@mui/icons-material/Edit';
-import { UserPersonalInfoForm } from '@/sehostypes/User';
+import { Box, Button, CircularProgress } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -21,38 +22,45 @@ const validations = yup.object({
 });
 
 export default function PersonalInfo() {
-  const [createAddress] = useCreateAddressMutation();
+  const [updateUser, result] = useUpdateUserMutation();
   const [edit, setEdit] = useState(true);
+  const auth = useAuth();
+  const { data: user, isLoading, isSuccess, isError } = useGetUserByIdQuery(auth.id);
+  const { name, last_name, birth_date, identification } = useAppSelector(state => state.user);
+  const dispatch = useDispatch();
 
-  const {
-    id: userId,
-    name,
-    last_name,
-    birth_date,
-    identification,
-  }: UserPersonalInfoForm = useSelector((state: RootState) => state.user);
+  const initialValues = {
+    id: auth.id,
+    name: user?.name,
+    last_name: user?.last_name,
+    birth_date: user?.birth_date,
+    identification: user?.identification,
+  };
 
   const formik = useFormik({
-    initialValues: { userId, name, last_name, birth_date, identification },
+    initialValues,
     validationSchema: validations,
     onSubmit: values => {
-      /* createAddress(values); */
+      updateUser(values);
+      dispatch(updateUserInfo(values));
       setEdit(() => !edit);
-      console.log(values);
     },
   });
+
   const { isValid } = formik;
+  if (isError) <>Error</>;
+
   return (
-    <Fragment>
-      <Box component='form' noValidate onSubmit={formik.handleSubmit}>
-        <Box>
-          <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
-            <BadgeIcon /> &nbsp;&nbsp;Personal information
-            <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
-              {edit ? <u>edit</u> : <u>close</u>}
-            </Button>
-          </Typography>
-        </Box>
+    <Box component='form' noValidate onSubmit={formik.handleSubmit}>
+      <Box>
+        <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
+          <BadgeIcon /> &nbsp;&nbsp;Personal information
+          <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
+            {edit ? <u>edit</u> : <u>close</u>}
+          </Button>
+        </Typography>
+      </Box>
+      <>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -60,12 +68,13 @@ export default function PersonalInfo() {
               name='name'
               label='First Name'
               fullWidth
+              required
               disabled={edit}
               value={formik.values.name}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              /* helperText={formik.touched.name && formik.errors.name} */
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -74,12 +83,13 @@ export default function PersonalInfo() {
               name='last_name'
               label='Last Name'
               fullWidth
+              required
               disabled={edit}
               value={formik.values.last_name}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.last_name && Boolean(formik.errors.last_name)}
-              helperText={formik.touched.last_name && formik.errors.last_name}
+              /* helperText={formik.touched.last_name && formik.errors.last_name} */
             />
           </Grid>
 
@@ -96,7 +106,7 @@ export default function PersonalInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.identification && Boolean(formik.errors.identification)}
-              helperText={formik.touched.identification && formik.errors.identification}
+              /* helperText={formik.touched.identification && formik.errors.identification} */
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -114,7 +124,7 @@ export default function PersonalInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.birth_date && Boolean(formik.errors.birth_date)}
-              helperText={formik.touched.birth_date && formik.errors.birth_date}
+              /* helperText={formik.touched.birth_date && formik.errors.birth_date} */
             />
           </Grid>
         </Grid>
@@ -128,11 +138,11 @@ export default function PersonalInfo() {
               variant='contained'
               disabled={!isValid || edit}
               sx={{ mt: 3, mb: 2 }}>
-              Update
+              {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'update'}
             </Button>
           </Grid>
         </Grid>
-      </Box>
-    </Fragment>
+      </>
+    </Box>
   );
 }

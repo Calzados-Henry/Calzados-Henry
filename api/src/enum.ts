@@ -1,7 +1,8 @@
 export enum TypeUser {
   Administrator = 'Administrator',
   Employee = 'Employee',
-  User = "User"
+  User = "User",
+  Google = "Google"
 }
 export enum Gender {
   Male = 'Male',
@@ -14,4 +15,8 @@ export enum Season {
   Summer = 'Summer',
   Autumn = 'Autumn',
   Spring = 'Spring'
+}
+export enum OrderState {
+  Pending = 'Pending',
+  Fulfilled = 'Fulfilled'
 }

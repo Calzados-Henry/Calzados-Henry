@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './Card.module.css';
 import { Box } from '@mui/system';
 import Card from '@mui/material/Card';
@@ -19,8 +19,10 @@ import { RootState } from '../../store';
 import toast from 'react-hot-toast';
 import { PublicRoutes } from '../../routes/routes';
 import { useAuth } from '../../hooks/useAuth';
-import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
-import { setApiUserCart } from '../../features/cart/cartApiSlice';
+import { addToLocalCart, CartI, updateLocalCart } from '../../features/cart/CartSlice';
+import { setApiUserCart, updateApiUserCart } from '../../features/cart/cartApiSlice';
+import Swal from 'sweetalert2';
+import { Icon } from '@mui/material';
 
 interface Props extends ProductPartial {
   addTouched: Function
@@ -30,11 +32,12 @@ const Shoe: React.FC<Props> = props => {
   const navigate = useNavigate();
   let titulo;
   const dispatch = useDispatch();
-  const dispatchAsync: any = useDispatch()
-  const user = useAuth()
+  const user = useAuth();
   const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
   const {products, loading} = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
-
+  const findedProduct = products.find((el: CartI) => el.idProduct === props.id)
+  
+ 
   const cartProduct:CartI = {
     idUser: user.user ? userInfo.id : null,
     idProduct: props.id,
@@ -42,6 +45,7 @@ const Shoe: React.FC<Props> = props => {
     name: props.name,
     color: props?.details?.color?.color,
     size: props.details?.sizes,
+    sizeCart: user.user ? undefined : props.details?.sizes && props.details.sizes[props.details?.sizes?.length - 1],
     price: props.sell_price,
     quantity: 1
   }
@@ -55,31 +59,76 @@ const Shoe: React.FC<Props> = props => {
     e.preventDefault();
     props.addTouched(e.currentTarget.id)
     if(!user.user) {
-      if (!products.length) {
-        dispatch(addToLocalCart(cartProduct))
-        toast.success(<b>Product added!!</b>);
-      } else {
-        const finded = products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
-        if(finded) {
-          dispatch(updateQuantity({method:'increase', id: props.id ? props.id : 0}))
-          toast.success(<b>Correctly updated amount!</b>);
+        if(findedProduct) {
+          const maxStock = cartProduct?.sizeCart?.stock && findedProduct.quantity && (cartProduct.sizeCart.stock - findedProduct.quantity)
+          if(maxStock === 0) {
+            Swal.fire({
+              title: 'Wait!',
+              icon: 'error',
+              text: "you already have all stock available",
+              showConfirmButton: true
+            })
+          } else {
+            dispatch(updateLocalCart({method:'increase', id: props.id ? props.id : 0, sizes: {}}))
+            toast.success(<b>Correctly updated amount!</b>);
+          }
         } else {
           dispatch(addToLocalCart(cartProduct))
           toast.success(<b>Product added!!</b>);
         }
-      }
     } else {
-      if (!products.length) {
-        dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
-        toast.success(<b>Product added!!</b>);
-      } else {
-        const finded = products.find((el: CartI) => el.idProduct === cartProduct.idProduct)
-        if(finded) {
-          toast.success(<b>Correctly updated amount!</b>);
+        if(findedProduct) {
+          const maxStock = findedProduct?.sizeCart?.stock && findedProduct.quantity && (findedProduct.sizeCart.stock - findedProduct.quantity)
+          if(maxStock === 0) {
+            Swal.fire({
+              title: 'Wait!',
+              icon: 'error',
+              text: "you already have all stock available",
+              showConfirmButton: true
+            })
+          } else {
+            let updatedQuantity: number | undefined;
+            Swal.fire({
+              title: 'Wait! that products is already on your cart, we will add this',
+              html: `<p>Current Available Stock: ${maxStock}</p>` + `<p>Current Selected Size: ${findedProduct.sizeCart?.size}</p>`,
+              input: 'number',
+              inputAttributes: {
+                autocapitalize: 'off',
+                max:`${maxStock}`,
+              },
+              showCancelButton: true,
+              confirmButtonText: 'Update',
+              showLoaderOnConfirm: true,
+              preConfirm: (quantity) => {
+                updatedQuantity =  cartProduct.quantity && (cartProduct.quantity + Number(quantity))
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  await dispatch(updateApiUserCart({idUser: userInfo.id, idProduct: cartProduct.idProduct , quantity: updatedQuantity}))
+                  toast.success(<b>Correctly updated amount!</b>);
+              }
+            })          
+          }
         } else {
-          await dispatchAsync(setApiUserCart({id: userInfo.id, products: cartProduct , token: user.token}))
-          toast.success(<b>Product added!!</b>);
-        }
+            const options: any = {}
+            cartProduct?.size?.map(p => { options[p.size ? p.size : 0] = p.size })
+            Swal.fire({
+            title: 'Please, set extra info',
+            icon: 'question',
+            showConfirmButton: true,
+            showCancelButton: true,
+            input: 'select',
+            inputOptions: options,
+            inputPlaceholder: 'Please select a size',
+            cancelButtonColor: '#d33'
+              }).then(async (result) => {
+              if (result.isConfirmed) {
+                const sizeFinded = cartProduct?.size?.find(el => el.size === result.value)
+                cartProduct.size && await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct, id_size: sizeFinded?.id, token: user.token}))
+                toast.success(<b>Product added!!</b>);
+              }
+          })
       }
     }
   }

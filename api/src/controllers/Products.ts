@@ -1,6 +1,6 @@
 'use strict'
 // se requiere el models
-import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
+import { Category, Color, Images, Orders_details, Products, Product_details, Sizes, Users } from '../db';
 import { createImages } from './Images';
 // import { createP_Details } from './Product_details';
 
@@ -93,28 +93,61 @@ export const getProducts = async (): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
 
-  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
-  
 
-  var productValuesFormat = formatValueProduct(products)
+    var products = await Products.findAll({
+    order: [
+      ['details', Sizes, 'size', 'ASC'],
+      ['id', 'ASC'],
+    ], include: [Users, Category,  {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes]}] , attributes: {exclude: ['buy_price']
+    }
+  })
+var productValuesFormat = formatValueProduct(products)
   return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
+  
 }
 
+export const getProductsAdmin = async (): Promise<any> => {
+  // Temporal para cambiar los Fall to Autumn
+  // Se trae todas las imagenes para el Slider
+
+  var products = await Products.findAll({ include: [Users, Category, Orders_details, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
+   var productValuesFormat = formatValueProduct(products)
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
+  }
+
+
+
+
+  /* var products = await Products.findAll({
+    include: [Users, Category, {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes],
+    }]
+  }) */
+
+
+
 export const createProducts = async (req: any): Promise<any> => {
+
   const { body } = req;
-  console.log("este es el body final", body.body)
-  const value2: any = JSON.parse(body.body)
-  const { file, ...value }:any = value2
-  console.log(value)
+  
+
+  const value: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value) // aqui crea el producto en general.
-  const details = await nProduct.createDetail(value.details) // toma el producto y agrega el color.
+
+  const details = await nProduct.createDetail(value.details) 
+  //const details = await nProduct.createDetail({ id_product: nProduct.id, id_color: value.details.id_color }) // toma el producto y agrega el color.
+ 
   for (const val of value.details.size) { // toma el producto anteriormente creado y añade tallas con el stock de cada uno.
     await details.addSizes(val.id, { through: { stock: val.stock } })
   }
+
   await createImages(req, details);
 
   return await Products.findByPk(nProduct.id, { include: [Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }] })
+
+
 }
 
 export const updateProducts = async (value: any): Promise<any> => {
@@ -131,6 +164,7 @@ export const updateProducts = async (value: any): Promise<any> => {
 export const deleteProducts = async (id: number): Promise<any> => {
   // Se busca el usuario por id para luego darle una baja logica, solo se actualiza el isActive de true a false.
   var productByID: any = await Products.findByPk(id)
+  
   if (productByID !== null) {
     if (productByID.isActive) {
       productByID.isActive = false;
@@ -141,3 +175,15 @@ export const deleteProducts = async (id: number): Promise<any> => {
   }
   return { message: `we couldn't find the product with id: ${id}` };
 }
+
+export const getProductById = async (id: number) => {
+   try {
+      const product = await Products.findByPk(id, { include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }], attributes: {exclude: ['buy_price']} } 
+      )
+      const productValuesFormat =  formatValueProduct([product])
+      return productValuesFormat[0]
+    }
+    catch {
+      return 'Error no existe este producto flaco'
+    }
+} 

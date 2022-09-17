@@ -11,6 +11,8 @@ export const PublicRoutes = {
   searchResult: 'search-results',
   profile: '/profile',
   settings: 'settings',
+  resetPassword: '/reset-password/:name',
+  forgotPassword: '/reset-password',
   error: '*',
   adproduc:"/pruebaAdProduct"
 };
@@ -25,6 +27,7 @@ export const PrivatesRoutes = {
   favorites: 'favorites',
   checkout: 'checkout',
 
+  admin: '/admin',
   dashboard: '/dashboard',
   addProduct: 'addProduct',
   addCategory: 'addcategory',

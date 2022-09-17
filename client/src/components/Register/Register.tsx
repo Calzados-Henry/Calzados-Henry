@@ -1,10 +1,14 @@
 import { Grid, Paper, Avatar, TextField, Button, Box, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import * as yup from 'yup';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useAuth } from '@/hooks/useAuth';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { PublicRoutes } from '@/routes/routes';
 
 const validations = yup.object().shape({
   name: yup.string().required('Username is required'),
@@ -28,6 +32,7 @@ export default function Register() {
   const paperstyle = { padding: 20, height: '100%', width: 450, margin: '100px auto' };
   const navigate = useNavigate();
   const auth = useAuth();
+  const [openBackDrop, setOpenBackDrop] = useState(false);
 
   const initial = {
     username: '',
@@ -49,10 +54,15 @@ export default function Register() {
     }
   }, []);
 
+  const handleCloseBackDrop = () => setOpenBackDrop(false);
+  const handleOpenBackDrop = () => setOpenBackDrop(true);
+
   const formik = useFormik({
     initialValues: initial,
     validationSchema: validations,
     onSubmit: () => {
+      handleOpenBackDrop();
+
       fetch('http://localhost:3001/users/', {
         method: 'POST',
         headers: {
@@ -63,7 +73,7 @@ export default function Register() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+          handleCloseBackDrop();
           if (
             data.username?.includes('existe') ||
             data.email?.includes('existe') ||
@@ -81,21 +91,22 @@ export default function Register() {
               icon: 'success',
               text: `You're Registered!, you will be redirect to Login`,
               showConfirmButton: false,
-              timer: 1000,
+              timer: 2000,
             });
             setTimeout(() => {
               navigate('/login');
-            }, 1200);
+            }, 2200);
           }
         })
-        .catch(error =>
+        .catch(error => {
+          handleCloseBackDrop();
           Swal.fire({
             title: 'Error!',
             text: error.message,
             icon: 'error',
             confirmButtonText: 'Try again!',
-          }),
-        );
+          });
+        });
     },
   });
 
@@ -103,6 +114,11 @@ export default function Register() {
 
   return (
     <Grid alignContent={'-webkit-center'}>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={openBackDrop}>
+        <CircularProgress color='inherit' />
+      </Backdrop>
       <Box component='form' noValidate={false} onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
         <Paper elevation={10} style={paperstyle}>
           <h2>Register here</h2>
@@ -212,9 +228,16 @@ export default function Register() {
           <Button type='submit' id='formSubmit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
             Register Now
           </Button>
-          <Typography>
+          <Typography sx={{ mt: 2 }}>
             Have an account?{' '}
-            <Link to='/login' style={{ textDecoration: 'underline', color: 'blue' }}>
+            <Link to={PublicRoutes.login} style={{ textDecoration: 'underline', color: 'blue' }}>
+              Go to login!
+            </Link>
+          </Typography>
+
+          <Typography sx={{ mt: 2 }}>
+            Quieres registrarte con tu Google Account?
+            <Link to={PublicRoutes.login} style={{ textDecoration: 'underline', color: 'blue' }}>
               Go to login!
             </Link>
           </Typography>

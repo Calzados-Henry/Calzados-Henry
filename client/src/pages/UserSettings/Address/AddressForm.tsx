@@ -1,16 +1,13 @@
-import { Fragment } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
-import { Button, Box } from '@mui/material';
-import { useFormik } from 'formik';
-import { LocalShipping } from '@mui/icons-material';
 import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
-import { RootState } from '@/store';
+import { useAuth } from '@/hooks/useAuth';
+import { LocalShipping } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { Fragment } from 'react';
 import * as yup from 'yup';
 
 const validations = yup.object({
+  title: yup.string().max(80, 'No more than 20 characters').required('address is required'),
   address: yup.string().max(80, 'No more than 20 characters').required('address is required'),
   state: yup.string().max(20, 'No more than 20 characters').required('state is required'),
   city: yup.string().max(20, 'No more than 20 characters').required('city is required'),
@@ -21,23 +18,24 @@ const validations = yup.object({
 });
 
 export default function AddressForm() {
-  const [createAddress] = useCreateAddressMutation();
-  const userId = useSelector((state: RootState) => state.user.id);
+  const [createAddress, result] = useCreateAddressMutation();
+
+  const { id } = useAuth();
 
   const formik = useFormik({
     initialValues: {
-      userId,
+      id,
       title: '',
+      country: 'Argentina',
       state: '',
       city: '',
       address: '',
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: values => {
-      /* createAddress(values); */
-
-      console.log(values);
+    onSubmit: async (newAddress, { resetForm }) => {
+      await createAddress(newAddress).unwrap();
+      resetForm();
     },
   });
   const { isValid } = formik;
@@ -50,9 +48,10 @@ export default function AddressForm() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id='title'
               name='title'
-              label='Address title'
+              label='Title'
               fullWidth
               value={formik.values.title}
               onBlur={formik.handleBlur}
@@ -63,6 +62,7 @@ export default function AddressForm() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id='state'
               name='state'
               label='State/Province/Region'
@@ -122,15 +122,17 @@ export default function AddressForm() {
           </Grid>
         </Grid>
 
-        <Button
-          size='small'
-          type='submit'
-          color='secondary'
-          variant='contained'
-          disabled={!isValid}
-          sx={{ mt: 3, mb: 2 }}>
-          Add Address
-        </Button>
+        <Box display='flex' justifyContent='end'>
+          <Button
+            size='small'
+            type='submit'
+            color='secondary'
+            variant='contained'
+            disabled={!isValid || result.isLoading}
+            sx={{ mt: 3, mb: 2 }}>
+            {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'add adrress'}
+          </Button>
+        </Box>
       </Box>
     </Fragment>
   );

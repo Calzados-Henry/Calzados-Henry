@@ -5,6 +5,7 @@ import { persistLocalStorage, clearLocalStorage } from '../../utils/auhtLocalSto
 
 // Esto es typescript
 export interface AuthUser {
+  id: number | string | null;
   user: string | null;
   rol: string | null;
   token: string | null;
@@ -12,6 +13,7 @@ export interface AuthUser {
 
 // Estado inicial que puede ser cualquier cosa
 const EmptyUserState: AuthUser = {
+  id: null,
   user: null,
   rol: null,
   token: null,
@@ -46,5 +48,6 @@ export const UserKey = 'user';
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
 export default authSlice.reducer;
 
+export const selectorCurrentUserId = (state: RootState) => state.auth.id;
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectCurrentToken = (state: RootState) => state.auth.token;

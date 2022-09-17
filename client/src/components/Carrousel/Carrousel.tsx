@@ -1,7 +1,5 @@
 import Carousel from 'react-material-ui-carousel';
-import style from './Carrousel.module.css';
 import { items } from './data';
-import Box from '@mui/material/Box';
 import Item from './Item/Item';
 
 export default function Carouselv2() {

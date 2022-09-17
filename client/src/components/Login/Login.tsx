@@ -24,13 +24,13 @@ import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { PublicRoutes, Endpoint } from '../../routes/routes';
 import { deleteAllfromLS } from '../../features/cart/CartSlice';
-import { getApiUserCart, setApiUserCart } from '../../features/cart/cartApiSlice';
+import { setApiUserCart, getApiUserCart } from '../../features/cart/cartApiSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 
-import { initial, setUserInfo, clientId, style } from './utils';
+import { initial, setUserInfo, clientId, setLocalStorage, style } from './utils';
 
 const validations = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -45,13 +45,14 @@ const googleValidation = yup.object().shape({
 });
 
 export default function Login() {
-  const paperstyle = { padding: 20, height: '90vh', width: 400, margin: '100px auto' };
-  const { loading, products, error } = useSelector((state: RootState) => state.cart);
+  const paperstyle = { padding: 20, height: '100vh', width: 400, margin: '100px auto' };
+  const { products } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dispatchAsync: any = useDispatch();
   const auth = useAuth();
+  const { complete } = useSelector((state: RootState) => (auth.user ? state.apiCart : state.cart));
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+  const UserId = localStorage ? JSON.parse(localStorage?.getItem('userInfo')) : {};
   const [checked, setChecked] = useState(true);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [googleData, setGoogleData] = useState<any>({});
@@ -67,6 +68,10 @@ export default function Login() {
     });
   }, []);
 
+  useEffect(() => {
+    if (UserId?.id) dispatch(getApiUserCart(UserId.id));
+  }, [complete]);
+
   const successLogin = async (res: any) => {
     setGoogleData(res);
 
@@ -76,7 +81,6 @@ export default function Login() {
     };
 
     const Logged = await login(loginUserData).unwrap();
-    handleCloseBackDrop();
 
     // Loggin exitoso -->
     if (!Logged.message) {
@@ -85,7 +89,7 @@ export default function Login() {
       setLocalStorage(userInfo);
       createUserStorage(userAuth);
 
-      updateUserCart(Logged);
+      await updateUserCart(Logged);
 
       successAlert(Logged);
     } else {
@@ -111,21 +115,21 @@ export default function Login() {
     });
   };
 
-  const updateUserCart = (data: any) => {
+  const updateUserCart = async (data: any) => {
     if (products.length) {
       if (data.id && data.token) {
-        dispatchAsync(setApiUserCart({ id: data.id, products, token: data.token }));
+        dispatch(setApiUserCart({ id: data.id, products, token: data.token }));
         dispatch(deleteAllfromLS());
       }
     }
+    await dispatch(getApiUserCart(data.id));
   };
-
-  const setLocalStorage = (userInfo: any) =>
-    window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
   const createUserStorage = (userAuth: any) => dispatch(createUser(userAuth));
 
   const successAlert = (loginData: any) => {
+    handleCloseBackDrop();
+
     Swal.fire({
       title: 'Success!',
       icon: 'success',
@@ -136,6 +140,7 @@ export default function Login() {
     setTimeout(() => {
       navigate(PublicRoutes.home);
     }, 2500);
+
     if (!checked) {
       setTimeout(() => {
         dispatch(resetUser());
@@ -161,11 +166,16 @@ export default function Login() {
     },
     validationSchema: validations,
     onSubmit: async () => {
+      handleOpenBackDrop();
+
       const dataLogin = {
         email: formik.values.email,
         password: formik.values.password,
       };
+
       const data: any = await login(dataLogin).unwrap();
+
+      handleCloseBackDrop();
 
       if (!data.message) {
         const { userAuth, userInfo } = setUserInfo(data);
@@ -191,8 +201,6 @@ export default function Login() {
     initialValues: initial,
     validationSchema: googleValidation,
     onSubmit: () => {
-      console.log(Endpoint.registerUser, 'me clickeaste', JSON.stringify(googleLogin.values));
-
       handleCloseLoginModal();
       handleOpenBackDrop();
 
@@ -238,18 +246,18 @@ export default function Login() {
                 updateUserCart(Logged);
 
                 successAlert(Logged);
-              }
 
-              Swal.fire({
-                title: 'Success!',
-                icon: 'success',
-                text: `You're logged!, you will be redirect to Home`,
-                showConfirmButton: false,
-                timer: 2000,
-              });
-              setTimeout(() => {
-                navigate(PublicRoutes.home);
-              }, 2200);
+                Swal.fire({
+                  title: 'Success!',
+                  icon: 'success',
+                  text: `You're logged!, you will be redirect to Home`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+                setTimeout(() => {
+                  navigate(PublicRoutes.home);
+                }, 2200);
+              }
             };
 
             loggin();
@@ -257,7 +265,7 @@ export default function Login() {
         })
         .catch(error => {
           handleCloseBackDrop();
-
+          console.log(error);
           const errorAlert = () => {
             Swal.fire({
               title: 'Error!',
@@ -279,8 +287,7 @@ export default function Login() {
     <Grid alignContent={'center'}>
       <Backdrop
         sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={openBackDrop}
-        onClick={handleCloseBackDrop}>
+        open={openBackDrop}>
         <CircularProgress color='inherit' />
       </Backdrop>
       <Box component='form' noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
@@ -358,6 +365,14 @@ export default function Login() {
             Don't have account?
             <Link to='/register' style={{ textDecoration: 'underline', color: 'blue' }}>
               Register now!
+            </Link>
+          </Typography>
+          <Typography sx={{ mt: 1 }}>
+            Forgot your password?
+            <Link
+              to={PublicRoutes.forgotPassword}
+              style={{ textDecoration: 'underline', color: 'blue' }}>
+              Click here!
             </Link>
           </Typography>
         </Paper>

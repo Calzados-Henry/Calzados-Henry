@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import MenuIcon from '@mui/icons-material/Menu';
+import PaidIcon from '@mui/icons-material/Paid';
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
+import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Collapse from '@mui/material/Collapse';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import PaidIcon from '@mui/icons-material/Paid';
-import {  ExpandMore, ExpandLess } from '@mui/icons-material';
-import { useGetProductsQuery } from '../../features/product/productApiSlice';
-import FilterAltIcon  from '@mui/icons-material/FilterAlt';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { useDispatch } from 'react-redux';
-import {
-  sortProducts,
-  filtProducts,
-  setProducts,
-} from '../../features/product/productSlice';
-
-import MenuIcon from '@mui/icons-material/Menu';
-import { IconButton, Drawer, Button, Box, TextField } from '@mui/material';
-import PriceChangeIcon from '@mui/icons-material/PriceChange';
-import { FormikValues, useFormik } from 'formik';
-/* import * as yup from 'yup'; */
-
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import Paper from '@mui/material/Paper';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
+import { FormikValues, useFormik } from 'formik';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useGetProductsQuery } from '../../features/product/productApiSlice';
+import {
+  filtProducts,
+  setProducts, sortProducts
+} from '../../features/product/productSlice';
   
 
 

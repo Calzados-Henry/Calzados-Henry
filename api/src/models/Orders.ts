@@ -1,4 +1,5 @@
 import { Model, Column, Table, DataType } from "sequelize-typescript"
+import { OrderState } from "../enum";
 import { OrdersI } from "../types";
 
 @Table(
@@ -48,10 +49,10 @@ export default class Orders extends Model implements OrdersI {
   total_ammount!: number
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.ENUM('Pending','Fulfilled'),
     allowNull: false
   })
-  order_state!: string
+  order_state!: OrderState
 
   @Column({
     type: DataType.BOOLEAN,

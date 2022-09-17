@@ -5,22 +5,22 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-export default function Sizes({details}) {
-  const [size, setSize] = React.useState( { 
-      value: {
-      size: '',
-      stock: 0
-    
-  }});
+import { Size } from '@/sehostypes/Product';
+
+export default function Sizes({sizes, updateSizes}: {sizes: Size[] | undefined, updateSizes: Function}) {
+  const [sizeValue, setSizeValue] = React.useState( { 
+      value: ''
+  });
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSize({...size, [event.target.name]: event.target.value});
+    updateSizes(event.target.value);
+    setSizeValue({value: event.target.value})
   };
 
   return (
     <Box sx={{ minWidth: 120 }}>
       <Typography sx={{marginBottom: 2}} id='keep-mounted-modal-title' variant='h5' component='h2' pt={1}>
-        <span>Stock:</span> <span style={{ fontWeight: 100 }}>{size.value.stock !== 0 && size.value.stock}</span>
+        <span>Stock:</span> <span style={{ fontWeight: 100 }}>{sizes?.find((el: Size) => el.size === sizeValue.value)?.stock}</span>
       </Typography>
       <FormControl fullWidth>
         <InputLabel id='demo-simple-select-label'>Size</InputLabel>
@@ -28,12 +28,12 @@ export default function Sizes({details}) {
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           name='value'
-          value={size.value}
+          value={sizeValue.value}
           label='size'
           onChange={handleChange}>
-       { details.sizes.map( (item, index) => {
+       { sizes?.map( (item, index) => {
      return (
-            <MenuItem key={index} value={item} >{item.size}</MenuItem>
+            <MenuItem key={index} value={item.size} >{item.size}</MenuItem>
           
         )})}
         </Select>
