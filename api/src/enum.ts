@@ -16,3 +16,7 @@ export enum Season {
   Autumn = 'Autumn',
   Spring = 'Spring'
 }
+export enum OrderState {
+  Pending = 'Pending',
+  Fulfilled = 'Fulfilled'
+}

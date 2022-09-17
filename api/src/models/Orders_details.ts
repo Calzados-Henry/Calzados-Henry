@@ -23,7 +23,11 @@ export default class Orders_details extends Model implements Orders_detailsI {
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: 'products',
+      key: 'id'
+    }
   })
   id_product!: number;
 

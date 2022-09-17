@@ -33,6 +33,9 @@ Orders_details.belongsTo(Orders, { foreignKey: 'id_order' })
 Orders.belongsTo(Users, { foreignKey: 'id_user' })
 Users.hasMany(Orders, { foreignKey: 'id_user' })
 
+Products.hasMany(Orders_details, { foreignKey: 'id_product' })
+Orders_details.belongsTo(Products, { foreignKey: 'id_product' })
+
 Products.belongsTo(Category, { foreignKey: 'id_category' })
 Category.hasMany(Products, { foreignKey: 'id_category' })
 

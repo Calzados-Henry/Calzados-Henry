@@ -1,21 +1,25 @@
-import Box from '@mui/material/Box';
-import Description from './description/Description';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, lazy } from 'react';
-import { Container } from '@mui/system';
-import { Grid, Button } from '@mui/material';
-import { useSelector , useDispatch } from 'react-redux';
+import { setApiUserCart, updateApiUserCart } from '@/features/cart/cartApiSlice';
+import { useAuth } from '@/hooks/useAuth';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
-import Sizes from './sizes/Sizes';
+import { Button, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import { Container } from '@mui/system';
+import React, { lazy, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from '@/hooks/useAuth';
-import { setApiUserCart, updateApiUserCart } from '@/features/cart/cartApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
 import { RootState } from '../../store';
-import { ProductPartial } from '@/sehostypes/Product';
+import Description from './description/Description';
+import Sizes from './sizes/Sizes';
+// import { ProductPartial } from '@/sehostypes/Product';
+import { useGetProductQuery } from '@/features';
+import { resetProduct, setProduct } from '@/features/product/productSlice';
 import { PublicRoutes } from '@/routes/routes';
 import Swal from 'sweetalert2';
+
+
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
@@ -23,16 +27,35 @@ const Reviews = lazy(() => import('../Reviews/Reviews'));
 export default function ProductDetail() {
   const navigate = useNavigate()
   const params = useParams();
+  
   const dispatch = useDispatch();
   const dispatchAsync: any = useDispatch();
-
+  
   const { user } = useAuth();
   const userInfo: any = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null;
-  const products = useSelector((state: RootState) => state.products.allProducts);
+  // const products = useSelector((state: RootState) => state.products.allProducts);
   const added = useSelector((state: RootState) => (user ? state.apiCart : state.cart));
+  
+  const {data} = useGetProductQuery(params.id)
+    const updateList =  () => {
+    data !== undefined && dispatch(setProduct(data));
+  };
+  const reset = () => {
+    dispatch(resetProduct())
+  }
 
-  const shoe: ProductPartial = products.find((item: ProductPartial) => params.id !== undefined && item.id !== undefined && item.id === parseInt(params.id));
+  const shoe = useSelector((state: RootState) => state.products.product)
+  useEffect(() => {
+  updateList();
+    
+  },[data, shoe.id])
 
+useEffect(() => {
+    return reset()
+    
+  },[])
+ 
+  
   const cartProduct:CartI = {
     idUser: user.user ? userInfo.id : null,
     idProduct: shoe.id,
