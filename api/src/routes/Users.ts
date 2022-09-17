@@ -1,7 +1,19 @@
-'use strict'
+'use strict';
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { createUsers, updateUser, deleteUser, addToCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
+import {
+	createUsers,
+	updateUser,
+	deleteUser,
+	addToCart,
+	getCart,
+	updateCart,
+	deleteCart,
+	getAllValuesUsers,
+	addFavs,
+	getFavs,
+	allDeleteCart,
+} from '../controllers/Users';
 import { Users } from '../db';
 
 const router = Router();
@@ -28,7 +40,7 @@ const router = Router();
 //* {
 //*   "id": 3,                      (ID del usuario)
 //*   "name": "Nombres nuevos"
-//*   "last_name": "Apellidos nuevos", 
+//*   "last_name": "Apellidos nuevos",
 //*   "phone": "Cel o Telf Nuevos"
 //* }
 //* DELETE http://localhost:3001/users = mandar datos es por body, solo mandar el id del usuario a eliminar, ejemplo ↓
@@ -40,59 +52,58 @@ const router = Router();
 // TODO => Pide un usuarios por id || username, email.
 //* Si no se manda nada trae todos los usuarios.
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var users = await getAllValuesUsers(req.query);
-    res.json(users)
-  } catch (e) {
-    next(e)
-  }
-})
+	try {
+		var users = await getAllValuesUsers(req.query);
+		res.json(users);
+	} catch (e) {
+		next(e);
+	}
+});
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var nUser = await createUsers(req.body)
-    res.json(nUser)
-  } catch (e) {
-    next(e)
-  }
-})
+	try {
+		var nUser = await createUsers(req.body);
+		res.json(nUser);
+	} catch (e) {
+		next(e);
+	}
+});
 
 router.put('/', async (req: Request, res: Response) => {
-  try {
-    var putUser = await updateUser(req.body)
-    res.json(putUser)
-  } catch (e: any) {
-    res.json({ error: e.message })
-  }
-})
+	try {
+		var putUser = await updateUser(req.body);
+		res.json(putUser);
+	} catch (e: any) {
+		res.json({ error: e.message });
+	}
+});
 router.delete('/', async (req: Request, res: Response) => {
-  try {
-    var delUser = await deleteUser(req.body.id)
-    res.json(delUser)
-  } catch (e: any) {
-    res.json({ error: e.message })
-  }
-})
+	try {
+		var delUser = await deleteUser(req.body.id);
+		res.json(delUser);
+	} catch (e: any) {
+		res.json({ error: e.message });
+	}
+});
 
-// DELETE ----> http:localhost:3001/users/delete/:id 
+// DELETE ----> http:localhost:3001/users/delete/:id
 // se ingresa por params el id del usuario a eliminar
 // !! Atencion, es eliminacion fisica, solo para valientes.
 
 router.delete('/delete/:id', async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id
-    const user = await Users.findByPk(id)
-    if (user) {
-      await user.destroy()
-      res.json(user)
-    } else {
-      res.status(404).json({ error: "User inexistent" })
-    }
-  } catch (error: any) {
-    res.status(404).json({ error: error.message })
-  }
-})
-
+	try {
+		const id = req.params.id;
+		const user = await Users.findByPk(id);
+		if (user) {
+			await user.destroy();
+			res.json(user);
+		} else {
+			res.status(404).json({ error: 'User inexistent' });
+		}
+	} catch (error: any) {
+		res.status(404).json({ error: error.message });
+	}
+});
 
 //!====================================================
 //!===================CART_DETAILS=====================
@@ -107,57 +118,58 @@ router.get('/cart/:idUser', async (req: Request, res: Response, next: NextFuncti
     next(e)
   }
 })
+
 router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var cart = await addToCart(req.body)
-    res.json(cart)
-  } catch (e: any) {
-    next(e)
-  }
-})
+	try {
+		var cart = await addToCart(req.body);
+		res.json(cart);
+	} catch (e: any) {
+		next(e);
+	}
+});
 router.put('/cart', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var cart = await updateCart(req.body)
-    res.json(cart)
-  } catch (e: any) {
-    next(e)
-  }
-})
+	try {
+		var cart = await updateCart(req.body);
+		res.json(cart);
+	} catch (e: any) {
+		next(e);
+	}
+});
 router.delete('/cart', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var delCart = await deleteCart(req.body)
-    res.json(delCart)
-  } catch (e: any) {
-    next(e)
-  }
-})
+	try {
+		var delCart = await deleteCart(req.body);
+		res.json(delCart);
+	} catch (e: any) {
+		next(e);
+	}
+});
 router.delete('/cart/all', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    var delCart = await allDeleteCart(req.body)
-    res.json(delCart)
-  } catch (e: any) {
-    next(e)
-  }
-})
+	try {
+		var delCart = await allDeleteCart(req.body);
+		res.json(delCart);
+	} catch (e: any) {
+		next(e);
+	}
+});
 //!=========================================================================
 //* FAVORITES
 
 router.get('/favs/:id', async (req: Request, res: Response) => {
-  try {
-    var nUser = await getFavs(req.params.id)
-    res.json(nUser)
-  } catch (e: any) {
-    res.json({ error: e.message })
-  }
-})
+	try {
+		var nUser = await getFavs(req.params.id);
+		res.json(nUser);
+	} catch (e: any) {
+		res.json({ error: e.message });
+	}
+});
 
 router.post('/favs', async (req: Request, res: Response) => {
-  try {
-    var nUser = await addFavs(req.body)
-    res.json(nUser)
-  } catch (e: any) {
-    res.json({ error: e.message })
-  }
-})
+	try {
+		var nUser = await addFavs(req.body);
+		res.json(nUser);
+	} catch (e: any) {
+		res.json({ error: e.message });
+	}
+});
 
 export default router;

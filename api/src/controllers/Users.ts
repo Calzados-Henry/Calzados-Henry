@@ -136,7 +136,7 @@ export const getAllValuesUsers = async (value: any): Promise<object> => {
 	}
 };
 export const createUsers = async (value: any): Promise<object> => {
-	const hashPassword = bcrypt.hashSync(value.password, 10);
+	const hashPassword = await bcrypt.hashSync(value.password, 10);
 	value = { ...value, password: hashPassword };
 	// Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar nuevo usuario.
 	var username = await Users.findAll({ where: { username: value.username } });
