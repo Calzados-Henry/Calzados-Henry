@@ -93,7 +93,7 @@ export const getProducts = async (): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
 
-  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
+  var products = await Products.findAll({ include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }], attributes: {exclude: ['buy_price']} })
   
 
   var productValuesFormat = formatValueProduct(products)
@@ -149,3 +149,15 @@ export const deleteProducts = async (id: number): Promise<any> => {
   }
   return { message: `we couldn't find the product with id: ${id}` };
 }
+
+export const getProductById = async (id: number) => {
+   try {
+      const product = await Products.findByPk(id, { include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }], attributes: {exclude: ['buy_price']} } 
+      )
+      const productValuesFormat =  formatValueProduct([product])
+      return productValuesFormat[0]
+    }
+    catch {
+      return 'Error no existe este producto flaco'
+    }
+} 

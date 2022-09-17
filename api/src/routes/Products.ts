@@ -1,7 +1,7 @@
 'use strict'
 // se requiere el models
 import { Router, Request, Response, NextFunction } from 'express';
-import { getProducts, createProducts, updateProducts, deleteProducts, getProductsAdmin } from '../controllers/Products';
+import { getProducts, createProducts, updateProducts, deleteProducts, getProductsAdmin, getProductById } from '../controllers/Products';
 import { userExtractorAdmin } from '../middleware/userExtractor';
 import fileUpload from 'express-fileupload'
 const router = Router();
@@ -15,8 +15,19 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   }
 })
 
+router.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {id} = req.params
+    console.log(id)
+     const product = await getProductById(Number(id))
+     res.json(product)
+  } catch (error) {
+    next(error)
+  } 
+  
+})
 
-router.get('/dashboard',userExtractorAdmin, async (_req: Request, res: Response, next: NextFunction) => {
+router.get('/dashboard',/* userExtractorAdmin, */ async (_req: Request, res: Response, next: NextFunction) => {
   try {
     var products = await getProductsAdmin();
     res.json(products)

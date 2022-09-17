@@ -1,18 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
+import { createSlice } from '@reduxjs/toolkit';
+import { Filter, ProductI, ProductPartial } from '../../sehostypes/Product';
 import searchReducer from './searchReducer';
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
   allProducts: [],
   renderProducts: [],
+  product: {}
 };
 
 export const productsSlice = createSlice({
   name: 'products', // Optional
   initialState,
   reducers: {
+    setProduct: (state, action: PayloadAction<ProductPartial>) => {
+      state.product = action.payload
+    },
+    resetProduct: (state) => {
+      state.product = {}
+    },
     setProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       state.allProducts = action.payload;
       state.searchResult = [];
@@ -85,7 +92,7 @@ export const productsSlice = createSlice({
       state.allProducts = orderProducts;
     },
   },
-  extraReducers: searchReducer,
+  extraReducers: searchReducer
 });
 
 // Action creators are generated for each case reducer function
@@ -94,6 +101,8 @@ export const productsSlice = createSlice({
 export const {
   filtProducts,
   setProducts,
+  setProduct,
+  resetProduct,
   setSearchProducts,
   resetSearch,
   sortProducts,

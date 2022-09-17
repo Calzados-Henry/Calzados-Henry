@@ -1,6 +1,6 @@
 import { apiSlice } from '../api/apiSlice';
 import { ProductI } from './product.model';
-import { createSelector, createEntityAdapter, EntityState } from '@reduxjs/toolkit';
+import { createSelector, createEntityAdapter/* , EntityState */ } from '@reduxjs/toolkit';
 
 
 const productAdapter = createEntityAdapter<ProductI>({});
@@ -24,7 +24,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       } 
   }),
     getProduct: builder.query<ProductI, string | void>({
-      query: id => `/products/${id}`,
+      query: (id:string) => `/products/id/${id}`,
     }),
     addNewProduct: builder.mutation({
       query: body => ({

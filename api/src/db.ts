@@ -7,12 +7,12 @@ var configSequelize = {
   timestamps: false,
   freezeTableName: true,
   models: [__dirname + '/models'],
-/*   dialectOptions: {
+  dialectOptions: {
     ssl: {
       require: true, // This will help you. But you will see nwe error
       rejectUnauthorized: false // This line will fix new error
     }
-  } */
+  }
 }
 export const sequelize = new Sequelize(String(process.env.DATABASE_URL), configSequelize)
 
