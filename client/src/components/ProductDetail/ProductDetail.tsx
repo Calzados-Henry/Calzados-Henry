@@ -18,11 +18,6 @@ import { useGetProductQuery } from '@/features';
 import { resetProduct, setProduct } from '@/features/product/productSlice';
 import { PublicRoutes } from '@/routes/routes';
 import Swal from 'sweetalert2';
-import { addToLocalCart, CartI, updateQuantity } from '../../features/cart/CartSlice';
-import Description from './description/Description';
-import Sizes from './sizes/Sizes';
-
-
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
@@ -30,36 +25,35 @@ const Reviews = lazy(() => import('../Reviews/Reviews'));
 export default function ProductDetail() {
   const navigate = useNavigate();
   const params = useParams();
-  
+
   const dispatch = useDispatch();
   const dispatchAsync: any = useDispatch();
-  
+
   const { user } = useAuth();
-  const userInfo: any = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null;
+  const userInfo: any = window.localStorage.getItem('userInfo')
+    ? JSON.parse(window.localStorage.getItem('userInfo') as string)
+    : null;
   // const products = useSelector((state: RootState) => state.products.allProducts);
   const added = useSelector((state: RootState) => (user ? state.apiCart : state.cart));
-  
-  const {data} = useGetProductQuery(params.id)
-    const updateList =  () => {
+
+  const { data } = useGetProductQuery(params.id);
+  const updateList = () => {
     data !== undefined && dispatch(setProduct(data));
   };
   const reset = () => {
-    dispatch(resetProduct())
-  }
+    dispatch(resetProduct());
+  };
 
-  const shoe = useSelector((state: RootState) => state.products.product)
+  const shoe = useSelector((state: RootState) => state.products.product);
   useEffect(() => {
-  updateList();
-    
-  },[data, shoe.id])
+    updateList();
+  }, [data, shoe.id]);
 
-useEffect(() => {
-    return reset()
-    
-  },[])
- 
-  
-  const cartProduct:CartI = {
+  useEffect(() => {
+    return reset();
+  }, []);
+
+  const cartProduct: CartI = {
     idUser: user.user ? userInfo.id : null,
     idProduct: shoe.id,
     image: shoe?.details?.images ? shoe.details.images[0].image : undefined,
