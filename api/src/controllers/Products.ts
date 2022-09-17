@@ -98,8 +98,8 @@ export const getProducts = async (): Promise<any> => {
     order: [
       ['details', Sizes, 'size', 'ASC'],
       ['id', 'ASC'],
-    ], include: [Users, Category,  Orders_details {
-      model: Product_details, as: 'details', include: [Color, Images, Sizes], , attributes: {exclude: ['buy_price']
+    ], include: [Users, Category,  {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes], attributes: {exclude: ['buy_price']
     }]
   })
 var productValuesFormat = formatValueProduct(products)
