@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
@@ -46,111 +46,103 @@ export default function PersonalInfo() {
       setEdit(() => !edit);
     },
   });
+
   const { isValid } = formik;
-
-  let content;
-  /*  if (isLoading) content = <CircularProgress color='secondary' />; */
-  if (isSuccess && user)
-    content = (
-      <Fragment>
-        <Box component='form' noValidate onSubmit={formik.handleSubmit}>
-          <Box>
-            <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
-              <BadgeIcon /> &nbsp;&nbsp;Personal information
-              <Button
-                onClick={() => setEdit(() => !edit)}
-                color='secondary'
-                startIcon={<EditIcon />}>
-                {edit ? <u>edit</u> : <u>close</u>}
-              </Button>
-            </Typography>
-          </Box>
-          <>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id='name'
-                  name='name'
-                  label='First Name'
-                  fullWidth
-                  required
-                  disabled={edit}
-                  value={formik.values.name}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  /* helperText={formik.touched.name && formik.errors.name} */
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id='last_name'
-                  name='last_name'
-                  label='Last Name'
-                  fullWidth
-                  required
-                  disabled={edit}
-                  value={formik.values.last_name}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.last_name && Boolean(formik.errors.last_name)}
-                  /* helperText={formik.touched.last_name && formik.errors.last_name} */
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id='identification'
-                  name='identification'
-                  label='Identification'
-                  fullWidth
-                  disabled={edit}
-                  autoComplete='shipping address-level2'
-                  value={formik.values.identification}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.identification && Boolean(formik.errors.identification)}
-                  /* helperText={formik.touched.identification && formik.errors.identification} */
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id='birth_date'
-                  name='birth_date'
-                  label='Birth Date'
-                  type='date'
-                  fullWidth
-                  disabled={edit}
-                  defaultValue='2017-05-24'
-                  autoComplete='shipping postal-code'
-                  value={formik.values.birth_date}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.birth_date && Boolean(formik.errors.birth_date)}
-                  /* helperText={formik.touched.birth_date && formik.errors.birth_date} */
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container>
-              <Grid item xs={12} textAlign={'right'}>
-                <Button
-                  size='small'
-                  type='submit'
-                  color='secondary'
-                  variant='contained'
-                  disabled={!isValid || edit}
-                  sx={{ mt: 3, mb: 2 }}>
-                  {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'update'}
-                </Button>
-              </Grid>
-            </Grid>
-          </>
-        </Box>
-      </Fragment>
-    );
   if (isError) <>Error</>;
-  return <>{content}</>;
+
+  return (
+    <Box component='form' noValidate onSubmit={formik.handleSubmit}>
+      <Box>
+        <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
+          <BadgeIcon /> &nbsp;&nbsp;Personal information
+          <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
+            {edit ? <u>edit</u> : <u>close</u>}
+          </Button>
+        </Typography>
+      </Box>
+      <>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='name'
+              name='name'
+              label='First Name'
+              fullWidth
+              required
+              disabled={edit}
+              value={formik.values.name}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              /* helperText={formik.touched.name && formik.errors.name} */
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='last_name'
+              name='last_name'
+              label='Last Name'
+              fullWidth
+              required
+              disabled={edit}
+              value={formik.values.last_name}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+              /* helperText={formik.touched.last_name && formik.errors.last_name} */
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id='identification'
+              name='identification'
+              label='Identification'
+              fullWidth
+              disabled={edit}
+              autoComplete='shipping address-level2'
+              value={formik.values.identification}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              error={formik.touched.identification && Boolean(formik.errors.identification)}
+              /* helperText={formik.touched.identification && formik.errors.identification} */
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id='birth_date'
+              name='birth_date'
+              label='Birth Date'
+              type='date'
+              fullWidth
+              disabled={edit}
+              defaultValue='2017-05-24'
+              autoComplete='shipping postal-code'
+              value={formik.values.birth_date}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              error={formik.touched.birth_date && Boolean(formik.errors.birth_date)}
+              /* helperText={formik.touched.birth_date && formik.errors.birth_date} */
+            />
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={12} textAlign={'right'}>
+            <Button
+              size='small'
+              type='submit'
+              color='secondary'
+              variant='contained'
+              disabled={!isValid || edit}
+              sx={{ mt: 3, mb: 2 }}>
+              {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'update'}
+            </Button>
+          </Grid>
+        </Grid>
+      </>
+    </Box>
+  );
 }
