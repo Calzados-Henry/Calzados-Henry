@@ -41,18 +41,18 @@ export interface Category {
   isActive: boolean
 }
 export interface ProductI {
-  id: number;
-  name: string;
-  description: string;
-  gender: string;
-  season: string;
-  rate_average: string;
-  buy_price: number;
-  sell_price: number;
-  sold: number;
-  category: Category;
-  reviews: Rating[]
-  details?: Details
+  "id": number;
+  "name": string;
+  "description": string;
+  "gender": string;
+  "season": string;
+  "rate_average": string;
+  "buy_price": number;
+  "sell_price": number;
+  "sold": number;
+  "Category": Category;
+  "reviews": Rating[]
+  "details"?: Details
 }
 export interface Pricing {
   base: number,

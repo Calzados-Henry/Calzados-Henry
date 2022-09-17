@@ -1,6 +1,6 @@
 'use strict'
 // se requiere el models
-import { Category, Color, Images, Products, Product_details, Sizes, Users } from '../db';
+import { Category, Color, Images, Products, Product_details, Sizes, Users, Orders_details } from '../db';
 import { createImages } from './Images';
 // import { createP_Details } from './Product_details';
 
@@ -94,14 +94,30 @@ export const getProducts = async (): Promise<any> => {
   // Se trae todas las imagenes para el Slider
 
 
-  var products = await Products.findAll({
+    var products = await Products.findAll({
     order: [
       ['details', Sizes, 'size', 'ASC'],
       ['id', 'ASC'],
-    ], include: [Users, Category, {
-      model: Product_details, as: 'details', include: [Color, Images, Sizes],
+    ], include: [Users, Category,  Orders_details {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes], , attributes: {exclude: ['buy_price']
     }]
   })
+var productValuesFormat = formatValueProduct(products)
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
+  
+}
+
+export const getProductsAdmin = async (): Promise<any> => {
+  // Temporal para cambiar los Fall to Autumn
+  // Se trae todas las imagenes para el Slider
+
+  var products = await Products.findAll({ include: [Users, Category, Orders_details, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
+   var productValuesFormat = formatValueProduct(products)
+  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
+  }
+
+
+
 
   /* var products = await Products.findAll({
     include: [Users, Category, {
@@ -110,10 +126,6 @@ export const getProducts = async (): Promise<any> => {
   }) */
 
 
-
-  var productValuesFormat = formatValueProduct(products)
-  return products.length > 0 ? productValuesFormat : { message: "There's no any products" };
-}
 
 export const createProducts = async (req: any): Promise<any> => {
 
@@ -163,3 +175,15 @@ export const deleteProducts = async (id: number): Promise<any> => {
   }
   return { message: `we couldn't find the product with id: ${id}` };
 }
+
+export const getProductById = async (id: number) => {
+   try {
+      const product = await Products.findByPk(id, { include: [Users, Category, { model: Product_details, as: 'details', include: [Color, Images, Sizes] }], attributes: {exclude: ['buy_price']} } 
+      )
+      const productValuesFormat =  formatValueProduct([product])
+      return productValuesFormat[0]
+    }
+    catch {
+      return 'Error no existe este producto flaco'
+    }
+} 

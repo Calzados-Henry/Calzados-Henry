@@ -17,7 +17,7 @@ export default function Navigation() {
               <li>Create Category</li>
             </Link>
 
-            <Link to={PrivatesRoutes.addAtribute}>
+            <Link to={PrivatesRoutes.addAttribute}>
               <li>Create atribute</li>
             </Link>
           </ul>

@@ -1,19 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useGetProductsQuery } from './productApiSlice';
-import { ProductPartial, ProductI, Filter } from '../../sehostypes/Product';
+import { createSlice } from '@reduxjs/toolkit';
+import { Filter, ProductI, ProductPartial } from '../../sehostypes/Product';
 import searchReducer from './searchReducer';
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: any = {
   allProducts: [],
   renderProducts: [],
+  product: {}
 };
 
 export const productsSlice = createSlice({
   name: 'products', // Optional
   initialState,
   reducers: {
+    setProduct: (state, action: PayloadAction<ProductPartial>) => {
+      state.product = action.payload
+    },
+    resetProduct: (state) => {
+      state.product = {}
+    },
     setProducts: (state, action: PayloadAction<ProductPartial[]>) => {
       state.allProducts = action.payload;
       state.searchResult = [];
@@ -24,43 +30,25 @@ export const productsSlice = createSlice({
      resetSearch: state => {
       state.searchResult = [];
     },
-    reset: state => {
-      
- 
-    },
-
     filtProducts: (state, action: PayloadAction<Filter[]>) => {
-
       let filtro = [];
-      // [{clave: 'price', value: {}}, {clave: 'category', value: ''}]
-      // item.price !== undefined &&
-      //     item.price >= action.payload.base &&
-      //     item.price <= action.payload.top,
-
-    
       filtro = state.allProducts.filter(
-        (item: ProductI) => action.payload.every(filter => 
-          filter.clave === 'Category' ?((filter.valor !== '') ? (item.Category.category === filter.valor) : true ):
-          (filter.clave === 'price' ?  ( (filter.valor.top !== 0) ?
-          (item.sell_price >= filter.valor.base &&
-          item.sell_price <= filter.valor.top) : true ): (filter.valor !== '' ? (item[filter.clave] === filter.valor) : true))
-          )
-          )
-          
+        (item: ProductI ) => action.payload.every(filter => 
+          filter.clave === 'Category' 
+          ? filter.valor !== ''
+            ? item.Category.category === filter.valor 
+            : true 
+          : filter.clave === 'price' 
+            ? filter.valor.top !== 0
+              ? item.sell_price >= filter.valor.base 
+                && item.sell_price <= filter.valor.top 
+              : true 
+            : filter.valor !== '' 
+              ? item[filter.clave as keyof ProductI] === filter.valor 
+              : true
+        ))
+        state.allProducts = filtro.length ? filtro : []
 
-      state.allProducts = filtro.length ? filtro : []
-
-    },
-    filtProductsByCategory: (state, action: PayloadAction<string>) => {
-      let filtCategory = [];
-
-      filtCategory = state.allProducts.filter(
-        (item: ProductPartial) =>
-          item.category !== undefined &&
-          item.category.id !== undefined &&
-          item.category.category === action.payload,
-      );
-      state.allProducts = filtCategory;
     },
     sortProducts: (state, action: PayloadAction<string>) => {
       const orderProducts = state.allProducts;
@@ -104,7 +92,7 @@ export const productsSlice = createSlice({
       state.allProducts = orderProducts;
     },
   },
-  extraReducers: searchReducer,
+  extraReducers: searchReducer
 });
 
 // Action creators are generated for each case reducer function
@@ -113,12 +101,11 @@ export const productsSlice = createSlice({
 export const {
   filtProducts,
   setProducts,
+  setProduct,
+  resetProduct,
   setSearchProducts,
   resetSearch,
   sortProducts,
-  filtProductsByPrice,
-  filtProductsByCategory,
-  reset,
 } = productsSlice.actions;
 
 // exportamos el reducer que va para el store, esto se puede hacer de distintas formas en este caso lo hare con un default
