@@ -33,6 +33,16 @@ export default class Cart_details extends Model implements CartDetailsI {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    references: {
+      model: 'sizes',
+      key: 'id'
+    }
+  })
+  id_size!: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
   })
   quantity!: number;
 }

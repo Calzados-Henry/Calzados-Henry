@@ -1,17 +1,14 @@
 /* eslint-disable camelcase */
-import { useCreateAddressMutation } from '@/features/user/address/addressApiSlice';
+import { useGetUserByIdQuery, useUpdateUserMutation } from '@/features/user/userApiSlice';
 import { useAuth } from '@/hooks/useAuth';
-import { UserDataInfoForm } from '@/sehostypes/User';
-import { RootState } from '@/store';
 import EditIcon from '@mui/icons-material/Edit';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Box, Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import { Fragment, useState } from 'react';
-import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -20,29 +17,25 @@ const validations = yup.object({
 });
 
 export default function AccountInfo() {
-  const [createAddress] = useCreateAddressMutation();
+  const [updateUser, result] = useUpdateUserMutation();
   const [edit, setEdit] = useState(true);
   const auth = useAuth();
-
-  const {
-    id: userId,
-    username,
-    phone,
-  }: UserDataInfoForm = useSelector((state: RootState) => state.user);
+  const { data: user, isLoading, isSuccess, isError } = useGetUserByIdQuery(auth.id);
 
   const formik = useFormik({
     initialValues: {
-      userId,
-      username,
-      email: auth.user,
-      phone,
+      id: auth.id,
+      username: user?.username,
+      email: user?.email,
+      phone: user?.phone,
     },
     validationSchema: validations,
     onSubmit: values => {
+      updateUser(values);
       setEdit(() => !edit);
     },
   });
-  const { isValid } = formik;
+  const { isValid, isSubmitting } = formik;
   return (
     <Fragment>
       <Box component='form' noValidate onSubmit={formik.handleSubmit}>
@@ -96,7 +89,7 @@ export default function AccountInfo() {
               variant='contained'
               disabled={!isValid || edit}
               sx={{ mt: 3, mb: 2 }}>
-              Update
+              {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'update'}
             </Button>
           </Grid>
         </Grid>

@@ -1,7 +1,8 @@
 export enum TypeUser {
   Administrator = 'Administrator',
   Employee = 'Employee',
-  User = "User"
+  User = "User",
+  Google = "Google"
 }
 export enum Gender {
   Male = 'Male',
