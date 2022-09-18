@@ -82,7 +82,7 @@ export const createOrders = async (value: any): Promise<any> => {
   // const order = {
   //   id_user,
   // }
-  return user
+  return orders_details
   // const { orders_details, ...restOfOrder } = value
   // const createdOrder: any = await Orders.create(restOfOrder)
   // for (const order_detail of orders_details) {
