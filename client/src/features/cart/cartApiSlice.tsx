@@ -9,31 +9,33 @@ export const getApiUserCart: any = createAsyncThunk('cart/getApiUserCart', async
     const updated: CartI = { ...r, idProduct: r.id_details, idUser };
     return updated;
   });
-  return newInfo;
+  return {cartProducts: newInfo, totalCart: response.data.totalCarrito};
 })
 
 export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async ({id, products, id_size, token}: {id:number, products:CartI[] | CartI, id_size:number, token:string}) => {
   if(Array.isArray(products)) {
         let arrayCart: [] = []
+        let total: number = 0
         products.forEach(async p=> {
             let response = await axios.post(`http://localhost:3001/users/cart`, {
-            id_user: id,
-            id_product_details: p.idProduct,
-            quantity: 1,
-            id_size: p.sizeCart?.id
-            }, {
-            headers: {
-                'Authorization': `bearer ${token}`
-            }
-            })
-            arrayCart = response.data.arrayCarrito   
-            })
+              id_user: id,
+              id_product_details: p.idProduct,
+              quantity: p.quantity,
+              id_size: p.sizeCart?.id
+              }, {
+              headers: {
+                  'Authorization': `bearer ${token}`
+              }
+              })
+              arrayCart = response.data.arrayCarrito
+              total = response.data.totalCarrito  
+              })
 
         const newInfo:CartI[] = arrayCart.map((r: any) => {
-        const updated: CartI = {...r, idProduct: r.id_details , idUser: id}
-        return updated
-      })
-      return newInfo
+          const updated: CartI = {...r, idProduct: r.id_details , idUser: id}
+          return updated
+        })
+        return {cartProducts: newInfo, totalCart: total}
     } else {
         let response = await axios.post(`http://localhost:3001/users/cart`, {
             id_user: id,
@@ -44,12 +46,12 @@ export const setApiUserCart: any = createAsyncThunk('cart/setApiUserCart', async
             headers: {
                 'Authorization': `bearer ${token}`
             }
-            })
-                  const newInfo:CartI[] = response.data.arrayCarrito.map((r: any) => {
-                  const updated: CartI = {...r, idProduct: r.id_details , idUser: id}
-                  return updated
-                }) 
-                return newInfo
+          })
+          const newInfo:CartI[] = response.data.arrayCarrito.map((r: any) => {
+            const updated: CartI = {...r, idProduct: r.id_details , idUser: id}
+            return updated
+          }) 
+          return {cartProducts: newInfo, totalCart: response.data.totalCarrito}
     }
 })
 
@@ -65,13 +67,13 @@ export const deleteApiUserCart: any = createAsyncThunk('cart/deleteApiUserCart',
         const updated: CartI = {...r, idProduct: r.id_details , idUser}
         return updated
       })
-        return newInfo
+        return {cartProducts: newInfo, totalCart: response.data.totalCarrito}
     } else {
       let response = await axios.delete('http://localhost:3001/users/cart/all', {
       data: {
         id_user: idUser
       }})
-      return response.data
+      return {cartProducts: response.data, totalCart: 0}
     }
 })
 
@@ -86,13 +88,14 @@ export const updateApiUserCart: any = createAsyncThunk('cart/updateApiUserCart',
     const updated: CartI = {...r, idProduct: r.id_details , idUser}
     return updated
   })
-    return newInfo
+    return {cartProducts: newInfo, totalCart: response.data.totalCarrito}
 })
 
 // Estado inicial que puede ser cualquier cosa
 const initialState: State = {
   loading: false,
   complete: false,
+  total: 0,
   error: '',
   products: []
 }
@@ -118,7 +121,8 @@ export const cartApiSlice = createSlice({
     })
     builder.addCase(getApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
-      state.products = action.payload
+      state.products = action.payload.cartProducts
+      state.total = action.payload.totalCart
       state.error = ''
       state.complete = true
     }) 
@@ -133,7 +137,8 @@ export const cartApiSlice = createSlice({
     })
     builder.addCase(setApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
-      state.products = action.payload
+      state.products = action.payload.cartProducts
+      state.total = action.payload.totalCart
       state.complete = true
       state.error = ''
     }) 
@@ -148,7 +153,8 @@ export const cartApiSlice = createSlice({
     })
     builder.addCase(deleteApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
-      state.products = action.payload
+      state.products = action.payload.cartProducts
+      state.total = action.payload.totalCart
       state.complete = true
       state.error = ''
     }) 
@@ -163,7 +169,8 @@ export const cartApiSlice = createSlice({
     })
     builder.addCase(updateApiUserCart.fulfilled,(state: State, action)=>{
       state.loading = false
-      state.products = action.payload
+      state.products = action.payload.cartProducts
+      state.total = action.payload.totalCart
       state.complete = true
       state.error = ''
     }) 

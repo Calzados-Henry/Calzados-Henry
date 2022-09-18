@@ -16,19 +16,21 @@ import { deleteApiUserCart } from "../../features/cart/cartApiSlice"
 export default function Shopping() {
     const auth = useAuth()
     const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
-    const {loading, products} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const {loading, products, total} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [total, setTotal] = useState(0)
+    const [localtotal, setLocalTotal] = useState(0)
 
     useEffect(() => {window.scrollTo(0, 0)}, [])
 
     useEffect(() => {
+      if(!auth.user) {
         let parcial = 0
         products?.forEach((p: CartI) => {
             p.price && p.quantity && (parcial = parcial + (p.price * p.quantity))
         })
-        setTotal(parcial)
+        setLocalTotal(parcial)
+      }
     }, [products])
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -117,7 +119,7 @@ export default function Shopping() {
                 <h3>Your current Shopping Cart</h3>
                 {loading && 
                 <Backdrop
-                  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  sx={{ color: 'primary.main', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                   open={true}
                 ><CircularProgress color="inherit" size={200}/></Backdrop>}
                 <Stack spacing={2} alignItems={'center'}>
@@ -145,7 +147,7 @@ export default function Shopping() {
                 </Box>}
                 {!products?.length ? null : 
                 <Box display={'flex'} justifyContent={'flex-end'} gap={5} margin={2}>
-                    <Typography variant='body1' color='text.secondary' sx={{alignSelf: 'center'}}>Total: $ {total}</Typography>
+                    <Typography variant='body1' color='text.secondary' sx={{alignSelf: 'center'}}>Total: $ {auth.user ? total : localtotal}</Typography>
                     <Button sx={{width:120}} variant="contained" onClick={confirmOrder}>Buy Now!</Button>
                 </Box>}
 
