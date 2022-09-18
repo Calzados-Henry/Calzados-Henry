@@ -1,4 +1,4 @@
-import { CartI } from "../features/cart/CartSlice"
+import { CartI, UserSizeI } from "../features/cart/CartSlice"
 
 export const setProductLocalStorage = (newProduct:Partial<CartI>): void => {
     const getProducts = localStorage.getItem('product')
@@ -13,7 +13,7 @@ export const setProductLocalStorage = (newProduct:Partial<CartI>): void => {
     }
 }
 
-export const updateQuantityLS = (method: string, idSent: number): CartI[] => {
+export const updateLS = (method: string, idSent: number, sizes: UserSizeI): CartI[] => {
     const getProducts = localStorage.getItem('product')
     if(!getProducts) throw new Error("Can't find item, please refresh")
     else {
@@ -24,6 +24,12 @@ export const updateQuantityLS = (method: string, idSent: number): CartI[] => {
         } 
         if(method === 'decrease') {
             if(localProducts[finded].quantity > 1) localProducts[finded].quantity -= 1  
+        }
+        if(sizes && method === 'changeSize') {
+            localProducts[finded].sizeCart = sizes
+        }
+        if(sizes && method === 'modify') {
+            localProducts[finded].quantity = sizes.stock
         }
         localStorage.removeItem('product')
         localStorage.setItem('product', JSON.stringify(localProducts))

@@ -76,14 +76,20 @@ Product_details.belongsToMany(Users, { as: "favs", foreignKey: "id_product_detai
 Users.belongsToMany(Product_details, { as: "cart", foreignKey: "id_user", through: Cart_details })
 Product_details.belongsToMany(Users, { as: "cart", foreignKey: "id_product_details", through: Cart_details })
 
+Cart_details.belongsTo(Users, { foreignKey: 'id_user' })
+Cart_details.belongsTo(Product_details, { foreignKey: 'id_product_details' })
+
+Users.hasMany(Cart_details, { foreignKey: 'id_user' })
+Product_details.hasMany(Cart_details, { foreignKey: 'id_product_details' })
 
 
-/* const model: any = Products
+
+const model: any = Users
 for (let assoc of Object.keys(model.associations)) {
   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
     console.log(model.name + '.' + model.associations[assoc].accessors[accessor] + '()');
   }
 }
- */
+
 
 

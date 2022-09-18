@@ -1,7 +1,7 @@
 "use strict"
 // se requiere el models
-import { Category, Color, Images, Products, Product_details, Sizes, Users, Orders_details } from "../db"
-import { createImages } from "./Images"
+import { Category, Color, Images, Orders_details, Products, Product_details, Sizes, Users } from '../db';
+import { createImages } from './Images';
 // import { createP_Details } from './Product_details';
 
 //* README *
@@ -93,21 +93,11 @@ export const getProducts = async (): Promise<any> => {
 
   var products = await Products.findAll({
     order: [
-      ["details", Sizes, "size", "ASC"],
-      ["id", "ASC"],
-    ],
-    include: [
-      Users,
-      Category,
-      {
-        model: Product_details,
-        as: "details",
-        include: [Color, Images, Sizes],
-        attributes: {
-          exclude: ["buy_price"],
-        },
-      },
-    ],
+      ['details', Sizes, 'size', 'ASC'],
+      ['id', 'ASC'],
+    ], include: [Users, Category,  {
+      model: Product_details, as: 'details', include: [Color, Images, Sizes]}] , attributes: {exclude: ['buy_price']
+    }
   })
 
   var productValuesFormat = formatValueProduct(products)
