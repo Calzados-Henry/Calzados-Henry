@@ -1,7 +1,6 @@
 import Copyright from '@/components/Copyright/Copyright';
 import { useCreateReviewMutation } from '@/features/user/reviews/reviewsApiSlice';
 import { useAuth } from '@/hooks/useAuth';
-import { ProductI } from '@/sehostypes';
 import AddIcon from '@mui/icons-material/Add';
 import { CircularProgress, Rating } from '@mui/material';
 import Box from '@mui/material/Box';

@@ -17,7 +17,7 @@ export default function ReviewCard({ review, date, rate, User }: Partial<Reviews
           <Grid item>
             <AvatarCard width={100} height={100} />
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item sm container>
             <Grid item xs container direction='column' spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant='subtitle1' component='div'>
