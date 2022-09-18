@@ -8,33 +8,59 @@ import { Address, Users } from "../db"
 //}
 
 export const getAddress = async (id: string): Promise<object> => {
+  
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-
-  if (!userAddresses?.Addresses && userAddresses) {
-    throw new Error(`There's not any addresses for the user id: ${id}`)
-  } else if (!userAddresses) {
-    throw new Error(`There's not any user for the id: ${id}`)
+  console.log(userAddresses)
+  if (userAddresses) {
+    return (userAddresses.Addresses)
   } else {
-    return userAddresses.Addresses
+    return []
   }
 }
 
 export const postAddress = async (id: string, body: any) => {
   const { address, zip_code, city, state, country, title }: any = body
-  try {
-    const newAddress: any = await Address.create({
+  const user: any = await Users.findByPk(id)
+  const newAddress = {
+    id_user: id,
+    title: title,
+    address: address,
+    city: city,
+    state: state,
+    country: country,
+    zip_code: zip_code
+  }
+
+  return await user.createAddress(newAddress)
+
+  /* const [newAddress, created]: any = await Address.findOrCreate({
+    where: {
       id_user: id,
       title: title,
       address: address,
       city: city,
       state: state,
       country: country,
-      zip_code: zip_code,
-    })
-    return newAddress
-  } catch (error) {
-    return error
+      zip_code: zip_code
+    }
+  }) */
+
+  /* console.log("NewAddress:", newAddress)
+  console.log("Created", created)
+
+  if (user && created) {
+    await user.addAddress(newAddress)
+    const userAddresses = await Users.findByPk(id, { include: { model: Address } })
+    if (userAddresses) {
+      return userAddresses
+    }
+  } else if (!created) {
+    throw new Error(`The address ${newAddress.address} already exists`);
+  } else if (!user) {
+    throw new Error(`We couldn't find user with id: ${id}`)
   }
+  throw new Error('An error has ocurred') */
+
 }
 
 export const patchAddress = async (value: any): Promise<object> => {
@@ -51,12 +77,7 @@ export const patchAddress = async (value: any): Promise<object> => {
 }
 
 export const deleteAddress = async (value: any): Promise<object> => {
-  const deletedAddress: any = await Address.findByPk(value.id)
-  if (deletedAddress.isActive == false) {
-    throw new Error(`${value.address} is already deleted`)
-  } else {
-    deletedAddress.isActive = false
-    await deletedAddress.save()
-  }
-  return deletedAddress
+  const deletedAddress = await Address.findByPk(value.id)
+  await deletedAddress?.destroy()
+  return {msg:"Done"}
 }

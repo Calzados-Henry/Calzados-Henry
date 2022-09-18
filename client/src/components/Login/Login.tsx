@@ -236,7 +236,6 @@ export default function Login() {
 
               const Logged = await login(LogginData).unwrap();
 
-              console.log(Logged, LogginData);
               // Loggin exitoso -->
               if (!Logged.message) {
                 const { userAuth, userInfo } = setUserInfo(Logged);
@@ -266,7 +265,7 @@ export default function Login() {
         })
         .catch(error => {
           handleCloseBackDrop();
-
+          console.log(error);
           const errorAlert = () => {
             Swal.fire({
               title: 'Error!',

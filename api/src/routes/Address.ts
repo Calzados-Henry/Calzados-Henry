@@ -38,12 +38,9 @@ const Address = Router()
 Address.get("/", userExtractorUser, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let addresses: any = await getAddress(req.params.id)
-
-    if (addresses.length) {
-      res.json(addresses)
-    } else {
-      res.status(404).send("There is no address associated with that ID")
-    }
+    console.log(addresses)
+    
+    res.json(addresses)
   } catch (e) {
     next(e)
   }

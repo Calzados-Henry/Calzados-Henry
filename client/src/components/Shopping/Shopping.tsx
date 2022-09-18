@@ -26,7 +26,7 @@ export default function Shopping() {
     useEffect(() => {
         let parcial = 0
         products?.forEach((p: CartI) => {
-            p.price && (parcial = parcial + (p.price * p.quantity))
+            p.price && p.quantity && (parcial = parcial + (p.price * p.quantity))
         })
         setTotal(parcial)
     }, [products])
@@ -119,7 +119,7 @@ export default function Shopping() {
                 <Backdrop
                   sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                   open={true}
-                ><CircularProgress color="inherit" /></Backdrop>}
+                ><CircularProgress color="inherit" size={200}/></Backdrop>}
                 <Stack spacing={2} alignItems={'center'}>
                     {products?.length ? products?.map((p: CartI) => {
                         return(<Item key = {p.idProduct}><CardShop
@@ -130,6 +130,7 @@ export default function Shopping() {
                             color = {p.color}
                             size = {p.size}
                             price = {p.price}
+                            sizeCart= {p.sizeCart}
                             quantity={p.quantity}
                         />
                         </Item>
