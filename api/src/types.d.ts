@@ -28,7 +28,7 @@ export interface ReviewsI {
   date: Date
   isActive: boolean
 }
-export interface ReviewsPostI extends Omit<ReviewsI, "isActive"> {}
+export interface ReviewsPostI extends Omit<ReviewsI, "isActive" | "date"> {}
 
 export interface ProductsI {
   id: number

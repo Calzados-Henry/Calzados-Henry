@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import { useAppSelector } from '@/features';
-import { useGetUserByIdQuery, useUpdateUserMutation } from '@/features/user/userApiSlice';
+import { useUpdateUserMutation } from '@/features/user/userApiSlice';
 import { updateUserInfo } from '@/features/user/userSlice';
 import { useAppDispatch } from '@/hooks/store';
 import { useAuth } from '@/hooks/useAuth';
@@ -11,46 +10,73 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
 import * as yup from 'yup';
 
 const validations = yup.object({
-  username: yup.string().required('Username is required'),
+  username: yup
+    .string()
+    .min(3, 'Min 3 characters')
+    .max(50, 'Max 50 characters')
+    .nullable()
+    .required('Username is required'),
 });
 
-export default function AccountInfo() {
+export default function AccountInfo({ handleClose }) {
   const [updateUser, result] = useUpdateUserMutation();
   const [edit, setEdit] = useState(true);
   const auth = useAuth();
   const dispatch = useAppDispatch();
-  const { data: user, isLoading, isSuccess, isError } = useGetUserByIdQuery(auth.id);
-  const { name, last_name, birth_date, identification } = useAppSelector(state => state.user);
 
   const formik = useFormik({
     initialValues: {
       id: auth.id,
-      username: user?.username,
-      phone: user?.phone,
+      username: null,
+      phone: null,
     },
     validationSchema: validations,
-    onSubmit: values => {
-      updateUser(values);
-      dispatch(updateUserInfo(values));
-      setEdit(() => !edit);
+    onSubmit: (values, { resetForm }) => {
+      updateUser(values)
+        .then(() => handleClose())
+        .then(() =>
+          Swal.fire({
+            title: 'Update Data',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#5d3a00',
+            /* cancelButtonColor: '#fe4450', */
+            confirmButtonText: 'Yes, delete it!',
+          }),
+        )
+        .then(() => {
+          dispatch(updateUserInfo(values));
+          setEdit(() => !edit);
+        })
+        .catch(() => Swal.fire('Upps!', 'You clicked the button!', 'error'))
+        .finally(() => {
+          handleClose();
+          resetForm();
+        });
     },
   });
   const { isValid } = formik;
   return (
-    <Fragment>
-      <Box component='form' noValidate onSubmit={formik.handleSubmit}>
-        <Box>
-          <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
-            <ManageAccountsIcon /> &nbsp;&nbsp;Account information
-            <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
-              {edit ? <u>edit</u> : <u>close</u>}
-            </Button>
-          </Typography>
-        </Box>
+    <Box
+      width={'100%'}
+      component='form'
+      autoComplete='on'
+      noValidate
+      onSubmit={formik.handleSubmit}>
+      <Box>
+        <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
+          <ManageAccountsIcon /> &nbsp;&nbsp;Account information
+          <Button onClick={() => setEdit(() => !edit)} color='secondary' startIcon={<EditIcon />}>
+            {edit ? <u>edit</u> : <u>close</u>}
+          </Button>
+        </Typography>
+      </Box>
+      <>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -64,7 +90,7 @@ export default function AccountInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.username && Boolean(formik.errors.username)}
-              /* helperText={formik.touched.username && formik.errors.username} */
+              helperText={formik.touched.username && formik.errors.username}
             />
           </Grid>
 
@@ -81,7 +107,7 @@ export default function AccountInfo() {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               error={formik.touched.phone && Boolean(formik.errors.phone)}
-              /*   helperText={formik.touched.phone && formik.errors.phone} */
+              helperText={formik.touched.phone && formik.errors.phone}
             />
           </Grid>
         </Grid>
@@ -94,11 +120,11 @@ export default function AccountInfo() {
               variant='contained'
               disabled={!isValid || edit}
               sx={{ mt: 3, mb: 2 }}>
-              {result.isLoading ? <CircularProgress size={20} color='secondary' /> : 'update'}
+              {result.isLoading ? <CircularProgress size={20} color='primary' /> : 'update'}
             </Button>
           </Grid>
         </Grid>
-      </Box>
-    </Fragment>
+      </>
+    </Box>
   );
 }
