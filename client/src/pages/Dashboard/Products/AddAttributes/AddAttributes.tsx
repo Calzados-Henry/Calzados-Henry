@@ -1,5 +1,7 @@
 import React from 'react';
-
+import Addsize from './AddSize/AddSize';
 export default function AddAttributes() {
-  return <h1>AddAtributes</h1>;
+  return (
+    <Addsize/>
+  );
 }
