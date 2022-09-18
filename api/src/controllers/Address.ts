@@ -8,11 +8,10 @@ import { Address, Users } from "../db"
 //}
 
 export const getAddress = async (id: string): Promise<object> => {
-  
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-  console.log(userAddresses)
+
   if (userAddresses) {
-    return (userAddresses.Addresses)
+    return userAddresses.Addresses
   } else {
     return []
   }
@@ -28,7 +27,7 @@ export const postAddress = async (id: string, body: any) => {
     city: city,
     state: state,
     country: country,
-    zip_code: zip_code
+    zip_code: zip_code,
   }
 
   return await user.createAddress(newAddress)
@@ -60,7 +59,6 @@ export const postAddress = async (id: string, body: any) => {
     throw new Error(`We couldn't find user with id: ${id}`)
   }
   throw new Error('An error has ocurred') */
-
 }
 
 export const patchAddress = async (value: any): Promise<object> => {
@@ -79,5 +77,5 @@ export const patchAddress = async (value: any): Promise<object> => {
 export const deleteAddress = async (value: any): Promise<object> => {
   const deletedAddress = await Address.findByPk(value.id)
   await deletedAddress?.destroy()
-  return {msg:"Done"}
+  return { msg: "Done" }
 }

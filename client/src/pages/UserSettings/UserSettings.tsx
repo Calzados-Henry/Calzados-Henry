@@ -1,15 +1,12 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import { mainListItems, secondaryListItems } from './listItems/listItems';
-import { Outlet } from 'react-router-dom';
-import { createUserInfo } from '@/features/user/userSlice';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useGetUserByIdQuery } from '@/features/user/userApiSlice';
 import { useAuth } from '@/hooks/useAuth';
-import { RootState } from '@/store';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import { useDispatch } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { mainListItems, secondaryListItems } from './listItems/listItems';
 
 function UserSettingsContent() {
   const dispatch = useDispatch();
@@ -19,7 +16,7 @@ function UserSettingsContent() {
   return (
     <>
       <CssBaseline />
-      <Grid container spacing={2}>
+      <Grid container sm spacing={2}>
         <Grid item xs={6} sm={3} xl={3}>
           <List component='nav'>
             {mainListItems}
@@ -28,7 +25,7 @@ function UserSettingsContent() {
           </List>
         </Grid>
 
-        <Grid item xs={6} sm={9} xl={9}>
+        <Grid item xs={6} sm={7} xl={7}>
           <Outlet />
         </Grid>
       </Grid>
