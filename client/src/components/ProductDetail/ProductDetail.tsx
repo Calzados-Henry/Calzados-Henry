@@ -18,7 +18,6 @@ import { useGetProductQuery } from '@/features';
 import { resetProduct, setProduct } from '@/features/product/productSlice';
 import { PublicRoutes } from '@/routes/routes';
 import Swal from 'sweetalert2';
-import ReviewModal from '../Reviews/ReviewModal';
 
 const Photos = lazy(() => import('./photos/Photos'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
@@ -145,7 +144,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <Box minHeight='60vh'>
+    <Box minHeight='80vh'>
       <Container maxWidth='xl'>
         <Toaster position='bottom-left' />
         <Grid container spacing={1}>

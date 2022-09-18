@@ -19,10 +19,10 @@ export const getAddress = async (id: string): Promise<object> => {
   }
 }
 
-export const postAddress = async (id: string, body: any): Promise<object> => {
+export const postAddress = async (id: string, body: any) => {
   const { address, zip_code, city, state, country, title }: any = body
-  const [newAddress, created]: any = await Address.findOrCreate({
-    where: {
+  try {
+    const newAddress: any = await Address.create({
       id_user: id,
       title: title,
       address: address,
@@ -30,21 +30,11 @@ export const postAddress = async (id: string, body: any): Promise<object> => {
       state: state,
       country: country,
       zip_code: zip_code,
-    },
-  })
-  const user: any = await Users.findByPk(id)
-  if (user && created) {
-    await user.addAddress(newAddress)
-    const userAddresses = await Users.findByPk(id, { include: { model: Address } })
-    if (userAddresses) {
-      return userAddresses
-    }
-  } else if (!created) {
-    throw new Error(`The address ${newAddress.address} already exists`)
-  } else if (!user) {
-    throw new Error(`We couldn't find user with id: ${id}`)
+    })
+    return newAddress
+  } catch (error) {
+    return error
   }
-  throw new Error("An error has ocurred")
 }
 
 export const patchAddress = async (value: any): Promise<object> => {

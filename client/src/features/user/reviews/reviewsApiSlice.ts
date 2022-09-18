@@ -1,5 +1,5 @@
 import { apiSlice } from '@/features/api/apiSlice';
-import { UserI, ReviewsI, ReviewsPostI, ReviewsDeleteI, ProductI } from '@/sehostypes';
+import { ProductI, ReviewsDeleteI, ReviewsI, ReviewsPostI, UserI } from '@/sehostypes';
 
 export const reviewApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -7,15 +7,15 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
       query: idUser => ({
         url: `/reviews/user/${idUser}`,
       }),
-      transformResponse: (reviews: ReviewsI[]) => reviews?.filter(item => item.isActive),
-      providesTags: ['User', 'Product', 'Reviews'],
+      // transformResponse: (reviews: ReviewsI[]) => reviews?.filter(item => item.isActive),
+      providesTags: ['Reviews'],
     }),
     getReviewsProduct: builder.query<ReviewsI[], ProductI['id']>({
       query: idProduct => ({
-        url: `/reviews/user/${idProduct}`,
+        url: `/reviews/product/${idProduct}`,
       }),
-      transformResponse: (reviews: ReviewsI[]) => reviews?.filter(item => item.isActive),
-      providesTags: ['User', 'Product', 'Reviews'],
+      // transformResponse: (reviews: ReviewsI[]) => reviews?.filter(item => item.isActive),
+      providesTags: ['Reviews'],
     }),
     createReview: builder.mutation<ReviewsI, ReviewsPostI>({
       query: review => ({
@@ -23,7 +23,7 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: review,
       }),
-      invalidatesTags: ['User', 'Product', 'Reviews'],
+      invalidatesTags: ['Reviews'],
     }),
     deleteReview: builder.mutation<ReviewsI, ReviewsDeleteI>({
       query: reviewData => ({
@@ -31,10 +31,14 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
         method: 'DELETE',
         body: reviewData,
       }),
-      invalidatesTags: ['User', 'Product', 'Reviews'],
+      invalidatesTags: ['Reviews'],
     }),
   }),
 });
 
-export const { useGetReviewsUserQuery, useCreateReviewMutation, useDeleteReviewMutation } =
-  reviewApiSlice;
+export const {
+  useGetReviewsUserQuery,
+  useGetReviewsProductQuery,
+  useCreateReviewMutation,
+  useDeleteReviewMutation,
+} = reviewApiSlice;
