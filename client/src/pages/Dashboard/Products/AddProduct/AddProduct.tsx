@@ -58,7 +58,7 @@ const validations = yup.object({
 export default function AddProduct() {
   const dispatch = useDispatch()
   const sizes: any = useSelector((state: RootState) => state.sizes)
-   const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData: currentDataC } = useGetCategoriesQuery()
+  const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData: currentDataC } = useGetCategoriesQuery()
   const { data: seasons, error: errorS, isLoading: isLoadingS, isError: isErrorS, isSuccess: isSuccessS, currentData: currentDataS } = useGetSeasonsQuery()
 
   useEffect(() => {

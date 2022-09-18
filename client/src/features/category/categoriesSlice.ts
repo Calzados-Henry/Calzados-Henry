@@ -10,7 +10,7 @@ import axios from "axios";
 //PASO 1 : Crear un async thunk que va a ser nuestra función para
 //realizar el llamado a la api.
 const getCategory:any = createAsyncThunk('categories/getCategories',()=>{
-    return axios.get(`http://localhost:3001/products/details/category`)
+    return axios.get(`http://localhost:3001/category`)
     .then(response=>response.data)
     .catch(e=>e.message)
 })
@@ -55,5 +55,5 @@ export const categories = createSlice({
         })
 
 export const getCategories = getCategory
-export default getCategory.reducer     // este ".reducer" permite exportar solo los reducers
+export default categories.reducer   // este ".reducer" permite exportar solo los reducers
                                      //al exportar por defecto.
