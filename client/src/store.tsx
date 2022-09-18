@@ -8,6 +8,7 @@ import { apiSlice } from './features/api/apiSlice';
 import checkout from './features/checkout/checkoutSlice';
 import user from './features/user/userSlice';
 import sizes from './features/sizes/sizesSlice';
+import colors from './features/colors/getColorsSlice';
 import categories from './features/category/categoriesSlice'
 
 // importamos el export default que viene del slice
@@ -22,6 +23,7 @@ export const store = configureStore({
     auth,
     checkout,
     categories,
+    colors,
     sizes,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

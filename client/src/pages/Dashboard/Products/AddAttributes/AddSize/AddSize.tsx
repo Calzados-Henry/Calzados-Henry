@@ -33,10 +33,10 @@ export default function addsize() {
   }, [])
 
   console.log(sizes)
-  const sizesTraidas: Array<string> = sizes.map((c: SizeI) => c.size)
+  const sizesTraidas: Array<string> = sizes.map((c: SizeI) => c.size.toString())
   const validations = yup.object({
     sizes: yup.array(yup.object({
-      size: yup.string().required().min(3, "Insert a valid size").max(15).notOneOf(sizesTraidas, 'You cannot add exitent sizes'),
+      size: yup.string().required().min(1, "Insert a valid size").max(15).notOneOf(sizesTraidas, 'You cannot add exitent sizes'),
     })).min(1).max(3).required('Please, type at least one size')
   });
   /* HOOKS */
