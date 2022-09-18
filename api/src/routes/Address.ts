@@ -43,12 +43,8 @@ Address.get("/", userExtractorUser, async (req: Request, res: Response, next: Ne
   try {
     let addresses: any = await getAddress(req.params.id)
     console.log(addresses)
-    if (addresses.length) {
-      res.json(addresses)
-    } else {
-      res.status(404).send("There is no address associated with that ID")
-    }
-
+    
+    res.json(addresses)
   } catch (e) {
     next(e)
   }
