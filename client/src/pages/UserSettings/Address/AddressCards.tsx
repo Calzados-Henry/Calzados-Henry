@@ -11,14 +11,8 @@ export default function AddressCards() {
   let content;
   if (isLoading) content = <Loader size={60} />;
   if (isError || error) content = <>Error</>;
-  if (data && data.length < 1)
-    content = (
-      <Typography variant='h6'>
-        There are no addresses associated with this account, please add an address.
-      </Typography>
-    );
   if (isSuccess && data)
-    content = data.map((address, index) => {
+    content = data?.map((address, index) => {
       return (
         <AddressCard
           key={index}
@@ -31,7 +25,12 @@ export default function AddressCards() {
         />
       );
     });
-
+  if (data && data.length < 1)
+    content = (
+      <Typography variant='h6'>
+        There are no addresses associated with this account, please add an address.
+      </Typography>
+    );
   return (
     <>
       <Box display='flex' alignItems={'center'}>

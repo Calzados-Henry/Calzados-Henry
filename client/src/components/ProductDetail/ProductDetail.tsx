@@ -184,7 +184,7 @@ export default function ProductDetail() {
     <Box minHeight='60vh'>
       <Toaster containerStyle={{ position: 'absolute', top: '50%', left: '30%' }} />
       {(isLoading || loading) && (
-        <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={true}>
+        <Backdrop sx={{ color: 'secondary', zIndex: theme => theme.zIndex.drawer + 1 }} open={true}>
           <CircularProgress color='inherit' size={200} />
         </Backdrop>
       )}
