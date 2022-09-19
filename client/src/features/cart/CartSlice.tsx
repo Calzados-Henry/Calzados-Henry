@@ -26,6 +26,7 @@ export interface CartI {
 export interface State {
   loading: boolean
   products: CartI[]
+  total: number
   error: string
   complete: boolean
 }
@@ -33,6 +34,7 @@ export interface State {
 const initialState: State = {
   loading: false,
   products: localStorage.getItem('product') ? JSON.parse(localStorage.getItem('product') as string) : [],
+  total: 0,
   error: '',
   complete: false
 }

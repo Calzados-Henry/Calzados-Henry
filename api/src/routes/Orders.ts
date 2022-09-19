@@ -2,6 +2,7 @@
 // se requiere el models
 import { Router, Request, Response } from 'express';
 import { getOrders, createOrders, updateOrders, deleteOrders } from '../controllers/Orders'
+import { userExtractorUser } from '../middleware/userExtractor';
 
 const router = Router();
 
@@ -13,12 +14,12 @@ router.get('/', async (_req: Request, res: Response) => {
     res.json({ error: e.message })
   }
 })
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', userExtractorUser, async (req: Request, res: Response) => {
   try {
-    var nOrders = await createOrders(req.body)
+    var nOrders = await createOrders({ ...req.params, ...req.body })
     res.json(nOrders)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
   }
 })
 router.put('/', async (req: Request, res: Response) => {
