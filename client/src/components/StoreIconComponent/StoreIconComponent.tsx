@@ -13,13 +13,9 @@ export default function StoreIconComponent() {
         variant='h6'
         noWrap
         component='div'
-        onClick={() => navigate(PublicRoutes.start)}
         sx={{
           display: { xs: 'none', sm: 'block' },
           mr: 1,
-          '&:hover': {
-            cursor: 'pointer',
-          },
         }}>
         SEHOS
       </Typography>

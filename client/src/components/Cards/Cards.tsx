@@ -36,11 +36,9 @@ const Cards = () => {
     e.preventDefault();
     setPage(value)
   };
-  const { data, error, isLoading} = useGetProductsQuery();
+  const { data, error, isSuccess} = useGetProductsQuery();
   let content;
-  if (isLoading)
-  content = <img src='https://i.giphy.com/media/5AtXMjjrTMwvK/giphy.gif' alt='loading' />;
-  if (error) content = <h2>Ups hay un error</h2>;
+  if (error) content = <h2>Ups there is an error</h2>;
    const updateList = () => {
     data !== undefined && dispatch(setProducts(data));
   };
@@ -48,13 +46,12 @@ const Cards = () => {
   useEffect(() => {
     if (data) updateList();
   },[data])
-  const cant = " Can't find any products whit that parameters " 
   const currentsProducts = products.slice(current.first, current.last);
   
-  content = (
+  if(isSuccess) content = (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {currentsProducts.length ? currentsProducts.map((shoe: ProductPartial) => (
+        {currentsProducts?.map((shoe: ProductPartial) => (
             <Shoe
               key={shoe.id}
               id={shoe.id}
@@ -64,9 +61,7 @@ const Cards = () => {
               description={shoe.description}
               addTouched = {(id:string) => setTouched(id)}
               />
-        )) :
-        <p>{cant}</p>
-      }
+        ))}
       </div>
       { Math.ceil(products.length / productsPerPage) > 1 && (<Box justifyContent={'center'} display={'flex'} marginRight='10px' marginTop='20px'>
         <Pagination
@@ -85,6 +80,7 @@ const Cards = () => {
     <>
       <div style={{position:'relative'}}>
         <Toaster
+          toastOptions={{duration: 500}}
           containerStyle={{position:'fixed', top: topToast && (topToast + 30), left: leftToast && (leftToast - 150), inset:'unset', width:300}}
         />
         {content}
