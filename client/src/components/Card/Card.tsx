@@ -47,7 +47,7 @@ const Shoe: React.FC<Props> = props => {
     size: props.details?.sizes,
     sizeCart: user.user ? undefined : props.details?.sizes && props.details.sizes[props.details?.sizes?.length - 1],
     price: props.sell_price,
-    quantity: 1
+    quantity: findedProduct?.quantity || 1
   }
   
   props.name !== undefined &&
@@ -92,6 +92,7 @@ const Shoe: React.FC<Props> = props => {
               title: 'Wait! that products is already on your cart, we will add this',
               html: `<p>Current Available Stock: ${maxStock}</p>` + `<p>Current Selected Size: ${findedProduct.sizeCart?.size}</p>`,
               input: 'number',
+
               inputAttributes: {
                 autocapitalize: 'off',
                 max:`${maxStock}`,
