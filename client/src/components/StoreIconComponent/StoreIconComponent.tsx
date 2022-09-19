@@ -1,11 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import StoreIcon from '@mui/icons-material/Store';
-
-import { Typography, Button } from '@mui/material';
-import { PublicRoutes } from '../../routes/routes';
+import { Typography } from '@mui/material';
 
 export default function StoreIconComponent() {
-  const navigate = useNavigate();
 
   return (
     <>
@@ -19,10 +15,7 @@ export default function StoreIconComponent() {
         }}>
         SEHOS
       </Typography>
-
-      <Button variant='text' color='inherit'>
-        <StoreIcon onClick={() => navigate(PublicRoutes.home)} />
-      </Button>
+      <StoreIcon/>
     </>
   );
 }

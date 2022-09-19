@@ -4,6 +4,7 @@ require("dotenv").config()
 import { Address, Cart_details, Orders, Orders_details, Products, Users } from "../db"
 import { UsersI } from "../types"
 const STRIPE_TOKEN: string = process.env.STRIPE_TOKEN as string
+console.log("Stripe Token:", STRIPE_TOKEN)
 const stripe = require("stripe")(STRIPE_TOKEN)
 
 export const getOrders = async (): Promise<any> => {
@@ -37,7 +38,7 @@ export const createOrders = async (value: any): Promise<any> => {
   let address: any = await Address.findByPk(idAddress, { attributes: [["address", "address_user"]] })
   address = address?.toJSON()
   const carts = await user.getCart_details({ attributes: { exclude: ["id_user"] } })
-  console.log(carts)
+  /* console.log(carts) */
   let orders_details: any = []
   let total_ammount = 0
 
@@ -45,9 +46,6 @@ export const createOrders = async (value: any): Promise<any> => {
     let size = await cart.getSize({ attributes: ["size"] })
     size = size.toJSON()
     const product_detail = await cart.getProduct_detail({ attributes: ["id", "id_product", "id_color"] })
-    const product_details_size = await product_detail.getProduct_details_sizes({ where: { id_sizes: cart.id_size } })
-    product_details_size[0].stock = product_details_size[0].stock - cart.quantity
-    await product_details_size[0].save()
 
     let color = await product_detail.getColor({ attributes: ["color"] })
     color = color.toJSON()
@@ -67,19 +65,24 @@ export const createOrders = async (value: any): Promise<any> => {
     }
     total_ammount = total_ammount + order_detail.price * order_detail.quantity
 
-    console.log(total_ammount)
+
+    /* console.log(total_ammount) */
     orders_details.push(order_detail)
   }
 
+
   try {
     const amount = total_ammount * 100
-    const paymentIntent = await stripe.paymentIntents.create({
+    const stripeParam = {
       currency: "USD",
       description: "Sehos Shop Purchase",
       payment_method: id,
       confirm: true,
       amount,
-    })
+    }
+    console.log("Stripe Param:", stripeParam)
+
+    const paymentIntent = await stripe.paymentIntents.create(stripeParam)
     console.log(paymentIntent)
 
     const order = {
@@ -90,27 +93,33 @@ export const createOrders = async (value: any): Promise<any> => {
     }
     /* console.log(order) */
     const orderCreate: any = await Orders.create(order)
-    console.log("orden CReada", orderCreate)
+
     for (const orderDetail of orders_details) {
       console.log("creando detalle", await orderCreate.createOrders_detail(orderDetail))
-      /*  console.log(orderCreate) */
-      /*  console.log(orderDetail) */
+
+    }
+
+    for (const cart of carts) {
+      const product_detail = await cart.getProduct_detail({ attributes: ["id", "id_product", "id_color"] })
+      const product_details_size = await product_detail.getProduct_details_sizes({ where: { id_sizes: cart.id_size } })
+      product_details_size[0].stock = product_details_size[0].stock - cart.quantity
+      await product_details_size[0].save()
     }
     await Cart_details.destroy({ where: { id_user: id_user } })
     return { ...order, orders_details }
   } catch (error: any) {
     console.log(error)
     console.log(error.message)
-    //console.log(error.raw.message)
-    const order = {
+    console.log(error.raw.message)
+    /* const order = {
       id_user,
       ...address,
       total_ammount,
-      order_state: "Rechazado",
-      orders_details,
-    }
-    console.log(order)
-    return order
+      order_state: 'Rechazado',
+      orders_details
+    } */
+
+    throw new Error(error.raw.message)
   }
 }
 

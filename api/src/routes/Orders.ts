@@ -19,7 +19,7 @@ router.post("/", userExtractorUser, async (req: Request, res: Response) => {
     var nOrders = await createOrders({ ...req.params, ...req.body })
     res.json(nOrders)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
   }
 })
 router.put("/", async (req: Request, res: Response) => {

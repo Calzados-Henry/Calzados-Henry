@@ -16,3 +16,4 @@ export { default as searchReducer } from './product/searchReducer';
 export * from './stripe/stripeApiSlice';
 export * from './user/address';
 export * from './user';
+export * from './admin/adminSlice';
