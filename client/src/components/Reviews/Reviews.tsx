@@ -5,22 +5,50 @@ import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import ReviewModal from './ReviewModal';
+import { useAuth } from '@/hooks/useAuth';
+import { useEffect, useState } from 'react';
 
 // eslint-disable-next-line camelcase
 export default function Reviews() {
+  const auth = useAuth();
   const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
   const { data, error, isSuccess, isLoading } = useGetReviewsProductQuery(id);
+
+  useEffect(() => {
+    auth.user ? setShowModal(true) : <></>;
+  }, [auth]);
+
+  useEffect(() => {
+    Array.isArray(data) ? (
+      data?.forEach(rev => {
+        if (rev.id_user === auth.id) setShowModal(false);
+      })
+    ) : (
+      <></>
+    );
+  }, [data]);
+
   let content;
   if (error) content = <h1>Upps</h1>;
   if (isLoading) content = <Loader size={60} />;
-  if (isSuccess && data.length)
+  if (isSuccess && data.length) {
     content = data?.map((item, i) => {
       return (
         <Grid key={i} item xs={12} sm={6} xl={6} wrap='wrap'>
-          <ReviewCard review={item.review} date={item.date} rate={item.rate} User={item.User} />
+          <ReviewCard
+            id_user={item.id_user}
+            id_product={item.id_product}
+            review={item.review}
+            date={item.date}
+            rate={item.rate}
+            User={item.User}
+          />
         </Grid>
       );
     });
+  }
+
   return (
     <>
       <CssBaseline />
@@ -31,7 +59,7 @@ export default function Reviews() {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={9} textAlign='left'>
-          <ReviewModal />
+          {showModal && <ReviewModal />}
         </Grid>
       </Grid>
       <Grid container spacing={2}>

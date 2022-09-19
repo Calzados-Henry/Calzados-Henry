@@ -37,10 +37,20 @@ export default function AddressForm() {
     onSubmit: (newAddress, { resetForm }) => {
       createAddress(newAddress)
         .then(() => {
-          Swal.fire('Good job!', 'You clicked the button!', 'success');
+          Swal.fire({
+            title: 'Update!',
+            text: 'You clicked the button!',
+            icon: 'success',
+            confirmButtonColor: '#5d3a00',
+          });
         })
         .catch(() => {
-          Swal.fire('Upps!', 'You clicked the button!', 'error');
+          Swal.fire({
+            title: 'Upps!',
+            text: 'something went wrong!',
+            icon: 'error',
+            confirmButtonColor: '#5d3a00',
+          });
         });
 
       resetForm();
@@ -49,7 +59,7 @@ export default function AddressForm() {
   const { isValid } = formik;
   return (
     <Fragment>
-      <Box component='form' noValidate onSubmit={formik.handleSubmit}>
+      <Box component='form' autoComplete='on' noValidate onSubmit={formik.handleSubmit}>
         <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
           <LocalShipping /> &nbsp;&nbsp;Add New Address
         </Typography>

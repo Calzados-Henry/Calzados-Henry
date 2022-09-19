@@ -1,17 +1,14 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import Loader from '@/app/Loader';
+import { useGetUserByIdQuery } from '@/features/user/userApiSlice';
+import { useAuth } from '@/hooks/useAuth';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import BadgeIcon from '@mui/icons-material/Badge';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import { Avatar, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
-import { Avatar, Tooltip } from '@mui/material';
-import { useAuth } from '@/hooks/useAuth';
-import { useGetUserByIdQuery } from '@/features/user/userApiSlice';
-import Loader from '@/app/Loader';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import BadgeIcon from '@mui/icons-material/Badge';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import ProfileModal from './ProfileModal';
 
 export default function DataCard() {

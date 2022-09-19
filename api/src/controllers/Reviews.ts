@@ -56,11 +56,12 @@ export const postReview = async (review: ReviewsPostI) => {
 export const patchReview = () => {}
 
 export const deleteReview = async (id_user: UsersI["id"], id_product: ProductsI["id"]) => {
-  const deletedReview: any = await Reviews.findOne({ where: { id_product: id_product, id_user: id_user } })
-  const response = deleteReview
-  if (deletedReview.isActive === false) {
-    throw new Error(`${id_product} is already deleted`)
+  try {
+    const deletedReview: any = await Reviews.findOne({ where: { id_product: id_product, id_user: id_user } })
+    const res = deletedReview
+    await deletedReview?.destroy()
+    return res
+  } catch (error) {
+    return error
   }
-  deletedReview.update({ isActive: false }, { where: { isActive: true } })
-  return response
 }

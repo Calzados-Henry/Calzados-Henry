@@ -53,9 +53,9 @@ export default function ReviewModal() {
       rate: 0,
     },
     validationSchema: validations,
-    onSubmit: async values => {
+    onSubmit: values => {
       setDisabledButton(true);
-      await createReview(values);
+      createReview(values);
       formik.resetForm();
       handleClose();
     },
