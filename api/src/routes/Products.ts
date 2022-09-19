@@ -59,7 +59,7 @@ router.put('/', userExtractorAdmin, async (req: Request, res: Response, next: Ne
 })
 router.delete('/', /* userExtractorAdmin, */ async (req: Request, res: Response, next: NextFunction) => {
   try {
-    
+    console.log(req.body.id)
     var delProducts = await deleteProducts(req.body.id)
     res.json(delProducts)
   } catch (e) {

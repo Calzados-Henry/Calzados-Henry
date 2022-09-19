@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { RootState } from '../../../../store';
 import { useAuth } from '@/hooks/useAuth';
+import Divider from '@mui/material/Divider';
+
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -24,9 +26,9 @@ import MenuItem from '@mui/material/MenuItem';
 // import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSizes } from '@/features/sizes/sizesSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoriesQuery, useGetSeasonsQuery } from '@/features';
+import { useGetCategoriesQuery, useGetProductQuery } from '@/features';
 import axios from 'axios';
-
+import DeleteProduct from './DeleteProduct'
 
 /* VALIDACIONES */
 const validations = yup.object({
@@ -59,7 +61,6 @@ export default function AddProduct() {
   const dispatch = useDispatch()
   const sizes: any = useSelector((state: RootState) => state.sizes)
   const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData: currentDataC } = useGetCategoriesQuery()
-  const { data: seasons, error: errorS, isLoading: isLoadingS, isError: isErrorS, isSuccess: isSuccessS, currentData: currentDataS } = useGetSeasonsQuery()
 
   useEffect(() => {
     dispatch(getSizes())
@@ -68,7 +69,7 @@ export default function AddProduct() {
   const auth = useAuth()
   const formik = useFormik({
     initialValues: {  //!import correcto de los size y las categories
-      id_category: 4, //! ver que esté cambiado category ->  id_category
+      id_category: '', //! ver que esté cambiado category ->  id_category
       name: '',
       description: '',
       gender: '',
@@ -83,15 +84,10 @@ export default function AddProduct() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      handleFormSubmit(values)
+      () => handleFormSubmit(values)
       console.log(values)
     },
   });
-  var arrayDeImagenes: any
-  const handleImageChange = (e: any) => {
-    console.log('esto es lo que buscas', e.target.value);
-    arrayDeImagenes = e.target.value
-  }
   const handleFormSubmit = async (values: any) => {
     const formData = new FormData()
     formData.append("body", JSON.stringify(values))
@@ -101,22 +97,8 @@ export default function AddProduct() {
         console.log(filo);
       }
       console.log(formData)
-      // const prueba = await axios.post("http://localhost:3001/products", formData, {
-      //   headers: {
-      //     'accept': 'application/json',
-      //     'Accept-Language': 'en-US,en;q=0.8',
-      //     'Content-Type': `multipart/form-data; boundary=juajua`,
-      //   }
-      // })
-      //   .then((response) => {
-      //     console.log(response)
-      //     //handle success
-      //   }).catch((error) => {
-      //     console.log(error);
-      //     //handle error
-      //   });
     }
-    const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, /*headers:{"Authorization":`bearer ${auth.token}`}*/ });
+    const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
     console.log(prueba)
   }
 
@@ -134,6 +116,7 @@ export default function AddProduct() {
           <Typography component='h1' variant='h5'>
             Create Product
           </Typography>
+          <Divider style={{ width: '100%' }} variant='middle' />
           <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               {/* NAME */}
@@ -200,11 +183,10 @@ export default function AddProduct() {
                   value={formik.values.season}
                   onChange={formik.handleChange}
                   error={formik.touched.season && Boolean(formik.errors.season)}>
-                  {seasons?.map((s: any) => {
-                    return (
-                      <MenuItem value={s.id}>{s.season}</MenuItem>
-                    )
-                  })}
+                  <MenuItem value={'Spring'}>Spring</MenuItem>
+                  <MenuItem value={'Summer'}>Summer</MenuItem>
+                  <MenuItem value={'Autumn'}>Autumn</MenuItem>
+                  <MenuItem value={'Winter'}>Winter</MenuItem>
                 </Select>
               </Grid>
               {/* Buy Price */}
@@ -215,7 +197,7 @@ export default function AddProduct() {
                   name='buy_price'
                   id='buy_price'
                   label='Buy Price'
-                  type='number'
+                  type='string'
                   value={formik.values.buy_price}
                   onChange={formik.handleChange}
                   error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
@@ -230,7 +212,7 @@ export default function AddProduct() {
                   name='sell_price'
                   id='sell_price'
                   label='Sell Price'
-                  type='number'
+                  type='string'
                   value={formik.values.sell_price}
                   onChange={formik.handleChange}
                   error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
@@ -263,7 +245,7 @@ export default function AddProduct() {
                 </Select>
               </Grid>
               {/* details */}
-              <Grid>
+              <Grid pl={2}>
                 <FieldArray name="details.size">
                   {({ push, remove }) => (
                     <React.Fragment>
@@ -271,9 +253,9 @@ export default function AddProduct() {
                         <Typography variant="body2">Size</Typography>
                       </Grid>
                       {formik.values.details.size.map((_, index) => (
-                        <Grid container item>
+                        <Grid mb={1} container item>
                           <Grid item>
-                            <Select fullWidth onChange={formik.handleChange} name={`details.size[${index}].id`}>
+                            <Select size='medium' fullWidth onChange={formik.handleChange} name={`details.size[${index}].id`}>
                               {sizes.sizes.map((s: any) => {
                                 return (
                                   <MenuItem value={s.id}>{s.size}</MenuItem>
@@ -281,21 +263,23 @@ export default function AddProduct() {
                               })}
                             </Select>
                           </Grid>
-                          <Grid xs={8} item>
+                          <Grid ml={1} item>
                             <TextField
                               fullWidth
+                              size='medium'
                               label="Stock"
                               name={`details.size[${index}].stock`}
                               onChange={formik.handleChange}
                             />
                           </Grid>
-                          <Grid item>
-                            <Button variant="contained" onClick={() => remove(index)}>Delete</Button>
+                          <Grid display='flex' alignItems="center"
+                            justifyContent="center" ml={2} item>
+                            <Button fullWidth size='large' variant="contained" onClick={() => remove(index)}>Delete</Button>
                           </Grid>
                         </Grid>
                       ))}
-                      <Grid item>
-                        <Button variant="contained" onClick={() => push({ id: "", stock: 0 })} >Add Size</Button>
+                      <Grid mt={2} item>
+                        <Button fullWidth variant="contained" onClick={() => push({ id: "", stock: 0 })} >Add Size</Button>
                       </Grid>
                     </React.Fragment>
                   )}
@@ -322,18 +306,6 @@ export default function AddProduct() {
               </Grid>
               {/* Images Test */}
               <Grid item xs={12} sm={12}>
-                {/*
-              <Button fullWidth variant='outlined' color='inherit' component='label'>
-                Upload Images
-                <input
-                  type='file'
-                  accept='image/*'
-                  id='images'
-                  name='images'
-                  multiple
-                  onChange={event => setFieldValue(event.target.files)}
-                />
-              </Button> */}
               </Grid>
               {/* END */}
               <Grid item xs={12}>
@@ -358,6 +330,7 @@ export default function AddProduct() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <DeleteProduct />
     </FormikProvider>
   )
 }

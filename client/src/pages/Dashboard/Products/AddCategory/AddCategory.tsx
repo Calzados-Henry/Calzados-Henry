@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/useAuth';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
+import Divider from '@mui/material/Divider';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../../../../components/Copyright/Copyright';
@@ -27,13 +29,18 @@ import Loader from '@/app/Loader';
 /* COMPONENT */
 // const isLoggedIn = useSelector((state: IRootState) => state.user.loggedIn)
 export default function addCategory() {
+  const auth = useAuth()
   const dispatch = useDispatch()
   const categorias: any = useSelector((state: RootState) => state.categories.categories)
   useEffect(() => {
     dispatch(getCategories())
   }, [])
 
-  console.log(categorias)
+  const handleSubmitC:any = async (values:any)=>{
+    console.log(values) //ver si el fetch está correcto 
+    const prueba = await fetch("http://localhost:3001/category", { method: "POST", body: JSON.stringify(values), headers:{"Authorization":`bearer ${auth.token}`}});
+    console.log(prueba)
+  }
   const categoriasTraidas: Array<string> = categorias.map((c: CategoryI) => c.category)
   const validations = yup.object({
     categories: yup.array(yup.object({
@@ -49,14 +56,13 @@ export default function addCategory() {
         }], //! ver que esté cambiado category ->  id_category
     },
     validationSchema: validations,
-    onSubmit: values => {
-      console.log(formik);
-      console.log(values)
+    onSubmit: async (values) => {
+      handleSubmitC(values)
     },
   })
   if (!categorias.length) {
     return (
-      <Loader size={25}/>
+      <Loader size={25} />
     )
   } else {
     return (
@@ -71,17 +77,21 @@ export default function addCategory() {
               alignItems: 'center',
             }}>
             {/* Category */}
+            <Typography component='h1' variant='h5'>
+              Create Category
+            </Typography>
+            <Divider style={{ width: '100%' }} variant='middle' />
             <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
               <Grid>
                 <FieldArray name="categories">
                   {({ push, remove }) => (
                     <React.Fragment>
-                      <Grid item>
+                      <Grid mb={4} item>
                         <Typography variant="body2">Category</Typography>
                       </Grid>
                       {formik.values.categories.map((_, index) => (
                         <Grid container spacing={2} item>
-                          <Grid xs={8}  item>
+                          <Grid xs={8} item>
                             <TextField
                               size='small'
                               fullWidth

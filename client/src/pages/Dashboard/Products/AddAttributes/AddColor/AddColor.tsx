@@ -20,6 +20,7 @@ import { ArrayInterpolation } from '@emotion/react';
 import { ColorI } from '../../../../../../../api/src/types'
 import { RootState } from '../../../../../store';
 import Loader from '@/app/Loader';
+import Divider from '@mui/material/Divider';
 
 /* VALIDACIONES */
 
@@ -70,6 +71,10 @@ export default function addColor() {
               alignItems: 'center',
             }}>
             {/* color */}
+            <Typography component='h1' variant='h5'>
+                  Create Color
+                </Typography>
+                <Divider style={{width:'100%'}} variant='middle'/>
             <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
               <Grid>
                 <FieldArray name="colors">

@@ -20,6 +20,7 @@ import { ArrayInterpolation } from '@emotion/react';
 import { SizeI } from '../../../../../../../api/src/types'
 import { RootState } from '../../../../../store';
 import Loader from '@/app/Loader';
+import Divider from '@mui/material/Divider';
 
 /* VALIDACIONES */
 
@@ -32,7 +33,6 @@ export default function addsize() {
     dispatch(getSizes())
   }, [])
 
-  console.log(sizes)
   const sizesTraidas: Array<string> = sizes.map((c: SizeI) => c.size.toString())
   const validations = yup.object({
     sizes: yup.array(yup.object({
@@ -48,14 +48,15 @@ export default function addsize() {
         }], //! ver que esté cambiado size ->  id_size
     },
     validationSchema: validations,
-    onSubmit: values => {
-      console.log(formik);
+    onSubmit:async values => {
       console.log(values)
+      const post:any = await axios.post('http://localhost:3001/products/details/sizes', values)
+      console.log(post);
     },
   })
   if (!sizes.length) {
     return (
-      <Loader size={25}/>
+        <h1> </h1>
     )
   } else {
     return (
@@ -70,6 +71,10 @@ export default function addsize() {
               alignItems: 'center',
             }}>
             {/* size */}
+              <Typography component='h1' variant='h5'>
+                  Create Size
+                </Typography>
+                <Divider style={{width:'100%'}} variant='middle'/>
             <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
               <Grid>
                 <FieldArray name="sizes">
@@ -120,7 +125,7 @@ export default function addsize() {
               </Grid>
             </Box>
           </Box>
-          <Copyright sx={{ mt: 5 }} />
+          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Container >
       </FormikProvider >
     )
