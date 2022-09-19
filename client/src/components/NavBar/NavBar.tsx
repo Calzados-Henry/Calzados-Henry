@@ -14,7 +14,7 @@ export default function PrimarySearchAppBar() {
   return (
     <AppBar position='fixed' color='primary'>
       <Toolbar>
-        <SideBarComponent />
+      {location.pathname === '/products' && <SideBarComponent/>}
 
         <StoreIconComponent />
 
