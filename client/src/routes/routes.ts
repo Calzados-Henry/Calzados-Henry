@@ -31,6 +31,7 @@ export const PrivatesRoutes = {
   addProduct: 'addproduct',
   addCategory: 'addcategory',
   addAttribute: 'addattribute',
+  addAdmin: 'manage-users',
 };
 
 export const URL = {
@@ -40,4 +41,7 @@ export const URL = {
 export const Endpoint = {
   searchProduct: `${URL.baseURL}/products/search`,
   registerUser: `${URL.baseURL}/users/`,
+  getUsers: `${URL.baseURL}/users`,
+  deleteUser: `${URL.baseURL}/users`,
+  modifyUser: `${URL.baseURL}/users`,
 };
