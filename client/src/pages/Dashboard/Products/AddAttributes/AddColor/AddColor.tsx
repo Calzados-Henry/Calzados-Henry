@@ -17,7 +17,7 @@ import { getColors } from '@/features/colors/getColorsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { ArrayInterpolation } from '@emotion/react';
-import { ColorI } from '../../../../../../../api/src/types'
+import { ColorI } from '../../../../../../../api/src/types';
 import { RootState } from '../../../../../store';
 import Loader from '@/app/Loader';
 import Divider from '@mui/material/Divider';
@@ -27,37 +27,48 @@ import Divider from '@mui/material/Divider';
 /* COMPONENT */
 // const isLoggedIn = useSelector((state: IRootState) => state.user.loggedIn)
 export default function addColor() {
-  const dispatch = useDispatch()
-  const colors: any = useSelector((state: RootState) => state.colors.colors)
+  const dispatch = useDispatch();
+  const colors: any = useSelector((state: RootState) => state.colors.colors);
   useEffect(() => {
-    dispatch(getColors())
-  }, [])
+    dispatch(getColors());
+  }, []);
 
-  console.log(colors)
-  const colorsTraidas: Array<string> = colors.map((c: ColorI) => c.color.toString())
+  console.log(colors);
+  const colorsTraidas: Array<string> = colors.map((c: ColorI) => c.color.toString());
   const validations = yup.object({
-    colors: yup.array(yup.object({
-      color: yup.string().required().min(1, "Insert a valid color").max(15).notOneOf(colorsTraidas, 'You cannot add exitent colors'),
-    })).min(1).max(3).required('Please, type at least one color')
+    colors: yup
+      .array(
+        yup.object({
+          color: yup
+            .string()
+            .required()
+            .min(1, 'Insert a valid color')
+            .max(15)
+            .notOneOf(colorsTraidas, 'You cannot add exitent colors'),
+        }),
+      )
+      .min(1)
+      .max(3)
+      .required('Please, type at least one color'),
   });
   /* HOOKS */
   const formik = useFormik({
-    initialValues: {  //!import correcto de los color y las colors
-      colors:
-        [{
-          color: ""
-        }], //! ver que esté cambiado color ->  id_color
+    initialValues: {
+      //!import correcto de los color y las colors
+      colors: [
+        {
+          color: '',
+        },
+      ], //! ver que esté cambiado color ->  id_color
     },
     validationSchema: validations,
     onSubmit: values => {
       console.log(formik);
-      console.log(values)
+      console.log(values);
     },
-  })
+  });
   if (!colors.length) {
-    return (
-      <Loader size={25} />
-    )
+    return <Loader size={25} />;
   } else {
     return (
       <FormikProvider value={formik}>
@@ -72,16 +83,23 @@ export default function addColor() {
             }}>
             {/* color */}
             <Typography component='h1' variant='h5'>
-                  Create Color
-                </Typography>
-                <Divider style={{width:'100%'}} variant='middle'/>
-            <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
+              Create Color
+            </Typography>
+            <Divider style={{ width: '100%' }} variant='middle' />
+            <Box
+              component='form'
+              noValidate
+              onSubmit={formik.handleSubmit}
+              method='POST'
+              action='http://localhost:3001/products'
+              encType='multipart/form-data'
+              sx={{ mt: 3 }}>
               <Grid>
-                <FieldArray name="colors">
+                <FieldArray name='colors'>
                   {({ push, remove }) => (
                     <React.Fragment>
                       <Grid item>
-                        <Typography variant="body2">Color</Typography>
+                        <Typography variant='body2'>Color</Typography>
                       </Grid>
                       {formik.values.colors.map((_, index) => (
                         <Grid container spacing={2} item>
@@ -95,12 +113,16 @@ export default function addColor() {
                             />
                           </Grid>
                           <Grid item>
-                            <Button fullWidth variant="contained" onClick={() => remove(index)}>Delete</Button>
+                            <Button fullWidth variant='contained' onClick={() => remove(index)}>
+                              Delete
+                            </Button>
                           </Grid>
                         </Grid>
                       ))}
                       <Grid mt={2} item>
-                        <Button fullWidth variant="contained" onClick={() => push({ color: '' })} >Add color</Button>
+                        <Button fullWidth variant='contained' onClick={() => push({ color: '' })}>
+                          Add color
+                        </Button>
                       </Grid>
                     </React.Fragment>
                   )}
@@ -125,9 +147,8 @@ export default function addColor() {
               </Grid>
             </Box>
           </Box>
-          <Copyright sx={{ mt: 5 }} />
-        </Container >
-      </FormikProvider >
-    )
+        </Container>
+      </FormikProvider>
+    );
   }
 }
