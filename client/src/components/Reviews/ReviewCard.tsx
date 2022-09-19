@@ -20,20 +20,36 @@ export default function ReviewCard({
   const auth = useAuth();
 
   const erase = () => {
-    id_user && id_product ? (
-      delelteReview({ id_user, id_product })
-        .then(() =>
-          Swal.fire({
-            title: 'Delete',
-            icon: 'success',
-            confirmButtonColor: '#5d3a00',
-          }),
-        )
-        .catch(() => Swal.fire('Upps!', 'You clicked the button!', 'error'))
-        .finally(() => {})
-    ) : (
-      <></>
-    );
+    if (id_user && id_product)
+      Swal.fire({
+        title: 'Delete?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5d3a00',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!',
+      }).then(result => {
+        if (result.isConfirmed) {
+          delelteReview({ id_user, id_product })
+            .then(() => {
+              Swal.fire({
+                title: 'Deleted',
+                text: 'Your review has been deleted.',
+                confirmButtonColor: '#5d3a00',
+                icon: 'success',
+              });
+            })
+            .catch(() => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#5d3a00',
+              });
+            });
+        }
+      });
   };
 
   return (

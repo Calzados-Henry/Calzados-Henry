@@ -43,17 +43,21 @@ export default function AccountInfo({ handleClose }) {
           Swal.fire({
             title: 'Update Data',
             icon: 'success',
-            showCancelButton: true,
             confirmButtonColor: '#5d3a00',
-            /* cancelButtonColor: '#fe4450', */
-            confirmButtonText: 'Yes, delete it!',
           }),
         )
         .then(() => {
           dispatch(updateUserInfo(values));
           setEdit(() => !edit);
         })
-        .catch(() => Swal.fire('Upps!', 'You clicked the button!', 'error'))
+        .catch(() =>
+          Swal.fire({
+            title: 'Upps!',
+            text: 'something went wrong!',
+            icon: 'error',
+            confirmButtonColor: '#5d3a00',
+          }),
+        )
         .finally(() => {
           handleClose();
           resetForm();
