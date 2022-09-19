@@ -17,6 +17,7 @@ import admin from './features/admin/adminSlice';
 // Usamos la funcion configureStore y le pasamos un objeto que contiene el reducer/slice.reducer
 export const store = configureStore({
   reducer: {
+    admin,
     user,
     products,
     cart,
