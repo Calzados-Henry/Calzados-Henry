@@ -10,6 +10,7 @@ import user from './features/user/userSlice';
 import sizes from './features/sizes/sizesSlice';
 import colors from './features/colors/getColorsSlice';
 import categories from './features/category/categoriesSlice'
+import admin from './features/admin/adminSlice';
 
 // importamos el export default que viene del slice
 

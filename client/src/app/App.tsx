@@ -19,7 +19,9 @@ import Profile from '@/pages/UserSettings/Profile/Profile';
 import Favorites from '@/pages/UserSettings/Favorites/Favorites';
 import ResetPassword from '@/pages/ResetPassword/ResetPassword';
 import ForgotPassword from '@/pages/ResetPassword/ForgotPassword';
+import AddAdmin from '@/pages/Dashboard/AddAdmin/AddAdmin';
 import OnlinePays from '@/components/OnlinePays/OnlinePays';
+
 // Lazy Loading
 const Cards = lazy(() => import('@/components/Cards/Cards'));
 const ProductDetail = lazy(() => import('@/components/ProductDetail/ProductDetail'));
@@ -62,6 +64,7 @@ function App() {
                   <Route path={PrivatesRoutes.addProduct} element={<AddProduct />} />
                   <Route path={PrivatesRoutes.addCategory} element={<AddCategory />} />
                   <Route path={PrivatesRoutes.addAttribute} element={<AddAttributes />} />
+                  <Route path={PrivatesRoutes.addAdmin} element={<AddAdmin />} />
                 </Route>
               </Route>
             </Route>
