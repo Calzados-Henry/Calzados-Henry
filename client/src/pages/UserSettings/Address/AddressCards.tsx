@@ -27,7 +27,7 @@ export default function AddressCards() {
     });
   if (data && data.length < 1)
     content = (
-      <Typography variant='h6'>
+      <Typography mt={2} variant='h6' fontWeight={100}>
         There are no addresses associated with this account, please add an address.
       </Typography>
     );

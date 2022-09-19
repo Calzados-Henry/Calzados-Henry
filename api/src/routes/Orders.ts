@@ -1,20 +1,20 @@
-'use strict'
+"use strict"
 // se requiere el models
-import { Router, Request, Response } from 'express';
-import { getOrders, createOrders, updateOrders, deleteOrders } from '../controllers/Orders'
-import { userExtractorUser } from '../middleware/userExtractor';
+import { Router, Request, Response } from "express"
+import { getOrders, createOrders, updateOrders, deleteOrders, getOrdersUser } from "../controllers/Orders"
+import { userExtractorUser } from "../middleware/userExtractor"
 
-const router = Router();
+const router = Router()
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
   try {
-    var orders = await getOrders();
+    var orders = await getOrders()
     res.json(orders)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
-router.post('/', userExtractorUser, async (req: Request, res: Response) => {
+router.post("/", userExtractorUser, async (req: Request, res: Response) => {
   try {
     var nOrders = await createOrders({ ...req.params, ...req.body })
     res.json(nOrders)
@@ -22,7 +22,7 @@ router.post('/', userExtractorUser, async (req: Request, res: Response) => {
     res.json({ error: e.message })
   }
 })
-router.put('/', async (req: Request, res: Response) => {
+router.put("/", async (req: Request, res: Response) => {
   try {
     var putOrders = await updateOrders(req.body)
     res.json(putOrders)
@@ -30,7 +30,7 @@ router.put('/', async (req: Request, res: Response) => {
     res.json({ error: e.message })
   }
 })
-router.delete('/', async (req: Request, res: Response) => {
+router.delete("/", async (req: Request, res: Response) => {
   try {
     var delOrders = await deleteOrders(req.body.id)
     res.json(delOrders)
@@ -38,4 +38,15 @@ router.delete('/', async (req: Request, res: Response) => {
     res.json({ error: e.message })
   }
 })
-export default router;
+
+router.get("/user", userExtractorUser, async (req: Request, res: Response) => {
+  try {
+    // console.log(req.body)
+    var orders = await getOrdersUser(req.params.id)
+    return res.json(orders)
+  } catch (error) {
+    return res.json({ error })
+  }
+})
+
+export default router

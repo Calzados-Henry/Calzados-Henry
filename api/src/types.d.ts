@@ -118,7 +118,7 @@ export interface favoritos {
 }
 
 export interface UsersI {
-  id: number
+  id: number | string
   username: string
   password: string
   email: string
