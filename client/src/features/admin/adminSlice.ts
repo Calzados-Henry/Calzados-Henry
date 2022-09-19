@@ -25,11 +25,9 @@ export const logicDeleteUser = createAsyncThunk('delete-user-by-admin', async (i
 export const restoreDeletedUser = createAsyncThunk(
   'restore-deleted-user-by-admin',
   async (id, token) => {
-    console.log(id, token);
-
+    
     const { data: user } = await axios.put(`${Endpoint.modifyUser}`, { id, isActive: true });
 
-    console.log(user);
     return user;
   },
 );
@@ -41,7 +39,7 @@ const edithUsers = (builder: any) => {
 
   builder.addCase(restoreDeletedUser.fulfilled, (state, action) => {
     toast.dismiss();
-    console.log(action.payload);
+   
     state.adminUsers = state.adminUsers?.map((user: any) => {
       if (user.id === action.payload.id) user.isActive = true;
       return user;
