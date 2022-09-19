@@ -30,14 +30,12 @@ export const CheckoutForm = () => {
 
   /*  */
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    const successPayment = () => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Your payment was received successfully',
-        confirmButtonColor: '#412800',
+  
+  const successPayment = () => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Your payment was received successfully',
+      confirmButtonColor: '#412800',
         showConfirmButton: true,
         timer: 1600
       });
@@ -51,7 +49,9 @@ export const CheckoutForm = () => {
         navigate(PublicRoutes.home)
       }, 2000);
     };
-
+    
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     
     const dataStripe = await stripe?.createPaymentMethod({
       type: 'card',
@@ -61,7 +61,7 @@ export const CheckoutForm = () => {
     if (!dataStripe?.error) {
       const idStripe = dataStripe?.paymentMethod?.id;
       try {
-        const { data, status } = await axios.post('http://localhost:3001/orders', {
+        await axios.post('http://localhost:3001/orders', {
           idStripe,
           idAddress: deliveryAddress.id
         }, {
@@ -69,21 +69,13 @@ export const CheckoutForm = () => {
               'Authorization': `bearer ${token}`
           }
         });
-        data && status === 200
-          ? 
-          successPayment()
-          : Swal.fire({
-              icon: 'error',
-              title: 'Your payment was declined',
-              text: 'Contact your bank and try again',
-              confirmButtonColor: '#412800',
-              showConfirmButton: true,
-            });
+        successPayment()
       } catch (error: any) {
+        console.log(error)
         Swal.fire({
           icon: 'error',
           title: 'Your payment was declined',
-          text: error.message,
+          text: error.response.data.error,
           confirmButtonColor: '#412800',
           showConfirmButton: true,
         });
