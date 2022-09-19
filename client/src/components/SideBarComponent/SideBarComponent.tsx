@@ -206,8 +206,8 @@ const handleClickPrices = () => {
         anchor='left'
         open={open}
         onClose={() => setOpen(false)}
-        sx={{ minWidth: 300 }}>
-        <Box textAlign='center' width='300px'>
+        sx={{ minWidth: 300}}>
+        <Box textAlign='center' width='300px' sx={{position: 'inherit', top: '7%', bgcolor:'white', borderEndEndRadius: 10}}>
 
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>

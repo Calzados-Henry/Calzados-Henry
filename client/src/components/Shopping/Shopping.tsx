@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { PrivatesRoutes, PublicRoutes } from "../../routes/routes"
 import { useAuth } from "../../hooks/useAuth"
 import { deleteApiUserCart } from "../../features/cart/cartApiSlice"
+import { useGetAddressQuery } from "@/features"
 
 
 export default function Shopping() {
@@ -20,6 +21,7 @@ export default function Shopping() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [localtotal, setLocalTotal] = useState(0)
+    const {data: addresses, isLoading} = useGetAddressQuery()
 
     useEffect(() => {window.scrollTo(0, 0)}, [])
 
@@ -98,17 +100,35 @@ export default function Shopping() {
                   navigate(PublicRoutes.login)
                 }, 1000)
               } else {
-                Swal.fire({
-                  title: 'Redirecting!',
-                  icon: 'info',
-                  text: 'Please complete checkout form!',
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-                
-                setTimeout(() => {
-                  navigate(PrivatesRoutes.checkout)
-                }, 1000)
+                if(!addresses) {
+                  Swal.fire({
+                    icon:'error',
+                    text: "You don't have any address to select, please add one",
+                    timer: 1500
+                  })
+                  setTimeout(() => {
+                    navigate(`${PrivatesRoutes.settings}/${PrivatesRoutes.addaddress}`)
+                  }, 1500)
+                } else {
+                  const options: any = {}
+                  addresses.map(a => { options[a.id ? a.id : 0] = `${a.address} - ${a.city}`})
+                  Swal.fire({
+                  title: 'Please, select one address',
+                  icon: 'question',
+                  showConfirmButton: true,
+                  showCancelButton: true,
+                  input: 'select',
+                  inputOptions: options,
+                  inputPlaceholder: 'Available addresses',
+                  cancelButtonColor: '#d33'
+                    }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      const addressSelected = addresses?.find(el => el.id.toString() === result.value)
+                      window.localStorage.setItem('deliveryAddress', JSON.stringify(addressSelected))
+                      navigate(PrivatesRoutes.checkout)
+                    }
+                  })
+                }
               }
             }
           })
