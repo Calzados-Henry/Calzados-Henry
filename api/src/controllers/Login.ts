@@ -7,6 +7,8 @@ const bcrypt = require('bcrypt');
 export const login = async (value: any): Promise<object> => {
 	if (value.email && value.password) {
 		var user: any = await Users.findOne({ where: { email: value.email } });
+		if(!user.isActive) throw new Error("Deleted account")
+		console.log(user.isActive)
 		user = JSON.parse(JSON.stringify(user, null, 2));
 		const passwordCorrect = user === null ? false : await bcrypt.compareSync(value.password, user.password);
 		if (!passwordCorrect) {
