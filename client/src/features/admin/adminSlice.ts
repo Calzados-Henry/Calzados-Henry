@@ -41,7 +41,19 @@ const edithUsers = (builder: any) => {
 
   builder.addCase(restoreDeletedUser.fulfilled, (state, action) => {
     toast.dismiss();
-
+    console.log(action.payload);
+    state.adminUsers = state.adminUsers?.map((user: any) => {
+      if (user.id === action.payload.id) user.isActive = true;
+      return user;
+    });
+    state.employeeUsers = state.employeeUsers?.map((user: any) => {
+      if (user.id === action.payload.id) user.isActive = true;
+      return user;
+    });
+    state.normalUsers = state.normalUsers?.map((user: any) => {
+      if (user.id === action.payload.id) user.isActive = true;
+      return user;
+    });
     toast.success('User is Active again');
   });
   builder.addCase(restoreDeletedUser.rejected, (state, action) => {
@@ -55,7 +67,20 @@ const edithUsers = (builder: any) => {
   });
 
   builder.addCase(logicDeleteUser.fulfilled, (state, action) => {
+    state.adminUsers = state.adminUsers?.map((user: any) => {
+      if (user.id === action.payload?.id) user.isActive = false;
+      return user;
+    });
+    state.employeeUsers = state.employeeUsers?.map((user: any) => {
+      if (user.id === action.payload?.id) user.isActive = false;
+      return user;
+    });
+    state.normalUsers = state.normalUsers?.map((user: any) => {
+      if (user.id === action.payload?.id) user.isActive = false;
+      return user;
+    });
     toast.dismiss();
+    toast.success('Usuario eliminado exitosamente...');
   });
 
   builder.addCase(logicDeleteUser.rejected, (state, action) => {

@@ -6,7 +6,7 @@ import {
   logicDeleteUser,
   restoreDeletedUser,
 } from '../../../features/admin/adminSlice';
-import { Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -49,7 +49,7 @@ function AddAdmin() {
       <Toaster position='bottom-left' gutter={8} />
 
       <Box sx={{ mt: 4 }}>
-        {adminUsers.length ? (
+        {adminUsers?.length ? (
           <>
             <Box
               sx={{
@@ -77,30 +77,37 @@ function AddAdmin() {
                   alignItems: 'center',
                   mt: 1,
                 }}>
-                <Typography variant='body1' sx={{ m: 1, p: 1 }}>
-                  {`${e.name} ${e.last_name}`}
-                </Typography>
-                <Typography variant='body2' sx={{ m: 1, p: 1 }}>
-                  {e.email}
-                </Typography>
-                <Stack direction='row' spacing={3} sx={{ m: 1 }}>
-                  <Chip
-                    label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                    onClick={() => {
-                      e.isActive
-                        ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                        : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                    }}
-                    color={e.isActive ? 'error' : 'success'}
-                    onDelete={() => {
-                      e.isActive
-                        ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                        : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                    }}
-                    deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
-                    variant='outlined'
-                  />
-                </Stack>
+                <Box sx={{ width: '33%' }}>
+                  <Typography variant='body1' sx={{ m: 1, p: 1 }}>
+                    {`${e.name} ${e.last_name}`}
+                  </Typography>
+                </Box>
+                <Box sx={{ width: '33%' }}>
+                  <Typography variant='body2' sx={{ m: 1, p: 1 }}>
+                    {e.email}
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                    <Chip
+                      label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
+                      onClick={() => {
+                        e.isActive
+                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                      }}
+                      onDelete={() => {
+                        e.isActive
+                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                      }}
+                      deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
+                      variant='outlined'
+                      color={e.isActive ? 'error' : 'success'}
+                    />
+                  </Stack>
+                </Box>
               </Paper>
             ))}
           </>
@@ -108,7 +115,7 @@ function AddAdmin() {
           <div></div>
         )}
 
-        {employeeUsers.length ? (
+        {employeeUsers?.length ? (
           <div>
             <Box
               sx={{
@@ -136,31 +143,37 @@ function AddAdmin() {
                   alignItems: 'center',
                   mt: 1,
                 }}>
-                <Typography variant='body1' sx={{ m: 1, p: 1 }}>
-                  {`${e.name} ${e.last_name}`}
-                </Typography>
-                <Typography variant='body2' sx={{ m: 1, p: 1 }}>
-                  {e.email}
-                </Typography>
+                <Box sx={{ width: '33%' }}>
+                  <Typography variant='body1' sx={{ m: 1, p: 1 }}>
+                    {`${e.name} ${e.last_name}`}
+                  </Typography>
+                </Box>
+                <Box sx={{ width: '33%' }}>
+                  <Typography variant='body2' sx={{ m: 1, p: 1 }}>
+                    {e.email}
+                  </Typography>
+                </Box>
 
-                <Stack direction='row' spacing={0} sx={{ m: 1 }}>
-                  <Chip
-                    label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                    onClick={() => {
-                      e.isActive
-                        ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                        : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                    }}
-                    onDelete={() => {
-                      e.isActive
-                        ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                        : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                    }}
-                    color={e.isActive ? 'error' : 'success'}
-                    deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
-                    variant='outlined'
-                  />
-                </Stack>
+                <Box>
+                  <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                    <Chip
+                      label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
+                      onClick={() => {
+                        e.isActive
+                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                      }}
+                      onDelete={() => {
+                        e.isActive
+                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                      }}
+                      deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
+                      variant='outlined'
+                      color={e.isActive ? 'error' : 'success'}
+                    />
+                  </Stack>
+                </Box>
               </Paper>
             ))}
           </div>
@@ -168,7 +181,7 @@ function AddAdmin() {
           <div></div>
         )}
 
-        {normalUsers.length ? (
+        {normalUsers?.length ? (
           <>
             <Box>
               <Box
@@ -197,31 +210,37 @@ function AddAdmin() {
                     alignItems: 'center',
                     mt: 1,
                   }}>
-                  <Typography variant='body1' sx={{ m: 1, p: 1 }}>
-                    {`${e.name} ${e.last_name}`}
-                  </Typography>
-                  <Typography variant='body2' sx={{ m: 1, p: 1 }}>
-                    {e.email}
-                  </Typography>
+                  <Box sx={{ width: '33%' }}>
+                    <Typography variant='body1' sx={{ m: 1, p: 1 }}>
+                      {`${e.name} ${e.last_name}`}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: '33%' }}>
+                    <Typography variant='body2' sx={{ m: 1, p: 1 }}>
+                      {e.email}
+                    </Typography>
+                  </Box>
 
-                  <Stack direction='row' spacing={0} sx={{ m: 1 }}>
-                    <Chip
-                      label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                      onClick={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
-                      onDelete={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
-                      deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
-                      variant='outlined'
-                      color={e.isActive ? 'error' : 'success'}
-                    />
-                  </Stack>
+                  <Box>
+                    <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                      <Chip
+                        label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
+                        onClick={() => {
+                          e.isActive
+                            ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                            : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                        }}
+                        onDelete={() => {
+                          e.isActive
+                            ? dispatch(logicDeleteUser(e.id, userAuth.token))
+                            : dispatch(restoreDeletedUser(e.id, userAuth.token));
+                        }}
+                        deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
+                        variant='outlined'
+                        color={e.isActive ? 'error' : 'success'}
+                      />
+                    </Stack>
+                  </Box>
                 </Paper>
               ))}
             </Box>
