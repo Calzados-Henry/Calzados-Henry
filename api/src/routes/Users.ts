@@ -13,6 +13,7 @@ import {
   addFavs,
   getFavs,
   allDeleteCart,
+  updatePassword,
 } from "../controllers/Users"
 import { Users } from "../db"
 
@@ -81,7 +82,7 @@ router.put("/", async (req: Request, res: Response) => {
 
 router.put("/password", async (req: Request, res: Response) => {
   try {
-    var putUser = await updateUser(req.body)
+    var putUser = await updatePassword(req.body)
     res.json(putUser)
   } catch (e: any) {
     res.json({ error: e.message })
