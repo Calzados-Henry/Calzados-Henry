@@ -70,18 +70,18 @@ const [amount, setAmount] = useState<State>({
       errorTop: false
     };
     if ( Number(validar[0].valor.base) > Number(validar[0].valor.top)) {
-      error.base = 'El minimo no puede ser mayor que el maximo!'
+      error.base = 'The minimum cannot be greater than the maximum!'
       error.errorBase = true
     }
     else if(Number(validar[0].valor.base) !== 0 && (Number(validar[0].valor.base) === Number(validar[0].valor.top))){
-      error.top = 'El maximo no puede ser igual que el minimo!'
+      error.top = 'The maximun cannot be equal to the minimum!!'
       error.errorTop = true
     }
     return error 
   }
   const validacion = (validar: FormikValues) => {
     if ( Number(validar[0].valor.base) !== 0 ? (Number(validar[0].valor.base) >= Number(validar[0].valor.top)) : (Number(validar[0].valor.base) > Number(validar[0].valor.top)) ) {
-      errors.price = 'El minimo no puede ser mayor que el maximo Pone voluntad!'
+      errors.price = 'he minimum cannot be greater than the maximum!'
     }
      errors.price.length > 0 ? setDisable(true) : setDisable(false);
   }
@@ -207,8 +207,7 @@ const handleClickPrices = () => {
         open={open}
         onClose={() => setOpen(false)}
         sx={{ minWidth: 300}}>
-        <Box textAlign='center' width='300px' sx={{position: 'inherit', top: '7%', bgcolor:'white', borderEndEndRadius: 10}}>
-
+        <Box textAlign='center' width='300px' height='100%' sx={{position: 'fixed', overflowY:'auto' ,top: '7%', bgcolor:'white', borderEndEndRadius: 10}}>
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList
@@ -243,12 +242,6 @@ const handleClickPrices = () => {
                   }}>
                   By name ZA
                 </MenuItem>
-                <MenuItem
-                  onClick={e => {
-                    sort(e, 'bestSellers');
-                  }}>
-                  Best sellers
-                </MenuItem>
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -258,7 +251,7 @@ const handleClickPrices = () => {
             <ListItemIcon>
               <FilterAltIcon />
             </ListItemIcon>
-            <ListItemText primary='Filtros' />
+            <ListItemText primary='Filters' />
             {openMenu ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
 
@@ -270,7 +263,7 @@ const handleClickPrices = () => {
                 onSubmit={formik.handleSubmit}
                 sx={{  display: 'flex', flexDirection: 'column', gap: 0.5, mr: 1, ml: 1 }}>
           <Tooltip
-            title='Cerrar si no se quiere filtrar por precio'
+            title="Close if you want filter by price"
             TransitionComponent={Zoom}
             sx={{ x: 1  }}
             arrow>
@@ -278,7 +271,7 @@ const handleClickPrices = () => {
             <ListItemIcon>
               <PriceChangeIcon />
             </ListItemIcon>
-            <ListItemText primary='Precio' sx={{padding: 0}} />
+            <ListItemText primary='Price' sx={{padding: 0}} />
             {openMenuPrices ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           </Tooltip>
@@ -296,7 +289,7 @@ const handleClickPrices = () => {
                   required
                   fullWidth
                   id='base'
-                  label='Minimo'
+                  label='Minimum'
                   autoFocus
                   value={price.base}
                   onChange={handleOnChangePrice}
@@ -309,7 +302,7 @@ const handleClickPrices = () => {
                   required
                   fullWidth
                   id='top'
-                  label='Maximo'
+                  label='Maximun'
                   name='top'
                   autoComplete='off'
                   value={price.top}
@@ -320,7 +313,7 @@ const handleClickPrices = () => {
                 </Box>
                 </Collapse>
                  <FormControl sx={{marginTop: 2}}>
-        <InputLabel id="category">Categoría</InputLabel>
+        <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
           id="category"
@@ -328,15 +321,15 @@ const handleClickPrices = () => {
           label="Categoría"
           onChange={handleChangeCategory}
         >
-          <MenuItem value={'Todas las categorias'}>Todas las categorias</MenuItem>
-          <MenuItem value={'Botas'}>Botas</MenuItem>
-          <MenuItem value={'Sandalias'}>Sandalias</MenuItem>
-          <MenuItem value={'Mocasines'}>Mocasines</MenuItem>
-          <MenuItem value={'Tenis'}>Tenis</MenuItem>
+          <MenuItem value={'Todas las categorias'}>All Categories</MenuItem>
+          <MenuItem value={'Botas'}>Boots</MenuItem>
+          <MenuItem value={'Sandalias'}>Flip Flops</MenuItem>
+          <MenuItem value={'Mocasines'}>Loafers</MenuItem>
+          <MenuItem value={'Tenis'}>Tennis</MenuItem>
         </Select>
           </FormControl>
           <FormControl sx={{marginTop: 2}}>
-        <InputLabel id="season">Temporada</InputLabel>
+        <InputLabel id="season">Season</InputLabel>
         <Select
           labelId="season"
           id="season"
@@ -345,15 +338,15 @@ const handleClickPrices = () => {
           /* sx={{marginTop: 2}} */
           onChange={handleChangeSeason}
         >
-          <MenuItem value={'Todas las Temporadas'}>Todas las Temporadas</MenuItem>
-          <MenuItem value={'Summer'}>Verano</MenuItem>
-          <MenuItem value={"Winter"}>Invierno</MenuItem>
-          <MenuItem value={'Fall'}>Otoño</MenuItem>
-          <MenuItem value={'Spring'}>Primavera</MenuItem>
+          <MenuItem value={'Todas las Temporadas'}>All Seasons</MenuItem>
+          <MenuItem value={'Summer'}>Summer</MenuItem>
+          <MenuItem value={"Winter"}>Winter</MenuItem>
+          <MenuItem value={'Autumn'}>Autumn</MenuItem>
+          <MenuItem value={'Spring'}>Spring</MenuItem>
         </Select>
         </FormControl>
          <FormControl sx={{marginTop: 2}}>
-        <InputLabel id="gender">Genero</InputLabel>
+        <InputLabel id="gender">Gender</InputLabel>
         <Select
           labelId="gender"
           id="gender"
@@ -362,9 +355,9 @@ const handleClickPrices = () => {
           
           onChange={handleChangeGender}
         >
-          <MenuItem value={'Todos los Generos'}>Todos los Generos</MenuItem>
-          <MenuItem value={'Female'}>Femenino</MenuItem>
-          <MenuItem value={"Male"}>Masculino</MenuItem>
+          <MenuItem value={'Todos los Generos'}>All Genders</MenuItem>
+          <MenuItem value={'Female'}>Female</MenuItem>
+          <MenuItem value={"Male"}>Male</MenuItem>
           <MenuItem value={'Unisex'}>Unisex</MenuItem>
         </Select>
         </FormControl>
@@ -375,7 +368,7 @@ const handleClickPrices = () => {
               </Box>
             </List>
       <Tooltip
-            title='Se usa para hacer un nuevo filtrado'
+            title='Aplicate new filter option'
             TransitionComponent={Zoom}
             sx={{ x: 1  }}
             arrow>

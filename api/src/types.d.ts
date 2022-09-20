@@ -113,7 +113,7 @@ export interface favoritos {
   image?: string
   name: string
   color: string
-  size: Array<object>
+  sizes: Array<object>
   price: number
 }
 
