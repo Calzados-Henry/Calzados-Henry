@@ -11,7 +11,7 @@ import {
   MenuItem,
   Tooltip,
 } from '@mui/material';
-
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { Logout, AppRegistration, Settings, LoginOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -26,6 +26,9 @@ export default function User() {
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const storage = window.localStorage?.getItem('user');
+  const userAuth = storage ? JSON.parse(storage) : {};
 
   const initial = {
     id: null,
@@ -157,12 +160,23 @@ export default function User() {
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => navigate(`${PrivatesRoutes.settings}/${PrivatesRoutes.profile}`)}>
-          {/* onClick={() => navigate('profile/settings')} */}
           <ListItemIcon>
             <Settings fontSize='small' />
           </ListItemIcon>
           Settings
         </MenuItem>
+
+        {userAuth?.rol === 'Administrator' ? (
+          <MenuItem onClick={() => navigate(`${PrivatesRoutes.dashboard}`)}>
+            <ListItemIcon>
+              <AdminPanelSettingsIcon fontSize='small' />
+            </ListItemIcon>
+            Dashboard
+          </MenuItem>
+        ) : (
+          <div></div>
+        )}
+
         <MenuItem
           onClick={() => {
             setLogin(false);

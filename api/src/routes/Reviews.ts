@@ -29,6 +29,8 @@ Reviews.get("/user/:id_user", async (req: Request, res: Response) => {
 
 Reviews.post("/", userExtractorUser, async (req: Request, res: Response) => {
   try {
+    req.body.rate = Number(req.body.rate)
+    req.body.id_product = Number(req.body.id_product)
     const result: ReviewsPostI = ReviewSchema.parse(req.body)
     const response = await postReview(result)
     return res.json(response)

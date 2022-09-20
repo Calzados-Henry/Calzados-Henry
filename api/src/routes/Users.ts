@@ -1,10 +1,24 @@
-'use strict'
+"use strict"
 // se requiere el models
-import { Router, Request, Response, NextFunction } from 'express';
-import { createUsers, updateUser, deleteUser, addToCart, getCart, updateCart, deleteCart, getAllValuesUsers, addFavs, getFavs, allDeleteCart } from '../controllers/Users';
-import { Users } from '../db';
+import { Router, Request, Response, NextFunction } from "express"
+import {
+  createUsers,
+  updateUser,
+  deleteUser,
+  addToCart,
+  getCart,
+  updateCart,
+  deleteCart,
+  getAllValuesUsers,
+  addFavourites,
+  getFavourites,
+  allDeleteCart,
+  updatePassword,
+  deleteFavourite,
+} from "../controllers/Users"
+import { Users } from "../db"
 
-const router = Router();
+const router = Router()
 
 //* README *
 
@@ -28,7 +42,7 @@ const router = Router();
 //* {
 //*   "id": 3,                      (ID del usuario)
 //*   "name": "Nombres nuevos"
-//*   "last_name": "Apellidos nuevos", 
+//*   "last_name": "Apellidos nuevos",
 //*   "phone": "Cel o Telf Nuevos"
 //* }
 //* DELETE http://localhost:3001/users = mandar datos es por body, solo mandar el id del usuario a eliminar, ejemplo ↓
@@ -39,16 +53,16 @@ const router = Router();
 
 // TODO => Pide un usuarios por id || username, email.
 //* Si no se manda nada trae todos los usuarios.
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    var users = await getAllValuesUsers(req.query);
+    var users = await getAllValuesUsers(req.query)
     res.json(users)
   } catch (e) {
     next(e)
   }
 })
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     var nUser = await createUsers(req.body)
     res.json(nUser)
@@ -57,15 +71,26 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-router.put('/', async (req: Request, res: Response) => {
+router.put("/", async (req: Request, res: Response) => {
   try {
+    Number(req.body.identification)
     var putUser = await updateUser(req.body)
     res.json(putUser)
   } catch (e: any) {
     res.json({ error: e.message })
   }
 })
-router.delete('/', async (req: Request, res: Response) => {
+
+router.put("/password", async (req: Request, res: Response) => {
+  try {
+    var putUser = await updatePassword(req.body)
+    res.json(putUser)
+  } catch (e: any) {
+    res.json({ error: e.message })
+  }
+})
+
+router.delete("/", async (req: Request, res: Response) => {
   try {
     var delUser = await deleteUser(req.body.id)
     res.json(delUser)
@@ -74,11 +99,11 @@ router.delete('/', async (req: Request, res: Response) => {
   }
 })
 
-// DELETE ----> http:localhost:3001/users/delete/:id 
+// DELETE ----> http:localhost:3001/users/delete/:id
 // se ingresa por params el id del usuario a eliminar
 // !! Atencion, es eliminacion fisica, solo para valientes.
 
-router.delete('/delete/:id', async (req: Request, res: Response) => {
+router.delete("/delete/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id
     const user = await Users.findByPk(id)
@@ -93,20 +118,21 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
   }
 })
 
-
 //!====================================================
 //!===================CART_DETAILS=====================
 //!====================================================
 
-router.get('/cart', async (req: Request, res: Response, next: NextFunction) => {
+router.get("/cart/:idUser", async (req: Request, res: Response, next: NextFunction) => {
+  const { idUser } = req.params
   try {
-    var cart = await getCart(req.body)
+    var cart = await getCart(parseInt(idUser))
     res.json(cart)
   } catch (e) {
     next(e)
   }
 })
-router.post('/cart', async (req: Request, res: Response, next: NextFunction) => {
+
+router.post("/cart", async (req: Request, res: Response, next: NextFunction) => {
   try {
     var cart = await addToCart(req.body)
     res.json(cart)
@@ -114,7 +140,7 @@ router.post('/cart', async (req: Request, res: Response, next: NextFunction) => 
     next(e)
   }
 })
-router.put('/cart', async (req: Request, res: Response, next: NextFunction) => {
+router.put("/cart", async (req: Request, res: Response, next: NextFunction) => {
   try {
     var cart = await updateCart(req.body)
     res.json(cart)
@@ -122,7 +148,7 @@ router.put('/cart', async (req: Request, res: Response, next: NextFunction) => {
     next(e)
   }
 })
-router.delete('/cart', async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/cart", async (req: Request, res: Response, next: NextFunction) => {
   try {
     var delCart = await deleteCart(req.body)
     res.json(delCart)
@@ -130,7 +156,7 @@ router.delete('/cart', async (req: Request, res: Response, next: NextFunction) =
     next(e)
   }
 })
-router.delete('/cart/all', async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/cart/all", async (req: Request, res: Response, next: NextFunction) => {
   try {
     var delCart = await allDeleteCart(req.body)
     res.json(delCart)
@@ -141,22 +167,31 @@ router.delete('/cart/all', async (req: Request, res: Response, next: NextFunctio
 //!=========================================================================
 //* FAVORITES
 
-router.get('/favs/:id', async (req: Request, res: Response) => {
+router.get("/favs/:id", async (req: Request, res: Response) => {
   try {
-    var nUser = await getFavs(req.params.id)
+    var nUser = await getFavourites(req.params.id)
     res.json(nUser)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
   }
 })
 
-router.post('/favs', async (req: Request, res: Response) => {
+router.post("/favs", async (req: Request, res: Response) => {
   try {
-    var nUser = await addFavs(req.body)
+    var nUser = await addFavourites(req.body)
     res.json(nUser)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
   }
 })
 
-export default router;
+router.delete("/favs", async (req: Request, res: Response) => {
+  try {
+    var nUser = await deleteFavourite(req.body)
+    res.json(nUser)
+  } catch (e: any) {
+    res.status(404).json({ error: e.message })
+  }
+})
+
+export default router

@@ -80,27 +80,38 @@ export default function Login() {
       password: res.googleId,
     };
 
-    const Logged = await login(loginUserData).unwrap();
+    try {
+      const Logged = await login(loginUserData).unwrap();
 
-    // Loggin exitoso -->
-    if (!Logged.message) {
-      const { userAuth, userInfo } = setUserInfo(Logged);
+      // Loggin exitoso -->
+      if (!Logged.message) {
+        const { userAuth, userInfo } = setUserInfo(Logged);
 
-      setLocalStorage(userInfo);
-      createUserStorage(userAuth);
+        setLocalStorage(userInfo);
+        createUserStorage(userAuth);
 
-      await updateUserCart(Logged);
+        await updateUserCart(Logged);
 
-      successAlert(Logged);
-    } else {
-      googleLogin.setValues({
-        ...googleLogin.values,
-        name: res.profileObj.givenName,
-        last_name: res.profileObj.familyName,
-        email: res.profileObj.email,
-        password: res.googleId,
+        successAlert(Logged);
+      } else {
+        googleLogin.setValues({
+          ...googleLogin.values,
+          name: res.profileObj.givenName,
+          last_name: res.profileObj.familyName,
+          email: res.profileObj.email,
+          password: res.googleId,
+        });
+        handleOpenLoginModal();
+      }
+    } catch (e) {
+      handleCloseBackDrop();
+
+      Swal.fire({
+        title: 'Error!',
+        text: `Has been ocurred an error, comunicate with an admin to research your case`,
+        icon: 'error',
+        confirmButtonText: 'Try again!',
       });
-      handleOpenLoginModal();
     }
   };
 
@@ -173,23 +184,34 @@ export default function Login() {
         password: formik.values.password,
       };
 
-      const data: any = await login(dataLogin).unwrap();
+      try {
+        const data: any = await login(dataLogin).unwrap();
 
-      handleCloseBackDrop();
+        handleCloseBackDrop();
 
-      if (!data.message) {
-        const { userAuth, userInfo } = setUserInfo(data);
+        if (!data.message) {
+          const { userAuth, userInfo } = setUserInfo(data);
 
-        setLocalStorage(userInfo);
-        createUserStorage(userAuth);
+          setLocalStorage(userInfo);
+          createUserStorage(userAuth);
 
-        updateUserCart(data);
+          updateUserCart(data);
 
-        successAlert(data);
-      } else {
+          successAlert(data);
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'Try again!',
+          });
+        }
+      } catch (e) {
+        handleCloseBackDrop();
+
         Swal.fire({
           title: 'Error!',
-          text: data.message,
+          text: `Has been ocurred an error, comunicate with an admin to research your case`,
           icon: 'error',
           confirmButtonText: 'Try again!',
         });
@@ -234,30 +256,40 @@ export default function Login() {
                 password: googleData.googleId,
               };
 
-              const Logged = await login(LogginData).unwrap();
+              try {
+                const Logged = await login(LogginData).unwrap();
 
-              console.log(Logged, LogginData);
-              // Loggin exitoso -->
-              if (!Logged.message) {
-                const { userAuth, userInfo } = setUserInfo(Logged);
+                // Loggin exitoso -->
+                if (!Logged.message) {
+                  const { userAuth, userInfo } = setUserInfo(Logged);
 
-                setLocalStorage(userInfo);
-                createUserStorage(userAuth);
+                  setLocalStorage(userInfo);
+                  createUserStorage(userAuth);
 
-                updateUserCart(Logged);
+                  updateUserCart(Logged);
 
-                successAlert(Logged);
+                  successAlert(Logged);
+
+                  Swal.fire({
+                    title: 'Success!',
+                    icon: 'success',
+                    text: `You're logged!, you will be redirect to Home`,
+                    showConfirmButton: false,
+                    timer: 2000,
+                  });
+                  setTimeout(() => {
+                    navigate(PublicRoutes.home);
+                  }, 2200);
+                }
+              } catch (e) {
+                handleCloseBackDrop();
 
                 Swal.fire({
-                  title: 'Success!',
-                  icon: 'success',
-                  text: `You're logged!, you will be redirect to Home`,
-                  showConfirmButton: false,
-                  timer: 2000,
+                  title: 'Error!',
+                  text: `Has been ocurred an error, comunicate with an admin to research your case`,
+                  icon: 'error',
+                  confirmButtonText: 'Try again!',
                 });
-                setTimeout(() => {
-                  navigate(PublicRoutes.home);
-                }, 2200);
               }
             };
 
@@ -266,7 +298,6 @@ export default function Login() {
         })
         .catch(error => {
           handleCloseBackDrop();
-
           const errorAlert = () => {
             Swal.fire({
               title: 'Error!',

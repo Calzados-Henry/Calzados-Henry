@@ -11,24 +11,28 @@ import { Link, useNavigate } from "react-router-dom"
 import { PrivatesRoutes, PublicRoutes } from "../../routes/routes"
 import { useAuth } from "../../hooks/useAuth"
 import { deleteApiUserCart } from "../../features/cart/cartApiSlice"
+import { useGetAddressQuery } from "@/features"
 
 
 export default function Shopping() {
     const auth = useAuth()
     const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
-    const {loading, products} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
+    const {loading, products, total} = useSelector((state:RootState) => auth.user ? state.apiCart : state.cart)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [total, setTotal] = useState(0)
+    const [localtotal, setLocalTotal] = useState(0)
+    const {data: addresses, isLoading} = useGetAddressQuery()
 
     useEffect(() => {window.scrollTo(0, 0)}, [])
 
     useEffect(() => {
+      if(!auth.user) {
         let parcial = 0
         products?.forEach((p: CartI) => {
-            p.price && (parcial = parcial + (p.price * p.quantity))
+            p.price && p.quantity && (parcial = parcial + (p.price * p.quantity))
         })
-        setTotal(parcial)
+        setLocalTotal(parcial)
+      }
     }, [products])
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -96,17 +100,35 @@ export default function Shopping() {
                   navigate(PublicRoutes.login)
                 }, 1000)
               } else {
-                Swal.fire({
-                  title: 'Redirecting!',
-                  icon: 'info',
-                  text: 'Please complete checkout form!',
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-                
-                setTimeout(() => {
-                  navigate(PrivatesRoutes.checkout)
-                }, 1000)
+                if(!addresses) {
+                  Swal.fire({
+                    icon:'error',
+                    text: "You don't have any address to select, please add one",
+                    timer: 1500
+                  })
+                  setTimeout(() => {
+                    navigate(`${PrivatesRoutes.settings}/${PrivatesRoutes.addaddress}`)
+                  }, 1500)
+                } else {
+                  const options: any = {}
+                  addresses.map(a => { options[a.id ? a.id : 0] = `${a.address} - ${a.city}`})
+                  Swal.fire({
+                  title: 'Please, select one address',
+                  icon: 'question',
+                  showConfirmButton: true,
+                  showCancelButton: true,
+                  input: 'select',
+                  inputOptions: options,
+                  inputPlaceholder: 'Available addresses',
+                  cancelButtonColor: '#d33'
+                    }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      const addressSelected = addresses?.find(el => el.id.toString() === result.value)
+                      window.localStorage.setItem('deliveryAddress', JSON.stringify(addressSelected))
+                      navigate(PrivatesRoutes.checkout)
+                    }
+                  })
+                }
               }
             }
           })
@@ -117,9 +139,9 @@ export default function Shopping() {
                 <h3>Your current Shopping Cart</h3>
                 {loading && 
                 <Backdrop
-                  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  sx={{ color: 'primary.main', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                   open={true}
-                ><CircularProgress color="inherit" /></Backdrop>}
+                ><CircularProgress color="inherit" size={200}/></Backdrop>}
                 <Stack spacing={2} alignItems={'center'}>
                     {products?.length ? products?.map((p: CartI) => {
                         return(<Item key = {p.idProduct}><CardShop
@@ -130,6 +152,7 @@ export default function Shopping() {
                             color = {p.color}
                             size = {p.size}
                             price = {p.price}
+                            sizeCart= {p.sizeCart}
                             quantity={p.quantity}
                         />
                         </Item>
@@ -144,7 +167,7 @@ export default function Shopping() {
                 </Box>}
                 {!products?.length ? null : 
                 <Box display={'flex'} justifyContent={'flex-end'} gap={5} margin={2}>
-                    <Typography variant='body1' color='text.secondary' sx={{alignSelf: 'center'}}>Total: $ {total}</Typography>
+                    <Typography variant='body1' color='text.secondary' sx={{alignSelf: 'center'}}>Total: $ {auth.user ? total : localtotal}</Typography>
                     <Button sx={{width:120}} variant="contained" onClick={confirmOrder}>Buy Now!</Button>
                 </Box>}
 

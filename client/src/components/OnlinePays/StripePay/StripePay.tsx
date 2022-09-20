@@ -2,72 +2,79 @@ import { useState } from 'react';
 import { Button, Container, Grid, Typography } from '@mui/material';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useSelector } from 'react-redux';
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import master from '../assets/mc_symbol.svg';
 import visa from '../assets/Visa_Brandmark_Blue_RGB_2021.png';
 import { stripePublicKey } from '@/utils/utils';
-import { RootState } from '@/store';
 import axios from 'axios';
 import './StripePay.css';
 import Swal from 'sweetalert2';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { PublicRoutes } from '@/routes/routes';
+import { useDispatch } from 'react-redux';
+import { getApiUserCart } from '@/features/cart/cartApiSlice';
 
 const stripePromise = loadStripe(stripePublicKey);
 
 // 5200828282828210 card / 3 digitos / fecha futura
 /* OTHER COMPONENT */
 export const CheckoutForm = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const stripe = useStripe();
-  const price = useSelector((state: RootState) => state.checkout.totalCart);
   const elements = useElements();
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, token, id } = useAuth();
+  const deliveryAddress = JSON.parse(window.localStorage.getItem('deliveryAddress') as string)
 
   /*  */
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    const successPayment = () => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Your payment was received successfully',
-        confirmButtonColor: '#412800',
+  
+  const successPayment = () => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Your payment was received successfully',
+      confirmButtonColor: '#412800',
         showConfirmButton: true,
+        timer: 1600
       });
       axios.post('http://localhost:3001/email', {
         email: user,
-        subject: 'Your payment was received successfully',
-        content: 'Su pago fue resuelto correctamente! ',
+        subject: 'Sehos Store Purchase',
+        content: 'Your payment was received successfully! ',
       });
+      dispatch(getApiUserCart(id))
+      setTimeout(() => {
+        navigate(PublicRoutes.home)
+      }, 2000);
     };
+    
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    
     const dataStripe = await stripe?.createPaymentMethod({
       type: 'card',
       card: elements?.getElement(CardElement),
     });
     setLoading(true);
     if (!dataStripe?.error) {
-      const id = dataStripe?.paymentMethod?.id;
+      const idStripe = dataStripe?.paymentMethod?.id;
       try {
-        const { data, status } = await axios.post('http://localhost:3001/api/checkout', {
-          id,
-          amount: price * 100, // cents
+        await axios.post('http://localhost:3001/orders', {
+          idStripe,
+          idAddress: deliveryAddress.id
+        }, {
+          headers: {
+              'Authorization': `bearer ${token}`
+          }
         });
-        data && data.status === 'succeeded'
-          ? successPayment()
-          : Swal.fire({
-              icon: 'error',
-              title: 'Your payment was declined',
-              text: 'Contact your bank and try again',
-              confirmButtonColor: '#412800',
-              showConfirmButton: true,
-            });
-      } catch (error) {
+        successPayment()
+      } catch (error: any) {
         Swal.fire({
           icon: 'error',
           title: 'Your payment was declined',
-          text: 'Contact your bank and try again',
+          text: error.response.data.error,
           confirmButtonColor: '#412800',
           showConfirmButton: true,
         });
@@ -77,18 +84,14 @@ export const CheckoutForm = () => {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Container sx={{width:'500px', margin: 0}}>
       <form onSubmit={handleSubmit}>
         <Typography variant='h6' textAlign={'center'}>
-          Card payment
+        Payment with debit or credit card
         </Typography>
-        <Grid container alignItems={'center'} display={'grid'} gridTemplateColumns='1fr 1fr'>
-          <Grid item alignContent={'center'}>
+        <Grid container alignItems={'center'} justifyContent='center'>
             <img src={master} className='creditCard' alt='logo' />
-          </Grid>
-          <Grid item alignContent={'center'}>
             <img src={visa} className='creditCard' alt='logo' />
-          </Grid>
         </Grid>
         {/*  */}
         <CardElement id='card-element' />
@@ -102,7 +105,6 @@ export const CheckoutForm = () => {
           fullWidth>
           {loading ? <span>Loading...</span> : 'Fast Pay'}
         </Button>
-        <Typography fontWeight={100}>Payment with debit or credit card</Typography>
       </form>
     </Container>
   );

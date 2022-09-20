@@ -4,6 +4,7 @@ import { LocalShipping } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { Fragment } from 'react';
+import Swal from 'sweetalert2';
 import * as yup from 'yup';
 
 const validations = yup.object({
@@ -33,15 +34,32 @@ export default function AddressForm() {
       zip_code: '',
     },
     validationSchema: validations,
-    onSubmit: async (newAddress, { resetForm }) => {
-      await createAddress(newAddress).unwrap();
+    onSubmit: (newAddress, { resetForm }) => {
+      createAddress(newAddress)
+        .then(() => {
+          Swal.fire({
+            title: 'Update!',
+            text: 'You clicked the button!',
+            icon: 'success',
+            confirmButtonColor: '#5d3a00',
+          });
+        })
+        .catch(() => {
+          Swal.fire({
+            title: 'Upps!',
+            text: 'something went wrong!',
+            icon: 'error',
+            confirmButtonColor: '#5d3a00',
+          });
+        });
+
       resetForm();
     },
   });
   const { isValid } = formik;
   return (
     <Fragment>
-      <Box component='form' noValidate onSubmit={formik.handleSubmit}>
+      <Box component='form' autoComplete='on' noValidate onSubmit={formik.handleSubmit}>
         <Typography variant='h6' gutterBottom display={'flex'} alignItems={'center'} mb={2}>
           <LocalShipping /> &nbsp;&nbsp;Add New Address
         </Typography>

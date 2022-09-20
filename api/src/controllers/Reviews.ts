@@ -1,9 +1,12 @@
-import { Reviews } from "../db"
+import { Reviews, Users } from "../db"
 import { ProductsI, ReviewsPostI, UsersI } from "../types"
 
 export const getReviewsProduct = async (productId: ProductsI["id"]) => {
   try {
     const findReviews = await Reviews.findAll({
+      include: [{ model: Users, attributes: [["name", "first_name"], "last_name", "username"] }],
+      // include: [{ model: Users, attributes: ["name", "last_name", "username"] }],
+      // include: [{ model: Users, attributes: { exclude: ["id"] } }],
       where: {
         id_product: productId,
       },
@@ -29,8 +32,14 @@ export const getReviewsUser = async (userId: UsersI["id"]) => {
 }
 
 export const postReview = async (review: ReviewsPostI) => {
-  // Si ya existe
   try {
+    const newReview = await Reviews.create(review)
+    return newReview
+  } catch (error) {
+    return error
+  }
+  // Si ya existe
+  /*   try {
     const { id_product, id_user } = review
     const finOne = await Reviews.findOne({
       where: {
@@ -42,23 +51,17 @@ export const postReview = async (review: ReviewsPostI) => {
     if (finOne) return new Error("There is already a review for this product")
   } catch (error) {
     return error
-  }
-
-  try {
-    const newReview = await Reviews.create(review)
-    return newReview
-  } catch (error) {
-    return error
-  }
+  } */
 }
 export const patchReview = () => {}
 
 export const deleteReview = async (id_user: UsersI["id"], id_product: ProductsI["id"]) => {
-  const deletedReview: any = await Reviews.findOne({ where: { id_product: id_product, id_user: id_user } })
-  const response = deleteReview
-  if (deletedReview.isActive === false) {
-    throw new Error(`${id_product} is already deleted`)
+  try {
+    const deletedReview: any = await Reviews.findOne({ where: { id_product: id_product, id_user: id_user } })
+    const res = deletedReview
+    await deletedReview?.destroy()
+    return res
+  } catch (error) {
+    return error
   }
-  deletedReview.update({ isActive: false }, { where: { isActive: true } })
-  return response
 }

@@ -14,6 +14,7 @@ export const PublicRoutes = {
   resetPassword: '/reset-password/:name',
   forgotPassword: '/reset-password',
   error: '*',
+  adproduc:"/pruebaAdProduct"
 };
 
 export const PrivatesRoutes = {
@@ -24,13 +25,14 @@ export const PrivatesRoutes = {
   addaddress: 'address',
   userOrders: 'orders',
   favorites: 'favorites',
-  checkout: 'checkout',
+  checkout: '/cart/checkout',
 
   admin: '/admin',
   dashboard: '/dashboard',
-  addProduct: 'addproduct',
+  addProduct: 'addProduct',
   addCategory: 'addcategory',
   addAttribute: 'addattribute',
+  addAdmin: 'manage-users',
 };
 
 export const URL = {
@@ -40,4 +42,7 @@ export const URL = {
 export const Endpoint = {
   searchProduct: `${URL.baseURL}/products/search`,
   registerUser: `${URL.baseURL}/users/`,
+  getUsers: `${URL.baseURL}/users`,
+  deleteUser: `${URL.baseURL}/users`,
+  modifyUser: `${URL.baseURL}/users`,
 };

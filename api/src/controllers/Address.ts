@@ -1,30 +1,37 @@
-
-import { Address, Users } from '../db'
+import { Address, Users } from "../db"
 
 //PATCH/address: enviar un objeto que contenga todos los datos de la direccion a editar
-//junto con una propiedad llamada update: "la direccion". Ej: //! consultar si es conveniente pedir solo la direccion o un objeto con la direccion y el zip_code 
-// 
+//junto con una propiedad llamada update: "la direccion". Ej: //! consultar si es conveniente pedir solo la direccion o un objeto con la direccion y el zip_code
+//
 // {...address,
 // update:'Springfield 343'
 //}
 
 export const getAddress = async (id: string): Promise<object> => {
-  console.log(id)
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-  console.log(userAddresses)
-  if (!userAddresses?.Addresses && userAddresses) {
-    throw new Error(`There's not any addresses for the user id: ${id}`)
-  } else if (!userAddresses) {
-    throw new Error(`There's not any user for the id: ${id}`)
+  if (userAddresses) {
+    return userAddresses.Addresses
   } else {
-    console.log("entre")
-    return (userAddresses.Addresses)
+    return []
   }
 }
 
-export const postAddress = async (id: string, body: any): Promise<object> => {
+export const postAddress = async (id: string, body: any) => {
   const { address, zip_code, city, state, country, title }: any = body
-  const [newAddress, created]: any = await Address.findOrCreate({
+  const user: any = await Users.findByPk(id)
+  const newAddress = {
+    id_user: id,
+    title: title,
+    address: address,
+    city: city,
+    state: state,
+    country: country,
+    zip_code: zip_code,
+  }
+
+  return await user.createAddress(newAddress)
+
+  /* const [newAddress, created]: any = await Address.findOrCreate({
     where: {
       id_user: id,
       title: title,
@@ -34,8 +41,11 @@ export const postAddress = async (id: string, body: any): Promise<object> => {
       country: country,
       zip_code: zip_code
     }
-  })
-  const user: any = await Users.findByPk(id)
+  }) */
+
+  /* console.log("NewAddress:", newAddress)
+  console.log("Created", created)
+
   if (user && created) {
     await user.addAddress(newAddress)
     const userAddresses = await Users.findByPk(id, { include: { model: Address } })
@@ -47,7 +57,7 @@ export const postAddress = async (id: string, body: any): Promise<object> => {
   } else if (!user) {
     throw new Error(`We couldn't find user with id: ${id}`)
   }
-  throw new Error('An error has ocurred')
+  throw new Error('An error has ocurred') */
 }
 
 export const patchAddress = async (value: any): Promise<object> => {
@@ -56,20 +66,15 @@ export const patchAddress = async (value: any): Promise<object> => {
     if (address.address === value.address && address.zip_code === value.zip_code) {
       throw new Error(`Please type another address`)
     }
-    address.set(value);
-    await address.save();
+    address.set(value)
+    await address.save()
     return address
   }
   throw new Error(`There's not any address with the id: ${value.id}`)
 }
 
 export const deleteAddress = async (value: any): Promise<object> => {
-  const deletedAddress: any = await Address.findByPk(value.id)
-  if (deletedAddress.isActive == false) {
-    throw new Error(`${value.address} is already deleted`)
-  } else {
-    deletedAddress.isActive = false
-    await deletedAddress.save()
-  }
-  return deletedAddress
+  const deletedAddress = await Address.findByPk(value.id)
+  await deletedAddress?.destroy()
+  return { msg: "Done" }
 }

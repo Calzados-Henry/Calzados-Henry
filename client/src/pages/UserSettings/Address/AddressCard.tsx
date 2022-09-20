@@ -34,14 +34,14 @@ export default function AddressCard({
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#412800',
-      cancelButtonColor: '#fe4450',
-      confirmButtonText: 'Yes, delete it!',
+      cancelButtonColor: 'gray',
+      confirmButtonText: 'Yes',
     }).then(result => {
       if (result.isConfirmed) {
         id ? deleteAddress(id) : <></>;
         Swal.fire({
           title: 'Deleted!',
-          text: 'Your file has been deleted.',
+          text: 'Your address has been deleted.',
           icon: 'success',
           confirmButtonColor: '#412800',
         });

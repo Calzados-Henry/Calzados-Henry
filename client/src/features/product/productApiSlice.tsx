@@ -15,10 +15,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<ProductI[], void>({
       query: () => '/products',
-      transformResponse: (response: ProductI[]) => {
-        productAdapter.setAll(initialState, response);
-        return response;
-      },
+      transformResponse: (response:any[]) => response.filter((p)=>p.isActive),
       providesTags: ['Product'],
     }),
     
@@ -42,10 +39,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
+    getCategories: builder.query<any, void>({
+      query: ()=> '/category'
+    }),
+    getSeasons: builder.query<any, void>({
+      query: ()=> '/seasons'
+    })
   }),
 });
 
-export const { useGetProductsQuery, useAddNewProductMutation, useGetProductQuery, useGetProductsDashboardQuery } =
+export const { useGetProductsQuery, useAddNewProductMutation, useGetProductQuery, useGetCategoriesQuery, useGetSeasonsQuery, useGetProductsDashboardQuery } =
   productsApiSlice;
 
 // returns the query result object
