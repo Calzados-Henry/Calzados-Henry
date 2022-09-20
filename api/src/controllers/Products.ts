@@ -104,21 +104,70 @@ export const getProducts = async (): Promise<any> => {
   return products.length > 0 ? productValuesFormat : { message: "There's no any products" }
 }
 
-export const getProductsAdmin = async (): Promise<any> => {
+interface Months {
+  Jan: number,
+   Feb: number,
+   Mar:number,
+   Apr:number,
+   May:number,
+   Jun:number,
+   Jul:number,
+   Aug:number,
+   Sep: number,
+   Oct:number,
+   Nov:number,
+   Dec:number
+}
+
+export const getProductsAdmin = async (time: string, categoria: string): Promise<any> => {
   // Temporal para cambiar los Fall to Autumn
   // Se trae todas las imagenes para el Slider
+  const months: Months = {
+     Jan: 1,
+     Feb: 2,
+     Mar:3,
+     Apr:4,
+     May:5,
+     Jun:6,
+     Jul:7,
+     Aug:8,
+     Sep: 9,
+     Oct:10,
+     Nov:11,
+     Dec:12
 
-  var products = await Products.findAll({
-    include: [
-      Users,
-      Category,
-      Orders_details,
-      { model: Product_details, as: "details", include: [Color, Images, Sizes] },
-    ],
-  })
+  }
+
+  var products = await Products.findAll({ include: [Users, Category, Orders_details, { model: Product_details, as: 'details', include: [Color, Images, Sizes ] }] })
   var productValuesFormat = formatValueProduct(products)
-  return products.length > 0 ? productValuesFormat : { message: "There's no any products" }
+  let filtro;
+
+    filtro = productValuesFormat.map(( item: any ) => 
+    {
+      item.orders_details = item.orders_detail.filter(( order:any ) => {
+         const t = order.time.split('-')
+         let totalVentas = 0;
+         totalVentas += order.total
+         const toDay = Date().split(' ');
+         const difAño = (Number(toDay[3]) - Number(t[0]))
+         const difMes = (months[toDay[1] as keyof Months] +( 12 * difAño)) -  Number(t[1])
+         const difDias =  Number(toDay[2]) + (30 * difMes) - Number(t[2])
+         order.dif = difDias
+         item.totalVentas = totalVentas
+         return time === 'Desde el principio' ? order.order_state === 'Fulfilled' : 
+          (order.dif < Number(time) && (order.order_state === 'Fulfilled')) /* ? true : false */
+        })
+        return item
+    })
+  
+    return categoria !== '' ?  filtro.filter((item: any) => item.Category.category === categoria) : filtro
 }
+
+  
+
+
+
+
 
 /* var products = await Products.findAll({
     include: [Users, Category, {

@@ -72,7 +72,7 @@ const Cards = () => {
       </Box>)}
     </>
   );
-
+          
   const leftToast = document.getElementById(touched)?.getBoundingClientRect()?.x
   const topToast = document.getElementById(touched)?.getBoundingClientRect()?.top
   

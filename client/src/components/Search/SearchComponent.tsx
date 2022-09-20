@@ -52,8 +52,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-type Name = string;
-
 const SearchComponent = (name: any) => {
   const [search, setSearch] = useState({ product: '' });
   const products = useSelector((state: RootState) => state.products.searchResult);
@@ -71,7 +69,7 @@ const SearchComponent = (name: any) => {
 
   const onClick = () => {
     if (!search.product.length) {
-      toast.error(<b>Debe ingresar un valor primero</b>);
+      toast.error(<b>Don't have any character to search</b>);
     } else {
       dispatchSearch(search.product);
     }
@@ -95,7 +93,7 @@ const SearchComponent = (name: any) => {
         />
       </Search>
       <Button onClick={onClick} size='small' variant='contained'>
-        Buscar
+        Search
       </Button>
     </>
   );

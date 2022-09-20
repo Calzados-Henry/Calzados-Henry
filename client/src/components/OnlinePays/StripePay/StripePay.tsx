@@ -71,7 +71,6 @@ export const CheckoutForm = () => {
         });
         successPayment()
       } catch (error: any) {
-        console.log(error)
         Swal.fire({
           icon: 'error',
           title: 'Your payment was declined',
