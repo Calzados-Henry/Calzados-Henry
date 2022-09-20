@@ -31,6 +31,7 @@ const Login = lazy(() => import('@/components/Login/Login'));
 const Register = lazy(() => import('@/components/Register/Register'));
 const Error404 = lazy(() => import('@/components/Error404/Error404'));
 const UserSettings = lazy(() => import('@/pages/UserSettings/UserSettings'));
+const OrderDetails = lazy(() => import('@/pages/UserSettings/Orders/OrdersDetails'));
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
                 <Route path={PrivatesRoutes.addaddress} element={<Address />} />
                 <Route path={PrivatesRoutes.favorites} element={<Favorites />} />
                 <Route path={PrivatesRoutes.userOrders} element={<Orders />} />
+                <Route path={`${PrivatesRoutes.userOrders}/:id`} element={<OrderDetails />} />
               </Route>
 
               <Route element={<RoleGuard />}>

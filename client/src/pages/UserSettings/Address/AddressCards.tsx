@@ -1,15 +1,14 @@
-import Loader from '@/app/Loader';
 import { useGetAddressQuery } from '@/features/user/address/addressApiSlice';
-import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
+import { Box, CircularProgress } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import AddressCard from './AddressCard';
-import { Box } from '@mui/material';
 
 export default function AddressCards() {
   const { data, isLoading, isSuccess, isError, error } = useGetAddressQuery();
 
   let content;
-  if (isLoading) content = <Loader size={60} />;
+  if (isLoading) content = <CircularProgress size={100} color='secondary' />;
   if (isError || error) content = <>Error</>;
   if (isSuccess && data)
     content = data?.map((address, index) => {
@@ -27,7 +26,7 @@ export default function AddressCards() {
     });
   if (data && data.length < 1)
     content = (
-      <Typography variant='h6'>
+      <Typography mt={2} variant='h6' fontWeight={100}>
         There are no addresses associated with this account, please add an address.
       </Typography>
     );

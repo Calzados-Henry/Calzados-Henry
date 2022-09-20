@@ -1,10 +1,10 @@
 import { Box, CircularProgress } from '@mui/material';
 
-interface LoadrerProps {
+interface LoaderProps {
   size: number;
 }
 
-export default function Loader(props: LoadrerProps) {
+export default function Loader(props: LoaderProps) {
   return (
     <Box
       sx={{ display: 'flex' }}

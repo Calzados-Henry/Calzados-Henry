@@ -1,22 +1,32 @@
-import { Orders_detailsI } from "../types";
-import { Orders_details } from "../db";
-
+import { Orders_detailsI } from "../types"
+import { Orders, Orders_details } from "../db"
 
 export const getOrders_details = async (): Promise<Orders_detailsI> => {
   const orders_details: any = await Orders_details.findAll()
   if (!orders_details.length) {
-    throw new Error('No existen order_Details')
+    throw new Error("No existen order_Details")
   }
-
   return orders_details
+}
+
+export const getOrderDetail = async (id: Orders_detailsI["id_order"]) => {
+  try {
+    const orders_details: any = await Orders_details.findAll({
+      include: [{ model: Orders, attributes: ["total_ammount"] }],
+      where: {
+        id_order: id,
+      },
+    })
+    return orders_details
+  } catch (error) {
+    return error
+  }
 }
 
 export const createOrder_detail = async (order_details: any): Promise<Orders_detailsI> => {
   const result: any = await Orders_details.create(order_details)
   return result
 }
-
-
 
 export const toNewOrder_Detail = (object: any): Orders_detailsI => {
   const newOrders_details: Orders_detailsI = {
@@ -29,7 +39,7 @@ export const toNewOrder_Detail = (object: any): Orders_detailsI => {
     color: object.color,
     quantity: object.quantity,
     season: object.season,
-    price: object.price
+    price: object.price,
   }
   return newOrders_details
 }

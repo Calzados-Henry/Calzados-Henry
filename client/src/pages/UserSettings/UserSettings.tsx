@@ -4,14 +4,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
-import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { mainListItems, secondaryListItems } from './listItems/listItems';
 
 function UserSettingsContent() {
-  const dispatch = useDispatch();
   const { id: userId } = useAuth();
-  const { data, isSuccess, isError } = useGetUserByIdQuery(userId);
+  useGetUserByIdQuery(userId);
 
   return (
     <>
