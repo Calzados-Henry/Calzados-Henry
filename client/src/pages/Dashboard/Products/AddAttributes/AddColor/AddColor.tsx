@@ -68,7 +68,9 @@ export default function addColor() {
     },
   });
   if (!colors.length) {
-    return <Loader size={25} />;
+    return (
+      <h1></h1>
+    )
   } else {
     return (
       <FormikProvider value={formik}>

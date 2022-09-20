@@ -4,6 +4,8 @@ import { TypeUser } from '../enum';
 const jwt = require('jsonwebtoken')
 
 export const userExtractorAdmin = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.get('authorization'))
+  // console.log(req)
   // tipo de usuario almacenado en el enum
   var { Administrator } = TypeUser
   // se extrae el token desde header
@@ -16,8 +18,10 @@ export const userExtractorAdmin = (req: Request, res: Response, next: NextFuncti
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
     token = authorization.substring(7)
   }
+  console.log('este es el token ',token)
   // decodifica el token para tener la informacion del usuario
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN)
+  console.log("este es el decoded token", decodedToken)
   // si no hay token ó el tipo de usuario es distinto a "Administrator" devolvera un error
   if (!token || decodedToken.type_user !== Administrator) {
     return res.status(404).json({ error: "Error: Accesso denegado, token invalido" })

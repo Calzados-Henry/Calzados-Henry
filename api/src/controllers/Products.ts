@@ -177,11 +177,9 @@ export const getProductsAdmin = async (time: string, categoria: string): Promise
 
 export const createProducts = async (req: any): Promise<any> => {
   const { body } = req
-
-  const value: any = JSON.parse(body.body)
+  const {file, ...value}: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value) // aqui crea el producto en general.
-
   const details = await nProduct.createDetail(value.details)
   //const details = await nProduct.createDetail({ id_product: nProduct.id, id_color: value.details.id_color }) // toma el producto y agrega el color.
 
@@ -199,6 +197,7 @@ export const createProducts = async (req: any): Promise<any> => {
 
 export const updateProducts = async (value: any): Promise<any> => {
   // Se busca el usuario por id
+  console.log('esto es el update', value);
   var productByID = await Products.findByPk(value.id)
   if (productByID !== null) {
     productByID.set(value)
