@@ -32,24 +32,29 @@ function AddAdmin() {
   }, []);
 
   const changeAdminRole = (user: User) => {
-    user.type_user === 'Administrator'
-      ? Swal.fire({
-          text: 'Retirar permisos de Administrador?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si!',
-          cancelButtonText: 'No!',
-        }).then(res => {
-          if (res.isConfirmed) dispatch(changeAdminType(user));
-        })
+    userAuth.id !== user.id
+      ? user.type_user === ADMIN
+        ? Swal.fire({
+            text: 'Retirar permisos de Administrador?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si!',
+            cancelButtonText: 'No!',
+          }).then(res => {
+            if (res.isConfirmed) dispatch(changeAdminType(user));
+          })
+        : Swal.fire({
+            text: 'Dar permisos de Administrador?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si!',
+            cancelButtonText: 'No!',
+          }).then(res => {
+            if (res.isConfirmed) dispatch(changeAdminType(user));
+          })
       : Swal.fire({
-          text: 'Dar permisos de Administrador?',
+          text: 'No te puedes retirar permisos, contacta a otro administrador',
           icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si!',
-          cancelButtonText: 'No!',
-        }).then(res => {
-          if (res.isConfirmed) dispatch(changeAdminType(user));
         });
   };
 
