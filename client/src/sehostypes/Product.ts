@@ -58,6 +58,31 @@ export interface Pricing {
   base: number,
   top: number
 }
+export interface Orders {
+  id: number;
+  time: string;
+  dif?: number;
+  order_state: string;
+  total: number;
+  size: string
+
+}
+export interface ProductsAdmin {
+   id: number;
+  name: string;
+  description: string;
+  gender: string;
+  season: string;
+  rate_average: string;
+  buy_price: number;
+  sell_price: number;
+  sold: number;
+  Category: Category;
+  reviews: Rating[]
+  details?: Details
+  Orders_details: Orders[]
+  totalVentas?: number
+} 
 
 export interface Filter {
   clave: string,
