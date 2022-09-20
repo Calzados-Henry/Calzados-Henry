@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import Loader from '@/app/Loader';
 import { useGetOrdersUserQuery } from '@/features/user/orders/ordersApiSlice';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -37,7 +37,7 @@ export default function Orders() {
   }, []);
 
   let content, tableContent;
-  if (isLoading) content = <Loader size={60} />;
+  if (isLoading) content = <CircularProgress size={100} color='secondary' />;
   if (isSuccess && data && data.length > 0) {
     data?.forEach(order => {
       return createData(order?.id, order?.total_ammount, order?.purchase_date, order?.order_state);
@@ -82,7 +82,9 @@ export default function Orders() {
           <TableBody>{tableContent}</TableBody>
         </Table>
       </TableContainer>
-      <Box>{content}</Box>
+      <Box display={'flex'} justifyContent='center'>
+        {content}
+      </Box>
     </>
   );
 }
