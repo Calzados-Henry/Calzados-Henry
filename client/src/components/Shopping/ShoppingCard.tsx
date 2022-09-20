@@ -24,7 +24,7 @@ export default function CardShop (product: Partial<CartI>) {
     useEffect(() => {
         setRenderCount(renderCount + 1)
         if(auth.user) {
-           verifyStock()
+            verifyStock()
         }else {
             const selectorLocalAmount = (document.getElementById(`localAmount${product.idProduct}`) as HTMLInputElement)
             if(currentProduct?.sizeCart?.stock && parseInt(selectorLocalAmount.value) > currentProduct.sizeCart.stock) {
@@ -45,7 +45,9 @@ export default function CardShop (product: Partial<CartI>) {
     const updateApiAmount = async (e: React.MouseEvent<HTMLButtonElement> ) => {
         e.preventDefault();
         if(product.quantity !== apiQuantity) {
-            if(product?.sizeCart?.stock && apiQuantity && product.sizeCart.stock >= apiQuantity) {
+            console.log(apiQuantity)
+            console.log(product?.sizeCart?.stock)
+            if(product?.sizeCart?.stock !== undefined && apiQuantity !== undefined && product.sizeCart.stock >= apiQuantity) {
                 await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, quantity: apiQuantity}))
                 Swal.fire({
                     text: "Amount updated succesfully",
@@ -80,25 +82,32 @@ export default function CardShop (product: Partial<CartI>) {
     const updateApiSize = async (e: React.MouseEvent<HTMLButtonElement> ) => {
         e.preventDefault();
         const findedApiSize = product?.size?.find(el => el.size === sizeChanged)
-        await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, id_size: findedApiSize?.id}))
-        Swal.fire({
-            text: "Size updated succesfully",
-            icon: 'success',
-            timer: 500
-        })
-        const selector = (document.getElementById('selectSize') as HTMLSelectElement)
-        selector.value = 'currentSize' 
-    }
-
-    const verifyStock = async () => {
-        const selectorAmount = (document.getElementById(`apiAmount${product.idProduct}`) as HTMLInputElement)
-        if(currentProduct?.sizeCart?.stock && parseInt(selectorAmount.value) > currentProduct.sizeCart.stock) {
-            await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, quantity: currentProduct.sizeCart.stock}))
+        if(findedApiSize?.stock === 0) {
             Swal.fire({
-                text: "We will update your amount cause you have more than stock available",
+                text: "Can't change your size cause there is not more stock available",
                 icon: 'warning'
             })
+        } else {
+            await dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, id_size: findedApiSize?.id}))
+            Swal.fire({
+                text: "Size updated succesfully",
+                icon: 'success',
+                timer: 500
+            })
+            const selector = (document.getElementById('selectSize') as HTMLSelectElement)
+            selector.value = 'currentSize'
         }
+    }
+
+    const verifyStock = () => {
+        const selectorAmount = (document.getElementById(`apiAmount${product.idProduct}`) as HTMLInputElement)
+            if((currentProduct?.sizeCart?.stock) && parseInt(selectorAmount.value) > currentProduct.sizeCart.stock) {
+                Swal.fire({
+                    text: "We will update your amount cause you have more than stock available",
+                    icon: 'warning'
+                })
+                dispatch(updateApiUserCart({idUser: auth.id, idProduct: product.idProduct, quantity: currentProduct.sizeCart.stock}))
+            }
     }
 
     const deleteProduct = (e: React.MouseEvent<HTMLButtonElement>, idProduct: number) => {
