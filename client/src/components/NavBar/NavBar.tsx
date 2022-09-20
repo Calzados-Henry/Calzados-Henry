@@ -7,12 +7,16 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 import MenuNav from './menuNav/MenuNav';
 import CartIcon from '../../features/cart/CartIcon';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 export default function PrimarySearchAppBar() {
   const location = useLocation();
+  const search = useSelector((state: RootState) => state.products.searchResult);
 
   return (
     <AppBar position='fixed' color='primary'>
+
       <Toolbar>
       {location.pathname === '/products' && <SideBarComponent/>}
 
@@ -20,17 +24,15 @@ export default function PrimarySearchAppBar() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {/* <SearchComponent name={'search'} /> */}
-
-        <MenuNav />
+        {!search?.length && <MenuNav />}
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {location.pathname === '/products' && <Search name='product' />}
+        {location.pathname === '/products' || location.pathname === '/search-results' && <Search name='product' />}
         <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: 5 }}>
-          <CartIcon />
+          {!search?.length && <CartIcon />}
 
-          <User />
+          {!search?.length && <User />}
         </Box>
       </Toolbar>
     </AppBar>

@@ -10,10 +10,11 @@ import {
   updateCart,
   deleteCart,
   getAllValuesUsers,
-  addFavs,
-  getFavs,
+  addFavourites,
+  getFavourites,
   allDeleteCart,
   updatePassword,
+  deleteFavourite,
 } from "../controllers/Users"
 import { Users } from "../db"
 
@@ -168,19 +169,28 @@ router.delete("/cart/all", async (req: Request, res: Response, next: NextFunctio
 
 router.get("/favs/:id", async (req: Request, res: Response) => {
   try {
-    var nUser = await getFavs(req.params.id)
+    var nUser = await getFavourites(req.params.id)
     res.json(nUser)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
   }
 })
 
 router.post("/favs", async (req: Request, res: Response) => {
   try {
-    var nUser = await addFavs(req.body)
+    var nUser = await addFavourites(req.body)
     res.json(nUser)
   } catch (e: any) {
-    res.json({ error: e.message })
+    res.status(404).json({ error: e.message })
+  }
+})
+
+router.delete("/favs", async (req: Request, res: Response) => {
+  try {
+    var nUser = await deleteFavourite(req.body)
+    res.json(nUser)
+  } catch (e: any) {
+    res.status(404).json({ error: e.message })
   }
 })
 
