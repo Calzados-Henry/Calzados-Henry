@@ -1,8 +1,12 @@
+import { ProductsAdmin } from '@/sehostypes/Product';
+import { createEntityAdapter /* , EntityState */, createSelector } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
 import { ProductI } from './product.model';
-import { createSelector, createEntityAdapter/* , EntityState */ } from '@reduxjs/toolkit';
 
-
+interface  Parametro {
+  time: string,
+  category: string
+}
 const productAdapter = createEntityAdapter<ProductI>({});
 const initialState = productAdapter.getInitialState();
 export const pokemonSelector = productAdapter.getSelectors();
@@ -17,15 +21,19 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: ['Product'],
     }),
-    getProductsDashboard: builder.query({
-      query:() => '/products/dashboard',
-      transformResponse: ( response ) => {
-        return response
-      } 
-  }),
+    
+    getProductsDashboard: builder.query<ProductsAdmin, Parametro>({
+      query:(body) => ({
+        url: '/products/dashboard',
+        method: 'GET',
+        body,
+      })
+    }),
+
     getProduct: builder.query<ProductI, string | void>({
       query: (id:string) => `/products/id/${id}`,
     }),
+
     addNewProduct: builder.mutation({
       query: body => ({
         url: '/addproduct',
