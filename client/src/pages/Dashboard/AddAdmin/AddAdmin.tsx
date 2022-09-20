@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import {
+  changeAdminType,
   getUsersByAdmin,
   logicDeleteUser,
   restoreDeletedUser,
+  User,
 } from '../../../features/admin/adminSlice';
-import { Grid, Paper, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import TextField from '@mui/material/TextField';
-import DoneIcon from '@mui/icons-material/Done';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AppDispatch, RootState } from '@/store';
 import { useAuth } from '@/hooks/useAuth';
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import Swal from 'sweetalert2';
 
 function AddAdmin() {
   const dispatch = useDispatch<AppDispatch>();
 
   const userAuth = useAuth();
-  console.log(userAuth);
+
+  const ADMIN = 'Administrator';
 
   const { adminUsers, employeeUsers, normalUsers } = useSelector((state: RootState) => state.admin);
 
@@ -31,19 +31,52 @@ function AddAdmin() {
     dispatch(getUsersByAdmin());
   }, []);
 
-  // const handleFilter = (e, typeUser) => {
-  //   console.log(e.target.value);
-  //   typeUser?.filter(
-  //     (el: any) =>
-  //       String(el.id)?.includes(e.target.value) ||
-  //       el.username?.includes(e.target.value) ||
-  //       el.email?.includes(e.target.value) ||
-  //       String(el.phone)?.includes(e.target.value) ||
-  //       el.name?.includes(e.target.value) ||
-  //       el.last_name?.includes(e.target.value),
-  //   );
-  // };
-  // console.log(users);
+  const changeAdminRole = (user: User) => {
+    user.type_user === 'Administrator'
+      ? Swal.fire({
+          text: 'Retirar permisos de Administrador?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si!',
+          cancelButtonText: 'No!',
+        }).then(res => {
+          if (res.isConfirmed) dispatch(changeAdminType(user));
+        })
+      : Swal.fire({
+          text: 'Dar permisos de Administrador?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si!',
+          cancelButtonText: 'No!',
+        }).then(res => {
+          if (res.isConfirmed) dispatch(changeAdminType(user));
+        });
+  };
+
+  const onClickAction = (user: User) => {
+    const id: number = user.id;
+
+    user.isActive
+      ? Swal.fire({
+          text: 'Quieres dar de baja a este usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si!',
+          cancelButtonText: 'No!',
+        }).then(res => {
+          if (res.isConfirmed) dispatch(logicDeleteUser(id));
+        })
+      : Swal.fire({
+          text: 'Quieres dar de alta a este usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si!',
+          cancelButtonText: 'No!',
+        }).then(res => {
+          if (res.isConfirmed) dispatch(restoreDeletedUser(id));
+        });
+  };
+
   return (
     <>
       <Toaster position='bottom-left' gutter={8} />
@@ -64,9 +97,6 @@ function AddAdmin() {
               <Typography variant='h5' color='secondary' sx={{ m: 1, p: 1 }}>
                 Administradores:
               </Typography>
-              {/* <Box sx={{ width: '50%' }}>
-            <TextField fullWidth label='Filtrar usuarios' color='success' id='fullWidth' />
-          </Box> */}
             </Box>
             {adminUsers?.map((e: any) => (
               <Paper
@@ -88,20 +118,23 @@ function AddAdmin() {
                   </Typography>
                 </Box>
 
-                <Box>
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                    <Chip
+                      label={e.type_user !== ADMIN ? 'Add Admin' : 'Eliminate Admin'}
+                      onClick={() => changeAdminRole(e)}
+                      onDelete={() => changeAdminRole(e)}
+                      deleteIcon={e.type_user === ADMIN ? <DeleteIcon /> : <PersonAddAltIcon />}
+                      variant='outlined'
+                      color={e.type_user === ADMIN ? 'error' : 'success'}
+                    />
+                  </Stack>
                   <Stack direction='row' spacing={0} sx={{ m: 1 }}>
                     <Chip
                       label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                      onClick={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
-                      onDelete={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
+                      onClick={() => onClickAction(e)}
+                      onDelete={() => onClickAction(e)}
                       deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
                       variant='outlined'
                       color={e.isActive ? 'error' : 'success'}
@@ -130,9 +163,6 @@ function AddAdmin() {
               <Typography variant='h5' color='secondary' sx={{ m: 1, p: 1 }}>
                 Empleados:
               </Typography>
-              {/* <Box sx={{ width: '50%' }}>
-            <TextField fullWidth label='Filtrar usuarios' color='success' id='fullWidth' />
-          </Box> */}
             </Box>
             {employeeUsers?.map((e: any) => (
               <Paper
@@ -154,20 +184,24 @@ function AddAdmin() {
                   </Typography>
                 </Box>
 
-                <Box>
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                    <Chip
+                      label={e.type_user !== ADMIN ? 'Add Admin' : 'Eliminate Admin'}
+                      onClick={() => changeAdminRole(e)}
+                      onDelete={() => changeAdminRole(e)}
+                      deleteIcon={e.type_user === ADMIN ? <DeleteIcon /> : <PersonAddAltIcon />}
+                      variant='outlined'
+                      color={e.type_user === ADMIN ? 'error' : 'success'}
+                    />
+                  </Stack>
+
                   <Stack direction='row' spacing={0} sx={{ m: 1 }}>
                     <Chip
                       label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                      onClick={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
-                      onDelete={() => {
-                        e.isActive
-                          ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                          : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                      }}
+                      onClick={() => onClickAction(e)}
+                      onDelete={() => onClickAction(e)}
                       deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
                       variant='outlined'
                       color={e.isActive ? 'error' : 'success'}
@@ -197,9 +231,6 @@ function AddAdmin() {
                 <Typography variant='h5' color='secondary' sx={{ m: 1, p: 1 }}>
                   Usuarios:
                 </Typography>
-                {/* <Box sx={{ width: '50%' }}>
-            <TextField fullWidth label='Filtrar usuarios' color='success' id='fullWidth' />
-          </Box> */}
               </Box>
               {normalUsers?.map((e: any) => (
                 <Paper
@@ -221,20 +252,23 @@ function AddAdmin() {
                     </Typography>
                   </Box>
 
-                  <Box>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Stack direction='row' spacing={0} sx={{ m: 1 }}>
+                      <Chip
+                        label={e.type_user !== ADMIN ? 'Add Admin' : 'Eliminate Admin'}
+                        onClick={() => changeAdminRole(e)}
+                        onDelete={() => changeAdminRole(e)}
+                        deleteIcon={e.type_user === ADMIN ? <DeleteIcon /> : <PersonAddAltIcon />}
+                        variant='outlined'
+                        color={e.type_user === ADMIN ? 'error' : 'success'}
+                      />
+                    </Stack>
                     <Stack direction='row' spacing={0} sx={{ m: 1 }}>
                       <Chip
                         label={e.isActive ? 'Desactivate User' : 'Reactivate User'}
-                        onClick={() => {
-                          e.isActive
-                            ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                            : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                        }}
-                        onDelete={() => {
-                          e.isActive
-                            ? dispatch(logicDeleteUser(e.id, userAuth.token))
-                            : dispatch(restoreDeletedUser(e.id, userAuth.token));
-                        }}
+                        onClick={() => onClickAction(e)}
+                        onDelete={() => onClickAction(e)}
                         deleteIcon={e.isActive ? <DeleteIcon /> : <PersonAddAltIcon />}
                         variant='outlined'
                         color={e.isActive ? 'error' : 'success'}
