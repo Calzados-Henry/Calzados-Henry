@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import s from './Card.module.css';
 import { Box } from '@mui/system';
 import Card from '@mui/material/Card';
@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import {Favorite, FavoriteBorder} from '@mui/icons-material';
 import ShareIcon from '@mui/icons-material/Share';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { ProductPartial } from '../../sehostypes/Product';
@@ -22,7 +22,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { addToLocalCart, CartI, updateLocalCart } from '../../features/cart/CartSlice';
 import { setApiUserCart, updateApiUserCart } from '../../features/cart/cartApiSlice';
 import Swal from 'sweetalert2';
-import { Icon } from '@mui/material';
+import { useCreateFavouritesMutation, useGetFavouritesQuery } from '@/features/favourites/favouritesApiSlice';
 
 interface Props extends ProductPartial {
   addTouched: Function
@@ -36,6 +36,9 @@ const Shoe: React.FC<Props> = props => {
   const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
   const {products, loading} = useSelector((state:RootState) => user.user ? state.apiCart : state.cart)
   const findedProduct = products.find((el: CartI) => el.idProduct === props.id)
+  const { data: favs, error, isSuccess} = useGetFavouritesQuery(user.id);
+  const findedFav = favs?.find(el => el.id_details === props.id)
+  const [createFavourites, {data, isLoading}] = useCreateFavouritesMutation()
   
  
   const cartProduct:CartI = {
@@ -126,14 +129,27 @@ const Shoe: React.FC<Props> = props => {
               }).then(async (result) => {
               if (result.isConfirmed) {
                 const sizeFinded = cartProduct?.size?.find(el => el.size === result.value)
-                cartProduct.size && await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct, id_size: sizeFinded?.id, token: user.token}))
-                toast.success(<b>Product added!!</b>);
+                if(sizeFinded?.stock === 0) {
+                  Swal.fire({
+                    text: "Can't add this products cause there is not more stock available",
+                    icon: 'warning'
+                  })
+                } else {
+                  cartProduct.size && await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct, id_size: sizeFinded?.id, token: user.token}))
+                  toast.success(<b>Product added!!</b>);
+                }
               }
           })
       }
     }
   }
 
+  const updateFavs = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    props.addTouched(e.currentTarget.id)
+    props.id && await createFavourites({id_user: user.id, id_product_details: props.id})
+    toast.success(<b>Correctly added to favs!</b>);
+  }
   return (
     <>
       <Card
@@ -174,8 +190,14 @@ const Shoe: React.FC<Props> = props => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
-          <IconButton color='inherit' aria-label='add to favorites'>
-            <FavoriteIcon />
+          <IconButton 
+            color='inherit'
+            aria-label='add to cart'
+            id={`Fid${props.id}`}
+            onClick={updateFavs}
+            disabled={isLoading}
+            >    
+            {findedFav ? <Favorite/> : <FavoriteBorder />}
           </IconButton>
           <IconButton color='inherit' aria-label='share'>
             <ShareIcon />

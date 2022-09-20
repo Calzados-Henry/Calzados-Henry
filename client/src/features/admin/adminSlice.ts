@@ -11,7 +11,11 @@ export const getUsersByAdmin = createAsyncThunk('get-users-by-admin', async () =
   return users;
 });
 
-export const logicDeleteUser = createAsyncThunk('delete-user-by-admin', async (id, token) => {
+export const logicDeleteUser = createAsyncThunk('delete-user-by-admin', async (id: number) => {
+  const userData: any = window.localStorage.getItem('user');
+
+  const { token } = JSON.parse(userData);
+
   const { data: user } = await axios.delete(`${Endpoint.modifyUser}`, {
     headers: {
       Authorization: 'Bearer ' + token,
@@ -24,19 +28,71 @@ export const logicDeleteUser = createAsyncThunk('delete-user-by-admin', async (i
 
 export const restoreDeletedUser = createAsyncThunk(
   'restore-deleted-user-by-admin',
-  async (id, token) => {
+  async (id: number) => {
     const { data: user } = await axios.put(`${Endpoint.modifyUser}`, { id, isActive: true });
 
     return user;
   },
 );
 
+export const changeAdminType = createAsyncThunk('change-admin-type', async (user: User) => {
+  const ID = user.id;
+
+  const addAdmin = async () => {
+    const { data: userData } = await axios.put(`${Endpoint.modifyUser}`, {
+      id: ID,
+      type_user: 'Administrator',
+    });
+
+    return userData;
+  };
+  const deleteAdmin = async () => {
+    const { data: userData } = await axios.put(`${Endpoint.modifyUser}`, {
+      id: ID,
+      type_user: 'User',
+    });
+
+    return userData;
+  };
+
+  if (user.type_user === 'Administrator') {
+    return await deleteAdmin();
+  } else {
+    return await addAdmin();
+  }
+});
+
 const edithUsers = (builder: any) => {
-  builder.addCase(restoreDeletedUser.pending, (state, action) => {
+  builder.addCase(changeAdminType.pending, () => {
+    toast.loading('Changing user type...');
+  });
+  builder.addCase(changeAdminType.rejected, () => {
+    toast.dismiss();
+    toast.error('An error occurred during the request..');
+  });
+  builder.addCase(changeAdminType.fulfilled, (state: Admin, action: any) => {
+    toast.dismiss();
+    const ADMIN = 'Administrator';
+
+    console.log(action);
+    const addAdmin = () => {
+      state.adminUsers = state.adminUsers.concat(action.payload);
+      state.normalUsers = state.normalUsers.filter(e => e.id !== action.payload.id);
+      toast.success('Admin added succesfully');
+    };
+    const deleteAdmin = () => {
+      state.adminUsers = state.adminUsers.filter(e => e.id !== action.payload.id);
+      state.normalUsers = state.normalUsers.concat(action.payload);
+      toast.success('Admin deleted succesfully');
+    };
+    action.payload.type_user === ADMIN ? addAdmin() : deleteAdmin();
+  });
+
+  builder.addCase(restoreDeletedUser.pending, () => {
     toast.loading('Restoring User...');
   });
 
-  builder.addCase(restoreDeletedUser.fulfilled, (state, action) => {
+  builder.addCase(restoreDeletedUser.fulfilled, (state: Admin, action: any) => {
     toast.dismiss();
 
     state.adminUsers = state.adminUsers?.map((user: any) => {
@@ -53,17 +109,17 @@ const edithUsers = (builder: any) => {
     });
     toast.success('User is Active again');
   });
-  builder.addCase(restoreDeletedUser.rejected, (state, action) => {
+  builder.addCase(restoreDeletedUser.rejected, () => {
     toast.dismiss();
 
     toast.success('Operation rejected');
   });
 
-  builder.addCase(logicDeleteUser.pending, (state, action) => {
+  builder.addCase(logicDeleteUser.pending, () => {
     toast.loading('Deleting User...');
   });
 
-  builder.addCase(logicDeleteUser.fulfilled, (state, action) => {
+  builder.addCase(logicDeleteUser.fulfilled, (state: Admin, action: any) => {
     state.adminUsers = state.adminUsers?.map((user: any) => {
       if (user.id === action.payload?.id) user.isActive = false;
       return user;
@@ -80,16 +136,16 @@ const edithUsers = (builder: any) => {
     toast.success('Usuario eliminado exitosamente...');
   });
 
-  builder.addCase(logicDeleteUser.rejected, (state, action) => {
+  builder.addCase(logicDeleteUser.rejected, () => {
     toast.dismiss();
     toast.error('Hubo un error en la carga de usuarios...');
   });
 
-  builder.addCase(getUsersByAdmin.pending, (state, action) => {
+  builder.addCase(getUsersByAdmin.pending, () => {
     toast.loading('Cargando datos...');
   });
 
-  builder.addCase(getUsersByAdmin.fulfilled, (state, action) => {
+  builder.addCase(getUsersByAdmin.fulfilled, (state: Admin, action: any) => {
     toast.dismiss();
 
     if (action.payload.length) {
@@ -105,14 +161,34 @@ const edithUsers = (builder: any) => {
     }
   });
 
-  builder.addCase(getUsersByAdmin.rejected, (state, action) => {
+  builder.addCase(getUsersByAdmin.rejected, () => {
     toast.dismiss();
     toast.error('Hubo un error en la carga de usuarios...');
   });
 };
 
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+  email: string;
+  name: string;
+  last_name: string;
+  birth_date: string;
+  phone: string;
+  identification: number;
+  type_user: string;
+  isActive: boolean;
+}
+
+export interface Admin {
+  adminUsers: User[];
+  employeeUsers: User[];
+  normalUsers: User[];
+}
+
 // Estado inicial que puede ser cualquier cosa
-const initialState: any = {
+const initialState: Admin = {
   adminUsers: [],
   employeeUsers: [],
   normalUsers: [],

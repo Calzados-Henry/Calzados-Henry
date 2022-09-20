@@ -45,4 +45,11 @@ export const Endpoint = {
   getUsers: `${URL.baseURL}/users`,
   deleteUser: `${URL.baseURL}/users`,
   modifyUser: `${URL.baseURL}/users`,
+  postProduct:`${URL.baseURL}/products`,
+  updateProduct: `${URL.baseURL}/products`,
+  deleteProduct: `${URL.baseURL}/products`,
+  updateStock: `${URL.baseURL}/products/details`,
+  postSizes:`${URL.baseURL}/products/details/sizes`,
+  deleteSizes:`${URL.baseURL}/products/details/sizes`,
+  postCategories:`${URL.baseURL}/category`,
 };

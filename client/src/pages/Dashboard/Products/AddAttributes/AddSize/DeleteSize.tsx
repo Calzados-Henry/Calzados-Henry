@@ -21,6 +21,7 @@ import { SizeI } from '../../../../../../../api/src/types'
 import { RootState } from '../../../../../store';
 import Loader from '@/app/Loader';
 import Divider from '@mui/material/Divider';
+import { Endpoint } from '@/routes/routes';
 
 /* VALIDACIONES */
 
@@ -50,7 +51,7 @@ export default function addsize() {
         validationSchema: validations,
         onSubmit: async values => {
             console.log(values)
-            const post: any = await axios.post('http://localhost:3001/products/details/sizes', values)
+            const post: any = await axios.post(Endpoint.postSizes, values)
             console.log(post);
         },
     })

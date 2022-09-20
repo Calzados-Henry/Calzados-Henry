@@ -24,6 +24,7 @@ import { CategoryI } from '../../../../../../api/src/types'
 import { getCategories } from '@/features/category/categoriesSlice';
 import { RootState } from '../../../../store';
 import Loader from '@/app/Loader';
+import { Endpoint } from '@/routes/routes';
 /* VALIDACIONES */
 // 
 /* COMPONENT */
@@ -38,7 +39,7 @@ export default function addCategory() {
 
   const handleSubmitC:any = async (values:any)=>{
     console.log(values) //ver si el fetch está correcto 
-    const prueba = await fetch("http://localhost:3001/category", { method: "POST", body: JSON.stringify(values), headers:{"Authorization":`bearer ${auth.token}`}});
+    const prueba = await fetch(Endpoint.postCategories, { method: "POST", body: JSON.stringify(values), headers:{"Authorization":`bearer ${auth.token}`}});
     console.log(prueba)
   }
   const categoriasTraidas: Array<string> = categorias.map((c: CategoryI) => c.category)
@@ -62,8 +63,8 @@ export default function addCategory() {
   })
   if (!categorias.length) {
     return (
-      <Loader size={25} />
-    )
+      <h1> </h1>
+  )
   } else {
     return (
       <FormikProvider value={formik}>

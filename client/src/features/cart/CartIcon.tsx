@@ -24,6 +24,7 @@ export default function CartIcon() {
   const userInfo = window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo') as string) : null
   const navigate = useNavigate();
   const auth = useAuth()
+  const search = useSelector((state: RootState) => state.products.searchResult);
   const cart = useSelector((state: RootState) => auth.user ? state.apiCart : state.cart);
   let renderCount = 0
 

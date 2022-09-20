@@ -16,25 +16,25 @@ async function formatValueUsers(nObjUser: any) {
 		for (var vFavs of Favs) {
 			//FAVORITOS
 			var fValue: any = vFavs;
+      
+			var id_detailsF: any = fValue.favourite.id_product_details;
 
-			var id_productF: any = fValue.id_product;
-			var id_detailF: any = fValue.favourite.id_product_details;
-
-			var productoF: any = await Products.findByPk(id_productF, { attributes: ['name', 'sell_price'] });
-			var detailsF: any = await Product_details.findByPk(id_detailF, { include: [Sizes, Color] });
-
+			var productoF: any = await Products.findByPk(id_detailsF, { attributes: ['name', 'sell_price'] });
+			var detailsF: any = await Product_details.findByPk(id_detailsF, { include: [Images, Sizes, Color] });
+      
 			var productoPF = JSON.parse(JSON.stringify(productoF, null, 2));
 			var detailsPF = JSON.parse(JSON.stringify(detailsF, null, 2));
 
-			var favs: Array<object> = detailsPF.Sizes;
-			detailsPF.Sizes = [];
-			favs.forEach((s: any) => detailsPF.Sizes.push({ size: s.size, stock: s.Product_details_size.stock }));
+
+			const newSizes: Array<object> = [];
+			detailsPF.Sizes.forEach((s: any) => newSizes.push({ id: s.id, size: s.size, stock: s.Product_details_size.stock, isActive: s.isActive }));
 
 			var nFavs: favoritos = {
-				id_details: id_detailF,
+				id_details: id_detailsF,
 				name: productoPF.name,
+        		image: detailsPF.Images[0].image,
 				color: detailsPF.Color.color,
-				size: detailsPF.Sizes,
+				sizes: newSizes,
 				price: productoPF.sell_price,
 			};
 			nObjUser.favs.push(nFavs);
@@ -235,8 +235,6 @@ export const addToCart = async (value: any): Promise<object> => {
 	await findUser.addCart(id_product_details, { through: { quantity, id_size } });
 	const added = await Users.findByPk(id_user, { include: ['cart'] });
 	var nObjUser: any = JSON.parse(JSON.stringify(added));
-
-	console.log(nObjUser);
 	const userCart = await formatValueUsers(nObjUser);
 	return userCart.cart;
 };
@@ -292,19 +290,38 @@ export const allDeleteCart = async (value: any): Promise<object> => {
 //!===================FAVORITOS========================
 //!====================================================
 
-export const getFavs = async (id: any): Promise<object> => {
+export const getFavourites = async (id: any): Promise<object> => {
   // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
 
-  var users: any = await Users.findByPk(id, { include: "favs" })
+  var userFinded: any = await Users.findByPk(id, { include: "favs" })
+  let messageError:string = '';
 
-  return users ? users : { message: "there're not users" }
+  if(!userFinded) messageError = "Don't found any user"
+  if(!userFinded.favs) messageError = "Don't have any products yet"
+  const userFavs = await formatValueUsers(userFinded);
+
+  return !messageError ? userFavs.favs : { message: messageError }
 }
-export const addFavs = async (value: any): Promise<object> => {
-  var { id_user, id_product_details } = value
-  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
 
-  var users: any = await Users.findByPk(id_user)
-  await users.addFavs(id_product_details)
+export const addFavourites = async (body: any): Promise<object> => {
+  var { id_user, id_product_details } = body
+  // Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios"
+  var userFinded: any = await Users.findByPk(id_user)
+  await userFinded.addFavs(id_product_details)
+  var userUpdated: any = await Users.findByPk(id_user, { include: "favs" })
+  const userFavs = await formatValueUsers(userUpdated);
+  return userFavs ? userFavs.favs : { message: "Don't have any products yet" }
+}
 
-  return users ? users : { message: "there're not users" }
+export const deleteFavourite = async (body: any): Promise<object> => {
+	// Se trae todos los usuario, si no hay usuario muestra un mensaje "No hay ususarios".
+	var { id_user, id_product_details } = body
+	await verificarUser(id_user);
+	await verificarProducto(id_product_details);
+
+	var userFinded: any = await Users.findByPk(id_user)
+	await userFinded.removeFavs(id_product_details)
+	var userUpdated: any = await Users.findByPk(id_user, { include: "favs" })
+	const userFavs = await formatValueUsers(userUpdated);
+	return userFavs ? userFavs.favs : { message: "Don't have any products yet" }
 }

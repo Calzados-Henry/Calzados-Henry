@@ -29,7 +29,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetCategoriesQuery, useGetProductQuery } from '@/features';
 import axios from 'axios';
 import DeleteProduct from './DeleteProduct'
-
+import UpdateStock from './StockUpdate';
+import { Endpoint } from '@/routes/routes';
 /* VALIDACIONES */
 const validations = yup.object({
   name: yup.string().required('Name is required'),
@@ -74,8 +75,8 @@ export default function AddProduct() {
       description: '',
       gender: '',
       season: '',
-      buy_price: "",
-      sell_price: "",
+      buy_price: 0,
+      sell_price: 0,
       details: {
         id_color: 1, //!   id color ver como registrar
         size: [{ id: "", stock: 0 }]  //!sizes : ver que se envie un id y un stock en total 
@@ -98,7 +99,7 @@ export default function AddProduct() {
       }
       console.log(formData)
     }
-    const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
+    const prueba = await fetch(Endpoint.postProduct, { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
     console.log(prueba)
   }
 
@@ -117,7 +118,7 @@ export default function AddProduct() {
             Create Product
           </Typography>
           <Divider style={{ width: '100%' }} variant='middle' />
-          <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
+          <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action={Endpoint.postProduct} encType='multipart/form-data' sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               {/* NAME */}
               <Grid item xs={12} sm={12}>
@@ -197,7 +198,7 @@ export default function AddProduct() {
                   name='buy_price'
                   id='buy_price'
                   label='Buy Price'
-                  type='string'
+                  type='number'
                   value={formik.values.buy_price}
                   onChange={formik.handleChange}
                   error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
@@ -212,7 +213,7 @@ export default function AddProduct() {
                   name='sell_price'
                   id='sell_price'
                   label='Sell Price'
-                  type='string'
+                  type='number'
                   value={formik.values.sell_price}
                   onChange={formik.handleChange}
                   error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
@@ -265,6 +266,7 @@ export default function AddProduct() {
                           </Grid>
                           <Grid ml={1} item>
                             <TextField
+                              type='number'
                               fullWidth
                               size='medium'
                               label="Stock"
@@ -331,6 +333,7 @@ export default function AddProduct() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
       <DeleteProduct />
+      <UpdateStock />
     </FormikProvider>
   )
 }
