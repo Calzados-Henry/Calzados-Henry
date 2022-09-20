@@ -47,7 +47,7 @@ export default function ReviewModal() {
 
   const formik = useFormik({
     initialValues: {
-      id_product: params.id,
+      id_product: parseInt(params.id!),
       id_user: auth.id,
       review: '',
       rate: 0,
@@ -55,7 +55,7 @@ export default function ReviewModal() {
     validationSchema: validations,
     onSubmit: values => {
       setDisabledButton(true);
-      createReview(values);
+      createReview(values );
       formik.resetForm();
       handleClose();
     },

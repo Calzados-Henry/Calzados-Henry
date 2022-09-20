@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchComponent = (name: any) => {
   const [search, setSearch] = useState({ product: '' });
-  const products = useSelector((state: RootState) => state.products.searchResult);
+  const products = useSelector((state: RootState) => state?.products?.searchResult);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +64,8 @@ const SearchComponent = (name: any) => {
   };
 
   const dispatchSearch = (val: any) => {
-    dispatch(searchProduct(val));
+    const action: any= searchProduct(val)
+    dispatch(action);
   };
 
   const onClick = () => {
