@@ -41,8 +41,8 @@ router.get('/dashboard',/* userExtractorAdmin, */ async (_req: Request, res: Res
 
 router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, tempFileDir: './src/uploads' }), async (req: Request, res: Response, _next: NextFunction) => {
   try {
+    console.log(req.files);
     var nProducts: string = await createProducts(req)
-    
     res.json(nProducts)
   } catch (e:any) {
     // next(e)
@@ -51,6 +51,7 @@ router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, temp
 })
 router.put('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body);
     var putProducts = await updateProducts(req.body)
     res.json(putProducts)
   } catch (e) {

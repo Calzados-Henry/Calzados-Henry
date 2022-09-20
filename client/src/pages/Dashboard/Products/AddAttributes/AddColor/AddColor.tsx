@@ -56,7 +56,7 @@ export default function addColor() {
   })
   if (!colors.length) {
     return (
-      <Loader size={25} />
+      <h1></h1>
     )
   } else {
     return (
@@ -72,9 +72,9 @@ export default function addColor() {
             }}>
             {/* color */}
             <Typography component='h1' variant='h5'>
-                  Create Color
-                </Typography>
-                <Divider style={{width:'100%'}} variant='middle'/>
+              Create Color
+            </Typography>
+            <Divider style={{ width: '100%' }} variant='middle' />
             <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
               <Grid>
                 <FieldArray name="colors">

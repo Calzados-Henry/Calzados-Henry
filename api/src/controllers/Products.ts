@@ -128,11 +128,9 @@ export const getProductsAdmin = async (): Promise<any> => {
 
 export const createProducts = async (req: any): Promise<any> => {
   const { body } = req
-
-  const value: any = JSON.parse(body.body)
+  const {file, ...value}: any = JSON.parse(body.body)
   // Se verifica en las columnas UNIQUE si existe dicho valor antes de agregar una nueva talla.
   const nProduct: any = await Products.create(value) // aqui crea el producto en general.
-
   const details = await nProduct.createDetail(value.details)
   //const details = await nProduct.createDetail({ id_product: nProduct.id, id_color: value.details.id_color }) // toma el producto y agrega el color.
 

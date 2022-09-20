@@ -62,8 +62,8 @@ export default function addCategory() {
   })
   if (!categorias.length) {
     return (
-      <Loader size={25} />
-    )
+      <h1> </h1>
+  )
   } else {
     return (
       <FormikProvider value={formik}>

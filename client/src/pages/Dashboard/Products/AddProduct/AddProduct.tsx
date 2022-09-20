@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetCategoriesQuery, useGetProductQuery } from '@/features';
 import axios from 'axios';
 import DeleteProduct from './DeleteProduct'
+import UpdateStock from './StockUpdate';
 
 /* VALIDACIONES */
 const validations = yup.object({
@@ -74,8 +75,8 @@ export default function AddProduct() {
       description: '',
       gender: '',
       season: '',
-      buy_price: "",
-      sell_price: "",
+      buy_price: 0,
+      sell_price: 0,
       details: {
         id_color: 1, //!   id color ver como registrar
         size: [{ id: "", stock: 0 }]  //!sizes : ver que se envie un id y un stock en total 
@@ -84,7 +85,7 @@ export default function AddProduct() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      () => handleFormSubmit(values)
+      handleFormSubmit(values)
       console.log(values)
     },
   });
@@ -197,7 +198,7 @@ export default function AddProduct() {
                   name='buy_price'
                   id='buy_price'
                   label='Buy Price'
-                  type='string'
+                  type='number'
                   value={formik.values.buy_price}
                   onChange={formik.handleChange}
                   error={formik.touched.buy_price && Boolean(formik.errors.buy_price)}
@@ -212,7 +213,7 @@ export default function AddProduct() {
                   name='sell_price'
                   id='sell_price'
                   label='Sell Price'
-                  type='string'
+                  type='number'
                   value={formik.values.sell_price}
                   onChange={formik.handleChange}
                   error={formik.touched.sell_price && Boolean(formik.errors.sell_price)}
@@ -265,6 +266,7 @@ export default function AddProduct() {
                           </Grid>
                           <Grid ml={1} item>
                             <TextField
+                              type='number'
                               fullWidth
                               size='medium'
                               label="Stock"
@@ -330,7 +332,8 @@ export default function AddProduct() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-      <DeleteProduct />
+      <DeleteProduct/>
+      <UpdateStock/>
     </FormikProvider>
   )
 }
