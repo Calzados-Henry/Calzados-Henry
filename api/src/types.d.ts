@@ -2,8 +2,8 @@ import { Reviews } from "./db"
 import { Gender, Season } from "./enum"
 
 export interface Orders_detailsI {
-  id_order: number
-  id_product: number
+  id_order: number | string
+  id_product: number | string
   name: string
   image: string
   gender: Gender

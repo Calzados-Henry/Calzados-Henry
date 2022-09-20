@@ -1,7 +1,7 @@
 export interface OrdersDetailI {
-  id: number;
-  id_order: number;
-  id_product: number;
+  id: number | string;
+  id_order: number | string;
+  id_product: number | string;
   name: string;
   image: string;
   gender: string;
@@ -10,6 +10,9 @@ export interface OrdersDetailI {
   quantity: number;
   season: string;
   price: string;
+  Order: {
+    total_ammount: number | string;
+  };
 }
 
 export interface UserOrderI {

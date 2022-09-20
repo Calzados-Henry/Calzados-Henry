@@ -9,7 +9,6 @@ import { Address, Users } from "../db"
 
 export const getAddress = async (id: string): Promise<object> => {
   const userAddresses: any = await Users.findByPk(id, { include: { model: Address } })
-
   if (userAddresses) {
     return userAddresses.Addresses
   } else {

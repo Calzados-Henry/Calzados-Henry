@@ -3,6 +3,7 @@ require("dotenv").config()
 // se requiere el models
 import { Address, Cart_details, Orders, Orders_details, Products, Users } from "../db"
 import { UsersI } from "../types"
+
 const STRIPE_TOKEN: string = process.env.STRIPE_TOKEN as string
 console.log("Stripe Token:", STRIPE_TOKEN)
 const stripe = require("stripe")(STRIPE_TOKEN)
@@ -65,11 +66,9 @@ export const createOrders = async (value: any): Promise<any> => {
     }
     total_ammount = total_ammount + order_detail.price * order_detail.quantity
 
-
     /* console.log(total_ammount) */
     orders_details.push(order_detail)
   }
-
 
   try {
     const amount = total_ammount * 100
@@ -96,7 +95,6 @@ export const createOrders = async (value: any): Promise<any> => {
 
     for (const orderDetail of orders_details) {
       console.log("creando detalle", await orderCreate.createOrders_detail(orderDetail))
-
     }
 
     for (const cart of carts) {
@@ -153,7 +151,10 @@ export const deleteOrders = async (id: number): Promise<any> => {
 }
 export const getOrdersUser = async (id_user: UsersI["id"]) => {
   try {
-    let findOrdersUser = await Orders.findAll({ where: { id_user: id_user } })
+    let findOrdersUser = await Orders.findAll({
+      include: [{ model: Orders_details }],
+      where: { id_user: id_user },
+    })
     if (findOrdersUser) return findOrdersUser
     else return []
   } catch (error) {
