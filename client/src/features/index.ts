@@ -5,8 +5,6 @@ export { default as CartIcon } from './cart/CartIcon';
 export { default as CartSlice } from './cart/CartSlice';
 export { default as cartApiSlice } from './cart/cartApiSlice';
 export * from './checkout';
-export { default as Counter } from './counter/Counter';
-export { default as counterSlice } from './counter/counterSlice';
 export * from './hooks';
 export { default as ProductList } from './product/ProductList';
 export * from './product/product.model';

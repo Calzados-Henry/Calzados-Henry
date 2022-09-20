@@ -167,7 +167,7 @@ const edithUsers = (builder: any) => {
   });
 };
 
-export interface User {
+interface User {
   id: number;
   username: string;
   password: string;
