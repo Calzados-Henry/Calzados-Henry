@@ -28,7 +28,7 @@ export default function PrimarySearchAppBar() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {location.pathname === '/products' || location.pathname === '/search-results' && <Search name='product' />}
+        {(location.pathname === '/products' || location.pathname === '/search-results') && <Search name='product' />}
         <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: 5 }}>
           {!search?.length && <CartIcon />}
 
