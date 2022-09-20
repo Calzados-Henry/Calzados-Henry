@@ -28,7 +28,7 @@ router.get('/id/:id', async (req: Request, res: Response, next: NextFunction) =>
   
 })
 
-router.get('/dashboard',/* userExtractorAdmin, */ async (_req: Request, res: Response, next: NextFunction) => {
+router.get('/dashboard', /*userExtractorAdmin*/  async (_req: Request, res: Response, next: NextFunction) => {
   try {
     var products = await getProductsAdmin();
     res.json(products)
@@ -51,10 +51,10 @@ router.post('/', /* userExtractorAdmin, */ fileUpload({ useTempFiles: true, temp
 })
 router.put('/', userExtractorAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.body);
     var putProducts = await updateProducts(req.body)
     res.json(putProducts)
   } catch (e) {
+    console.log(e)
     next(e)
   }
 })

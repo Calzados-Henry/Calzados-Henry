@@ -28,6 +28,7 @@ import { getSizes } from '@/features/sizes/sizesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetCategoriesQuery, useGetProductsQuery } from '@/features';
 import axios from 'axios';
+import { Endpoint } from '@/routes/routes';
 
 
 /* VALIDACIONES */
@@ -39,7 +40,7 @@ const validations = yup.object({
 // const isLoggedIn = useSelector((state: IRootState) => state.user.loggedIn)
 export default function UpdateStock() {
     const dispatch = useDispatch()
-    const sizes = useSelector((state:RootState)=>state.sizes.sizes)
+    const sizes = useSelector((state: RootState) => state.sizes.sizes)
     const products: any = useSelector((state: RootState) => state.products)
     const { data: categories, error: errorC, isLoading: isLoadingC, isError: isErrorC, isSuccess: isSuccessC, currentData: currentDataC } = useGetCategoriesQuery()
     const { data } = useGetProductsQuery()
@@ -67,9 +68,13 @@ export default function UpdateStock() {
         },
     });
     const handleFormSubmit = async (values: any) => {
-        console.log(values)
-        const prueba = await axios.put("http://localhost:3001/products", { data: values, headers: { "Authorization": `bearer ${auth.token}` } })
-        console.log(prueba)
+        const valores = JSON.stringify(values)
+        console.log('entramos al handle ');
+        console.log('estos son los values en el handle submit', values)
+        if (values.id) {
+            const axiosP = await axios.put(Endpoint.updateStock, values, { headers:{ "authorization":'bearer '+ auth.token }} )
+            console.log(axiosP);
+        }
     }
 
     return (
@@ -84,10 +89,10 @@ export default function UpdateStock() {
                         alignItems: 'center',
                     }}>
                     <Typography component='h1' variant='h5'>
-                        Delete Product
+                        Update Stock
                     </Typography>
                     <Divider style={{ width: '100%' }} variant='middle' />
-                    <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
+                    <Box component='form' noValidate onSubmit={formik.handleSubmit} method='PUT' encType='multipart/form-data' sx={{ mt: 3 }}>
                         <Grid spacing={2}>
                             <Grid pl={2}>
                                 <React.Fragment>
@@ -154,7 +159,7 @@ export default function UpdateStock() {
                         </Grid>
 
                         <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-                            Delete Product
+                            Update product
                         </Button>
                         <Grid container justifyContent='flex-end'>
                             <Grid item>

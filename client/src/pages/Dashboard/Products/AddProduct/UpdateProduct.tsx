@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetCategoriesQuery, useGetProductQuery } from '@/features';
 import axios from 'axios';
 import DeleteProduct from './DeleteProduct'
+import { Endpoint } from '@/routes/routes';
 
 /* VALIDACIONES */
 const validations = yup.object({
@@ -98,7 +99,7 @@ export default function AddProduct() {
             }
             console.log(formData)
         }
-        const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
+        const prueba = await fetch(Endpoint.updateProduct, { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
         console.log(prueba)
     }
 

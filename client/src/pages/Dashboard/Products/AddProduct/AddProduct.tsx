@@ -30,7 +30,7 @@ import { useGetCategoriesQuery, useGetProductQuery } from '@/features';
 import axios from 'axios';
 import DeleteProduct from './DeleteProduct'
 import UpdateStock from './StockUpdate';
-
+import { Endpoint } from '@/routes/routes';
 /* VALIDACIONES */
 const validations = yup.object({
   name: yup.string().required('Name is required'),
@@ -99,7 +99,7 @@ export default function AddProduct() {
       }
       console.log(formData)
     }
-    const prueba = await fetch("http://localhost:3001/products", { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
+    const prueba = await fetch(Endpoint.postProduct, { method: "POST", body: formData, headers: { "Authorization": `bearer ${auth.token}` } });
     console.log(prueba)
   }
 
@@ -118,7 +118,7 @@ export default function AddProduct() {
             Create Product
           </Typography>
           <Divider style={{ width: '100%' }} variant='middle' />
-          <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action='http://localhost:3001/products' encType='multipart/form-data' sx={{ mt: 3 }}>
+          <Box component='form' noValidate onSubmit={formik.handleSubmit} method='POST' action={Endpoint.postProduct} encType='multipart/form-data' sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               {/* NAME */}
               <Grid item xs={12} sm={12}>
@@ -332,8 +332,8 @@ export default function AddProduct() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-      <DeleteProduct/>
-      <UpdateStock/>
+      <DeleteProduct />
+      <UpdateStock />
     </FormikProvider>
   )
 }

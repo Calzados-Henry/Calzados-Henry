@@ -148,6 +148,7 @@ export const createProducts = async (req: any): Promise<any> => {
 
 export const updateProducts = async (value: any): Promise<any> => {
   // Se busca el usuario por id
+  console.log('esto es el update', value);
   var productByID = await Products.findByPk(value.id)
   if (productByID !== null) {
     productByID.set(value)

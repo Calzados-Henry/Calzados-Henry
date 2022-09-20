@@ -22,9 +22,13 @@ export const createP_Details = async (value: any): Promise<any> => {
 
 export const updateP_Details = async (value: any): Promise<any> => {
   // Se busca el usuario por id
-  var p_DetailByID = await Product_details.findByPk(value.id)
+  var p_DetailByID = await Product_details.findOne({
+    where: {
+      id_product: value.id
+    }
+  })
   if (p_DetailByID !== null) {
-    p_DetailByID.set(value);
+    p_DetailByID.set(value.details);
     await p_DetailByID.save();
     return p_DetailByID
   }
