@@ -13,7 +13,7 @@ export default function Reviews() {
   const auth = useAuth();
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
-  const { data, error, isSuccess, isLoading } = useGetReviewsProductQuery(id);
+  const { data, error, isSuccess, isLoading } = useGetReviewsProductQuery(parseInt(id!));
 
   useEffect(() => {
     auth.user ? setShowModal(true) : <></>;

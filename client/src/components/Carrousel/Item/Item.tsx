@@ -5,7 +5,7 @@ import style from './Item.module.css';
 type ItemI = { title: string; description: string; image: string };
 
 // Item
-export default function Item({ title, description, image }: ItemI) {
+export default function Item({ title, image }: ItemI) {
   return (
     <Paper className={style.item}>
       {/* <p>{description}</p> */}

@@ -13,5 +13,5 @@ export interface ReviewsI {
   User: User;
 }
 
-export interface ReviewsPostI extends Omit<ReviewsI, 'isActive' | 'date'> {}
+export interface ReviewsPostI extends Omit<ReviewsI, 'isActive' | 'date' | 'User'> {}
 export interface ReviewsDeleteI extends Pick<ReviewsI, 'id_product' | 'id_user'> {}

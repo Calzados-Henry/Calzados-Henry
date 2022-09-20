@@ -74,7 +74,7 @@ export default function ReviewCard({
                 <Typography gutterBottom variant='body2' component='div'>
                   @{User?.username}
                 </Typography>
-                <Rating name='read-only' value={parseInt(rate)} readOnly />
+                <Rating name='read-only' value={rate!} readOnly />
                 <Typography variant='body2' gutterBottom>
                   {review}
                 </Typography>

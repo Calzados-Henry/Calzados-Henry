@@ -9,11 +9,11 @@ export const searchProduct = createAsyncThunk('search-product', (search: any) =>
 });
 
 const searchReducer = (builder: any) => {
-  builder.addCase(searchProduct.pending, (state, action) => {
+  builder.addCase(searchProduct.pending, (state: any, action: any) => {
     toast.loading('Buscando coincidencias...');
   });
 
-  builder.addCase(searchProduct.fulfilled, (state, action) => {
+  builder.addCase(searchProduct.fulfilled, (state: any, action: any) => {
     if (action.payload.length) {
       toast.dismiss();
       toast.success('Redirigiendo...');
@@ -24,7 +24,7 @@ const searchReducer = (builder: any) => {
     state.searchResult = action.payload;
   });
 
-  builder.addCase(searchProduct.rejected, (state, action) => {
+  builder.addCase(searchProduct.rejected, (state: any, action: any) => {
     toast.dismiss();
     toast.error('<b>No se encontraron coincidencias</b>');
     state.searchResult = [];

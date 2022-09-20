@@ -84,7 +84,7 @@ export default function AddProduct() {
     },
     validationSchema: validations,
     onSubmit: values => {
-      () => handleFormSubmit(values)
+      handleFormSubmit(values)
       console.log(values)
     },
   });

@@ -17,15 +17,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { LoginRequest, useLoginMutation } from '../../features/auth/authApiSlice';
+import { useDispatch, useSelector  } from 'react-redux';
+import { LoginRequest,  useLoginMutation  } from '../../features/auth/authApiSlice';
 import { createUser, resetUser } from '../../features/auth/authSlice';
 import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { PublicRoutes, Endpoint } from '../../routes/routes';
 import { deleteAllfromLS } from '../../features/cart/CartSlice';
 import { setApiUserCart, getApiUserCart } from '../../features/cart/cartApiSlice';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
@@ -52,7 +51,7 @@ export default function Login() {
   const auth = useAuth();
   const { complete } = useSelector((state: RootState) => (auth.user ? state.apiCart : state.cart));
   const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
-  const UserId = localStorage ? JSON.parse(localStorage?.getItem('userInfo')) : {};
+  const UserId = localStorage ? JSON.parse(localStorage?.getItem('userInfo')!) : {};
   const [checked, setChecked] = useState(true);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [googleData, setGoogleData] = useState<any>({});
@@ -162,11 +161,11 @@ export default function Login() {
 
   const loadingStatus = () => handleOpenBackDrop();
 
-  //BACKDROP
+  // BACKDROP
   const handleCloseBackDrop = () => setOpenBackDrop(false);
   const handleOpenBackDrop = () => setOpenBackDrop(true);
 
-  //MODAL REGISTRO
+  // MODAL REGISTRO
   const handleOpenLoginModal = () => setOpenLoginModal(true);
   const handleCloseLoginModal = () => setOpenLoginModal(false);
 

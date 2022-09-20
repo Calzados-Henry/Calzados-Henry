@@ -55,7 +55,7 @@ export const CheckoutForm = () => {
     
     const dataStripe = await stripe?.createPaymentMethod({
       type: 'card',
-      card: elements?.getElement(CardElement),
+      card: elements?.getElement(CardElement)!
     });
     setLoading(true);
     if (!dataStripe?.error) {
