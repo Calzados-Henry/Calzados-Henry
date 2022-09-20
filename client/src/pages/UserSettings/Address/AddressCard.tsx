@@ -34,7 +34,7 @@ export default function AddressCard({
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#412800',
-      cancelButtonColor: '#fe4450',
+      cancelButtonColor: 'gray',
       confirmButtonText: 'Yes',
     }).then(result => {
       if (result.isConfirmed) {
