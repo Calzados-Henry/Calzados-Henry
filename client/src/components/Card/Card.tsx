@@ -129,8 +129,15 @@ const Shoe: React.FC<Props> = props => {
               }).then(async (result) => {
               if (result.isConfirmed) {
                 const sizeFinded = cartProduct?.size?.find(el => el.size === result.value)
-                cartProduct.size && await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct, id_size: sizeFinded?.id, token: user.token}))
-                toast.success(<b>Product added!!</b>);
+                if(sizeFinded?.stock === 0) {
+                  Swal.fire({
+                    text: "Can't add this products cause there is not more stock available",
+                    icon: 'warning'
+                  })
+                } else {
+                  cartProduct.size && await dispatch(setApiUserCart({id: userInfo.id, products: cartProduct, id_size: sizeFinded?.id, token: user.token}))
+                  toast.success(<b>Product added!!</b>);
+                }
               }
           })
       }
