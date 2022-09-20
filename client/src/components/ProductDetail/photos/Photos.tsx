@@ -10,25 +10,44 @@ import React from 'react';
 export default function Photos({ details }: ProductPartial) {
   let content;
 
-  const [count,setCount ] = React.useState(0)
+  const [count, setCount] = React.useState(0);
+
   if (details !== undefined && details.images !== undefined && details.images?.length) {
     content = (
       <>
         <img className={s.image} src={details.images[count].image} alt={details.images[0].image} />
-        <ImageList sx={{ width: '400px', display: 'flex', minHeight: 150, height: 'auto', cursor: 'pointer' }}>
-          {details.images.map((item, index) => (
-
-            <ImageListItem key={item.id}>
-              <img
-                onClick={() => setCount(index)}
-                src={`${item.image}`}
-                alt={`${item.image}`}
-                loading='lazy'
-                style={{ objectFit: 'contain' }}
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
+        {details.images ? (
+          <ImageList
+            sx={{
+              width: '400px',
+              display: 'flex',
+              minHeight: 150,
+              height: 'auto',
+              cursor: 'pointer',
+            }}>
+            {details.images ? (
+              // eslint-disable-next-line array-callback-return
+              details.images?.map((item, index) => {
+                if (index !== count)
+                  return (
+                    <ImageListItem key={item.id}>
+                      <img
+                        onClick={() => setCount(index)}
+                        src={`${item.image}`}
+                        alt={`${item.image}`}
+                        loading='lazy'
+                        style={{ objectFit: 'contain', maxWidth: 100 }}
+                      />
+                    </ImageListItem>
+                  );
+              })
+            ) : (
+              <></>
+            )}
+          </ImageList>
+        ) : (
+          <></>
+        )}
       </>
     );
   } else {
